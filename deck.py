@@ -1,0 +1,64 @@
+from deck_module import DeckModule
+from file_io import FileIO
+
+debug = False
+
+class Deck:
+    """Deck Class
+    
+    The Deck class is intended to be instantiated to a deck object which 
+    contains the subclassed deck modules labeled by slot #.
+    Slot numbers are integers from 1 to 15, starting from the front-left slot
+    and ending with the back-right slot as follows:
+    3 6 9 12 15
+    2 5 8 11 14
+    1 4 7 10 13
+    """
+#Special Methods
+    def __init__(self, modules):
+        """initialize the deck
+        
+        modules = a dictionary of the modules needed on the deck of the form:
+
+            "p200-rack" : {"labware" : "tiprack-200ul","slot" : 1},
+            "p200-rack-2" : {"labware" : "tiprack-200ul","slot" : 6},
+            "p1000-rack" : {"labware" : "tiprack-1000ul","slot" : 7},
+            "plate-1": {"labware": "96-flat", "slot" : 11},
+            "plate-2": {"labware": "96-flat", "slot" : 8},
+            "trash": {"labware": "point", "slot" : 12}
+        """
+        if debug == True: FileIO.log('deck.__init__ called')
+        self.modules = modules
+        
+        
+    def __str__(self):
+        return "Deck"
+       
+       
+    def __repr__(self):
+        return "Deck({0!r})".format(self.modules.keys())
+    
+    
+#Methods
+    def configure_deck(self, deck_data):
+        """method to instantiate deck modules specified in protocol.json file
+        
+        deck_data = dictionary containin g the module data
+        returns a list of instantiated deck modules
+        """
+        if debug == True: FileIO.log('deck.configure_deck called')
+        #delete any previous deck configuration
+        del self.modules
+        self.modules = []
+        
+        #instantiate a new deck module for each name in the file
+        #ToDo - check for data validity before using
+        for key in deck_data:
+            dd = deck_data[key]
+            if 'slot' in dd:
+                newmod = DeckModule(key,dd['labware'],dd['slot'])
+            else:
+                newmod = DeckModule(key,dd['labware'],0)
+            self.modules.append(newmod)
+            
+        return self.modules
