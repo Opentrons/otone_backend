@@ -49,7 +49,8 @@ class Dispatcher():
               'resumeJob' : lambda self: self.head.theQueue.resume_job(),
               'eraseJob' : lambda self: self.runner.insQueue.erase_job(),
               'raw' : lambda self, data: self.head.raw(data),
-              'update' : lambda self, data: self.main.updater(data),
+              
+              'update' : lambda self, data: self.update(data),
 
               'wifimode' : lambda self, data: self.wifi_mode(data),
               'wifiscan' : lambda self, data: self.wifi_scan(data),
@@ -187,4 +188,6 @@ class Dispatcher():
     def reboot(self):
         sk.reboot()
 
+    def update(self, data):
+        sk.update(data)
     

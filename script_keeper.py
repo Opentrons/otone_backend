@@ -55,3 +55,17 @@ def poweroff():
 
 def reboot():
     subprocess.call(['sudo', 'reboot'])
+
+def update(updatee):
+    subprocess.call(['/home/pi/otone_scripts/update_something.sh',str(updatee)])
+
+
+
+
+
+
+
+
+
+
+
