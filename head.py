@@ -403,7 +403,7 @@ class Head:
 
         filetext = json.dumps(pipette_values,sort_keys=True,indent=4,separators=(',',': '))
         if debug == True: FileIO.log('filetext: ', filetext)
-        filename = '/home/pi/otone_backend/pipette_calibrations.json'
+        filename = '/home/pi/otone_calibrations/pipette_calibrations.json'
 
         # save the pipette's values to a local file, to be loaded when the server restarts
         FileIO.writeFile(filename,filetext,lambda: FileIO.onError('\t\tError saving the file:\r\r'))      
@@ -414,7 +414,7 @@ class Head:
     #load_pipette_values()
     def load_pipette_values(self):
         if debug == True: FileIO.log('head.load_pipette_values called')
-        old_values = FileIO.get_dict_from_json('/home/pi/otone_backend/pipette_calibrations.json')
+        old_values = FileIO.get_dict_from_json('/home/pi/otone_calibrations/pipette_calibrations.json')
         if debug == True: FileIO.log('old_values:\n',old_values,'\n')
         
         if self.PIPETTES is not None and len(self.PIPETTES) > 0:
