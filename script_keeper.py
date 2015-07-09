@@ -41,7 +41,7 @@ def get_iwconfig_essid():
     return_dict = collections.OrderedDict({
         'type':'wifi_essid','data':subprocess.check_output("/home/pi/otone_scripts/get_iwconfig_essid.sh", shell=True, universal_newlines=True).replace('\n','')
     })
-    FileIO.log('eth_ip data: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
+    FileIO.log('wifi_essid data: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
 def write_led(num, val):
@@ -51,7 +51,7 @@ def set_connection_status(num):
     subprocess.call(['/home/pi/otone_scripts/set_ot_config_connection_status.sh',str(num)])
 
 def poweroff():
-    subprocess.call(['poweroff'])
+    subprocess.call(['sudo','poweroff'])
 
 def reboot():
     subprocess.call(['sudo', 'reboot'])
