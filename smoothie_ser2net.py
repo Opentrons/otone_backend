@@ -225,10 +225,12 @@ class Smoothie(object):
     def move(self, coords_list):
         if debug == True: FileIO.log('smoothie_ser2net.move called,\ncoords_list: ',coords_list,'\n')
         
+        absolMov = True
         if isinstance(coords_list, dict):
             header = self._dict['absoluteMove']
             if 'relative' in coords_list:
                 if coords_list['relative']==True:
+                    absolMove = False
                     header = self._dict['relativeMove']
         
             cmd = header
@@ -240,6 +242,8 @@ class Smoothie(object):
                 if n.upper()=='X' or n.upper()=='Y' or n.upper()=='Z' or n.upper()=='A' or n.upper()=='B':
                     axis = n.upper()
                     cmd = cmd + axis
+                    if value < 0 and absolMove == True:
+                        value = 0;
                     cmd = cmd + str(value)
                     if debug == True: FileIO.log('smoothie_ser2net:\n\tcmd: ',cmd,'\n')
                     

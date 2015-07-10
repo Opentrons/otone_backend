@@ -174,7 +174,7 @@ class Pipette(Tool):
 
             home_command = collections.OrderedDict()
             home_command[self.axis] = True
-            return_value.append({'home': home_command}) #if dip has been dropped
+            return_value.append({'home': home_command}) #if tip has been dropped
         
 #        return temploc
         if debug == True: FileIO.log('return_value:\n\n',return_value,'\n')
