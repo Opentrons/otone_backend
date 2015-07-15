@@ -58,19 +58,17 @@ def reboot():
 
 def update(updatee):
     if updatee != "all":
-        subprocess.call(['sudo','/home/pi/otone_scripts/update_something.sh',str(updatee)])
-        subprocess.call(['cd','home/pi/otone_scripts'])
-        subprocess.call(['/home/pi/start.sh'])
+        subprocess.call(['/home/pi/otone_scripts/update_something.sh',str(updatee)])
+        subprocess.call(['/home/pi/otone_scripts/start.sh'])
     else:
-        subprocess.call(['sudo','/home/pi/otone_scripts/update_something.sh','frontend'])
-        subprocess.call(['sudo','/home/pi/otone_scripts/update_something.sh','backend'])
-        subprocess.call(['sudo','/home/pi/otone_scripts/update_something.sh','data'])
-        subprocess.call(['sudo','/home/pi/otone_scripts/update_something.sh','central'])
-        subprocess.call(['sudo','/home/pi/otone_scripts/update_something.sh','backend'])
-        subprocess.call(['sudo','/home/pi/otone_scripts/update_something.sh','scripts'])
+        subprocess.call(['/home/pi/otone_scripts/update_something.sh','frontend'])
+        subprocess.call(['/home/pi/otone_scripts/update_something.sh','backend'])
+        subprocess.call(['/home/pi/otone_scripts/update_something.sh','data'])
+        subprocess.call(['/home/pi/otone_scripts/update_something.sh','central'])
+        subprocess.call(['/home/pi/otone_scripts/update_something.sh','backend'])
+        subprocess.call(['/home/pi/otone_scripts/update_something.sh','scripts'])
         #subprocess.call(['sudo','reboot'])
-        subprocess.call(['cd','home/pi/otone_scripts'])
-        subprocess.call(['/home/pi/start.sh'])
+        subprocess.call(['/home/pi/otone_scripts/start.sh'])
 
 
 
