@@ -59,6 +59,7 @@ def reboot():
 def update(updatee):
     if updatee != "all":
         subprocess.call(['/home/pi/otone_scripts/update_something.sh',str(updatee)])
+        subprocess.call(['sleep 5'])
         subprocess.call(['/home/pi/otone_scripts/start.sh'])
     else:
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','frontend'])
@@ -68,6 +69,7 @@ def update(updatee):
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','backend'])
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','scripts'])
         #subprocess.call(['sudo','reboot'])
+        subprocess.call(['sleep 5'])
         subprocess.call(['/home/pi/otone_scripts/start.sh'])
 
 

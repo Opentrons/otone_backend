@@ -239,11 +239,25 @@ class Smoothie(object):
                 if debug == True:
                     FileIO.log('smoothie_ser2net:\n\tn:     ',n)
                     FileIO.log('smoothie_ser2net:\n\tvalue: ',value,'\n')
+                    FileIO.log('smoothie_ser2net:\n\tvalue type: ', type(value)'\n')
                 if n.upper()=='X' or n.upper()=='Y' or n.upper()=='Z' or n.upper()=='A' or n.upper()=='B':
                     axis = n.upper()
                     cmd = cmd + axis
-                    if value < 0 and absolMove == True:
-                        value = 0;
+
+                    try (float(value)<0):
+                        value = 0
+                    except:
+                        pass
+
+#def is_number(s):
+#    try:
+#        float(s)
+#        return True
+#    except ValueError:
+#        return False
+
+#                   if value < 0 and absolMove == True:
+#                        value = 0;
                     cmd = cmd + str(value)
                     if debug == True: FileIO.log('smoothie_ser2net:\n\tcmd: ',cmd,'\n')
                     
