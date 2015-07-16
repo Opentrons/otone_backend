@@ -244,20 +244,12 @@ class Smoothie(object):
                     axis = n.upper()
                     cmd = cmd + axis
 
-                    try (float(value)<0):
-                        value = 0
+                    try:
+                        if float(value)<0:
+                            value = 0
                     except:
                         pass
 
-#def is_number(s):
-#    try:
-#        float(s)
-#        return True
-#    except ValueError:
-#        return False
-
-#                   if value < 0 and absolMove == True:
-#                        value = 0;
                     cmd = cmd + str(value)
                     if debug == True: FileIO.log('smoothie_ser2net:\n\tcmd: ',cmd,'\n')
                     
