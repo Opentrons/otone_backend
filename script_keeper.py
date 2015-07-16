@@ -56,6 +56,13 @@ def poweroff():
 def reboot():
     subprocess.call(['sudo', 'reboot'])
 
+def connection():
+    return_dict = collections.OrderedDict({
+        'type':'internet','data':subprocess.check_output("/home/pi/otone_scripts/connection.sh", shell=True, universal_newlines=True).replace('\n','')
+    })
+    FileIO.log('internet: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
+    return return_dict
+
 def update(updatee):
     if updatee != "all":
         subprocess.call(['/home/pi/otone_scripts/update_something.sh',str(updatee)])
