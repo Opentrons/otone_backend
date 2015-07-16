@@ -244,7 +244,7 @@ class Smoothie(object):
                     axis = n.upper()
                     cmd = cmd + axis
 
-                    if absolMove == true:
+                    if absolMove == True:
                         try:
                             if float(value)<0:
                                 value = 0
