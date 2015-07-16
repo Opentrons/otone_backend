@@ -149,7 +149,7 @@ def instantiate_objects():
             session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_wifi_ip_address(),sort_keys=True,indent=4,separators=(',',': ')))
             session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_eth_ip_address(),sort_keys=True,indent=4,separators=(',',': ')))
             session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_iwconfig_essid(),sort_keys=True,indent=4,separators=(',',': ')))
-            seesion_factory._myAppSession.publish('com.opentorns.robot_to_browser',json.dumps(sk.connection(),sort_keys=True,indent=4,separators=(',',': ')))
+            session_factory._myAppSession.publish('com.opentorns.robot_to_browser',json.dumps(sk.connection(),sort_keys=True,indent=4,separators=(',',': ')))
 
 
     @asyncio.coroutine
