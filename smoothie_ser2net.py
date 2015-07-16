@@ -245,8 +245,9 @@ class Smoothie(object):
                     cmd = cmd + axis
 
                     try:
-                        if float(value)<0:
-                            value = 0
+                        #if float(value)<0:
+                        #    value = 0
+                        pass
                     except:
                         pass
 
