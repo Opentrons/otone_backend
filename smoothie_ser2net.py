@@ -239,7 +239,7 @@ class Smoothie(object):
                 if debug == True:
                     FileIO.log('smoothie_ser2net:\n\tn:     ',n)
                     FileIO.log('smoothie_ser2net:\n\tvalue: ',value,'\n')
-                    FileIO.log('smoothie_ser2net:\n\tvalue type: ', type(value)'\n')
+                    FileIO.log('smoothie_ser2net:\n\tvalue type: ', type(value),'\n')
                 if n.upper()=='X' or n.upper()=='Y' or n.upper()=='Z' or n.upper()=='A' or n.upper()=='B':
                     axis = n.upper()
                     cmd = cmd + axis
