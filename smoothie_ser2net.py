@@ -230,7 +230,7 @@ class Smoothie(object):
             header = self._dict['absoluteMove']
             if 'relative' in coords_list:
                 if coords_list['relative']==True:
-                    absolMove = False
+                    absolMov = False
                     header = self._dict['relativeMove']
         
             cmd = header
