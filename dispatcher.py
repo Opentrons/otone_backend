@@ -1,4 +1,4 @@
-import json, collections, subprocess
+import json, collections, subprocess, asyncio
 from autobahn.asyncio.wamp import ApplicationSessionFactory
 from file_io import FileIO
 import script_keeper as sk
@@ -16,7 +16,7 @@ class Dispatcher():
     """
     
 #Special Methods
-    def __init__(self, session):
+    def __init__(self, session,loop):
         """initialize Dispatcher object
         
         """
@@ -24,6 +24,7 @@ class Dispatcher():
         self.head = None
         self.runner = None
         self.caller = session
+        self.loop = loop
         
     def __str__(self):
         return "Dispatcher"
