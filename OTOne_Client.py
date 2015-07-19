@@ -141,16 +141,23 @@ def instantiate_objects():
     dispatcher.setHead(head)
     dispatcher.setRunner(runner)
 
+
+    @asyncio.coroutine
     def periodically_send_ip_addresses():
         FileIO.log('periodically_send_ip_addresses called')
         while True:
             FileIO.log('periodically_send_ip_addresses again...')
-            yield from asyncio.sleep(6)
-            session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_wifi_ip_address(),sort_keys=True,indent=4,separators=(',',': ')))
-            session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_eth_ip_address(),sort_keys=True,indent=4,separators=(',',': ')))
-            session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_iwconfig_essid(),sort_keys=True,indent=4,separators=(',',': ')))
-            session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.connection(),sort_keys=True,indent=4,separators=(',',': ')))
+            yield from asyncio.sleep(10)
+            stuff = loop.run_until_complete(sk.per_data())
+            session_factory._myAppSession.publish('com.opentrons.robot_to_browser_ctrl',json.dumps(stuff,sort_keys=True,indent=4,separators=(',',': ')))
+            
+            #session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_wifi_ip_address(),sort_keys=True,indent=4,separators=(',',': ')))
+            #session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_eth_ip_address(),sort_keys=True,indent=4,separators=(',',': ')))
+            #session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_iwconfig_essid(),sort_keys=True,indent=4,separators=(',',': ')))
+            #session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.connection(),sort_keys=True,indent=4,separators=(',',': ')))
 
+
+    
 
     @asyncio.coroutine
     def get_wifi_ip_address():
@@ -180,7 +187,7 @@ try:
                                         debug_wamp=False)
     loop = asyncio.get_event_loop()
 
-    dispatcher = Dispatcher(session_factory)
+    dispatcher = Dispatcher(session_factory, loop)
     global_handlers = GlobalHandlers(session_factory)
     
 

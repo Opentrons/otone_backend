@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import subprocess, collections, json
+import subprocess, collections, json, asyncio
 from file_io import FileIO
 
 
@@ -56,12 +56,53 @@ def poweroff():
 def reboot():
     subprocess.call(['sudo', 'reboot'])
 
+
 def connection():
     return_dict = collections.OrderedDict({
         'type':'internet','data':subprocess.check_output("/home/pi/otone_scripts/connection.sh", shell=True, universal_newlines=True).replace('\n','')
     })
     FileIO.log('internet: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
+
+@asyncio.coroutine
+def per_data():
+    create_internet = asyncio.create_subprocess_exec('/home/pi/otone_scripts/connection.sh',stdout=asyncio.subprocess.PIPE)
+    create_wifi_ip = asyncio.create_subprocess_exec('/home/pi/otone_scripts/dummy.sh',stdout=asyncio.subprocess.PIPE)
+    create_eth_ip = asyncio.create_subprocess_exec('/home/pi/otone_scripts/dummy.sh',stdout=asyncio.subprocess.PIPE)
+    create_wifi_essid = asyncio.create_subprocess_exec('/home/pi/otone_scripts/dummy.sh',stdout=asyncio.subprocess.PIPE)
+    
+    proc_internet = yield from create_internet
+    proc_wifi_ip = yield from create_wifi_ip
+    proc_eth_ip = yield from create_eth_ip
+    proc_wifi_essid = yield from create_wifi_essid
+
+    internet = yield from proc_internet.stdout.readline()
+    wifi_ip = yield from proc_wifi_ip.stdout.readline()
+    eth_ip = yield from proc_eth_ip.stdout.readline()
+    wifi_essid = yield from proc_wifi_essid.readline()
+
+    line_internet = internet.decode('utf-8').rstrip()
+    line_wifi_ip = wifi_ip.decode('utf-8').rstrip()
+    line_eth_ip = eth_ip.decode('utf-8').rstrip()
+    line_wifi_essid = wifi_essid.decode('utf-8').rstrip()
+
+    yield from proc_internet.wait()
+    yield from proc_wifi_ip.wait()
+    yield from proc_eth_ip.wait()
+    yield from proc_wifi_essid.wait()
+
+    return_dict = collections.OrderedDict({
+        'type':'per_data',
+        'data': {
+            'internet':line_internet,
+            'wifi_ip':line_wifi_ip,
+            'eth_ip':line_eth_ip,
+            'wifi_essid':line_wifi_essid
+        }
+    })
+    return return_dict
+
+
 
 def update(updatee):
     if updatee != "all":
