@@ -148,7 +148,8 @@ def instantiate_objects():
         while True:
             FileIO.log('periodically_send_ip_addresses again...')
             yield from asyncio.sleep(10)
-            stuff = loop.run_until_complete(sk.per_data())
+            #stuff = loop.run_until_complete(sk.per_data())
+            stuff = yield from sk.per_data()
             session_factory._myAppSession.publish('com.opentrons.robot_to_browser_ctrl',json.dumps(stuff,sort_keys=True,indent=4,separators=(',',': ')))
             
             #session_factory._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(sk.get_wifi_ip_address(),sort_keys=True,indent=4,separators=(',',': ')))
