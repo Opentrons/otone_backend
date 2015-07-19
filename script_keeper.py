@@ -79,7 +79,7 @@ def per_data():
     internet = yield from proc_internet.stdout.readline()
     wifi_ip = yield from proc_wifi_ip.stdout.readline()
     eth_ip = yield from proc_eth_ip.stdout.readline()
-    wifi_essid = yield from proc_wifi_essid.readline()
+    wifi_essid = yield from proc_wifi_essid.stdout.readline()
 
     line_internet = internet.decode('utf-8').rstrip()
     line_wifi_ip = wifi_ip.decode('utf-8').rstrip()
