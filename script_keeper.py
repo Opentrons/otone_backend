@@ -106,9 +106,14 @@ def per_data():
 
 def update(updatee):
     if updatee != "all":
-        subprocess.call(['/home/pi/otone_scripts/update_something.sh',str(updatee)])
-        subprocess.call(['sleep 5'])
-        subprocess.call(['/home/pi/otone_scripts/start.sh'])
+        if updatee == "piconfigs":
+            subprocess.call(['/home/pi/otone_scripts/update_configs.sh'])
+            subprocess.call(['sleep 10'])
+            subprocess.call(['sudo reboot'])
+        else:
+            subprocess.call(['/home/pi/otone_scripts/update_something.sh',str(updatee)])
+            subprocess.call(['sleep 10'])
+            subprocess.call(['/home/pi/otone_scripts/start.sh'])
     else:
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','frontend'])
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','backend'])
@@ -117,7 +122,7 @@ def update(updatee):
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','backend'])
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','scripts'])
         #subprocess.call(['sudo','reboot'])
-        subprocess.call(['sleep 5'])
+        subprocess.call(['sleep 10'])
         subprocess.call(['/home/pi/otone_scripts/start.sh'])
 
 
