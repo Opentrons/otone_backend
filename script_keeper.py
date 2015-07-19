@@ -67,9 +67,9 @@ def connection():
 @asyncio.coroutine
 def per_data():
     create_internet = asyncio.create_subprocess_exec('/home/pi/otone_scripts/connection.sh',stdout=asyncio.subprocess.PIPE)
-    create_wifi_ip = asyncio.create_subprocess_exec('/home/pi/otone_scripts/dummy.sh',stdout=asyncio.subprocess.PIPE)
-    create_eth_ip = asyncio.create_subprocess_exec('/home/pi/otone_scripts/dummy.sh',stdout=asyncio.subprocess.PIPE)
-    create_wifi_essid = asyncio.create_subprocess_exec('/home/pi/otone_scripts/dummy.sh',stdout=asyncio.subprocess.PIPE)
+    create_wifi_ip = asyncio.create_subprocess_exec('/home/pi/otone_scripts/get_ifconfig_wlan0_ip.sh',stdout=asyncio.subprocess.PIPE)
+    create_eth_ip = asyncio.create_subprocess_exec('/home/pi/otone_scripts/get_ifconfig_eth0_ip.sh',stdout=asyncio.subprocess.PIPE)
+    create_wifi_essid = asyncio.create_subprocess_exec('/home/pi/otone_scripts/get_iwconfig_essid.sh',stdout=asyncio.subprocess.PIPE)
     
     proc_internet = yield from create_internet
     proc_wifi_ip = yield from create_wifi_ip
