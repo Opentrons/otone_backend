@@ -10,7 +10,7 @@ def wifi_mode(data):
             subprocess.call(['/home/pi/otone_scripts/change_wifi_connection_mode.sh', str(data['mode'])])
         if str(data['mode'])=='WIFI':
             subprocess.call(['/home/pi/otone_scripts/change_wifi_connection_mode.sh', str(data['mode']),str(data['ssid']),str(data['pswd'])])
-        if str(data['mode'])=='NONE'
+        if str(data['mode'])=='NONE':
             subprocess.call(['/home/pi/otone_scripts/change_wifi_connection_mode.sh', str(data['mode'])])
 
 def wifi_scan(data):
