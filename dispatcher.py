@@ -57,7 +57,8 @@ class Dispatcher():
               'wifiscan' : lambda self, data: self.wifi_scan(data),
               'hostname' : lambda self, data: self.change_hostname(data),
               'poweroff' : lambda self: self.poweroff(),
-              'reboot' : lambda self: self.reboot()
+              'reboot' : lambda self: self.reboot(),
+              'shareinet': lambda self: self.share_inet()
               }
     def home(self, data):
         if debug == True: FileIO.log('dispatcher.home called')
@@ -191,4 +192,7 @@ class Dispatcher():
 
     def update(self, data):
         sk.update(data)
+
+    def share_inet(self):
+        sk.share_inet()
     
