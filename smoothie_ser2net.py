@@ -4,7 +4,7 @@ import asyncio, json
 from file_io import FileIO
 import script_keeper as sk
 
-debug = False
+debug = True
 io_debug = False
 
 class Smoothie(object):

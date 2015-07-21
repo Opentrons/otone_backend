@@ -20,7 +20,7 @@ import script_keeper as sk
 
 
 
-debug = True
+debug = False
 
 #VARIABLES
 
