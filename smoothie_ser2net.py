@@ -285,19 +285,24 @@ class Smoothie(object):
         
         homeCommand = ''
         homingX = False
+        homingABZ = False
         
         if 'a' in axis_dict or 'A' in axis_dict:
             homeCommand += self._dict['home']
             homeCommand += 'A'
             self.theState['homing']['a'] = True
+            homingABZ = True
 
         if 'b' in axis_dict or 'B' in axis_dict:
-            homeCommand += self._dict['home']
+            if homingABZ == False:
+                homeCommand += self._dict['home']
             homeCommand += 'B'
             self.theState['homing']['b'] = True
+            homingABZ = True
 
         if 'z' in axis_dict or 'Z' in axis_dict:
-            homeCommand += self._dict['home']
+            if homingABZ == False:
+                homeCommand += self._dict['home']
             homeCommand += 'Z'
             self.theState['homing']['z'] = True
 
