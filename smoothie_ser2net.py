@@ -385,6 +385,12 @@ class Smoothie(object):
         """callback when disconnected"""
         if debug == True:
             FileIO.log('smoothie_ser2net.onDisconnect called')
+        while True:
+            yield from asyncio.sleep(6)
+            try:
+                self.connect()
+            except:
+                FileIO.log('error trying to connect')
         #if hasattr(self.od_cb, '__call__'):
         #    self.od_cb()
 
