@@ -65,6 +65,10 @@ def connection():
     FileIO.log('internet: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
+def share_inet():
+    subprocess.call(['sudo','ifdown','eth0'])
+    subprocess.call(['sudo','ifup','eth0'])
+
 @asyncio.coroutine
 def per_data():
     create_internet = asyncio.create_subprocess_exec('/home/pi/otone_scripts/connection.sh',stdout=asyncio.subprocess.PIPE)
