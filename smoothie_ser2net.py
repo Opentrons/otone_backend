@@ -381,12 +381,13 @@ class Smoothie(object):
             FileIO.log('smoothie_ser2net.onConnect called')
 
 
+    @asyncio.coroutine
     def onDisconnect(self):
         """callback when disconnected"""
         if debug == True:
             FileIO.log('smoothie_ser2net.onDisconnect called')
         while True:
-            yield from asyncio.sleep(6)
+            yield from asyncio.sleep(10)
             try:
                 self.connect()
             except:
