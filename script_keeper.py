@@ -113,11 +113,11 @@ def update(updatee):
     if updatee != "all":
         if updatee == "piconfigs":
             subprocess.call(['/home/pi/otone_scripts/update_configs.sh'])
-            subprocess.call(["sleep", "10"])
-            subprocess.call(["sudo reboot"])
+            subprocess.call(["sleep", "30"])
+            subprocess.call(["sudo", "reboot"])
         else:
             subprocess.call(['/home/pi/otone_scripts/update_something.sh',str(updatee)])
-            subprocess.call(["sleep", "10"])
+            subprocess.call(["sleep", "30"])
             subprocess.call(['/home/pi/otone_scripts/start.sh'])
     else:
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','frontend'])
@@ -127,7 +127,7 @@ def update(updatee):
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','backend'])
         subprocess.call(['/home/pi/otone_scripts/update_something.sh','scripts'])
         #subprocess.call(['sudo','reboot'])
-        subprocess.call(["sleep", "10"])
+        subprocess.call(["sleep", "30"])
         subprocess.call(['/home/pi/otone_scripts/start.sh'])
 
 
