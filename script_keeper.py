@@ -178,6 +178,7 @@ proc_data = ""
 def read_progress(string):
     FileIO.log('read_progress called')
     deli = "\n"
+    global proc_data
     proc_data = proc_data + string
     sub_data = proc_data[:proc_data.rfind("\n")]
     list_data = [e+deli for e in sub_data.split(deli)]
