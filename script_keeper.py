@@ -116,11 +116,11 @@ def cool_update(data):
     stdout_, stderr_ = yield from proc_update.communicate()
     if stdout_ is not None:
         FileIO.log('stdout... '+stdout_)
-    else
+    else:
         FileIO.log('stdout... None')
     if stderr_ is not None:
         FileIO.log('stderr...'+stderr_)
-    else
+    else:
         FileIO.log('stderr... None')
 
 
