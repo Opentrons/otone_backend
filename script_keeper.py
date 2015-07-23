@@ -19,7 +19,8 @@ class SK:
         
         """
         if debug == True: FileIO.log('script_keeper.__init__ called')
-        global the_ghand = global_handlers
+        global the_ghand
+        the_ghand = global_handlers
         
 
     def __str__(self):
