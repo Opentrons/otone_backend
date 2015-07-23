@@ -171,6 +171,7 @@ def update(updatee):
 
 
 def read_progress(string):
+    FileIO.log('read_progress called')
     if string.startswith('!ot!'):
         the_ghand.send('progress',string)
 
