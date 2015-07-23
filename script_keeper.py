@@ -108,6 +108,15 @@ def per_data():
     return return_dict
 
 
+@asyncio.coroutine
+def cool_update(data):
+    cmd = '/home/pi/otone_scripts/update_something.sh '+str(data)
+    create_update = asyncio.create_subprocess_exec(cmd,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
+    proc_update = yield from create_update
+    stdout_, stderr_ = yield from proc_update.communicate()
+    FileIO.log('stdout... '+stdout_)
+    FileIO.log('stderr...'+stderr_)
+
 
 def update(updatee):
     if updatee != "all":

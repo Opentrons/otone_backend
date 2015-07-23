@@ -191,7 +191,8 @@ class Dispatcher():
         sk.reboot()
 
     def update(self, data):
-        sk.update(data)
+        asyncio.Task(sk.cool_update(data))
+        #sk.update(data)
 
     def share_inet(self):
         sk.share_inet()
