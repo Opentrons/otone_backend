@@ -184,7 +184,7 @@ def read_progress(string):
     list_data = [e+deli for e in sub_data.split(deli)]
     for ds in list_data:
         if ds.startswith('!ot!'):
-            the_ghand.send('progress',string)
+            the_ghand.sendMessage('progress',string)
 
 
 
