@@ -17,6 +17,8 @@ from dispatcher import Dispatcher
 
 import json, asyncio, sys, time, collections
 import script_keeper as sk
+from script_keeper import SK
+
 
 
 
@@ -98,7 +100,7 @@ def instantiate_objects():
         FileIO.log('head string: ', str(head))
         FileIO.log('head representation: ', repr(head))
 
-    the_sk = sk(global_handlers)
+    the_sk = SK(global_handlers)
     #instantiate the deck
     deck = Deck(def_start_protocol['deck'])
     #RobotLib.Deck(def_start_protocol['deck'])

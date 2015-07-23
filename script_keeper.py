@@ -3,6 +3,8 @@
 import subprocess, collections, json, asyncio
 from file_io import FileIO
 
+debug = False
+
 class SK:
     """SK Class
     
@@ -10,14 +12,14 @@ class SK:
     aggregates the scripts.
     """
     
-#Special Methods-----------------------
+    #Special Methods-----------------------
     #def __init__(self, tools, global_handlers, theQueue):
     def __init__(self, global_handlers):
         """initialize SK object
         
         """
         if debug == True: FileIO.log('script_keeper.__init__ called')
-        the_ghand = global_handlers
+        global the_ghand = global_handlers
         
 
     def __str__(self):
@@ -170,10 +172,27 @@ def update(updatee):
 
 
 
+proc_data = ""
+
 def read_progress(string):
     FileIO.log('read_progress called')
-    if string.startswith('!ot!'):
-        the_ghand.send('progress',string)
+    deli = "\n"
+    proc_data = proc_data + string
+    sub_data = proc_data[:proc_data.rfind("\n")]
+    list_data = [e+deli for e in sub_data.split(deli)]
+    for ds in list_data:
+        if ds.startswith('!ot!'):
+            the_ghand.send('progress',string)
+
+
+
+#            self.proc_data = self.proc_data + data.decode()
+#            deli = "\n"
+#            sub_data = self.proc_data[:self.proc_data.rfind("\n")]
+#            self.proc_data = self.proc_data[self.proc_data.rfind("\n")+1:]
+#            list_data = [e+deli for e in sub_data.split(deli)]
+#            for ds in list_data:
+#                self.outer.smoothieHandler(ds,data) 
 
 
 
