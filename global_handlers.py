@@ -99,4 +99,16 @@ class GlobalHandlers:
             'type':'finished'
         }
         self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        
+
+    def sendMessage(type_,damsg):
+        if debug == True: FileIO.log('global_handlers.sendMessage called')
+        if damsg is not None:
+            msg = {
+                'type':type_,
+                'data':damsg
+            }
+        else:
+            msg = {
+                'type':type_
+            }
+        self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))

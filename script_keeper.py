@@ -3,6 +3,27 @@
 import subprocess, collections, json, asyncio
 from file_io import FileIO
 
+class SK:
+    """SK Class
+    
+    the SK class is intended to be instantiated to a sk object which
+    aggregates the scripts.
+    """
+    
+#Special Methods-----------------------
+    #def __init__(self, tools, global_handlers, theQueue):
+    def __init__(self, global_handlers):
+        """initialize SK object
+        
+        """
+        if debug == True: FileIO.log('script_keeper.__init__ called')
+        the_ghand = global_handlers
+        
+
+    def __str__(self):
+        return "SK"
+
+
 
 def wifi_mode(data):
     if data and len(data):
@@ -115,7 +136,9 @@ def cool_update(data):
     proc_update = yield from create_update
     stdout_, stderr_ = yield from proc_update.communicate()
     if stdout_ is not None:
-        FileIO.log('stdout... '+stdout_.decode("utf-8"))
+        stdout_str = stdout_.decode("utf-8")
+        FileIO.log('stdout... '+stdout_str)
+        read_progress(stdout_str)
     else:
         FileIO.log('stdout... None')
     if stderr_ is not None:
@@ -147,7 +170,9 @@ def update(updatee):
 
 
 
-
+def read_progress(string):
+    if string.startswith('!ot!'):
+        the_ghand.send('progress',string)
 
 
 
