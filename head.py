@@ -30,6 +30,7 @@ class Head:
         self.PIPETTES = {'a':Pipette('a'),'b':Pipette('b')}    #need to create this dict in head setup
         self.ghand = global_handlers
         self.smoothieAPI.set_raw_callback(self.ghand.onRawData)
+        self.smoothieAPI.set_limit_hit_callback(self.ghand.onLimitHit)
         self.theQueue = TheQueue(self, global_handlers)
         
         #connect with the smoothie board
@@ -63,6 +64,7 @@ class Head:
     
         self.theState = state
         if debug == True: FileIO.log('\n\n\tHead state:\n\n',self.theState,'\n')
+
 
 #local functions---------------
     def get_tool_info(self, head_data):

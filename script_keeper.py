@@ -110,12 +110,18 @@ def per_data():
 
 @asyncio.coroutine
 def cool_update(data):
-    cmd = '/home/pi/otone_scripts/update_something.sh '+str(data)
-    create_update = asyncio.create_subprocess_exec(cmd,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
+    cmd = '/home/pi/otone_scripts/update_something.sh'
+    create_update = asyncio.create_subprocess_exec(cmd,str(data),stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
     proc_update = yield from create_update
     stdout_, stderr_ = yield from proc_update.communicate()
-    FileIO.log('stdout... '+stdout_)
-    FileIO.log('stderr...'+stderr_)
+    if stdout_ is not None:
+        FileIO.log('stdout... '+stdout_)
+    else
+        FileIO.log('stdout... None')
+    if stderr_ is not None:
+        FileIO.log('stderr...'+stderr_)
+    else
+        FileIO.log('stderr... None')
 
 
 def update(updatee):

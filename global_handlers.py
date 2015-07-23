@@ -71,6 +71,16 @@ class GlobalHandlers:
         except:
             FileIO.log("error trying to publish in onRawData")
 
+    def onLimitHit(self,axis):
+        if debug == True: FileIO.log('global_handlers.onLimitHit called')
+        msg = {
+            'type': 'limit',
+            'data': axis
+        }
+        try:
+            self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
+        except:
+            FileIO.log("error trying to publish in onRawData")
         
     def onFinish(self):     #called from planner/theQueue
         if debug == True: FileIO.log('global_handlers.onFinish called')

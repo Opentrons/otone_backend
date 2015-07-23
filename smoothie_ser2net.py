@@ -82,6 +82,7 @@ class Smoothie(object):
         self.my_transport = None
         self.outer = outer
         self.raw_callback = None
+        self.limit_hit_callback = None
         self.my_loop = asyncio.get_event_loop()
 
     class CB_Factory(asyncio.Protocol):
@@ -131,6 +132,10 @@ class Smoothie(object):
     def set_raw_callback(self, callback):
         """connects the external callback for raw data"""
         self.raw_callback = callback
+
+    def set_limit_hit_callback(self, callback):
+        """connect the external callback for limit hit data"""
+        self.limit_hit_callback = callback
 
     def connect(self):
         self.my_loop = asyncio.get_event_loop()
@@ -192,7 +197,8 @@ class Smoothie(object):
                 if key == 'stat' and self.theState[key] != value:
                     didStateChange = True
 
-                self.theState[key] = value
+                if key in self.theState:
+                    self.theState[key] = value
                 if ok_print:
                     if debug == True:
                         FileIO.log('smoothie_ser2net:\n\tkey:   ',key)
@@ -208,6 +214,9 @@ class Smoothie(object):
 
                         if stillHoming==False:
                             didStateChange = True
+
+                if key == 'limit':
+                    self.onLimitHit(value)
 
             if didStateChange == True:
                 self.onStateChange(self.theState)
@@ -415,6 +424,12 @@ class Smoothie(object):
             except:
                 FileIO.log('smoothie_ser2net.onStateChange: problem calling self.outer.on_state_change')
                 raise
+
+    def onLimitHit(self, axis):
+        if debug == True:
+            FileIO.log('smoothie_ser2net.onLimitHit called,\n\n\taxis:\n\n',axis,'\n')
+        if self.limit_hit_callback != None:
+            self.limit_hit_callback(axis)
 
 
 if __name__ == '__main__':
