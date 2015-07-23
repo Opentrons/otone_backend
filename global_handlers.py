@@ -100,7 +100,7 @@ class GlobalHandlers:
         }
         self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
 
-    def sendMessage(type_,damsg):
+    def sendMessage(self,type_,damsg):
         if debug == True: FileIO.log('global_handlers.sendMessage called')
         if damsg is not None:
             msg = {
