@@ -72,7 +72,10 @@ class WampComponent(wamp.ApplicationSession):
     def onLeave(self, details):
         if self.factory._myAppSession == self:
             self.factory._myAppSession = None
-        self.disconnect()
+        try:
+            self.disconnect()
+        except:
+            pass
         
     def onDisconnect(self):
         asyncio.get_event_loop().stop()

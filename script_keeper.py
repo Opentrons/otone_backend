@@ -184,7 +184,19 @@ def read_progress(string):
     list_data = [e+deli for e in sub_data.split(deli)]
     for ds in list_data:
         if ds.startswith('!ot!'):
-            the_ghand.sendMessage('progress',string)
+            ds.replace('!ot!','')
+            if ds.startswith('!pct'):
+                ds.replace('!pct','')
+                the_ghand.sendMessage('progress',ds)
+            elif ds.startswith('!success'):
+                ds.replace('!success','')
+                msg = ""
+                if ds.startswitch('!msg'):
+                    ds.replace('!msg:','')
+                    msg = ds
+                the_ghand.sendMessage('success',msg)
+            else:
+                the_ghand.sendMessage('failure','failed')
 
 
 
