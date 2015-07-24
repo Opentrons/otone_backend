@@ -135,19 +135,29 @@ def per_data():
 @asyncio.coroutine
 def cool_update(data):
     cmd = '/home/pi/otone_scripts/update_something.sh'
-    create_update = asyncio.create_subprocess_exec(cmd,str(data),stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
-    proc_update = yield from create_update
-    stdout_, stderr_ = yield from proc_update.communicate()
-    if stdout_ is not None:
-        stdout_str = stdout_.decode("utf-8")
-        FileIO.log('stdout... '+stdout_str)
-        read_progress(stdout_str)
+    cmd_all = '/home/pi/otone_scripts/update_all.sh'
+    if data == "all":
+        create_update = asyncio.create_subprocess_exec(cmd_all,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
     else:
-        FileIO.log('stdout... None')
-    if stderr_ is not None:
-        FileIO.log('stderr...'+stderr_.decode("utf-8"))
-    else:
-        FileIO.log('stderr... None')
+        create_update = asyncio.create_subprocess_exec(cmd,str(data),stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
+    criterion = True
+    while criterion == True:
+        proc_update = yield from create_update
+        stdout_, stderr_ = yield from proc_update.communicate()
+
+        if stdout_ is not None:
+            stdout_str = stdout_.decode("utf-8")
+            FileIO.log('stdout... '+stdout_str)
+            read_progress(stdout_str)
+        else:
+            FileIO.log('stdout... None')
+        if stderr_ is not None:
+            FileIO.log('stderr...'+stderr_.decode("utf-8"))
+        else:
+            FileIO.log('stderr... None')
+        if proc_update.returncode is not None:
+            criterion = False
+    return
 
 
 def update(updatee):
@@ -181,13 +191,16 @@ def read_progress(string):
     global proc_data
     proc_data = proc_data + string
     sub_data = proc_data[:proc_data.rfind("\n")]
+    proc_data = proc_data[proc_data.rfind("\n")+1:]
     list_data = [e+deli for e in sub_data.split(deli)]
     for ds in list_data:
         if ds.startswith('!ot!'):
             ds=ds[4:] #!ot!
+
             if ds.startswith('!pct'):
                 ds=ds[4:] #!pct
                 the_ghand.sendMessage('progress',ds)
+
             elif ds.startswith('!update'):
                 ds=ds[7:] #!update
                 if ds.startswith('!success'):
@@ -197,7 +210,6 @@ def read_progress(string):
                         ds=ds[5:] #!msg:
                         msg = ds
                     the_ghand.sendMessage('success',msg)
-                    subprocess.call(['/home/pi/otone_scripts/start.sh','NOCHANGE'])
                 elif ds.startswith('!failure'):
                     ds=ds[8:]
                     msg = ""
@@ -208,6 +220,16 @@ def read_progress(string):
                         msg = 'failed'
                     the_ghand.sendMessage('failure',msg)
 
+            elif ds.startswith('!start'):
+                ds=ds[6:]
+                if ds.startswith('!NOCHANGE'):
+                    subprocess.call(['/home/pi/otone_scripts/start.sh','NOCHANGE'])
+                elif ds.startswith('!NONE'):
+                    subprocess.call(['/home/pi/otone_scripts/start.sh','NONE'])
+                elif ds.startswith('!AP'):
+                    subprocess.call(['/home/pi/otone_scripts/start.sh','AP'])
+                else:
+                    subprocess.call(['/home/pi/otone_scripts/start.sh','NOCHANGE'])
 
 
 #            self.proc_data = self.proc_data + data.decode()
