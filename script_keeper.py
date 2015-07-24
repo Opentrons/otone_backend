@@ -185,13 +185,17 @@ def read_progress(string):
     for ds in list_data:
         if ds.startswith('!ot!'):
             ds.replace('!ot!','')
+            FileIO.log('1.) ds = ',ds)
             if ds.startswith('!pct'):
                 ds.replace('!pct','')
+                FileIO.log('2.) ds = ',ds)
                 the_ghand.sendMessage('progress',ds)
             elif ds.startswith('!update'):
                 ds.replace('!update','')
+                FileIO.log('2.) ds = ',ds)
                 if ds.startswith('!success'):
                     ds.replace('!success','')
+                    FileIO.log('3.) ds = ',ds)
                     msg = ""
                     if ds.startswitch('!msg'):
                         ds.replace('!msg:','')
