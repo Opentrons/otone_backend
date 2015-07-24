@@ -184,21 +184,21 @@ def read_progress(string):
     list_data = [e+deli for e in sub_data.split(deli)]
     for ds in list_data:
         if ds.startswith('!ot!'):
-            ds.replace('!ot!','')
-            FileIO.log('1.) ds = ',ds)
+            ds=ds[4:0] #!ot!
+            #FileIO.log('1.) ds = ',ds)
             if ds.startswith('!pct'):
-                ds.replace('!pct','')
-                FileIO.log('2.) ds = ',ds)
+                ds=ds[4:0] #!pct
+                #FileIO.log('2.) ds = ',ds)
                 the_ghand.sendMessage('progress',ds)
             elif ds.startswith('!update'):
-                ds.replace('!update','')
-                FileIO.log('2.) ds = ',ds)
+                ds=ds[7:] #!update
+                #FileIO.log('2.) ds = ',ds)
                 if ds.startswith('!success'):
-                    ds.replace('!success','')
-                    FileIO.log('3.) ds = ',ds)
+                    ds=ds[8:] #!success
+                    #FileIO.log('3.) ds = ',ds)
                     msg = ""
                     if ds.startswitch('!msg'):
-                        ds.replace('!msg:','')
+                        ds=ds[5:] #!msg:
                         msg = ds
                     the_ghand.sendMessage('success',msg)
                     yield from asyncio.sleep(2)
