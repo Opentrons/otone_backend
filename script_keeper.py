@@ -188,15 +188,19 @@ def read_progress(string):
             if ds.startswith('!pct'):
                 ds.replace('!pct','')
                 the_ghand.sendMessage('progress',ds)
-            elif ds.startswith('!success'):
-                ds.replace('!success','')
-                msg = ""
-                if ds.startswitch('!msg'):
-                    ds.replace('!msg:','')
-                    msg = ds
-                the_ghand.sendMessage('success',msg)
-            else:
-                the_ghand.sendMessage('failure','failed')
+            elif ds.startswith('!update'):
+                ds.replace('!update',''):
+                if ds.startswith('!success'):
+                    ds.replace('!success','')
+                    msg = ""
+                    if ds.startswitch('!msg'):
+                        ds.replace('!msg:','')
+                        msg = ds
+                    the_ghand.sendMessage('success',msg)
+                    yield from asyncio.sleep(2)
+                    subprocess.call(['/home/pi/otone_scripts/start.sh','NOCHANGE'])
+                else:
+                    the_ghand.sendMessage('failure','failed')
 
 
 
