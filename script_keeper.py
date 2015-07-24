@@ -185,26 +185,28 @@ def read_progress(string):
     for ds in list_data:
         if ds.startswith('!ot!'):
             ds=ds[4:] #!ot!
-            #FileIO.log('1.) ds = ',ds)
             if ds.startswith('!pct'):
                 ds=ds[4:] #!pct
-                #FileIO.log('2.) ds = ',ds)
                 the_ghand.sendMessage('progress',ds)
             elif ds.startswith('!update'):
                 ds=ds[7:] #!update
-                #FileIO.log('2.) ds = ',ds)
                 if ds.startswith('!success'):
                     ds=ds[8:] #!success
-                    #FileIO.log('3.) ds = ',ds)
                     msg = ""
                     if ds.startswith('!msg'):
                         ds=ds[5:] #!msg:
                         msg = ds
                     the_ghand.sendMessage('success',msg)
-                    yield from asyncio.sleep(2)
                     subprocess.call(['/home/pi/otone_scripts/start.sh','NOCHANGE'])
-                else:
-                    the_ghand.sendMessage('failure','failed')
+                elif ds.startswith('!failure'):
+                    ds=ds[8:]
+                    msg = ""
+                    if ds.startswith('!msg'):
+                        ds=ds[5:]
+                        msg = ds
+                    if msg == "":
+                        msg = 'failed'
+                    the_ghand.sendMessage('failure',msg)
 
 
 

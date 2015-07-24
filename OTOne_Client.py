@@ -62,9 +62,11 @@ class WampComponent(wamp.ApplicationSession):
         
         def set_client_status(status):
             if debug == True: FileIO.log('OTOne_Client : WampComponent.set_client_status called')
+            global client_status
             client_status = status
             self.publish('com.opentrons.robot_ready',True)
         
+        FileIO.log('about to publish com.opentrons.robot_ready TRUE')
         self.publish('com.opentrons.robot_ready',True)
         yield from self.subscribe(set_client_status, 'com.opentrons.browser_ready')
         yield from self.subscribe(dispatcher.dispatch_message, 'com.opentrons.browser_to_robot')
