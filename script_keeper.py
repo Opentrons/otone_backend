@@ -189,7 +189,7 @@ def read_progress(string):
                 ds.replace('!pct','')
                 the_ghand.sendMessage('progress',ds)
             elif ds.startswith('!update'):
-                ds.replace('!update',''):
+                ds.replace('!update','')
                 if ds.startswith('!success'):
                     ds.replace('!success','')
                     msg = ""
