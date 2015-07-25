@@ -133,13 +133,16 @@ def per_data():
 
 
 @asyncio.coroutine
-def cool_update(data):
+def cool_update(data,start=1,total='',action='',option='NOCHANGE'):
     cmd = '/home/pi/otone_scripts/update_something.sh'
-    cmd_all = '/home/pi/otone_scripts/update_all.sh'
-    if data == "all":
-        create_update = asyncio.create_subprocess_exec(cmd_all,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
-    else:
-        create_update = asyncio.create_subprocess_exec(cmd,str(data),stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
+    arg1 = '--repo='+str(data)
+    arg2 = '--start='+str(start)
+    arg3 = '--total='+str(total)
+    arg4 = '--option'+str(option)
+    create_update = asyncio.create_subprocess_exec(cmd, \
+        '--repo='+str(data),  '--start='+str(start), \
+        '--total='+str(total),'--option='+str(option), \
+        stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
     criterion = True
     while criterion == True:
         proc_update = yield from create_update

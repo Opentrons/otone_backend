@@ -190,8 +190,24 @@ class Dispatcher():
     def reboot(self):
         sk.reboot()
 
+    @asyncio.coroutine
     def update(self, data):
-        self.loop.create_task(sk.cool_update(data))
+        if data == "all":
+            fut = self.loop.create_task(sk.cool_update('data',total=61))
+            yield from asyncio.wait_for(fut,10)
+            fut = self.loop.create_task(sk.cool_update('scripts',start=10,total=61))
+            yield from asyncio.wait_for(fut,10)
+            fut = self.loop.create_task(sk.cool_update('backend',start=20,total=61))
+            yield from asyncio.wait_for(fut,10)
+            fut = self.loop.create_task(sk.cool_update('central',start=30,total=61))
+            yield from asyncio.wait_for(fut,10)
+            fut = self.loop.create_task(sk.cool_update('frontend',start=40,total=61))
+            yield from asyncio.wait_for(fut,10)
+            fut = self.loop.create_task(sk.cool_update('firmware',start=50,total=61,action='START'))
+            yield from asyncio.wait_for(fut,10)
+        else:
+            fut = self.loop.create_task(sk.cool_update(data,action='START'))
+            yield from asyncio.wait)for(fut,10)
         #sk.update(data)
 
     def share_inet(self):
