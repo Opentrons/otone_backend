@@ -239,7 +239,9 @@ def read_progress(string):
                     subprocess.call(['/home/pi/otone_scripts/start.sh','AP'])
                 else:
                     subprocess.call(['/home/pi/otone_scripts/start.sh','NOCHANGE'])
-
+            elif ds.startswith('!reboot'):
+                ds=ds[6:]
+                subprocess.call(['sudo','reboot'])
 
 #            self.proc_data = self.proc_data + data.decode()
 #            deli = "\n"

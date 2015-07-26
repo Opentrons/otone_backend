@@ -204,7 +204,7 @@ class Dispatcher():
             yield from asyncio.wait_for(fut,10)
             fut = self.loop.create_task(sk.cool_update('frontend',start=40,total=61))
             yield from asyncio.wait_for(fut,10)
-            fut = self.loop.create_task(sk.cool_update('firmware',start=50,total=61,action='START'))
+            fut = self.loop.create_task(sk.cool_update('firmware',start=50,total=61,action='REBOOT'))
             yield from asyncio.wait_for(fut,10)
         else:
             fut = self.loop.create_task(sk.cool_update(data,action='START'))
