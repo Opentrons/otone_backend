@@ -139,13 +139,15 @@ def cool_update(data,start=1,total='',action='',option='NOCHANGE'):
     arg1 = '--repo='+str(data)
     arg2 = '--start='+str(start)
     arg3 = '--total='+str(total)
-    arg4 = '--option='+str(option)
+    arg4 = '--action='+str(action)
+    arg5 = '--option='+str(option)
     FileIO.log('arg1: ',arg1)
     FileIO.log('arg2: ',arg2)
     FileIO.log('arg3: ',arg3)
     FileIO.log('arg4: ',arg4)
+    FileIO.log('arg5: ',arg5)
     create_update = asyncio.create_subprocess_exec(cmd, \
-        arg1,  arg2, arg3, arg4, \
+        arg1,  arg2, arg3, arg4, arg5, \
         stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
     criterion = True
     while criterion == True:
