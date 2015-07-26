@@ -204,8 +204,10 @@ class Dispatcher():
             yield from asyncio.wait_for(fut,10)
             fut = self.loop.create_task(sk.cool_update('frontend',start=40,total=61))
             yield from asyncio.wait_for(fut,10)
-            fut = self.loop.create_task(sk.cool_update('firmware',start=50,total=61,action='REBOOT'))
+            fut = self.loop.create_task(sk.cool_update('firmware',start=50,total=61))
             yield from asyncio.wait_for(fut,10)
+            if sk.updated == True:
+                subprocess.call(['sudo','reboot'])
         else:
             fut = self.loop.create_task(sk.cool_update(data,action='START'))
             yield from asyncio.wait_for(fut,10)

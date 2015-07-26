@@ -4,6 +4,8 @@ import subprocess, collections, json, asyncio
 from file_io import FileIO
 
 debug = False
+updated = False
+
 
 class SK:
     """SK Class
@@ -21,6 +23,8 @@ class SK:
         if debug == True: FileIO.log('script_keeper.__init__ called')
         global the_ghand
         the_ghand = global_handlers
+        global updated
+        updated = False
         
 
     def __str__(self):
@@ -213,6 +217,8 @@ def read_progress(string):
             elif ds.startswith('!update'):
                 ds=ds[7:] #!update
                 if ds.startswith('!success'):
+                    global updated
+                    updated = True
                     ds=ds[8:] #!success
                     msg = ""
                     if ds.startswith('!msg'):
