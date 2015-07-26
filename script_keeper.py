@@ -134,7 +134,7 @@ def per_data():
 
 @asyncio.coroutine
 def cool_update(data,start=1,total='',action='',option='NOCHANGE'):
-    FileIO.logt('script_keerp.cool_update called')
+    FileIO.log('script_keeper.cool_update called')
     cmd = '/home/pi/otone_scripts/update_something.sh'
     arg1 = '--repo='+str(data)
     arg2 = '--start='+str(start)
