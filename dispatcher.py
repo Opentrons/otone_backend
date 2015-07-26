@@ -207,7 +207,7 @@ class Dispatcher():
             yield from asyncio.wait_for(fut,10)
         else:
             fut = self.loop.create_task(sk.cool_update(data,action='START'))
-            yield from asyncio.wait)for(fut,10)
+            yield from asyncio.wait_for(fut,10)
         #sk.update(data)
 
     def share_inet(self):
