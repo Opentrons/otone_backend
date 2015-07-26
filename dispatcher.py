@@ -51,7 +51,7 @@ class Dispatcher():
               'eraseJob' : lambda self: self.runner.insQueue.erase_job(),
               'raw' : lambda self, data: self.head.raw(data),
               
-              'update' : lambda self, data: self.update(data),
+              'update' : lambda self, data: self.loop.create_task(self.update(data)),
 
               'wifimode' : lambda self, data: self.wifi_mode(data),
               'wifiscan' : lambda self, data: self.wifi_scan(data),
