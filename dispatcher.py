@@ -192,6 +192,7 @@ class Dispatcher():
 
     @asyncio.coroutine
     def update(self, data):
+        FileIO.log('dispatcher.update called')
         if data == "all":
             fut = self.loop.create_task(sk.cool_update('data',total=61))
             yield from asyncio.wait_for(fut,10)
