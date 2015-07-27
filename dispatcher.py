@@ -58,7 +58,7 @@ class Dispatcher():
               'hostname' : lambda self, data: self.change_hostname(data),
               'poweroff' : lambda self: self.poweroff(),
               'reboot' : lambda self: self.reboot(),
-              'shareinet': lambda self: self.share_inet()
+              'shareinet': lambda self: self.loop.create_task(self.share_inet())
               }
     def home(self, data):
         if debug == True: FileIO.log('dispatcher.home called')
@@ -213,6 +213,8 @@ class Dispatcher():
             yield from asyncio.wait_for(fut,10)
         #sk.update(data)
 
+    @asyncio.coroutine
     def share_inet(self):
-        sk.share_inet()
+        FileIO.log('dispatcher.share_inet called')
+        yield from sk.share_inet()
     

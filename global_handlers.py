@@ -112,3 +112,13 @@ class GlobalHandlers:
                 'type':type_
             }
         self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
+
+    def sendCtrlMessage(self,type_,damsg):
+        if debug == True: FileIO.log('global_handlers.sendCtrlMessage called')
+        if damsg is not None:
+            msg = {
+                'type':type_,
+                'data':damsg
+            }
+        else:
+            

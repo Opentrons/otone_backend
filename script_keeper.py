@@ -93,9 +93,34 @@ def connection():
     FileIO.log('internet: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
+@asyncio.coroutine
 def share_inet():
-    subprocess.call(['sudo','ifdown','eth0'])
-    subprocess.call(['sudo','ifup','eth0'])
+    FileIO.log('script_keeper.share_inet called')
+    cmd = '/home/pi/otone_scripts/share_inet.sh'
+
+    create_share = asyncio.create_subprocess_exec(cmd,stdout=asyncio.subprocess.PIPE)
+
+    criterion = True
+    while criterion == True:
+        proc_share = yield from create_share
+        stdout_, stderr_ = yield from proc_share.communicate()
+
+        if stdout_ is not None:
+            stdout_str = stdout_.decode("utf-8")
+            FileIO.log('share_inet.stdout... '+stdout_str)
+            read_progress(stdout_str)
+        else:
+            FileIO.log('share_inet.stdout... None')
+        if stderr_ is not None:
+            FileIO.log('share_inet.stderr...'+stderr_.decode("utf-8"))
+        else:
+            FileIO.log('share_inet.stderr... None')
+        if proc_share.returncode is not None:
+            criterion = False
+    return
+
+    #subprocess.call(['sudo','ifdown','eth0'])
+    #subprocess.call(['sudo','ifup','eth0'])
 
 @asyncio.coroutine
 def per_data():
@@ -219,6 +244,25 @@ def read_progress(string):
                 if ds.startswith('!success'):
                     global updated
                     updated = True
+                    ds=ds[8:] #!success
+                    msg = ""
+                    if ds.startswith('!msg'):
+                        ds=ds[5:] #!msg:
+                        msg = ds
+                    the_ghand.sendMessage('success',msg)
+                elif ds.startswith('!failure'):
+                    ds=ds[8:]
+                    msg = ""
+                    if ds.startswith('!msg'):
+                        ds=ds[5:]
+                        msg = ds
+                    if msg == "":
+                        msg = 'failed'
+                    the_ghand.sendMessage('failure',msg)
+
+            elif ds.startswith('!share'):
+                ds=ds[6:]
+                if ds.startswith('!success'):
                     ds=ds[8:] #!success
                     msg = ""
                     if ds.startswith('!msg'):
