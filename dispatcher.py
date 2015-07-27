@@ -196,21 +196,21 @@ class Dispatcher():
         if data == "all":
             fut = self.loop.create_task(sk.cool_update('data',total=61))
             yield from asyncio.wait_for(fut,120)
-            fut = self.loop.create_task(sk.cool_update('scripts',start=10,total=61))
+            fut = self.loop.create_task(sk.cool_update('scripts',start=12,total=72))
             yield from asyncio.wait_for(fut,120)
-            fut = self.loop.create_task(sk.cool_update('backend',start=20,total=61))
+            fut = self.loop.create_task(sk.cool_update('backend',start=24,total=72))
             yield from asyncio.wait_for(fut,120)
-            fut = self.loop.create_task(sk.cool_update('central',start=30,total=61))
+            fut = self.loop.create_task(sk.cool_update('central',start=36,total=72))
             yield from asyncio.wait_for(fut,120)
-            fut = self.loop.create_task(sk.cool_update('frontend',start=40,total=61))
+            fut = self.loop.create_task(sk.cool_update('frontend',start=48,total=72))
             yield from asyncio.wait_for(fut,120)
-            fut = self.loop.create_task(sk.cool_update('firmware',start=50,total=61))
+            fut = self.loop.create_task(sk.cool_update('firmware',start=60,total=72))
             yield from asyncio.wait_for(fut,120)
             if sk.updated == True:
                 subprocess.call(['sudo','reboot'])
         else:
             fut = self.loop.create_task(sk.cool_update(data,action='START'))
-            yield from asyncio.wait_for(fut,120)
+            yield from asyncio.wait_for(fut,1)
         #sk.update(data)
 
     @asyncio.coroutine
