@@ -86,7 +86,7 @@ def reboot():
     subprocess.call(['sudo', 'reboot'])
 
 def restart():
-    subprocess.call(['/home/pi/otone_scritps/start.sh', 'NOCHANGE'])
+    subprocess.call(['/home/pi/otone_scripts/start.sh', 'NOCHANGE'])
 
 
 def connection():
