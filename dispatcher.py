@@ -58,7 +58,8 @@ class Dispatcher():
               'hostname' : lambda self, data: self.change_hostname(data),
               'poweroff' : lambda self: self.poweroff(),
               'reboot' : lambda self: self.reboot(),
-              'shareinet': lambda self: self.loop.create_task(self.share_inet())
+              'shareinet': lambda self: self.loop.create_task(self.share_inet()),
+              'restart' : lambda self: self.restart()
               }
     def home(self, data):
         if debug == True: FileIO.log('dispatcher.home called')
@@ -189,6 +190,9 @@ class Dispatcher():
 
     def reboot(self):
         sk.reboot()
+
+    def restart(self):
+        sk.restart()
 
     @asyncio.coroutine
     def update(self, data):

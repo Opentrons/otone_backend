@@ -85,6 +85,9 @@ def poweroff():
 def reboot():
     subprocess.call(['sudo', 'reboot'])
 
+def restart():
+    subprocess.call(['/home/pi/otone_scritps/start.sh', 'NOCHANGE'])
+
 
 def connection():
     return_dict = collections.OrderedDict({
