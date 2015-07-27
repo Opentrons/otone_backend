@@ -121,4 +121,8 @@ class GlobalHandlers:
                 'data':damsg
             }
         else:
-            
+            msg = {
+                'type':type_
+            }
+        self.caller._myAppSession.publish('com.opentrons.robot_to_browser_ctrl',json.dumps(msg))
+
