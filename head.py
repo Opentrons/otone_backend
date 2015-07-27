@@ -31,6 +31,7 @@ class Head:
         self.ghand = global_handlers
         self.smoothieAPI.set_raw_callback(self.ghand.onRawData)
         self.smoothieAPI.set_limit_hit_callback(self.ghand.onLimitHit)
+        self.smoothieAPI.set_move_callback(self.ghand.onStart)
         self.theQueue = TheQueue(self, global_handlers)
         
         #connect with the smoothie board

@@ -83,6 +83,7 @@ class Smoothie(object):
         self.outer = outer
         self.raw_callback = None
         self.limit_hit_callback = None
+        self.move_callback = None
         self.my_loop = asyncio.get_event_loop()
 
     class CB_Factory(asyncio.Protocol):
@@ -136,6 +137,10 @@ class Smoothie(object):
     def set_limit_hit_callback(self, callback):
         """connect the external callback for limit hit data"""
         self.limit_hit_callback = callback
+
+    def set_move_callback(self, callback):
+        """connect the external callback for move call"""
+        self.move_callback = callback
 
     def connect(self):
         self.my_loop = asyncio.get_event_loop()
@@ -267,6 +272,7 @@ class Smoothie(object):
                 if debug == True: FileIO.log('smoothie_ser2net:\n\tmy_transport not none? ',self.my_transport is not None)
 
             if self.my_transport is not None:
+                self.move_callback()
                 self.send(cmd)
 
 
