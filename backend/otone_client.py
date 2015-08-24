@@ -69,20 +69,17 @@ prot_dict = FileIO.get_dict_from_json(fname)
 from autobahn.asyncio import wamp, websocket
 
 class WampComponent(wamp.ApplicationSession):
-    """
-    WAMP application session for OTOne (Overrides protocol.ApplicationSession - WAMP endpoint session)
+    """WAMP application session for OTOne (Overrides protocol.ApplicationSession - WAMP endpoint session)
     """
 
     def onConnect(self):
-        """
-        Callback fired when the transport this session will run over has been established.
+        """Callback fired when the transport this session will run over has been established.
         """
         self.join(u"ot_realm")
 
     @asyncio.coroutine
     def onJoin(self, details):
-        """
-        Callback fired when WAMP session has been established.
+        """Callback fired when WAMP session has been established.
 
         May return a Deferred/Future.
 
@@ -109,8 +106,7 @@ class WampComponent(wamp.ApplicationSession):
 
 
     def onLeave(self, details):
-        """
-        Callback fired when WAMP session has been closed.
+        """Callback fired when WAMP session has been closed.
         
         :param details: Close information.
         """
@@ -122,15 +118,13 @@ class WampComponent(wamp.ApplicationSession):
             pass
         
     def onDisconnect(self):
-        """
-        Callback fired when underlying transport has been closed.
+        """Callback fired when underlying transport has been closed.
         """
         asyncio.get_event_loop().stop()
 
 
 def make_a_connection():
-    """
-    Attempt to create streaming transport connection and run event loop
+    """Attempt to create streaming transport connection and run event loop
     """
     coro = loop.create_connection(transport_factory, '127.0.0.1', 8080)
 
@@ -141,8 +135,7 @@ def make_a_connection():
 
 
 def instantiate_objects():
-    """
-    After connection has been made, instatiate the various robot objects
+    """After connection has been made, instatiate the various robot objects
     """
     FileIO.log('instantiate_objects called')
     #get default json file
@@ -207,8 +200,7 @@ def instantiate_objects():
 
     @asyncio.coroutine
     def periodically_send_ip_addresses():
-        """
-        Coroutine that periodically sends information to browser
+        """Coroutine that periodically sends information to browser
         """
         if debug == True and verbose == True: FileIO.log('periodically_send_ip_addresses called')
         while True:

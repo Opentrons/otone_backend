@@ -52,7 +52,7 @@
 <span id="otone-client-module"></span><h1>otone_client module<a class="headerlink" href="#module-otone_client" title="Permalink to this headline">¶</a></h1>
 <p>Created on Fri Apr 24 15:11:09 2015</p>
 <p>&#64;author: Randy</p>
-<p>This is the main module of the OTOne Python backend code. When started, it creates 
+<p>This is the main module of the OTOne Python otone_backend code. When started, it creates 
 a publisher (<a class="reference internal" href="publisher.html#publisher.Publisher" title="publisher.Publisher"><code class="xref py py-class docutils literal"><span class="pre">publisher.Publisher</span></code></a>) and a subscriber (<a class="reference internal" href="subscriber.html#subscriber.Subscriber" title="subscriber.Subscriber"><code class="xref py py-class docutils literal"><span class="pre">subscriber.Subscriber</span></code></a>)
 for handling all communication with a WAMP router and then tries to make a connection 
 (<a class="reference internal" href="#otone_client.make_a_connection" title="otone_client.make_a_connection"><code class="xref py py-meth docutils literal"><span class="pre">otone_client.make_a_connection()</span></code></a>) with the Crossbar.io WAMP router. Once that 
@@ -62,7 +62,7 @@ connection is established, it instantiates and configures various objects with
 <div><p>head: <a class="reference internal" href="head.html#head.Head" title="head.Head"><code class="xref py py-class docutils literal"><span class="pre">head.Head</span></code></a> - Represents the robot head and creates a connection with Smoothieboard</p>
 <p>deck: <a class="reference internal" href="deck.html#deck.Deck" title="deck.Deck"><code class="xref py py-class docutils literal"><span class="pre">deck.Deck</span></code></a> - Represents the robot deck</p>
 <p>runner: <a class="reference internal" href="protocol_runner.html#protocol_runner.ProtocolRunner" title="protocol_runner.ProtocolRunner"><code class="xref py py-class docutils literal"><span class="pre">protocol_runner.ProtocolRunner</span></code></a> - Runs protocol jobs</p>
-<p>the_sk: <a class="reference internal" href="script_keeper.html#script_keeper.ScriptKeeper" title="script_keeper.ScriptKeeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper.ScriptKeeper</span></code></a> - Handles shell scripts</p>
+<p>the_sk: <a class="reference internal" href="script_keeper.html#script_keeper.ScriptKeeper" title="script_keeper.ScriptKeeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper.ScriptKeeper</span></code></a> - Handles shell otone_scripts</p>
 </div></blockquote>
 <dl class="class">
 <dt id="otone_client.WampComponent">

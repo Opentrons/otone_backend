@@ -1,4 +1,4 @@
-backend
+otone_backend
 =======
 
 .. toctree::

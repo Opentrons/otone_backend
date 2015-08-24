@@ -2769,7 +2769,7 @@ var rootjQuery,
 				if ( match[1] ) {
 					context = context instanceof jQuery ? context[0] : context;
 
-					// scripts is true for back-compat
+					// otone_scripts is true for back-compat
 					// Intentionally let the error be thrown if parseHTML is not present
 					jQuery.merge( this, jQuery.parseHTML(
 						match[1],
@@ -3484,7 +3484,7 @@ jQuery.ready.promise = function( obj ) {
 		// we once tried to use readyState "interactive" here, but it caused issues like the one
 		// discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
 		if ( document.readyState === "complete" ) {
-			// Handle it asynchronously to allow scripts the opportunity to delay ready
+			// Handle it asynchronously to allow otone_scripts the opportunity to delay ready
 			setTimeout( jQuery.ready );
 
 		// Standards-based browsers support DOMContentLoaded
@@ -5376,7 +5376,7 @@ function restoreScript( elem ) {
 	return elem;
 }
 
-// Mark scripts as having already been evaluated
+// Mark otone_scripts as having already been evaluated
 function setGlobalEval( elems, refElements ) {
 	var elem,
 		i = 0;
@@ -5435,7 +5435,7 @@ function fixCloneNodeIssues( src, dest ) {
 		dest.removeAttribute( jQuery.expando );
 	}
 
-	// IE blanks contents when cloning scripts, and tries to evaluate newly-set text
+	// IE blanks contents when cloning otone_scripts, and tries to evaluate newly-set text
 	if ( nodeName === "script" && dest.text !== src.text ) {
 		disableScript( dest ).text = src.text;
 		restoreScript( dest );
@@ -5536,7 +5536,7 @@ jQuery.extend({
 		return clone;
 	},
 
-	buildFragment: function( elems, context, scripts, selection ) {
+	buildFragment: function( elems, context, otone_scripts, selection ) {
 		var j, elem, contains,
 			tmp, tag, tbody, wrap,
 			l = elems.length,
@@ -5648,11 +5648,11 @@ jQuery.extend({
 			}
 
 			// Capture executables
-			if ( scripts ) {
+			if ( otone_scripts ) {
 				j = 0;
 				while ( (elem = tmp[ j++ ]) ) {
 					if ( rscriptType.test( elem.type || "" ) ) {
-						scripts.push( elem );
+						otone_scripts.push( elem );
 					}
 				}
 			}
@@ -5884,8 +5884,8 @@ jQuery.fn.extend({
 		// Flatten any nested arrays
 		args = concat.apply( [], args );
 
-		var first, node, hasScripts,
-			scripts, doc, fragment,
+		var first, node, hasotone_scripts,
+			otone_scripts, doc, fragment,
 			i = 0,
 			l = this.length,
 			set = this,
@@ -5915,8 +5915,8 @@ jQuery.fn.extend({
 			}
 
 			if ( first ) {
-				scripts = jQuery.map( getAll( fragment, "script" ), disableScript );
-				hasScripts = scripts.length;
+				otone_scripts = jQuery.map( getAll( fragment, "script" ), disableScript );
+				hasotone_scripts = otone_scripts.length;
 
 				// Use the original fragment for the last item instead of the first because it can end up
 				// being emptied incorrectly in certain situations (#8070).
@@ -5926,29 +5926,29 @@ jQuery.fn.extend({
 					if ( i !== iNoClone ) {
 						node = jQuery.clone( node, true, true );
 
-						// Keep references to cloned scripts for later restoration
-						if ( hasScripts ) {
-							jQuery.merge( scripts, getAll( node, "script" ) );
+						// Keep references to cloned otone_scripts for later restoration
+						if ( hasotone_scripts ) {
+							jQuery.merge( otone_scripts, getAll( node, "script" ) );
 						}
 					}
 
 					callback.call( this[i], node, i );
 				}
 
-				if ( hasScripts ) {
-					doc = scripts[ scripts.length - 1 ].ownerDocument;
+				if ( hasotone_scripts ) {
+					doc = otone_scripts[ otone_scripts.length - 1 ].ownerDocument;
 
-					// Reenable scripts
-					jQuery.map( scripts, restoreScript );
+					// Reenable otone_scripts
+					jQuery.map( otone_scripts, restoreScript );
 
-					// Evaluate executable scripts on first document insertion
-					for ( i = 0; i < hasScripts; i++ ) {
-						node = scripts[ i ];
+					// Evaluate executable otone_scripts on first document insertion
+					for ( i = 0; i < hasotone_scripts; i++ ) {
+						node = otone_scripts[ i ];
 						if ( rscriptType.test( node.type || "" ) &&
 							!jQuery._data( node, "globalEval" ) && jQuery.contains( doc, node ) ) {
 
 							if ( node.src ) {
-								// Optional AJAX dependency, but won't run scripts if not present
+								// Optional AJAX dependency, but won't run otone_scripts if not present
 								if ( jQuery._evalUrl ) {
 									jQuery._evalUrl( node.src );
 								}
@@ -9901,29 +9901,29 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 // data: string of html
 // context (optional): If specified, the fragment will be created in this context, defaults to document
-// keepScripts (optional): If true, will include scripts passed in the html string
-jQuery.parseHTML = function( data, context, keepScripts ) {
+// keepotone_scripts (optional): If true, will include otone_scripts passed in the html string
+jQuery.parseHTML = function( data, context, keepotone_scripts ) {
 	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
 	if ( typeof context === "boolean" ) {
-		keepScripts = context;
+		keepotone_scripts = context;
 		context = false;
 	}
 	context = context || document;
 
 	var parsed = rsingleTag.exec( data ),
-		scripts = !keepScripts && [];
+		otone_scripts = !keepotone_scripts && [];
 
 	// Single tag
 	if ( parsed ) {
 		return [ context.createElement( parsed[1] ) ];
 	}
 
-	parsed = jQuery.buildFragment( [ data ], context, scripts );
+	parsed = jQuery.buildFragment( [ data ], context, otone_scripts );
 
-	if ( scripts && scripts.length ) {
-		jQuery( scripts ).remove();
+	if ( otone_scripts && otone_scripts.length ) {
+		jQuery( otone_scripts ).remove();
 	}
 
 	return jQuery.merge( [], parsed.childNodes );
@@ -9979,7 +9979,7 @@ jQuery.fn.load = function( url, params, callback ) {
 			self.html( selector ?
 
 				// If a selector was specified, locate the right elements in a dummy div
-				// Exclude scripts to avoid IE 'Permission Denied' errors
+				// Exclude otone_scripts to avoid IE 'Permission Denied' errors
 				jQuery("<div>").append( jQuery.parseHTML( responseText ) ).find( selector ) :
 
 				// Otherwise use the full result

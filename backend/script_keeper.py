@@ -10,8 +10,7 @@ verbose = False
 
 
 class ScriptKeeper:
-    """
-    The ScriptKeeper class handles all things shell script
+    """The ScriptKeeper class handles all things shell script
 
     The ScriptKeeper class is intended to be instantiated to a ScriptKeeper object 
     useful for aggregating all things shell script related.
@@ -19,14 +18,13 @@ class ScriptKeeper:
     ot_config file aggregates useful information for reference
 
     :todo:
-    1. Formalize format and keywords of data returning from shell scripts (:meth:`read_progress`)
+    1. Formalize format and keywords of data returning from shell otone_scripts (:meth:`read_progress`)
     """
     
     #Special Methods-----------------------
     #def __init__(self, tools, global_handlers, theQueue):
     def __init__(self, publisher):
-        """
-        Initialize ScriptKeeper object
+        """Initialize ScriptKeeper object
         """
         if debug == True: FileIO.log('script_keeper.__init__ called')
         global pubber
@@ -38,152 +36,139 @@ class ScriptKeeper:
         path = os.path.abspath(__file__)
         dir_path = os.path.dirname(path)
         #get path one directory up from dir_path
-        #scripts_path 
+        #otone_scripts_path 
         
 
     def __str__(self):
         return "ScriptKeeper"
 
 
-#change_wifi_connection_mode = os.path.join(dir_path, ...traverse down to scripts
-#list_wicd_networks = os.path.join(dir_path, ...traverse down to scripts
-#set_hostname = os.path.join(dir_path, ...traverse down to scripts
-#get_ifconfig_wlan0_ip = os.path.join(dir_path, ...traverse down to scripts
-#get_ifconfig_eth0_ip = os.path.join(dir_path, ...traverse down to scripts
-#get_iwconfig_essid = os.path.join(dir_path, ...traverse down to scripts
-#write_led = os.path.join(dir_path, ...traverse down to scripts
-#start = os.path.join(dir_path, ...traverse down to scripts
-#connection = os.path.join(dir_path, ...traverse down to scripts
-#share_inet = os.path.join(dir_path, ...traverse down to scripts
-#set_ot_config_connection_status = os.path.join(dir_path, ...traverse down to scripts
+#change_wifi_connection_mode = os.path.join(dir_path, ...traverse down to otone_scripts
+#list_wicd_networks = os.path.join(dir_path, ...traverse down to otone_scripts
+#set_hostname = os.path.join(dir_path, ...traverse down to otone_scripts
+#get_ifconfig_wlan0_ip = os.path.join(dir_path, ...traverse down to otone_scripts
+#get_ifconfig_eth0_ip = os.path.join(dir_path, ...traverse down to otone_scripts
+#get_iwconfig_essid = os.path.join(dir_path, ...traverse down to otone_scripts
+#write_led = os.path.join(dir_path, ...traverse down to otone_scripts
+#start = os.path.join(dir_path, ...traverse down to otone_scripts
+#connection = os.path.join(dir_path, ...traverse down to otone_scripts
+#share_inet = os.path.join(dir_path, ...traverse down to otone_scripts
+#set_ot_config_connection_status = os.path.join(dir_path, ...traverse down to otone_scripts
 
 
 def change_wifi_mode(data):
-    """
-    Change wifi mode (NONE, AP(access point), WIFI(wifi network))
+    """Change wifi mode (NONE, AP(access point), WIFI(wifi network))
     """
     if debug == True: FileIO.log('script_keeper.change_wifi_mode called')
     if data and len(data):
         if str(data['mode'])=='AP':
-            subprocess.call([os.path.join(dir_path,'../../scripts/change_wifi_connection_mode.sh'), str(data['mode'])])
+            subprocess.call([os.path.join(dir_path,'../../otone_scripts/change_wifi_connection_mode.sh'), str(data['mode'])])
         if str(data['mode'])=='WIFI':
-            subprocess.call([os.path.join(dir_path,'../../scripts/change_wifi_connection_mode.sh'), str(data['mode']),str(data['ssid']),str(data['pswd'])])
+            subprocess.call([os.path.join(dir_path,'../../otone_scripts/change_wifi_connection_mode.sh'), str(data['mode']),str(data['ssid']),str(data['pswd'])])
         if str(data['mode'])=='NONE':
-            subprocess.call([os.path.join(dir_path,'../../scripts/change_wifi_connection_mode.sh'), str(data['mode'])])
+            subprocess.call([os.path.join(dir_path,'../../otone_scripts/change_wifi_connection_mode.sh'), str(data['mode'])])
 
 def scan_wifi_networks(data):
-    """
-    Scan wifi networks
+    """Scan wifi networks
     """
     if debug == True: FileIO.log('script_keeper.scan_wifi_networks called')
     return_dict = collections.OrderedDict({
-        'type':'networks','data':subprocess.check_output(os.path.join(dir_path,"../../scripts/list_wicd_networks.sh"), shell=True, universal_newlines=True).splitlines()
+        'type':'networks','data':subprocess.check_output(os.path.join(dir_path,"../../otone_scripts/list_wicd_networks.sh"), shell=True, universal_newlines=True).splitlines()
     })
     if debug == True and verbose == True: FileIO.log('wifi_scan data: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
 def change_hostname(data):
-    """
-    Change the hostname
+    """Change the hostname
     """
     if debug == True: FileIO.log('script_keeper.change_hostname called')
     if data and len(data):
-        subprocess.call(['sudo',os.path.join(dir_path,'../../scripts/set_hostname.sh'),str(data)])
+        subprocess.call(['sudo',os.path.join(dir_path,'../../otone_scripts/set_hostname.sh'),str(data)])
 	
 def get_wifi_ip_address():
-    """
-    Get wifi interface's ip address
+    """Get wifi interface's ip address
     """
     if debug == True: FileIO.log('script_keeper.get_wifi_ip_address called')
     return_dict = collections.OrderedDict({
-        'type': 'wifi_ip','data':subprocess.check_output(os.path.join(dir_path,"../../scripts/get_ifconfig_wlan0_ip.sh"), shell=True, universal_newlines=True).replace('\n','')
+        'type': 'wifi_ip','data':subprocess.check_output(os.path.join(dir_path,"../../otone_scripts/get_ifconfig_wlan0_ip.sh"), shell=True, universal_newlines=True).replace('\n','')
     })
     if debug == True and verbose == True: FileIO.log('wifi_ip data: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
 def get_eth_ip_address():
-    """
-    Get ethernet interface's ip address
+    """Get ethernet interface's ip address
     """
     if debug == True: FileIO.log('script_keeper.get_eth_ip_address called')
     return_dict = collections.OrderedDict({
-        'type':'eth_ip','data':subprocess.check_output(os.path.join(dir_path,"../../scripts/get_ifconfig_eth0_ip.sh"), shell=True, universal_newlines=True).replace('\n','')
+        'type':'eth_ip','data':subprocess.check_output(os.path.join(dir_path,"../../otone_scripts/get_ifconfig_eth0_ip.sh"), shell=True, universal_newlines=True).replace('\n','')
     })
     if debug == True and verbose == True: FileIO.log('eth_ip data: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
 def get_iwconfig_essid():
-    """
-    Get ESSID from iwconfig
+    """Get ESSID from iwconfig
     """
     if debug == True: FileIO.log('script_keeper.get_iwconfig_essid called')
     return_dict = collections.OrderedDict({
-        'type':'wifi_essid','data':subprocess.check_output(os.path.join(dir_path,"../../scripts/get_iwconfig_essid.sh"), shell=True, universal_newlines=True).replace('\n','')
+        'type':'wifi_essid','data':subprocess.check_output(os.path.join(dir_path,"../../otone_scripts/get_iwconfig_essid.sh"), shell=True, universal_newlines=True).replace('\n','')
     })
     if debug == True and verbose == True: FileIO.log('wifi_essid data: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
 def write_led(num, val):
-    """
-    Turn an LED on or off.
+    """Turn an LED on or off.
 
     Not currently implemented. This is in anticipation of having LED indicators
     """
     if debug == True: FileIO.log('script_keeper.write_led called')
-    subprocess.call([os.path.join(dir_path,'../../scripts/write_led.sh'),str(num),str(val)])
+    subprocess.call([os.path.join(dir_path,'../../otone_scripts/write_led.sh'),str(num),str(val)])
 
 def set_connection_status(num):
-    """
-    Set the connection-status in otconfig
+    """Set the connection-status in otconfig
     """
     if debug == True: FileIO.log('script_keeper.set_connection_status called')
-    subprocess.call([os.path.join(dir_path,'../../scripts/set_ot_config_connection_status.sh'),str(num)])
+    subprocess.call([os.path.join(dir_path,'../../otone_scripts/set_ot_config_connection_status.sh'),str(num)])
 
 def poweroff():
-    """
-    Send the poweroff command
+    """Send the poweroff command
     """
     if debug == True: FileIO.log('script_keeper.poweroff called')
     subprocess.call(['sudo','poweroff'])
 
 def reboot():
-    """
-    Send the reboot command
+    """Send the reboot command
     """
     if debug == True: FileIO.log('script_keeper.reboot called')
     subprocess.call(['sudo', 'reboot'])
 
 def restart():
-    """
-    Restart the Crossbar WAMP router and Python Backend.
+    """Restart the Crossbar WAMP router and Python backend.
 
     By default, does not change networking configuration.
     """
     if debug == True: FileIO.log('script_keeper.restart called')
-    subprocess.call([os.path.join(dir_path,'../../scripts/start.sh'), 'NOCHANGE'])
+    subprocess.call([os.path.join(dir_path,'../../otone_scripts/start.sh'), 'NOCHANGE'])
 
 
 def connection():
-    """
-    Check internet connection
+    """Check internet connection
     
     :returns: string -- 'offline' or 'online'
     """
     if debug == True: FileIO.log('script_keeper.connection called')
     return_dict = collections.OrderedDict({
-        'type':'internet','data':subprocess.check_output(os.path.join(dir_path,"../../scripts/connection.sh"), shell=True, universal_newlines=True).replace('\n','')
+        'type':'internet','data':subprocess.check_output(os.path.join(dir_path,"../../otone_scripts/connection.sh"), shell=True, universal_newlines=True).replace('\n','')
     })
     if debug == True and verbose == True: FileIO.log('internet: ',json.dumps(return_dict,sort_keys=True,indent=4,separators=(',',': ')))
     return return_dict
 
 @asyncio.coroutine
 def share_inet():
-    """
-    Triggers ethernet interface (eth0) to try to obtain ip address via dhcp by taking it down, and then 
+    """Triggers ethernet interface (eth0) to try to obtain ip address via dhcp by taking it down, and then 
     bringing it up
     """
     if debug == True: FileIO.log('script_keeper.share_inet called')
-    cmd = os.path.join(dir_path,'../../scripts/share_inet.sh')
+    cmd = os.path.join(dir_path,'../../otone_scripts/share_inet.sh')
 
     create_share = asyncio.create_subprocess_exec(cmd,stdout=asyncio.subprocess.PIPE)
 
@@ -211,14 +196,13 @@ def share_inet():
 
 @asyncio.coroutine
 def per_data():
-    """
-    Fetch data to be sent periodically to browser
+    """Fetch data to be sent periodically to browser
     """
     if debug == True and verbose == True: FileIO.log('script_keeper.per_data called')
-    create_internet = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../scripts/connection.sh'),stdout=asyncio.subprocess.PIPE)
-    create_wifi_ip = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../scripts/get_ifconfig_wlan0_ip.sh'),stdout=asyncio.subprocess.PIPE)
-    create_eth_ip = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../scripts/get_ifconfig_eth0_ip.sh'),stdout=asyncio.subprocess.PIPE)
-    create_wifi_essid = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../scripts/get_iwconfig_essid.sh'),stdout=asyncio.subprocess.PIPE)
+    create_internet = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../otone_scripts/connection.sh'),stdout=asyncio.subprocess.PIPE)
+    create_wifi_ip = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../otone_scripts/get_ifconfig_wlan0_ip.sh'),stdout=asyncio.subprocess.PIPE)
+    create_eth_ip = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../otone_scripts/get_ifconfig_eth0_ip.sh'),stdout=asyncio.subprocess.PIPE)
+    create_wifi_essid = asyncio.create_subprocess_exec(os.path.join(dir_path,'../../otone_scripts/get_iwconfig_essid.sh'),stdout=asyncio.subprocess.PIPE)
     
     proc_internet = yield from create_internet
     proc_wifi_ip = yield from create_wifi_ip
@@ -254,11 +238,10 @@ def per_data():
 
 @asyncio.coroutine
 def cool_update(data,start=1,total='',action='',option='NOCHANGE'):
-    """
-    Update a given area of codebase by repo and then take a given action
+    """Update a given area of codebase by repo and then take a given action
     """
     if debug == True: FileIO.log('script_keeper.cool_update called')
-    cmd = os.path.join(dir_path,'../../scripts/update_something.sh')
+    cmd = os.path.join(dir_path,'../../otone_scripts/update_something.sh')
     arg1 = '--repo='+str(data)
     arg2 = '--start='+str(start)
     arg3 = '--total='+str(total)
@@ -293,43 +276,41 @@ def cool_update(data,start=1,total='',action='',option='NOCHANGE'):
 
 
 def update(updatee):
-    """
-    Old update command
+    """Old update command
     """
     if debug == True: FileIO.log('script_keeper.update called')
     if updatee != "all":
         if updatee == "piconfigs":
-            subprocess.call([os.path.join(dir_path,'../../scripts/update_configs.sh')])
+            subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_configs.sh')])
             subprocess.call(["sleep", "30"])
             subprocess.call(["sudo", "reboot"])
         else:
-            subprocess.call([os.path.join(dir_path,'../../scripts/update_something.sh'),str(updatee)])
+            subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_something.sh'),str(updatee)])
             subprocess.call(["sleep", "30"])
-            subprocess.call([os.path.join(dir_path,'../../scripts/start.sh')])
+            subprocess.call([os.path.join(dir_path,'../../otone_scripts/start.sh')])
     else:
-        subprocess.call([os.path.join(dir_path,'../../scripts/update_something.sh'),'frontend'])
-        subprocess.call([os.path.join(dir_path,'../../scripts/update_something.sh'),'backend'])
-        subprocess.call([os.path.join(dir_path,'../../scripts/update_something.sh'),'data'])
-        subprocess.call([os.path.join(dir_path,'../../scripts/update_something.sh'),'central'])
-        subprocess.call([os.path.join(dir_path,'../../scripts/update_something.sh'),'backend'])
-        subprocess.call([os.path.join(dir_path,'../../scripts/update_something.sh'),'scripts'])
+        subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_something.sh'),'otone_frontend'])
+        subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_something.sh'),'otone_backend'])
+        subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_something.sh'),'data'])
+        subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_something.sh'),'central'])
+        subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_something.sh'),'otone_backend'])
+        subprocess.call([os.path.join(dir_path,'../../otone_scripts/update_something.sh'),'otone_scripts'])
         #subprocess.call(['sudo','reboot'])
         subprocess.call(["sleep", "30"])
-        subprocess.call([os.path.join(dir_path,'../../scripts/start.sh')])
+        subprocess.call([os.path.join(dir_path,'../../otone_scripts/start.sh')])
 
 
 
 proc_data = ""
 
 def read_progress(string):
-    """
-    Read data coming back from shell scripts and process accordingly
+    """Read data coming back from shell scripts and process accordingly
 
     The data coming back follows a certain format that is not set in stone. It could be
     changed to json and the keywords are yet to be formalized.
 
     :todo:
-    1. Formalize format and keywords of data returning from shell scripts
+    1. Formalize format and keywords of data returning from shell otone_scripts
     """
     if debug == True: FileIO.log('read_progress called')
     deli = "\n"
@@ -389,13 +370,13 @@ def read_progress(string):
             elif ds.startswith('!start'):
                 ds=ds[6:]
                 if ds.startswith('!NOCHANGE'):
-                    subprocess.call([os.path.join(dir_path,'../../scripts/start.sh'),'NOCHANGE'])
+                    subprocess.call([os.path.join(dir_path,'../../otone_scripts/start.sh'),'NOCHANGE'])
                 elif ds.startswith('!NONE'):
-                    subprocess.call([os.path.join(dir_path,'../../scripts/start.sh'),'NONE'])
+                    subprocess.call([os.path.join(dir_path,'../../otone_scripts/start.sh'),'NONE'])
                 elif ds.startswith('!AP'):
-                    subprocess.call([os.path.join(dir_path,'../../scripts/start.sh'),'AP'])
+                    subprocess.call([os.path.join(dir_path,'../../otone_scripts/start.sh'),'AP'])
                 else:
-                    subprocess.call([os.path.join(dir_path,'../../scripts/start.sh'),'NOCHANGE'])
+                    subprocess.call([os.path.join(dir_path,'../../otone_scripts/start.sh'),'NOCHANGE'])
             elif ds.startswith('!reboot'):
                 ds=ds[6:]
                 subprocess.call(['sudo','reboot'])

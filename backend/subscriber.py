@@ -7,8 +7,7 @@ debug = True
 verbose = True
 
 class Subscriber():
-    """
-    Subscribes to messages from WAMP Router on 'com.opentrons.browser_to_robot' and dispatches commands according to the :obj:`dispatcher` dictionary.
+    """Subscribes to messages from WAMP Router on 'com.opentrons.browser_to_robot' and dispatches commands according to the :obj:`dispatcher` dictionary.
 
     
     The Subscriber class is intended to be intantiated into a subscriber object
@@ -59,8 +58,7 @@ class Subscriber():
     
 #Special Methods
     def __init__(self, session,loop):
-        """
-        Initialize Subscriber object
+        """Initialize Subscriber object
         """
         if debug == True: FileIO.log('subscriber.__init__ called')
         self.head = None
@@ -73,8 +71,7 @@ class Subscriber():
 
 
     def home(self, data):
-        """
-        Intermediate step to start a homing sequence
+        """Intermediate step to start a homing sequence
         """
         if debug == True: FileIO.log('subscriber.home called')
         self.runner.insQueue.infinity_data = None
@@ -83,8 +80,7 @@ class Subscriber():
 
 
     def reset(self):
-        """
-        Intermediate step to reset Smoothieboard
+        """Intermediate step to reset Smoothieboard
         """
         if debug == True: FileIO.log('subscriber.reset called')
         self.runner.insQueue.infinity_data = None
@@ -92,24 +88,21 @@ class Subscriber():
 
 
     def set_head(self, head):
-        """
-        Set reference to :class:`head` object
+        """Set reference to :class:`head` object
         """
         if debug == True: FileIO.log('subscriber.set_head called')
         self.head = head
 
 
     def set_runner(self, runner):
-        """
-        Set reference to :class:`protocol_runner` object
+        """Set reference to :class:`protocol_runner` object
         """
         if debug == True: FileIO.log('subscriber.set_runner called')
         self.runner = runner
 
 
     def dispatch_message(self, message):
-        """
-        The first point of contact for incoming messages.
+        """The first point of contact for incoming messages.
         """
         if debug == True:
             FileIO.log('subscriber.dispatch_message called')
@@ -129,8 +122,7 @@ class Subscriber():
 
 
     def dispatch(self, type_, data):
-        """
-        Dispatch commands according to :obj:`dispatcher` dictionary
+        """Dispatch commands according to :obj:`dispatcher` dictionary
         """
         if debug == True:
             FileIO.log('subcriber.dispatch called')
@@ -142,8 +134,7 @@ class Subscriber():
 
           
     def calibrate_pipette(self, data):
-        """
-        Tell the :head:`head` to calibrate a :class:`pipette`
+        """Tell the :head:`head` to calibrate a :class:`pipette`
         """
         if debug == True:
             FileIO.log('subscriber.calibrate_pipette called')
@@ -156,8 +147,7 @@ class Subscriber():
 
 
     def calibrate_container(self, data):
-        """
-        Tell the :class:`head` to calibrate a container
+        """Tell the :class:`head` to calibrate a container
         """
         if debug == True:
             FileIO.log('subscriber.calibrate_container called')
@@ -170,16 +160,14 @@ class Subscriber():
 
 
     def get_calibrations(self):
-        """
-        Tell the :class:`head` to publish calibrations
+        """Tell the :class:`head` to publish calibrations
         """
         if debug == True: FileIO.log('subscriber.get_calibrations called')
         self.head.publish_calibrations()
 
 
     def move_pipette(self, data):
-        """
-        Tell the :class:`head` to move a :class:`pipette` 
+        """Tell the :class:`head` to move a :class:`pipette` 
         """
         if debug == True: FileIO.log('subscriber.move_pipette called')
         axis = data['axis']
@@ -188,8 +176,7 @@ class Subscriber():
 
 
     def move_plunger(self, data):
-        """
-        Tell the :class:`head` to move a :class:`pipette` to given location(s)
+        """Tell the :class:`head` to move a :class:`pipette` to given location(s)
         """
         if debug == True:
             FileIO.log('subscriber.move_plunger called')
@@ -198,8 +185,7 @@ class Subscriber():
 
 
     def speed(self, data):
-        """
-        Tell the :class:`head` to change speed
+        """Tell the :class:`head` to change speed
         """
         if debug == True:
             FileIO.log('subscriber.speed called')
@@ -214,8 +200,7 @@ class Subscriber():
 
 
     def create_deck(self, data):
-        """
-        Intermediate step to have :class:`head` load deck data and return deck information back to Browser
+        """Intermediate step to have :class:`head` load deck data and return deck information back to Browser
 
         :todo:
         3. move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
@@ -239,8 +224,7 @@ class Subscriber():
 
 
     def instructions(self, data):
-        """
-        Intermediate step to have :class:`prtocol_runner` and :class:`the_queue` start running a protocol
+        """Intermediate step to have :class:`prtocol_runner` and :class:`the_queue` start running a protocol
         """
         if debug == True:
             FileIO.log('subscriber.instructions called')
@@ -249,8 +233,7 @@ class Subscriber():
             self.runner.insQueue.start_job (data, True)
 
     def infinity(self, data):
-        """
-        Intermediate step to have :class:`protocol_runner` and :class:`the_queue` run a protocol to infinity and beyond
+        """Intermediate step to have :class:`protocol_runner` and :class:`the_queue` run a protocol to infinity and beyond
         """
         if debug == True: FileIO.log('subscriber.infinity called')
         if data and len(data):
@@ -258,16 +241,14 @@ class Subscriber():
 
 
     def wifi_mode(self, data):
-        """
-        Intermediate step to have :class:`script_keeper` run scripts to change WiFi mode
+        """Intermediate step to have :class:`script_keeper` run shell scripts to change WiFi mode
         """
         if debug == True: FileIO.log('subscriber.wifi_mode called')
         sk.wifi_mode(data)
 
 
     def wifi_scan(self, data):
-        """
-        Intermediate step to have :class:`script_keeper` run scritps to scan WiFi networks
+        """Intermediate step to have :class:`script_keeper` run scripts to scan WiFi networks
         """
         if debug == True: FileIO.log('subscriber.wifi_mode called')
         ws = collections.OrderedDict(sk.wifi_scan(data))
@@ -275,32 +256,28 @@ class Subscriber():
 
 
     def change_hostname(self, data):
-        """
-        Intermediate step to have :class:`script_keeper` run scripts to change Raspberry Pi hostname
+        """Intermediate step to have :class:`script_keeper` run shell scripts to change Raspberry Pi hostname
         """
         if debug == True: FileIO.log('subscriber.change_hostname called')
         sk.change_hostname(data)
 
 
     def poweroff(self):
-        """
-        Intermediate step to have :class:`script_keeper` poweroff Raspberry Pi
+        """Intermediate step to have :class:`script_keeper` poweroff Raspberry Pi
         """
         if debug == True: FileIO.log('subscriber.poweroff called')
         sk.poweroff()
 
 
     def reboot(self):
-        """
-        Intermediate step to have :class:`script_keeper` reboot Raspberry Pi
+        """Intermediate step to have :class:`script_keeper` reboot Raspberry Pi
         """
         if debug == True: FileIO.log('subscriber.reboot called')
         sk.reboot()
 
 
     def restart(self):
-        """
-        Intermediate step to have :class:`script_keeper` restart Crossbar.io and Python Code
+        """Intermediate step to have :class:`script_keeper` restart Crossbar.io and Python Code
         """
         if debug == True: FileIO.log('subscriber.restart called')
         sk.restart()
@@ -308,8 +285,7 @@ class Subscriber():
 
     @asyncio.coroutine
     def update(self, data):
-        """
-        Intermediate step to have :class:`script_keeper` run update scripts
+        """Intermediate step to have :class:`script_keeper` run update shell scripts
         """
         if debug == True: FileIO.log('subscriber.update called')
         if data == "all":
@@ -319,13 +295,13 @@ class Subscriber():
             except asyncio.TimeoutError:
                 failure_string = '!ot!update!failure!msg:'+data+'update timed out'
                 sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('scripts',start=12,total=72))
+            fut = self.loop.create_task(sk.cool_update('otone_scripts',start=12,total=72))
             try:
                 yield from asyncio.wait_for(fut,60)
             except asyncio.TimeoutError:
                 failure_string = '!ot!update!failure!msg:'+data+'update timed out'
                 sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('backend',start=24,total=72))
+            fut = self.loop.create_task(sk.cool_update('otone_backend',start=24,total=72))
             try:
                 yield from asyncio.wait_for(fut,60)
             except asyncio.TimeoutError:
@@ -337,13 +313,13 @@ class Subscriber():
             except asyncio.TimeoutError:
                 failure_string = '!ot!update!failure!msg:'+data+'update timed out'
                 sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('frontend',start=48,total=72))
+            fut = self.loop.create_task(sk.cool_update('otone_frontend',start=48,total=72))
             try:
                 yield from asyncio.wait_for(fut,60)
             except asyncio.TimeoutError:
                 failure_string = '!ot!update!failure!msg:'+data+'update timed out'
                 sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('firmware',start=60,total=72))
+            fut = self.loop.create_task(sk.cool_update('otone_firmware',start=60,total=72))
             try:
                 yield from asyncio.wait_for(fut,60)
             except asyncio.TimeoutError:
@@ -362,8 +338,7 @@ class Subscriber():
 
     @asyncio.coroutine
     def share_inet(self):
-        """
-        Intermediate step to have :class:`script_keeper` run a script to have Raspberry Pi ethernet interface obtain an ip address
+        """Intermediate step to have :class:`script_keeper` run a script to have Raspberry Pi ethernet interface obtain an ip address
         """
         if debug == True: FileIO.log('subscriber.share_inet called')
         FileIO.log('subscriber.share_inet called')
