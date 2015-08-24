@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>script_keeper &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for script_keeper</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python3</span>
+
+<span class="kn">import</span> <span class="nn">subprocess</span><span class="o">,</span> <span class="nn">collections</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">asyncio</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">file_io</span> <span class="kn">import</span> <span class="n">FileIO</span>
+
+<span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">updated</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
+
+
+<span class="c">#path = os.path.abspath(__file__)</span>
+<span class="c">#dir_path = os.path.dirname(path)</span>
+<span class="c">#fname=os.path.join(dir_path,&#39;data/sample_user_protocol.json&#39;)</span>
+
+
+<div class="viewcode-block" id="ScriptKeeper"><a class="viewcode-back" href="../script_keeper.html#script_keeper.ScriptKeeper">[docs]</a><span class="k">class</span> <span class="nc">ScriptKeeper</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The ScriptKeeper class handles all things shell script</span>
+
+<span class="sd">    The ScriptKeeper class is intended to be instantiated to a ScriptKeeper object </span>
+<span class="sd">    useful for aggregating all things shell script related.</span>
+
+<span class="sd">    ot_config file aggregates useful information for reference</span>
+
+<span class="sd">    :todo:</span>
+<span class="sd">    1. Formalize format and keywords of data returning from shell scripts (:meth:`read_progress`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c">#Special Methods-----------------------</span>
+    <span class="c">#def __init__(self, tools, global_handlers, theQueue):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">publisher</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize ScriptKeeper object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.__init__ called&#39;</span><span class="p">)</span>
+        <span class="k">global</span> <span class="n">pubber</span>
+        <span class="k">global</span> <span class="n">updated</span>
+        <span class="k">global</span> <span class="n">path</span>
+        <span class="k">global</span> <span class="n">dir_path</span>
+        <span class="n">pubber</span> <span class="o">=</span> <span class="n">publisher</span>
+        <span class="n">updated</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+        <span class="n">dir_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="c">#get path one directory up from dir_path</span>
+        <span class="c">#scripts_path </span>
+        
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;ScriptKeeper&quot;</span>
+
+
+<span class="c">#change_wifi_connection_mode = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#list_wicd_networks = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#set_hostname = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#get_ifconfig_wlan0_ip = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#get_ifconfig_eth0_ip = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#get_iwconfig_essid = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#write_led = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#start = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#connection = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#share_inet = os.path.join(dir_path, ...traverse down to scripts</span>
+<span class="c">#set_ot_config_connection_status = os.path.join(dir_path, ...traverse down to scripts</span>
+
+</div>
+<div class="viewcode-block" id="change_wifi_mode"><a class="viewcode-back" href="../script_keeper.html#script_keeper.change_wifi_mode">[docs]</a><span class="k">def</span> <span class="nf">change_wifi_mode</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change wifi mode (NONE, AP(access point), WIFI(wifi network))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.change_wifi_mode called&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">])</span><span class="o">==</span><span class="s">&#39;AP&#39;</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/change_wifi_connection_mode.sh&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">])])</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">])</span><span class="o">==</span><span class="s">&#39;WIFI&#39;</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/change_wifi_connection_mode.sh&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">]),</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;ssid&#39;</span><span class="p">]),</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;pswd&#39;</span><span class="p">])])</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">])</span><span class="o">==</span><span class="s">&#39;NONE&#39;</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/change_wifi_connection_mode.sh&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">])])</span>
+</div>
+<div class="viewcode-block" id="scan_wifi_networks"><a class="viewcode-back" href="../script_keeper.html#script_keeper.scan_wifi_networks">[docs]</a><span class="k">def</span> <span class="nf">scan_wifi_networks</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scan wifi networks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.scan_wifi_networks called&#39;</span><span class="p">)</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">({</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span><span class="s">&#39;networks&#39;</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">:</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">&quot;/home/pi/scripts/list_wicd_networks.sh&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="p">})</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;wifi_scan data: &#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">return_dict</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">return_dict</span>
+</div>
+<div class="viewcode-block" id="change_hostname"><a class="viewcode-back" href="../script_keeper.html#script_keeper.change_hostname">[docs]</a><span class="k">def</span> <span class="nf">change_hostname</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change the hostname</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.change_hostname called&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;sudo&#39;</span><span class="p">,</span><span class="s">&#39;/home/pi/scripts/set_hostname.sh&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)])</span>
+	</div>
+<div class="viewcode-block" id="get_wifi_ip_address"><a class="viewcode-back" href="../script_keeper.html#script_keeper.get_wifi_ip_address">[docs]</a><span class="k">def</span> <span class="nf">get_wifi_ip_address</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get wifi interface&#39;s ip address</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.get_wifi_ip_address called&#39;</span><span class="p">)</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">({</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;wifi_ip&#39;</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">:</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">&quot;/home/pi/scripts/get_ifconfig_wlan0_ip.sh&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;wifi_ip data: &#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">return_dict</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">return_dict</span>
+</div>
+<div class="viewcode-block" id="get_eth_ip_address"><a class="viewcode-back" href="../script_keeper.html#script_keeper.get_eth_ip_address">[docs]</a><span class="k">def</span> <span class="nf">get_eth_ip_address</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get ethernet interface&#39;s ip address</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.get_eth_ip_address called&#39;</span><span class="p">)</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">({</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span><span class="s">&#39;eth_ip&#39;</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">:</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">&quot;/home/pi/scripts/get_ifconfig_eth0_ip.sh&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;eth_ip data: &#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">return_dict</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">return_dict</span>
+</div>
+<div class="viewcode-block" id="get_iwconfig_essid"><a class="viewcode-back" href="../script_keeper.html#script_keeper.get_iwconfig_essid">[docs]</a><span class="k">def</span> <span class="nf">get_iwconfig_essid</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get ESSID from iwconfig</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.get_iwconfig_essid called&#39;</span><span class="p">)</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">({</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span><span class="s">&#39;wifi_essid&#39;</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">:</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">&quot;/home/pi/scripts/get_iwconfig_essid.sh&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;wifi_essid data: &#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">return_dict</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">return_dict</span>
+</div>
+<div class="viewcode-block" id="write_led"><a class="viewcode-back" href="../script_keeper.html#script_keeper.write_led">[docs]</a><span class="k">def</span> <span class="nf">write_led</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Turn an LED on or off.</span>
+
+<span class="sd">    Not currently implemented. This is in anticipation of having LED indicators</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.write_led called&#39;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/write_led.sh&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">),</span><span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)])</span>
+</div>
+<div class="viewcode-block" id="set_connection_status"><a class="viewcode-back" href="../script_keeper.html#script_keeper.set_connection_status">[docs]</a><span class="k">def</span> <span class="nf">set_connection_status</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the connection-status in otconfig</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.set_connection_status called&#39;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/set_ot_config_connection_status.sh&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">num</span><span class="p">)])</span>
+</div>
+<div class="viewcode-block" id="poweroff"><a class="viewcode-back" href="../script_keeper.html#script_keeper.poweroff">[docs]</a><span class="k">def</span> <span class="nf">poweroff</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Send the poweroff command</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.poweroff called&#39;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;sudo&#39;</span><span class="p">,</span><span class="s">&#39;poweroff&#39;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="reboot"><a class="viewcode-back" href="../script_keeper.html#script_keeper.reboot">[docs]</a><span class="k">def</span> <span class="nf">reboot</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Send the reboot command</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.reboot called&#39;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;sudo&#39;</span><span class="p">,</span> <span class="s">&#39;reboot&#39;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="restart"><a class="viewcode-back" href="../script_keeper.html#script_keeper.restart">[docs]</a><span class="k">def</span> <span class="nf">restart</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Restart the Crossbar WAMP router and Python Backend.</span>
+
+<span class="sd">    By default, does not change networking configuration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.restart called&#39;</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/start.sh&#39;</span><span class="p">,</span> <span class="s">&#39;NOCHANGE&#39;</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="connection"><a class="viewcode-back" href="../script_keeper.html#script_keeper.connection">[docs]</a><span class="k">def</span> <span class="nf">connection</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check internet connection</span>
+<span class="sd">    </span>
+<span class="sd">    :returns: string -- &#39;offline&#39; or &#39;online&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.connection called&#39;</span><span class="p">)</span>
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">({</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span><span class="s">&#39;internet&#39;</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">:</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="s">&quot;/home/pi/scripts/connection.sh&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;internet: &#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">return_dict</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">return_dict</span>
+</div>
+<span class="nd">@asyncio.coroutine</span>
+<div class="viewcode-block" id="share_inet"><a class="viewcode-back" href="../script_keeper.html#script_keeper.share_inet">[docs]</a><span class="k">def</span> <span class="nf">share_inet</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Triggers ethernet interface (eth0) to try to obtain ip address via dhcp by taking it down, and then </span>
+<span class="sd">    bringing it up</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.share_inet called&#39;</span><span class="p">)</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s">&#39;/home/pi/scripts/share_inet.sh&#39;</span>
+
+    <span class="n">create_share</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+
+    <span class="n">criterion</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">while</span> <span class="n">criterion</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">proc_share</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">create_share</span>
+        <span class="n">stdout_</span><span class="p">,</span> <span class="n">stderr_</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">proc_share</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">stdout_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stdout_</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;share_inet.stdout... &#39;</span><span class="o">+</span><span class="n">stdout_str</span><span class="p">)</span>
+            <span class="n">read_progress</span><span class="p">(</span><span class="n">stdout_str</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;share_inet.stdout... None&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stderr_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;share_inet.stderr...&#39;</span><span class="o">+</span><span class="n">stderr_</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;share_inet.stderr... None&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">proc_share</span><span class="o">.</span><span class="n">returncode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">criterion</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span>
+
+    <span class="c">#subprocess.call([&#39;sudo&#39;,&#39;ifdown&#39;,&#39;eth0&#39;])</span>
+    <span class="c">#subprocess.call([&#39;sudo&#39;,&#39;ifup&#39;,&#39;eth0&#39;])</span>
+</div>
+<span class="nd">@asyncio.coroutine</span>
+<div class="viewcode-block" id="per_data"><a class="viewcode-back" href="../script_keeper.html#script_keeper.per_data">[docs]</a><span class="k">def</span> <span class="nf">per_data</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fetch data to be sent periodically to browser</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.per_data called&#39;</span><span class="p">)</span>
+    <span class="n">create_internet</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span><span class="s">&#39;/home/pi/scripts/connection.sh&#39;</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="n">create_wifi_ip</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span><span class="s">&#39;/home/pi/scripts/get_ifconfig_wlan0_ip.sh&#39;</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="n">create_eth_ip</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span><span class="s">&#39;/home/pi/scripts/get_ifconfig_eth0_ip.sh&#39;</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+    <span class="n">create_wifi_essid</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span><span class="s">&#39;/home/pi/scripts/get_iwconfig_essid.sh&#39;</span><span class="p">,</span><span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+    
+    <span class="n">proc_internet</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">create_internet</span>
+    <span class="n">proc_wifi_ip</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">create_wifi_ip</span>
+    <span class="n">proc_eth_ip</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">create_eth_ip</span>
+    <span class="n">proc_wifi_essid</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">create_wifi_essid</span>
+
+    <span class="n">internet</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">proc_internet</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">wifi_ip</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">proc_wifi_ip</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">eth_ip</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">proc_eth_ip</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="n">wifi_essid</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">proc_wifi_essid</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+
+    <span class="n">line_internet</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="n">line_wifi_ip</span> <span class="o">=</span> <span class="n">wifi_ip</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="n">line_eth_ip</span> <span class="o">=</span> <span class="n">eth_ip</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="n">line_wifi_essid</span> <span class="o">=</span> <span class="n">wifi_essid</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+    <span class="k">yield from</span> <span class="n">proc_internet</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">proc_wifi_ip</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">proc_eth_ip</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+    <span class="k">yield from</span> <span class="n">proc_wifi_essid</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+    <span class="n">return_dict</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">({</span>
+        <span class="s">&#39;type&#39;</span><span class="p">:</span><span class="s">&#39;per_data&#39;</span><span class="p">,</span>
+        <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;internet&#39;</span><span class="p">:</span><span class="n">line_internet</span><span class="p">,</span>
+            <span class="s">&#39;wifi_ip&#39;</span><span class="p">:</span><span class="n">line_wifi_ip</span><span class="p">,</span>
+            <span class="s">&#39;eth_ip&#39;</span><span class="p">:</span><span class="n">line_eth_ip</span><span class="p">,</span>
+            <span class="s">&#39;wifi_essid&#39;</span><span class="p">:</span><span class="n">line_wifi_essid</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="n">return_dict</span>
+
+</div>
+<span class="nd">@asyncio.coroutine</span>
+<div class="viewcode-block" id="cool_update"><a class="viewcode-back" href="../script_keeper.html#script_keeper.cool_update">[docs]</a><span class="k">def</span> <span class="nf">cool_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">action</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="n">option</span><span class="o">=</span><span class="s">&#39;NOCHANGE&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update a given area of codebase by repo and then take a given action</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.cool_update called&#39;</span><span class="p">)</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span>
+    <span class="n">arg1</span> <span class="o">=</span> <span class="s">&#39;--repo=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">arg2</span> <span class="o">=</span> <span class="s">&#39;--start=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+    <span class="n">arg3</span> <span class="o">=</span> <span class="s">&#39;--total=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="n">arg4</span> <span class="o">=</span> <span class="s">&#39;--action=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+    <span class="n">arg5</span> <span class="o">=</span> <span class="s">&#39;--option=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">option</span><span class="p">)</span>
+    <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;arg1: &#39;</span><span class="p">,</span><span class="n">arg1</span><span class="p">)</span>
+    <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;arg2: &#39;</span><span class="p">,</span><span class="n">arg2</span><span class="p">)</span>
+    <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;arg3: &#39;</span><span class="p">,</span><span class="n">arg3</span><span class="p">)</span>
+    <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;arg4: &#39;</span><span class="p">,</span><span class="n">arg4</span><span class="p">)</span>
+    <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;arg5: &#39;</span><span class="p">,</span><span class="n">arg5</span><span class="p">)</span>
+    <span class="n">create_update</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> \
+        <span class="n">arg1</span><span class="p">,</span>  <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="p">,</span> <span class="n">arg4</span><span class="p">,</span> <span class="n">arg5</span><span class="p">,</span> \
+        <span class="n">stdout</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span><span class="n">stderr</span><span class="o">=</span><span class="n">asyncio</span><span class="o">.</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">while</span> <span class="n">criterion</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">proc_update</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">create_update</span>
+        <span class="n">stdout_</span><span class="p">,</span> <span class="n">stderr_</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">proc_update</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">stdout_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">stdout_str</span> <span class="o">=</span> <span class="n">stdout_</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;stdout... &#39;</span><span class="o">+</span><span class="n">stdout_str</span><span class="p">)</span>
+            <span class="n">read_progress</span><span class="p">(</span><span class="n">stdout_str</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;stdout... None&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stderr_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;stderr...&#39;</span><span class="o">+</span><span class="n">stderr_</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;stderr... None&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">proc_update</span><span class="o">.</span><span class="n">returncode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">criterion</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span>
+
+</div>
+<div class="viewcode-block" id="update"><a class="viewcode-back" href="../script_keeper.html#script_keeper.update">[docs]</a><span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">updatee</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Old update command</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;script_keeper.update called&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">updatee</span> <span class="o">!=</span> <span class="s">&quot;all&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">updatee</span> <span class="o">==</span> <span class="s">&quot;piconfigs&quot;</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_configs.sh&#39;</span><span class="p">])</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&quot;sleep&quot;</span><span class="p">,</span> <span class="s">&quot;30&quot;</span><span class="p">])</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&quot;sudo&quot;</span><span class="p">,</span> <span class="s">&quot;reboot&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">updatee</span><span class="p">)])</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&quot;sleep&quot;</span><span class="p">,</span> <span class="s">&quot;30&quot;</span><span class="p">])</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/start.sh&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span><span class="p">,</span><span class="s">&#39;frontend&#39;</span><span class="p">])</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span><span class="p">,</span><span class="s">&#39;backend&#39;</span><span class="p">])</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span><span class="p">,</span><span class="s">&#39;data&#39;</span><span class="p">])</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span><span class="p">,</span><span class="s">&#39;central&#39;</span><span class="p">])</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span><span class="p">,</span><span class="s">&#39;backend&#39;</span><span class="p">])</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/update_something.sh&#39;</span><span class="p">,</span><span class="s">&#39;scripts&#39;</span><span class="p">])</span>
+        <span class="c">#subprocess.call([&#39;sudo&#39;,&#39;reboot&#39;])</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&quot;sleep&quot;</span><span class="p">,</span> <span class="s">&quot;30&quot;</span><span class="p">])</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/start.sh&#39;</span><span class="p">])</span>
+
+
+</div>
+<span class="n">proc_data</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+<div class="viewcode-block" id="read_progress"><a class="viewcode-back" href="../script_keeper.html#script_keeper.read_progress">[docs]</a><span class="k">def</span> <span class="nf">read_progress</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read data coming back from shell scripts and process accordingly</span>
+
+<span class="sd">    The data coming back follows a certain format that is not set in stone. It could be</span>
+<span class="sd">    changed to json and the keywords are yet to be formalized.</span>
+
+<span class="sd">    :todo:</span>
+<span class="sd">    1. Formalize format and keywords of data returning from shell scripts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;read_progress called&#39;</span><span class="p">)</span>
+    <span class="n">deli</span> <span class="o">=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+    <span class="k">global</span> <span class="n">proc_data</span>
+    <span class="n">proc_data</span> <span class="o">=</span> <span class="n">proc_data</span> <span class="o">+</span> <span class="n">string</span>
+    <span class="n">sub_data</span> <span class="o">=</span> <span class="n">proc_data</span><span class="p">[:</span><span class="n">proc_data</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)]</span>
+    <span class="n">proc_data</span> <span class="o">=</span> <span class="n">proc_data</span><span class="p">[</span><span class="n">proc_data</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">list_data</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="o">+</span><span class="n">deli</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">sub_data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">deli</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">list_data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!ot!&#39;</span><span class="p">):</span>
+            <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="c">#!ot!</span>
+
+            <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!pct&#39;</span><span class="p">):</span>
+                <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="c">#!pct</span>
+                <span class="n">pubber</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;progress&#39;</span><span class="p">,</span><span class="n">ds</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!update&#39;</span><span class="p">):</span>
+                <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span> <span class="c">#!update</span>
+                <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!success&#39;</span><span class="p">):</span>
+                    <span class="k">global</span> <span class="n">updated</span>
+                    <span class="n">updated</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span> <span class="c">#!success</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!msg&#39;</span><span class="p">):</span>
+                        <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span> <span class="c">#!msg:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="n">ds</span>
+                    <span class="n">pubber</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!failure&#39;</span><span class="p">):</span>
+                    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!msg&#39;</span><span class="p">):</span>
+                        <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="n">ds</span>
+                    <span class="k">if</span> <span class="n">msg</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;failed&#39;</span>
+                    <span class="n">pubber</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;failure&#39;</span><span class="p">,</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!share&#39;</span><span class="p">):</span>
+                <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
+                <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!success&#39;</span><span class="p">):</span>
+                    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span> <span class="c">#!success</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!msg&#39;</span><span class="p">):</span>
+                        <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span> <span class="c">#!msg:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="n">ds</span>
+                    <span class="n">pubber</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;success&#39;</span><span class="p">,</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!failure&#39;</span><span class="p">):</span>
+                    <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+                    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!msg&#39;</span><span class="p">):</span>
+                        <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="n">ds</span>
+                    <span class="k">if</span> <span class="n">msg</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;failed&#39;</span>
+                    <span class="n">pubber</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;failure&#39;</span><span class="p">,</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!start&#39;</span><span class="p">):</span>
+                <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
+                <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!NOCHANGE&#39;</span><span class="p">):</span>
+                    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/start.sh&#39;</span><span class="p">,</span><span class="s">&#39;NOCHANGE&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!NONE&#39;</span><span class="p">):</span>
+                    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/start.sh&#39;</span><span class="p">,</span><span class="s">&#39;NONE&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!AP&#39;</span><span class="p">):</span>
+                    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/start.sh&#39;</span><span class="p">,</span><span class="s">&#39;AP&#39;</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;/home/pi/scripts/start.sh&#39;</span><span class="p">,</span><span class="s">&#39;NOCHANGE&#39;</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;!reboot&#39;</span><span class="p">):</span>
+                <span class="n">ds</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;sudo&#39;</span><span class="p">,</span><span class="s">&#39;reboot&#39;</span><span class="p">])</span>
+
+<span class="c">#            self.proc_data = self.proc_data + data.decode()</span>
+<span class="c">#            deli = &quot;\n&quot;</span>
+<span class="c">#            sub_data = self.proc_data[:self.proc_data.rfind(&quot;\n&quot;)]</span>
+<span class="c">#            self.proc_data = self.proc_data[self.proc_data.rfind(&quot;\n&quot;)+1:]</span>
+<span class="c">#            list_data = [e+deli for e in sub_data.split(deli)]</span>
+<span class="c">#            for ds in list_data:</span>
+<span class="c">#                self.outer.smoothie_handler(ds,data) </span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

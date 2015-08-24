@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>subscriber &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for subscriber</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">collections</span><span class="o">,</span> <span class="nn">subprocess</span><span class="o">,</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">autobahn.asyncio.wamp</span> <span class="kn">import</span> <span class="n">ApplicationSessionFactory</span>
+<span class="kn">from</span> <span class="nn">file_io</span> <span class="kn">import</span> <span class="n">FileIO</span>
+<span class="kn">import</span> <span class="nn">script_keeper</span> <span class="kn">as</span> <span class="nn">sk</span>
+
+<span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">verbose</span> <span class="o">=</span> <span class="bp">True</span>
+
+<div class="viewcode-block" id="Subscriber"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber">[docs]</a><span class="k">class</span> <span class="nc">Subscriber</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subscribes to messages from WAMP Router on &#39;com.opentrons.browser_to_robot&#39; and dispatches commands according to the :obj:`dispatcher` dictionary.</span>
+
+<span class="sd">    </span>
+<span class="sd">    The Subscriber class is intended to be intantiated into a subscriber object</span>
+<span class="sd">    to dispatch commands from the GUI and ProtocolRunner to the appropriate object(s)</span>
+<span class="sd">    for robot actions.</span>
+
+<span class="sd">    The subscriber object holds references to all the relevant objects such</span>
+<span class="sd">    as the head, queue objects etc.</span>
+
+<span class="sd">    </span>
+<span class="sd">    :dispatcher:</span>
+<span class="sd">    * &#39;home&#39; : lambda self, data: self.home(data),</span>
+<span class="sd">    * &#39;stop&#39; : lambda self, data: self.head.theQueue.kill(data),</span>
+<span class="sd">    * &#39;reset&#39; : lambda self: self.reset(),</span>
+<span class="sd">    * &#39;move&#39; : lambda self, data: self.head.move(data),</span>
+<span class="sd">    * &#39;step&#39; : lambda self, data: self.head.step(data),</span>
+<span class="sd">    * &#39;calibratePipette&#39; : lambda self, data: self.calibrate_pipette(data),</span>
+<span class="sd">    * &#39;calibrateContainer&#39; : lambda self, data: self.calibrate_container(data),</span>
+<span class="sd">    * &#39;getCalibrations&#39; : lambda self: self.get_calibrations(),</span>
+<span class="sd">    * &#39;saveVolume&#39; : lambda self, data: self.head.save_volume(data),</span>
+<span class="sd">    * &#39;movePipette&#39; : lambda self, data: self.move_pipette(data),</span>
+<span class="sd">    * &#39;movePlunger&#39; : lambda self, data: self.move_plunger(data),</span>
+<span class="sd">    * &#39;speed&#39; : lambda self, data: self.speed(data),</span>
+<span class="sd">    * &#39;createDeck&#39; : lambda self, data: self.create_deck(data),</span>
+<span class="sd">    * &#39;instructions&#39; : lambda self, data: self.instructions(data),</span>
+<span class="sd">    * &#39;infinity&#39; : lambda self, data: self.infinity(data),</span>
+<span class="sd">    * &#39;pauseJob&#39; : lambda self: self.head.theQueue.pause_job(),</span>
+<span class="sd">    * &#39;resumeJob&#39; : lambda self: self.head.theQueue.resume_job(),</span>
+<span class="sd">    * &#39;eraseJob&#39; : lambda self: self.runner.insQueue.erase_job(),</span>
+<span class="sd">    * &#39;raw&#39; : lambda self, data: self.head.raw(data),</span>
+<span class="sd">    * &#39;update&#39; : lambda self, data: self.loop.create_task(self.update(data)),</span>
+<span class="sd">    * &#39;wifimode&#39; : lambda self, data: self.wifi_mode(data),</span>
+<span class="sd">    * &#39;wifiscan&#39; : lambda self, data: self.wifi_scan(data),</span>
+<span class="sd">    * &#39;hostname&#39; : lambda self, data: self.change_hostname(data),</span>
+<span class="sd">    * &#39;poweroff&#39; : lambda self: self.poweroff(),</span>
+<span class="sd">    * &#39;reboot&#39; : lambda self: self.reboot(),</span>
+<span class="sd">    * &#39;shareinet&#39;: lambda self: self.loop.create_task(self.share_inet()),</span>
+<span class="sd">    * &#39;restart&#39; : lambda self: self.restart()</span>
+
+<span class="sd">    :todo:</span>
+<span class="sd">    1. refactor dispatch to not use lambda functions -&gt; cleaner documentation</span>
+<span class="sd">    2. clean up inclusion of head and runner objects -&gt; referenced by dispatch</span>
+<span class="sd">    3. move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)</span>
+<span class="sd">    </span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+<span class="c">#Special Methods</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span><span class="n">loop</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize Subscriber object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.__init__ called&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">caller</span> <span class="o">=</span> <span class="n">session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loop</span> <span class="o">=</span> <span class="n">loop</span>
+        
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;Subscriber&quot;</span>
+
+
+<div class="viewcode-block" id="Subscriber.home"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.home">[docs]</a>    <span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to start a homing sequence</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.home called&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">insQueue</span><span class="o">.</span><span class="n">infinity_data</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">insQueue</span><span class="o">.</span><span class="n">erase_job</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">home</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.reset"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to reset Smoothieboard</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.reset called&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">insQueue</span><span class="o">.</span><span class="n">infinity_data</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">theQueue</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.set_head"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.set_head">[docs]</a>    <span class="k">def</span> <span class="nf">set_head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set reference to :class:`head` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.set_head called&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">head</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.set_runner"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.set_runner">[docs]</a>    <span class="k">def</span> <span class="nf">set_runner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runner</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set reference to :class:`protocol_runner` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.set_runner called&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">runner</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.dispatch_message"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.dispatch_message">[docs]</a>    <span class="k">def</span> <span class="nf">dispatch_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The first point of contact for incoming messages.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.dispatch_message called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">message: &#39;</span><span class="p">,</span><span class="n">message</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="c">#print(&#39;message type: &#39;,type(message))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dictum</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">object_pairs_hook</span><span class="o">=</span><span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">dictum[type]: &#39;</span><span class="p">,</span><span class="n">dictum</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s">&#39;data&#39;</span> <span class="ow">in</span> <span class="n">dictum</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">dictum[data]:</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">dictum</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">],</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)),</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">dictum</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">],</span><span class="n">dictum</span><span class="p">[</span><span class="s">&#39;data&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="p">(</span><span class="n">dictum</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">],</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;*** error in subscriber.dispatch_message ***&#39;</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.dispatch"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.dispatch">[docs]</a>    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dispatch commands according to :obj:`dispatcher` dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subcriber.dispatch called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n\t</span><span class="s">type_: &#39;</span><span class="p">,</span><span class="n">type_</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n\t</span><span class="s">data:&#39;</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="p">[</span><span class="n">type_</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="p">[</span><span class="n">type_</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span>
+
+          </div>
+<div class="viewcode-block" id="Subscriber.calibrate_pipette"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.calibrate_pipette">[docs]</a>    <span class="k">def</span> <span class="nf">calibrate_pipette</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tell the :head:`head` to calibrate a :class:`pipette`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.calibrate_pipette called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">args: &#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;axis&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s">&#39;property&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;axis&#39;</span><span class="p">]</span>
+            <span class="n">property_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;property&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">calibrate_pipette</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">property_</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_calibrations</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.calibrate_container"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.calibrate_container">[docs]</a>    <span class="k">def</span> <span class="nf">calibrate_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tell the :class:`head` to calibrate a container</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.calibrate_container called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">args: &#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;axis&#39;</span> <span class="ow">in</span> <span class="n">data</span> <span class="ow">and</span> <span class="s">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">axis</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;axis&#39;</span><span class="p">]</span>
+            <span class="n">container_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">calibrate_container</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">container_</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_calibrations</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.get_calibrations"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.get_calibrations">[docs]</a>    <span class="k">def</span> <span class="nf">get_calibrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tell the :class:`head` to publish calibrations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.get_calibrations called&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">publish_calibrations</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.move_pipette"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.move_pipette">[docs]</a>    <span class="k">def</span> <span class="nf">move_pipette</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tell the :class:`head` to move a :class:`pipette` </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.move_pipette called&#39;</span><span class="p">)</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;axis&#39;</span><span class="p">]</span>
+        <span class="n">property_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;property&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">move_pipette</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">property_</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.move_plunger"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.move_plunger">[docs]</a>    <span class="k">def</span> <span class="nf">move_plunger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tell the :class:`head` to move a :class:`pipette` to given location(s)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.move_plunger called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">data:</span><span class="se">\n\t</span><span class="s">&#39;</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">move_plunger</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;axis&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;locations&#39;</span><span class="p">])</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.speed"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.speed">[docs]</a>    <span class="k">def</span> <span class="nf">speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tell the :class:`head` to change speed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.speed called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">data:</span><span class="se">\n\t</span><span class="s">&#39;</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;axis&#39;</span><span class="p">]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">axis</span><span class="o">==</span><span class="s">&#39;ab&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">set_speed</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">set_speed</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">set_speed</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.create_deck"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.create_deck">[docs]</a>    <span class="k">def</span> <span class="nf">create_deck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`head` load deck data and return deck information back to Browser</span>
+
+<span class="sd">        :todo:</span>
+<span class="sd">        3. move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.create_deck called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">args: &#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;type&#39;</span> <span class="p">:</span> <span class="s">&#39;containerLocations&#39;</span><span class="p">,</span>
+            <span class="s">&#39;data&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">create_deck</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pre-call self.caller._myAppSession.publish() &#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)),</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">caller</span><span class="o">.</span><span class="n">_myAppSession</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#39;com.opentrons.robot_to_browser&#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+
+ </div>
+<div class="viewcode-block" id="Subscriber.instructions"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.instructions">[docs]</a>    <span class="k">def</span> <span class="nf">instructions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`prtocol_runner` and :class:`the_queue` start running a protocol</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.instructions called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">args: &#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">insQueue</span><span class="o">.</span><span class="n">start_job</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Subscriber.infinity"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.infinity">[docs]</a>    <span class="k">def</span> <span class="nf">infinity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`protocol_runner` and :class:`the_queue` run a protocol to infinity and beyond</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.infinity called&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">insQueue</span><span class="o">.</span><span class="n">start_infinity_job</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.wifi_mode"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.wifi_mode">[docs]</a>    <span class="k">def</span> <span class="nf">wifi_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` run scripts to change WiFi mode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.wifi_mode called&#39;</span><span class="p">)</span>
+        <span class="n">sk</span><span class="o">.</span><span class="n">wifi_mode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.wifi_scan"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.wifi_scan">[docs]</a>    <span class="k">def</span> <span class="nf">wifi_scan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` run scritps to scan WiFi networks</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.wifi_mode called&#39;</span><span class="p">)</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">wifi_scan</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">caller</span><span class="o">.</span><span class="n">_myAppSession</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#39;com.opentrons.robot_to_browser&#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.change_hostname"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.change_hostname">[docs]</a>    <span class="k">def</span> <span class="nf">change_hostname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` run scripts to change Raspberry Pi hostname</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.change_hostname called&#39;</span><span class="p">)</span>
+        <span class="n">sk</span><span class="o">.</span><span class="n">change_hostname</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.poweroff"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.poweroff">[docs]</a>    <span class="k">def</span> <span class="nf">poweroff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` poweroff Raspberry Pi</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.poweroff called&#39;</span><span class="p">)</span>
+        <span class="n">sk</span><span class="o">.</span><span class="n">poweroff</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.reboot"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.reboot">[docs]</a>    <span class="k">def</span> <span class="nf">reboot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` reboot Raspberry Pi</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.reboot called&#39;</span><span class="p">)</span>
+        <span class="n">sk</span><span class="o">.</span><span class="n">reboot</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Subscriber.restart"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` restart Crossbar.io and Python Code</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.restart called&#39;</span><span class="p">)</span>
+        <span class="n">sk</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span>
+
+</div>
+    <span class="nd">@asyncio.coroutine</span>
+<div class="viewcode-block" id="Subscriber.update"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` run update scripts</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.update called&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="s">&quot;all&quot;</span><span class="p">:</span>
+            <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">cool_update</span><span class="p">(</span><span class="s">&#39;data&#39;</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="mi">61</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">fut</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+                <span class="n">failure_string</span> <span class="o">=</span> <span class="s">&#39;!ot!update!failure!msg:&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">+</span><span class="s">&#39;update timed out&#39;</span>
+                <span class="n">sk</span><span class="o">.</span><span class="n">read_progress</span><span class="p">(</span><span class="n">failure_string</span><span class="p">)</span>
+            <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">cool_update</span><span class="p">(</span><span class="s">&#39;scripts&#39;</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="mi">72</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">fut</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+                <span class="n">failure_string</span> <span class="o">=</span> <span class="s">&#39;!ot!update!failure!msg:&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">+</span><span class="s">&#39;update timed out&#39;</span>
+                <span class="n">sk</span><span class="o">.</span><span class="n">read_progress</span><span class="p">(</span><span class="n">failure_string</span><span class="p">)</span>
+            <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">cool_update</span><span class="p">(</span><span class="s">&#39;backend&#39;</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="mi">72</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">fut</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+                <span class="n">failure_string</span> <span class="o">=</span> <span class="s">&#39;!ot!update!failure!msg:&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">+</span><span class="s">&#39;update timed out&#39;</span>
+                <span class="n">sk</span><span class="o">.</span><span class="n">read_progress</span><span class="p">(</span><span class="n">failure_string</span><span class="p">)</span>
+            <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">cool_update</span><span class="p">(</span><span class="s">&#39;central&#39;</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="mi">72</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">fut</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+                <span class="n">failure_string</span> <span class="o">=</span> <span class="s">&#39;!ot!update!failure!msg:&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">+</span><span class="s">&#39;update timed out&#39;</span>
+                <span class="n">sk</span><span class="o">.</span><span class="n">read_progress</span><span class="p">(</span><span class="n">failure_string</span><span class="p">)</span>
+            <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">cool_update</span><span class="p">(</span><span class="s">&#39;frontend&#39;</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="mi">72</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">fut</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+                <span class="n">failure_string</span> <span class="o">=</span> <span class="s">&#39;!ot!update!failure!msg:&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">+</span><span class="s">&#39;update timed out&#39;</span>
+                <span class="n">sk</span><span class="o">.</span><span class="n">read_progress</span><span class="p">(</span><span class="n">failure_string</span><span class="p">)</span>
+            <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">cool_update</span><span class="p">(</span><span class="s">&#39;firmware&#39;</span><span class="p">,</span><span class="n">start</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="mi">72</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">fut</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+                <span class="n">failure_string</span> <span class="o">=</span> <span class="s">&#39;!ot!update!failure!msg:&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">+</span><span class="s">&#39;update timed out&#39;</span>
+                <span class="n">sk</span><span class="o">.</span><span class="n">read_progress</span><span class="p">(</span><span class="n">failure_string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sk</span><span class="o">.</span><span class="n">updated</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">([</span><span class="s">&#39;sudo&#39;</span><span class="p">,</span><span class="s">&#39;reboot&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">sk</span><span class="o">.</span><span class="n">cool_update</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">action</span><span class="o">=</span><span class="s">&#39;START&#39;</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="n">fut</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">TimeoutError</span><span class="p">:</span>
+                <span class="n">failure_string</span> <span class="o">=</span> <span class="s">&#39;!ot!update!failure!msg:&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">+</span><span class="s">&#39;update timed out&#39;</span>
+                <span class="n">sk</span><span class="o">.</span><span class="n">read_progress</span><span class="p">(</span><span class="n">failure_string</span><span class="p">)</span>
+        <span class="c">#sk.update(data)</span>
+</div>
+    <span class="nd">@asyncio.coroutine</span>
+<div class="viewcode-block" id="Subscriber.share_inet"><a class="viewcode-back" href="../subscriber.html#subscriber.Subscriber.share_inet">[docs]</a>    <span class="k">def</span> <span class="nf">share_inet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intermediate step to have :class:`script_keeper` run a script to have Raspberry Pi ethernet interface obtain an ip address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.share_inet called&#39;</span><span class="p">)</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;subscriber.share_inet called&#39;</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="n">sk</span><span class="o">.</span><span class="n">share_inet</span><span class="p">()</span>
+
+
+    <span class="c">#instantiate/activate the dispatcher/router dictionary</span>
+    <span class="c">#create Dispatcher dictionary object which is the equivalent of the</span>
+    <span class="c">#previous socketHandlers object in js code</span></div>
+    <span class="n">dispatcher</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;home&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;stop&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">theQueue</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;reset&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(),</span>
+              <span class="s">&#39;move&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;step&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;calibratePipette&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibrate_pipette</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>  <span class="c">#needs xtra code</span>
+              <span class="s">&#39;calibrateContainer&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibrate_container</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;getCalibrations&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_calibrations</span><span class="p">(),</span>
+              <span class="s">&#39;saveVolume&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">save_volume</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;movePipette&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_pipette</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="c">#needs xtra code</span>
+              <span class="s">&#39;movePlunger&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_plunger</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;speed&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>          <span class="c">#needs xtra code</span>
+              <span class="s">&#39;createDeck&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_deck</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="c">#needs xtra code</span>
+              <span class="s">&#39;instructions&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">instructions</span><span class="p">(</span><span class="n">data</span><span class="p">),</span><span class="c">#needs xtra code</span>
+              <span class="s">&#39;infinity&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">infinity</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;pauseJob&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">theQueue</span><span class="o">.</span><span class="n">pause_job</span><span class="p">(),</span>
+              <span class="s">&#39;resumeJob&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">theQueue</span><span class="o">.</span><span class="n">resume_job</span><span class="p">(),</span>
+              <span class="s">&#39;eraseJob&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">runner</span><span class="o">.</span><span class="n">insQueue</span><span class="o">.</span><span class="n">erase_job</span><span class="p">(),</span>
+              <span class="s">&#39;raw&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">raw</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;update&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span>
+              <span class="s">&#39;wifimode&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wifi_mode</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;wifiscan&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">wifi_scan</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;hostname&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_hostname</span><span class="p">(</span><span class="n">data</span><span class="p">),</span>
+              <span class="s">&#39;poweroff&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">poweroff</span><span class="p">(),</span>
+              <span class="s">&#39;reboot&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reboot</span><span class="p">(),</span>
+              <span class="s">&#39;shareinet&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">share_inet</span><span class="p">()),</span>
+              <span class="s">&#39;restart&#39;</span> <span class="p">:</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span>
+              <span class="p">}</span>
+    </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

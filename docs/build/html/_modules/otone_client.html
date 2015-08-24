@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>otone_client &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for otone_client</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python3</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Apr 24 15:11:09 2015</span>
+
+<span class="sd">@author: Randy</span>
+
+<span class="sd">This is the main module of the OTOne Python backend code. When started, it creates </span>
+<span class="sd">a publisher (:class:`publisher.Publisher`) and a subscriber (:class:`subscriber.Subscriber`)</span>
+<span class="sd">for handling all communication with a WAMP router and then tries to make a connection </span>
+<span class="sd">(:meth:`otone_client.make_a_connection`) with the Crossbar.io WAMP router. Once that </span>
+<span class="sd">connection is established, it instantiates and configures various objects with </span>
+<span class="sd">:meth:`otone_client.instantiate_objects`:</span>
+<span class="sd"> </span>
+<span class="sd"> head: :class:`head.Head` - Represents the robot head and creates a connection with Smoothieboard</span>
+<span class="sd"> </span>
+<span class="sd"> deck: :class:`deck.Deck` - Represents the robot deck</span>
+
+<span class="sd"> runner: :class:`protocol_runner.ProtocolRunner` - Runs protocol jobs</span>
+
+<span class="sd"> the_sk: :class:`script_keeper.ScriptKeeper` - Handles shell scripts</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">#import RobotLib</span>
+<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">asyncio</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span><span class="o">,</span> <span class="nn">collections</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">head</span> <span class="kn">import</span> <span class="n">Head</span>
+<span class="kn">from</span> <span class="nn">deck</span> <span class="kn">import</span> <span class="n">Deck</span>
+
+<span class="kn">from</span> <span class="nn">subscriber</span> <span class="kn">import</span> <span class="n">Subscriber</span>
+<span class="kn">from</span> <span class="nn">publisher</span> <span class="kn">import</span> <span class="n">Publisher</span>
+
+<span class="kn">from</span> <span class="nn">file_io</span> <span class="kn">import</span> <span class="n">FileIO</span>
+<span class="kn">from</span> <span class="nn">ingredients</span> <span class="kn">import</span> <span class="n">Ingredients</span>
+
+<span class="kn">from</span> <span class="nn">protocol_runner</span> <span class="kn">import</span> <span class="n">ProtocolRunner</span>
+
+<span class="kn">import</span> <span class="nn">script_keeper</span> <span class="kn">as</span> <span class="nn">sk</span>
+<span class="kn">from</span> <span class="nn">script_keeper</span> <span class="kn">import</span> <span class="n">ScriptKeeper</span>
+
+
+<span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c">#VARIABLES</span>
+
+<span class="c">#declare globol objects here</span>
+<span class="n">head</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">deck</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">subscriber</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">publisher</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">def_start_protocol</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">client_status</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">crossbar_status</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;starting up&#39;</span><span class="p">)</span>
+<span class="c">#for testing purposes, read in a protocol.json file</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span>
+<span class="n">dir_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">fname</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span><span class="s">&#39;data/sample_user_protocol.json&#39;</span><span class="p">)</span>
+<span class="n">prot_dict</span> <span class="o">=</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">get_dict_from_json</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+
+
+<span class="c">#Import and setup autobahn WAMP peer</span>
+<span class="kn">from</span> <span class="nn">autobahn.asyncio</span> <span class="kn">import</span> <span class="n">wamp</span><span class="p">,</span> <span class="n">websocket</span>
+
+<div class="viewcode-block" id="WampComponent"><a class="viewcode-back" href="../otone_client.html#otone_client.WampComponent">[docs]</a><span class="k">class</span> <span class="nc">WampComponent</span><span class="p">(</span><span class="n">wamp</span><span class="o">.</span><span class="n">ApplicationSession</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    WAMP application session for OTOne (Overrides protocol.ApplicationSession - WAMP endpoint session)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WampComponent.onConnect"><a class="viewcode-back" href="../otone_client.html#otone_client.WampComponent.onConnect">[docs]</a>    <span class="k">def</span> <span class="nf">onConnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback fired when the transport this session will run over has been established.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">u&quot;ot_realm&quot;</span><span class="p">)</span>
+</div>
+    <span class="nd">@asyncio.coroutine</span>
+<div class="viewcode-block" id="WampComponent.onJoin"><a class="viewcode-back" href="../otone_client.html#otone_client.WampComponent.onJoin">[docs]</a>    <span class="k">def</span> <span class="nf">onJoin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">details</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback fired when WAMP session has been established.</span>
+
+<span class="sd">        May return a Deferred/Future.</span>
+
+<span class="sd">        Starts instatiation of robot objects by calling :meth:`otone_client.instantiate_objects`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;otone_client : WampComponent.onJoin called&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">_myAppSession</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">_myAppSession</span> <span class="o">=</span> <span class="bp">self</span>
+        
+        <span class="n">crossbar_status</span> <span class="o">=</span> <span class="bp">True</span>    
+        <span class="n">instantiate_objects</span><span class="p">()</span>
+        
+        
+        <span class="k">def</span> <span class="nf">set_client_status</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;otone_client : WampComponent.set_client_status called&#39;</span><span class="p">)</span>
+            <span class="k">global</span> <span class="n">client_status</span>
+            <span class="n">client_status</span> <span class="o">=</span> <span class="n">status</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#39;com.opentrons.robot_ready&#39;</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+        
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;about to publish com.opentrons.robot_ready TRUE&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#39;com.opentrons.robot_ready&#39;</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">set_client_status</span><span class="p">,</span> <span class="s">&#39;com.opentrons.browser_ready&#39;</span><span class="p">)</span>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">subscriber</span><span class="o">.</span><span class="n">dispatch_message</span><span class="p">,</span> <span class="s">&#39;com.opentrons.browser_to_robot&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="WampComponent.onLeave"><a class="viewcode-back" href="../otone_client.html#otone_client.WampComponent.onLeave">[docs]</a>    <span class="k">def</span> <span class="nf">onLeave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">details</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback fired when WAMP session has been closed.</span>
+<span class="sd">        </span>
+<span class="sd">        :param details: Close information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">_myAppSession</span> <span class="o">==</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">_myAppSession</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        </div>
+<div class="viewcode-block" id="WampComponent.onDisconnect"><a class="viewcode-back" href="../otone_client.html#otone_client.WampComponent.onDisconnect">[docs]</a>    <span class="k">def</span> <span class="nf">onDisconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback fired when underlying transport has been closed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+</div></div>
+<div class="viewcode-block" id="make_a_connection"><a class="viewcode-back" href="../otone_client.html#otone_client.make_a_connection">[docs]</a><span class="k">def</span> <span class="nf">make_a_connection</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Attempt to create streaming transport connection and run event loop</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coro</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span><span class="n">transport_factory</span><span class="p">,</span> <span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">)</span>
+
+    <span class="n">transporter</span><span class="p">,</span> <span class="n">protocoler</span> <span class="o">=</span> <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">coro</span><span class="p">)</span>
+    <span class="c">#instantiate the subscriber and publisher for communication</span>
+    
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_forever</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="instantiate_objects"><a class="viewcode-back" href="../otone_client.html#otone_client.instantiate_objects">[docs]</a><span class="k">def</span> <span class="nf">instantiate_objects</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    After connection has been made, instatiate the various robot objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;instantiate_objects called&#39;</span><span class="p">)</span>
+    <span class="c">#get default json file</span>
+    <span class="n">def_start_protocol</span> <span class="o">=</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">get_dict_from_json</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_path</span><span class="p">,</span><span class="s">&#39;data/default_startup_protocol.json&#39;</span><span class="p">))</span>
+    <span class="c">#FileIO.get_dict_from_json(&#39;/home/pi/PythonProject/default_startup_protocol.json&#39;)</span>
+
+
+    <span class="c">#instantiate the head </span>
+    <span class="n">head</span> <span class="o">=</span> <span class="n">Head</span><span class="p">(</span><span class="n">def_start_protocol</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">],</span> <span class="n">publisher</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;head string: &#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">head</span><span class="p">))</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;head representation: &#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">head</span><span class="p">))</span>
+    <span class="c">#use the head data to configure the head</span>
+    <span class="n">head_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">head_data</span> <span class="o">=</span> <span class="n">prot_dict</span><span class="p">[</span><span class="s">&#39;head&#39;</span><span class="p">]</span>   <span class="c">#extract the head section from prot_dict</span>
+    <span class="c">#    head = RobotLib.Head({})        #instantiate an empty head</span>
+    <span class="c">#head.configure_head(head_data)  #configure the head from prot_dict data</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span> <span class="p">(</span><span class="s">&quot;Head configured!&quot;</span><span class="p">)</span>
+
+
+    <span class="c">#instantiate the script keeper (sk)</span>
+    <span class="n">the_sk</span> <span class="o">=</span> <span class="n">ScriptKeeper</span><span class="p">(</span><span class="n">publisher</span><span class="p">)</span>
+
+
+    <span class="c">#instantiate the deck</span>
+    <span class="n">deck</span> <span class="o">=</span> <span class="n">Deck</span><span class="p">(</span><span class="n">def_start_protocol</span><span class="p">[</span><span class="s">&#39;deck&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;deck string: &#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">deck</span><span class="p">))</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;deck representation: &#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">deck</span><span class="p">))</span>
+
+
+    <span class="n">runner</span> <span class="o">=</span> <span class="n">ProtocolRunner</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">publisher</span><span class="p">)</span>
+
+    
+    <span class="c">#use the deck data to configure the deck</span>
+    <span class="n">deck_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">deck_data</span> <span class="o">=</span> <span class="n">prot_dict</span><span class="p">[</span><span class="s">&#39;deck&#39;</span><span class="p">]</span>   <span class="c">#extract the deck section from prot_dict</span>
+    <span class="c">#    deck = RobotLib.Deck({})        #instantiate an empty deck</span>
+    <span class="n">deck</span><span class="o">.</span><span class="n">configure_deck</span><span class="p">(</span><span class="n">deck_data</span><span class="p">)</span>  <span class="c">#configure the deck from prot_dict data</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span> <span class="p">(</span><span class="s">&quot;Deck configured!&quot;</span><span class="p">)</span>
+
+
+    <span class="c">#do something with the Ingredient data</span>
+    <span class="n">ingr_data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ingr_data</span> <span class="o">=</span> <span class="n">prot_dict</span><span class="p">[</span><span class="s">&#39;ingredients&#39;</span><span class="p">]</span> <span class="c">#extract the ingredient section from prot_dict</span>
+    <span class="n">ingr</span> <span class="o">=</span> <span class="n">Ingredients</span><span class="p">({})</span> 
+    
+    <span class="n">ingr</span><span class="o">.</span><span class="n">configure_ingredients</span><span class="p">(</span><span class="n">ingr_data</span><span class="p">)</span> <span class="c">#configure the ingredienets from prot_dict data</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;Ingredients imported!&#39;</span><span class="p">)</span>
+
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;this is a test&#39;</span><span class="p">)</span> 
+
+
+    <span class="n">publisher</span><span class="o">.</span><span class="n">set_head</span><span class="p">(</span><span class="n">head</span><span class="p">)</span>
+    <span class="n">publisher</span><span class="o">.</span><span class="n">set_runner</span><span class="p">(</span><span class="n">runner</span><span class="p">)</span>
+    <span class="n">subscriber</span><span class="o">.</span><span class="n">set_head</span><span class="p">(</span><span class="n">head</span><span class="p">)</span>
+    <span class="n">subscriber</span><span class="o">.</span><span class="n">set_runner</span><span class="p">(</span><span class="n">runner</span><span class="p">)</span>
+
+
+    <span class="nd">@asyncio.coroutine</span>
+    <span class="k">def</span> <span class="nf">periodically_send_ip_addresses</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Coroutine that periodically sends information to browser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;periodically_send_ip_addresses called&#39;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;periodically_send_ip_addresses again...&#39;</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">stuff</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">sk</span><span class="o">.</span><span class="n">per_data</span><span class="p">()</span>
+            <span class="n">session_factory</span><span class="o">.</span><span class="n">_myAppSession</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#39;com.opentrons.robot_to_browser_ctrl&#39;</span><span class="p">,</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">stuff</span><span class="p">,</span><span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span><span class="s">&#39;: &#39;</span><span class="p">)))</span>
+
+
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">(</span><span class="n">periodically_send_ip_addresses</span><span class="p">())</span>
+
+</div>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">session_factory</span> <span class="o">=</span> <span class="n">wamp</span><span class="o">.</span><span class="n">ApplicationSessionFactory</span><span class="p">()</span>
+    <span class="n">session_factory</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">WampComponent</span>
+
+    <span class="n">session_factory</span><span class="o">.</span><span class="n">_myAppSession</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;ws://127.0.0.1:8080/ws&quot;</span>
+    <span class="n">transport_factory</span> <span class="o">=</span> <span class="n">websocket</span> \
+            <span class="o">.</span><span class="n">WampWebSocketClientFactory</span><span class="p">(</span><span class="n">session_factory</span><span class="p">,</span>
+                                        <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                                        <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                        <span class="n">debug_wamp</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+
+    <span class="n">subscriber</span> <span class="o">=</span> <span class="n">Subscriber</span><span class="p">(</span><span class="n">session_factory</span><span class="p">,</span> <span class="n">loop</span><span class="p">)</span>
+    <span class="n">publisher</span> <span class="o">=</span> <span class="n">Publisher</span><span class="p">(</span><span class="n">session_factory</span><span class="p">)</span>
+    
+
+    <span class="k">while</span> <span class="p">(</span><span class="n">crossbar_status</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;trying to make a connection...&#39;</span><span class="p">)</span>
+            <span class="n">make_a_connection</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">crossbar_status</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c">#raise</span>
+            <span class="k">pass</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;error while trying to make a connection, sleeping for 5 seconds&#39;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

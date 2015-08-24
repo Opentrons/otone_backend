@@ -1,3 +1,2 @@
-.DS_Store
-.pyc
-.AppleDouble
+__pycache__
+*.pyc

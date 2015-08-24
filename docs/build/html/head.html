@@ -1,0 +1,464 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>head module &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="backend" href="modules.html" />
+    <link rel="next" title="ingredients module" href="ingredients.html" />
+    <link rel="prev" title="grabber module" href="grabber.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ingredients.html" title="ingredients module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="grabber.html" title="grabber module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">backend</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-head">
+<span id="head-module"></span><h1>head module<a class="headerlink" href="#module-head" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="head.Head">
+<em class="property">class </em><code class="descclassname">head.</code><code class="descname">Head</code><span class="sig-paren">(</span><em>tools</em>, <em>publisher</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A representation of the robot head</p>
+<p>The Head class is intended to be instantiated to a head object which
+aggregates the subclassed tool objects and the smoothieAPI object.
+It also hold a references to theQueue and publisher objects.
+Appropriate methods are exposed to allow access to the aggregated object&#8217;s
+functionality.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>Figure out if <a class="reference internal" href="#head.Head.move_plunger" title="head.Head.move_plunger"><code class="xref py py-meth docutils literal"><span class="pre">move_plunger()</span></code></a> is redundant and refactor accordingly</li>
+<li>Should <a class="reference internal" href="#head.Head.theState" title="head.Head.theState"><code class="xref py py-obj docutils literal"><span class="pre">theState</span></code></a> be updated BEFORE the actions taken from given state?</li>
+<li>Is <a class="reference internal" href="#head.Head.create_deck" title="head.Head.create_deck"><code class="xref py py-meth docutils literal"><span class="pre">create_deck()</span></code></a> redundant?</li>
+</ol>
+<dl class="method">
+<dt id="head.Head.calibrate_container">
+<code class="descname">calibrate_container</code><span class="sig-paren">(</span><em>pipette</em>, <em>container</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.calibrate_container"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.calibrate_container" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the location of a container</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.calibrate_pipette">
+<code class="descname">calibrate_pipette</code><span class="sig-paren">(</span><em>pipette</em>, <em>property_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.calibrate_pipette"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.calibrate_pipette" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of a property for given pipette by fetching state information 
+from smoothieboard(<code class="xref py py-meth docutils literal"><span class="pre">smoothie_ser2net.get_state()</span></code>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.configure_head">
+<code class="descname">configure_head</code><span class="sig-paren">(</span><em>head_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.configure_head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.configure_head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the head per Head section of protocol.json file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Example head_data:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>head_data = dictionary of head data (example below):</dt>
+<dd><dl class="first docutils">
+<dt>&#8220;p200&#8221; <span class="classifier-delimiter">:</span> <span class="classifier">{</span></dt>
+<dd>&#8220;tool&#8221; : &#8220;pipette&#8221;,
+&#8220;tip-racks&#8221; : [{&#8220;container&#8221; : &#8220;p200-rack&#8221;}],
+&#8220;trash-container&#8221; : {&#8220;container&#8221; : &#8220;trash&#8221;},
+&#8220;tip-depth&#8221; : 5,
+&#8220;tip-height&#8221; : 45,
+&#8220;tip-total&#8221; : 8,
+&#8220;axis&#8221; : &#8220;a&#8221;,
+&#8220;volume&#8221; : 160</dd>
+</dl>
+<p>},
+&#8220;p1000&#8221; : {</p>
+<blockquote>
+<div>&#8220;tool&#8221; : &#8220;pipette&#8221;,
+&#8220;tip-racks&#8221; : [{&#8220;container&#8221; : &#8220;p1000-rack&#8221;}],
+&#8220;trash-container&#8221; : {&#8220;container&#8221; : &#8220;trash&#8221;},
+&#8220;tip-depth&#8221; : 7,
+&#8220;tip-height&#8221; : 65,
+&#8220;tip-total&#8221; : 8,
+&#8220;axis&#8221; : &#8220;b&#8221;,
+&#8220;volume&#8221; : 800</div></blockquote>
+<p class="last">}</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.create_deck">
+<code class="descname">create_deck</code><span class="sig-paren">(</span><em>new_deck</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.create_deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.create_deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dictionary of new container names to be stored in each pipette given a deck list</p>
+<p>Calls <code class="xref py py-meth docutils literal"><span class="pre">head.save_pipette_values()</span></code> right before returning dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">container data for each axis</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dictionary</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="3">
+<li>Is <a class="reference internal" href="#head.Head.create_deck" title="head.Head.create_deck"><code class="xref py py-meth docutils literal"><span class="pre">create_deck()</span></code></a> redundant?</li>
+</ol>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.create_pipettes">
+<code class="descname">create_pipettes</code><span class="sig-paren">(</span><em>axis</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.create_pipettes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.create_pipettes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a dictionary of Pipette objects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionary of pipette objects</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.erase_job">
+<code class="descname">erase_job</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.erase_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.erase_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell theQueue to clear</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.get_deck">
+<code class="descname">get_deck</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.get_deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.get_deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a dictionary of container names currently stored in each pipette</p>
+<p>Calls <code class="xref py py-meth docutils literal"><span class="pre">head.save_pipette_values()</span></code> right before returning dictionary</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">container data for each axis</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.get_pipettes">
+<code class="descname">get_pipettes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.get_pipettes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.get_pipettes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a dictionary of pipette properties for each pipette on head</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Pipette properties for each pipette</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dictionary</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.get_state">
+<code class="descname">get_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get state information from Smoothieboard</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.get_tool_info">
+<code class="descname">get_tool_info</code><span class="sig-paren">(</span><em>head_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.get_tool_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.get_tool_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the tooltype and axis from head data dict</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">(tool_type, axis)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.home">
+<code class="descname">home</code><span class="sig-paren">(</span><em>axis_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.home"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Home robot according to axis_dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.kill">
+<code class="descname">kill</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.kill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.kill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Halt the Smoothieboard (M112) and clear the the object (<a class="reference internal" href="the_queue.html#module-the_queue" title="the_queue"><code class="xref py py-class docutils literal"><span class="pre">the_queue</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.load_pipette_values">
+<code class="descname">load_pipette_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.load_pipette_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.load_pipette_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load pipette values from data/pipette_calibrations.json</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>locations</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the head by adding locations to theQueue</p>
+<p>var locations = [location,location,...]</p>
+<p>var location = {
+&#8216;relative&#8217; : true || false || undefined (defaults to absolute)
+&#8216;x&#8217; : 30,
+&#8216;y&#8217; : 20,
+&#8216;z&#8217; : 10,
+&#8216;a&#8217; : 20,
+&#8216;b&#8217; : 32
+}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.move_pipette">
+<code class="descname">move_pipette</code><span class="sig-paren">(</span><em>axis</em>, <em>property_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.move_pipette"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.move_pipette" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the pipette to one of it&#8217;s calibrated positions (top, bottom, blowout, droptip)</p>
+<p>This command is useful for seeing saved pipette positions while calibrating</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.move_plunger">
+<code class="descname">move_plunger</code><span class="sig-paren">(</span><em>axis</em>, <em>locations</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.move_plunger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.move_plunger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the plunger for given axis according to locations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">This is only called from <a class="reference internal" href="subscriber.html#module-subscriber" title="subscriber"><code class="xref py py-class docutils literal"><span class="pre">subscriber</span></code></a> and may be redundant</td>
+</tr>
+</tbody>
+</table>
+<p>locations = [loc, loc, etc... ]</p>
+<p>loc = {&#8216;plunger&#8217; : number}</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>Figure out if <a class="reference internal" href="#head.Head.move_plunger" title="head.Head.move_plunger"><code class="xref py py-meth docutils literal"><span class="pre">move_plunger()</span></code></a> is redundant and refactor accordingly</li>
+</ol>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.on_state_change">
+<code class="descname">on_state_change</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.on_state_change"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.on_state_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the given state (from Smoothieboard) and engage <code class="xref py py-obj docutils literal"><span class="pre">theQueue</span></code> (<a class="reference internal" href="the_queue.html#module-the_queue" title="the_queue"><code class="xref py py-class docutils literal"><span class="pre">the_queue</span></code></a>) accordingly</p>
+<p>If the state is 1 or the state.delaying is 1 then <code class="xref py py-obj docutils literal"><span class="pre">theQueue</span></code> is_busy,</p>
+<p>else if the state is 0 and the state.delaying is 0, <code class="xref py py-obj docutils literal"><span class="pre">theQueue</span></code> is not busy, 
+clear the currentCommand for the next one, and if not paused, tell <code class="xref py py-obj docutils literal"><span class="pre">theQueue</span></code> 
+to step. Then update <a class="reference internal" href="#head.Head.theState" title="head.Head.theState"><code class="xref py py-obj docutils literal"><span class="pre">theState</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="2">
+<li>Should <a class="reference internal" href="#head.Head.theState" title="head.Head.theState"><code class="xref py py-obj docutils literal"><span class="pre">theState</span></code></a> be updated BEFORE the actions taken from given state?</li>
+</ol>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.pipette">
+<code class="descname">pipette</code><span class="sig-paren">(</span><em>group</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.pipette"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.pipette" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a pipette operation based on a given Group from protocol instructions</p>
+<dl class="docutils">
+<dt>group = {</dt>
+<dd>command : &#8216;pipette&#8217;,
+axis : &#8216;a&#8217; || &#8216;b&#8217;,
+locations : [location, location, ...]</dd>
+</dl>
+<p>}</p>
+<dl class="docutils">
+<dt>location = {</dt>
+<dd>x : number,
+y : number,
+z : number,
+container : string,
+plunger : float || &#8216;blowout&#8217; || &#8216;droptip&#8217;</dd>
+</dl>
+<p>}</p>
+<p>If no container is specified, XYZ coordinates are absolute to the Smoothieboard
+if a container is specified, XYZ coordinates are relative to the container&#8217;s origin 
+(180 degree rotation around X axis, ie Z and Y +/- flipped)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.publish_calibrations">
+<code class="descname">publish_calibrations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.publish_calibrations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.publish_calibrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publish calibrations data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.raw">
+<code class="descname">raw</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a raw command to the Smoothieboard</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the Smoothieboard and clear theQueue object (<a class="reference internal" href="the_queue.html#module-the_queue" title="the_queue"><code class="xref py py-class docutils literal"><span class="pre">the_queue</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.save_pipette_values">
+<code class="descname">save_pipette_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.save_pipette_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.save_pipette_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save pipette values to data/pipette_values.json</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.save_volume">
+<code class="descname">save_volume</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.save_volume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.save_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save pipette volume to data/pipette_values.json</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.set_speed">
+<code class="descname">set_speed</code><span class="sig-paren">(</span><em>axis</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.set_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.set_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the speed for given axis to given value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="head.Head.step">
+<code class="descname">step</code><span class="sig-paren">(</span><em>locations</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step to the next command in theQueue(<a class="reference internal" href="the_queue.html#module-the_queue" title="the_queue"><code class="xref py py-class docutils literal"><span class="pre">the_queue</span></code></a>) object&#8217;s qlist</p>
+<p>locations = [location,location,...]</p>
+<p>location = {
+&#8216;x&#8217; : 30,
+&#8216;y&#8217; : 20,
+&#8216;z&#8217; : 10,
+&#8216;a&#8217; : 20,
+&#8216;b&#8217; : 32
+}</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="head.Head.theState">
+<code class="descname">theState</code><em class="property"> = {'x': 0, 'b': 0, 'y': 0, 'z': 0, 'a': 0}</em><a class="headerlink" href="#head.Head.theState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="grabber.html"
+                        title="previous chapter">grabber module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ingredients.html"
+                        title="next chapter">ingredients module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/head.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/head.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

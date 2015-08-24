@@ -1,0 +1,16 @@
+controller: {}
+workers: 
+- type: router
+  realms: 
+  - name: ot_realm
+    roles: 
+    - name: anonymous
+      permissions: 
+      - {call: true, publish: true, register: true, subscribe: true, uri: '*'}
+  transports: 
+    - type: web
+      endpoint: {port: 8080, type: tcp}
+      paths:
+        /: {directory:  "../../frontend/web", type: static}
+        ws: {type: "websocket"}
+

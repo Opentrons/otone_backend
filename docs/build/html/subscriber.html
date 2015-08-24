@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>subscriber module &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OT.One 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-subscriber">
+<span id="subscriber-module"></span><h1>subscriber module<a class="headerlink" href="#module-subscriber" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="subscriber.Subscriber">
+<em class="property">class </em><code class="descclassname">subscriber.</code><code class="descname">Subscriber</code><span class="sig-paren">(</span><em>session</em>, <em>loop</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Subscribes to messages from WAMP Router on &#8216;com.opentrons.browser_to_robot&#8217; and dispatches commands according to the <a class="reference internal" href="#subscriber.Subscriber.dispatcher" title="subscriber.Subscriber.dispatcher"><code class="xref py py-obj docutils literal"><span class="pre">dispatcher</span></code></a> dictionary.</p>
+<p>The Subscriber class is intended to be intantiated into a subscriber object
+to dispatch commands from the GUI and ProtocolRunner to the appropriate object(s)
+for robot actions.</p>
+<p>The subscriber object holds references to all the relevant objects such
+as the head, queue objects etc.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Dispatcher:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>&#8216;home&#8217; : lambda self, data: self.home(data),</li>
+<li>&#8216;stop&#8217; : lambda self, data: self.head.theQueue.kill(data),</li>
+<li>&#8216;reset&#8217; : lambda self: self.reset(),</li>
+<li>&#8216;move&#8217; : lambda self, data: self.head.move(data),</li>
+<li>&#8216;step&#8217; : lambda self, data: self.head.step(data),</li>
+<li>&#8216;calibratePipette&#8217; : lambda self, data: self.calibrate_pipette(data),</li>
+<li>&#8216;calibrateContainer&#8217; : lambda self, data: self.calibrate_container(data),</li>
+<li>&#8216;getCalibrations&#8217; : lambda self: self.get_calibrations(),</li>
+<li>&#8216;saveVolume&#8217; : lambda self, data: self.head.save_volume(data),</li>
+<li>&#8216;movePipette&#8217; : lambda self, data: self.move_pipette(data),</li>
+<li>&#8216;movePlunger&#8217; : lambda self, data: self.move_plunger(data),</li>
+<li>&#8216;speed&#8217; : lambda self, data: self.speed(data),</li>
+<li>&#8216;createDeck&#8217; : lambda self, data: self.create_deck(data),</li>
+<li>&#8216;instructions&#8217; : lambda self, data: self.instructions(data),</li>
+<li>&#8216;infinity&#8217; : lambda self, data: self.infinity(data),</li>
+<li>&#8216;pauseJob&#8217; : lambda self: self.head.theQueue.pause_job(),</li>
+<li>&#8216;resumeJob&#8217; : lambda self: self.head.theQueue.resume_job(),</li>
+<li>&#8216;eraseJob&#8217; : lambda self: self.runner.insQueue.erase_job(),</li>
+<li>&#8216;raw&#8217; : lambda self, data: self.head.raw(data),</li>
+<li>&#8216;update&#8217; : lambda self, data: self.loop.create_task(self.update(data)),</li>
+<li>&#8216;wifimode&#8217; : lambda self, data: self.wifi_mode(data),</li>
+<li>&#8216;wifiscan&#8217; : lambda self, data: self.wifi_scan(data),</li>
+<li>&#8216;hostname&#8217; : lambda self, data: self.change_hostname(data),</li>
+<li>&#8216;poweroff&#8217; : lambda self: self.poweroff(),</li>
+<li>&#8216;reboot&#8217; : lambda self: self.reboot(),</li>
+<li>&#8216;shareinet&#8217;: lambda self: self.loop.create_task(self.share_inet()),</li>
+<li>&#8216;restart&#8217; : lambda self: self.restart()</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>refactor dispatch to not use lambda functions -&gt; cleaner documentation</li>
+<li>clean up inclusion of head and runner objects -&gt; referenced by dispatch</li>
+<li>move publishing into respective objects and have those objects use <a class="reference internal" href="publisher.html#module-publisher" title="publisher"><code class="xref py py-class docutils literal"><span class="pre">publisher</span></code></a> a la <a class="reference internal" href="#subscriber.Subscriber.get_calibrations" title="subscriber.Subscriber.get_calibrations"><code class="xref py py-meth docutils literal"><span class="pre">get_calibrations()</span></code></a> (<a class="reference internal" href="#subscriber.Subscriber.create_deck" title="subscriber.Subscriber.create_deck"><code class="xref py py-meth docutils literal"><span class="pre">create_deck()</span></code></a>, <a class="reference internal" href="#subscriber.Subscriber.wifi_scan" title="subscriber.Subscriber.wifi_scan"><code class="xref py py-meth docutils literal"><span class="pre">wifi_scan()</span></code></a>)</li>
+</ol>
+<dl class="method">
+<dt id="subscriber.Subscriber.calibrate_container">
+<code class="descname">calibrate_container</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.calibrate_container"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.calibrate_container" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell the <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> to calibrate a container</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.calibrate_pipette">
+<code class="descname">calibrate_pipette</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.calibrate_pipette"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.calibrate_pipette" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell the <a href="#id1"><span class="problematic" id="id2">:head:`head`</span></a> to calibrate a <a class="reference internal" href="pipette.html#module-pipette" title="pipette"><code class="xref py py-class docutils literal"><span class="pre">pipette</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.change_hostname">
+<code class="descname">change_hostname</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.change_hostname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.change_hostname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run scripts to change Raspberry Pi hostname</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.create_deck">
+<code class="descname">create_deck</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.create_deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.create_deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> load deck data and return deck information back to Browser</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="3">
+<li>move publishing into respective objects and have those objects use <a class="reference internal" href="publisher.html#module-publisher" title="publisher"><code class="xref py py-class docutils literal"><span class="pre">publisher</span></code></a> a la <a class="reference internal" href="#subscriber.Subscriber.get_calibrations" title="subscriber.Subscriber.get_calibrations"><code class="xref py py-meth docutils literal"><span class="pre">get_calibrations()</span></code></a> (<a class="reference internal" href="#subscriber.Subscriber.create_deck" title="subscriber.Subscriber.create_deck"><code class="xref py py-meth docutils literal"><span class="pre">create_deck()</span></code></a>, <a class="reference internal" href="#subscriber.Subscriber.wifi_scan" title="subscriber.Subscriber.wifi_scan"><code class="xref py py-meth docutils literal"><span class="pre">wifi_scan()</span></code></a>)</li>
+</ol>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.dispatch">
+<code class="descname">dispatch</code><span class="sig-paren">(</span><em>type_</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.dispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.dispatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch commands according to <a class="reference internal" href="#subscriber.Subscriber.dispatcher" title="subscriber.Subscriber.dispatcher"><code class="xref py py-obj docutils literal"><span class="pre">dispatcher</span></code></a> dictionary</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.dispatch_message">
+<code class="descname">dispatch_message</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.dispatch_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.dispatch_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>The first point of contact for incoming messages.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="subscriber.Subscriber.dispatcher">
+<code class="descname">dispatcher</code><em class="property"> = {'speed': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29268&gt;, 'reset': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28d08&gt;, 'home': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28bf8&gt;, 'createDeck': &lt;function Subscriber.&lt;lambda&gt; at 0x106c292f0&gt;, 'step': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28e18&gt;, 'move': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28d90&gt;, 'pauseJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29488&gt;, 'infinity': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29400&gt;, 'reboot': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29950&gt;, 'getCalibrations': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29048&gt;, 'restart': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29a60&gt;, 'calibratePipette': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28ea0&gt;, 'instructions': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29378&gt;, 'shareinet': &lt;function Subscriber.&lt;lambda&gt; at 0x106c299d8&gt;, 'raw': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29620&gt;, 'movePipette': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29158&gt;, 'stop': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28c80&gt;, 'update': &lt;function Subscriber.&lt;lambda&gt; at 0x106c296a8&gt;, 'saveVolume': &lt;function Subscriber.&lt;lambda&gt; at 0x106c290d0&gt;, 'wifimode': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29730&gt;, 'wifiscan': &lt;function Subscriber.&lt;lambda&gt; at 0x106c297b8&gt;, 'eraseJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29598&gt;, 'resumeJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29510&gt;, 'calibrateContainer': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28f28&gt;, 'movePlunger': &lt;function Subscriber.&lt;lambda&gt; at 0x106c291e0&gt;, 'hostname': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29840&gt;, 'poweroff': &lt;function Subscriber.&lt;lambda&gt; at 0x106c298c8&gt;}</em><a class="headerlink" href="#subscriber.Subscriber.dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.get_calibrations">
+<code class="descname">get_calibrations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.get_calibrations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.get_calibrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell the <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> to publish calibrations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.home">
+<code class="descname">home</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.home"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to start a homing sequence</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.infinity">
+<code class="descname">infinity</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.infinity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.infinity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="protocol_runner.html#module-protocol_runner" title="protocol_runner"><code class="xref py py-class docutils literal"><span class="pre">protocol_runner</span></code></a> and <a class="reference internal" href="the_queue.html#module-the_queue" title="the_queue"><code class="xref py py-class docutils literal"><span class="pre">the_queue</span></code></a> run a protocol to infinity and beyond</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.instructions">
+<code class="descname">instructions</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.instructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.instructions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <code class="xref py py-class docutils literal"><span class="pre">prtocol_runner</span></code> and <a class="reference internal" href="the_queue.html#module-the_queue" title="the_queue"><code class="xref py py-class docutils literal"><span class="pre">the_queue</span></code></a> start running a protocol</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.move_pipette">
+<code class="descname">move_pipette</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.move_pipette"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.move_pipette" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell the <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> to move a <a class="reference internal" href="pipette.html#module-pipette" title="pipette"><code class="xref py py-class docutils literal"><span class="pre">pipette</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.move_plunger">
+<code class="descname">move_plunger</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.move_plunger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.move_plunger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell the <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> to move a <a class="reference internal" href="pipette.html#module-pipette" title="pipette"><code class="xref py py-class docutils literal"><span class="pre">pipette</span></code></a> to given location(s)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.poweroff">
+<code class="descname">poweroff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.poweroff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.poweroff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> poweroff Raspberry Pi</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.reboot">
+<code class="descname">reboot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.reboot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.reboot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> reboot Raspberry Pi</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to reset Smoothieboard</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.restart">
+<code class="descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.restart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.restart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> restart Crossbar.io and Python Code</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.set_head">
+<code class="descname">set_head</code><span class="sig-paren">(</span><em>head</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.set_head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.set_head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set reference to <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.set_runner">
+<code class="descname">set_runner</code><span class="sig-paren">(</span><em>runner</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.set_runner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.set_runner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set reference to <a class="reference internal" href="protocol_runner.html#module-protocol_runner" title="protocol_runner"><code class="xref py py-class docutils literal"><span class="pre">protocol_runner</span></code></a> object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.share_inet">
+<code class="descname">share_inet</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.share_inet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.share_inet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run a script to have Raspberry Pi ethernet interface obtain an ip address</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.speed">
+<code class="descname">speed</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell the <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> to change speed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run update scripts</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.wifi_mode">
+<code class="descname">wifi_mode</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.wifi_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.wifi_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run scripts to change WiFi mode</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.wifi_scan">
+<code class="descname">wifi_scan</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.wifi_scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.wifi_scan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run scritps to scan WiFi networks</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/subscriber.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/subscriber.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

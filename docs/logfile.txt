@@ -1,0 +1,2469 @@
+2015-08-06 08:46:06.271783 - starting up
+2015-08-06 08:46:06.311817 - dispatcher.__init__ called
+2015-08-06 08:46:06.312142 - trying to make a connection...
+2015-08-06 08:46:06.315372 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 08:46:11.316062 - trying to make a connection...
+2015-08-06 08:46:11.317958 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:36:15.997658 - starting up
+2015-08-06 10:36:16.047223 - dispatcher.__init__ called
+2015-08-06 10:36:16.047415 - trying to make a connection...
+2015-08-06 10:36:16.048481 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:38:07.850124 - starting up
+2015-08-06 10:38:07.851601 - dispatcher.__init__ called
+2015-08-06 10:38:07.851798 - trying to make a connection...
+2015-08-06 10:38:07.852881 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:38:12.854909 - trying to make a connection...
+2015-08-06 10:38:12.856980 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:38:17.867473 - trying to make a connection...
+2015-08-06 10:38:17.869208 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:52:23.699074 - starting up
+2015-08-06 10:52:23.702020 - dispatcher.__init__ called
+2015-08-06 10:52:23.702229 - trying to make a connection...
+2015-08-06 10:52:23.703457 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:52:28.704285 - trying to make a connection...
+2015-08-06 10:52:28.706078 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:52:33.714240 - trying to make a connection...
+2015-08-06 10:52:33.716080 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:52:38.726421 - trying to make a connection...
+2015-08-06 10:52:38.727988 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:54:34.678969 - starting up
+2015-08-06 10:54:34.682609 - dispatcher.__init__ called
+2015-08-06 10:54:34.682797 - trying to make a connection...
+2015-08-06 10:54:34.683922 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 10:54:39.684636 - trying to make a connection...
+2015-08-06 10:54:39.686568 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 11:55:53.373806 - starting up
+2015-08-06 11:55:53.376385 - dispatcher.__init__ called
+2015-08-06 11:55:53.376582 - trying to make a connection...
+2015-08-06 11:55:53.381718 - OTOne_Client : WampComponent.onJoin called
+2015-08-06 11:55:53.381986 - instantiate_objects called
+2015-08-06 11:56:01.942087 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-06 16:23:02.847491 - starting up
+2015-08-06 16:23:02.850246 - dispatcher.__init__ called
+2015-08-06 16:23:02.850434 - trying to make a connection...
+2015-08-06 16:23:02.856327 - OTOne_Client : WampComponent.onJoin called
+2015-08-06 16:23:02.856560 - instantiate_objects called
+2015-08-06 16:23:02.857177 - head string: Head
+2015-08-06 16:23:02.857360 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-06 16:23:02.857501 - deck string: Deck
+2015-08-06 16:23:02.857629 - deck representation: Deck(dict_keys([]))
+2015-08-06 16:23:02.857799 - Head configured!
+2015-08-06 16:23:02.857934 - Deck configured!
+2015-08-06 16:23:02.858129 - Ingredients imported!
+2015-08-06 16:23:02.858282 - this is a test
+2015-08-06 16:23:02.858550 - dispatcher.setHead called
+2015-08-06 16:23:02.858746 - dispatcher.setRunner called
+2015-08-06 16:23:02.859019 - about to publish com.opentrons.robot_ready TRUE
+2015-08-06 16:23:02.860181 - periodically_send_ip_addresses called
+2015-08-06 16:23:02.860483 - periodically_send_ip_addresses again...
+2015-08-06 16:24:05.908786 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 10:07:01.338702 - starting up
+2015-08-07 10:07:01.341852 - subscriber.__init__ called
+2015-08-07 10:07:01.342068 - trying to make a connection...
+2015-08-07 10:07:01.349157 - otone_client : WampComponent.onJoin called
+2015-08-07 10:07:01.349503 - instantiate_objects called
+2015-08-07 10:07:01.350904 - head string: Head
+2015-08-07 10:07:01.351099 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 10:07:01.351230 - Head configured!
+2015-08-07 10:07:01.351348 - deck string: Deck
+2015-08-07 10:07:01.351487 - deck representation: Deck(dict_keys([]))
+2015-08-07 10:07:01.351690 - Deck configured!
+2015-08-07 10:07:01.351847 - Ingredients imported!
+2015-08-07 10:07:01.351973 - this is a test
+2015-08-07 10:07:01.352179 - subscriber.setHead called
+2015-08-07 10:07:01.352292 - subscriber.setRunner called
+2015-08-07 10:07:01.352499 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 10:07:01.353589 - periodically_send_ip_addresses called
+2015-08-07 10:07:01.353942 - periodically_send_ip_addresses again...
+2015-08-07 10:07:15.512297 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 10:49:24.701213 - starting up
+2015-08-07 10:49:24.704871 - subscriber.__init__ called
+2015-08-07 10:49:24.705052 - trying to make a connection...
+2015-08-07 10:49:24.710726 - otone_client : WampComponent.onJoin called
+2015-08-07 10:49:24.711007 - instantiate_objects called
+2015-08-07 10:49:24.712557 - head string: Head
+2015-08-07 10:49:24.712845 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 10:49:24.712950 - Head configured!
+2015-08-07 10:49:24.713132 - deck string: Deck
+2015-08-07 10:49:24.713286 - deck representation: Deck(dict_keys([]))
+2015-08-07 10:49:24.713510 - Deck configured!
+2015-08-07 10:49:24.713669 - Ingredients imported!
+2015-08-07 10:49:24.713839 - this is a test
+2015-08-07 10:49:24.713987 - subscriber.setHead called
+2015-08-07 10:49:24.714140 - subscriber.setRunner called
+2015-08-07 10:49:24.714389 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 10:49:24.715328 - periodically_send_ip_addresses called
+2015-08-07 10:49:24.715535 - periodically_send_ip_addresses again...
+2015-08-07 10:49:26.092566 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 10:51:39.839115 - starting up
+2015-08-07 10:51:39.842851 - subscriber.__init__ called
+2015-08-07 10:51:39.843447 - trying to make a connection...
+2015-08-07 10:51:39.852151 - otone_client : WampComponent.onJoin called
+2015-08-07 10:51:39.852413 - instantiate_objects called
+2015-08-07 10:51:39.853141 - head string: Head
+2015-08-07 10:51:39.853272 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-07 10:51:39.853390 - Head configured!
+2015-08-07 10:51:39.853504 - deck string: Deck
+2015-08-07 10:51:39.853611 - deck representation: Deck(dict_keys([]))
+2015-08-07 10:51:39.853749 - Deck configured!
+2015-08-07 10:51:39.853898 - Ingredients imported!
+2015-08-07 10:51:39.854123 - this is a test
+2015-08-07 10:51:39.854493 - subscriber.setHead called
+2015-08-07 10:51:39.854648 - subscriber.setRunner called
+2015-08-07 10:51:39.854971 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 10:51:39.857885 - periodically_send_ip_addresses called
+2015-08-07 10:51:39.858186 - periodically_send_ip_addresses again...
+2015-08-07 10:51:43.592354 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 10:54:53.725404 - starting up
+2015-08-07 10:54:53.727065 - subscriber.__init__ called
+2015-08-07 10:54:53.727224 - trying to make a connection...
+2015-08-07 10:54:53.732739 - otone_client : WampComponent.onJoin called
+2015-08-07 10:54:53.733070 - instantiate_objects called
+2015-08-07 10:54:53.734097 - head string: Head
+2015-08-07 10:54:53.734249 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-07 10:54:53.734368 - Head configured!
+2015-08-07 10:54:53.734483 - deck string: Deck
+2015-08-07 10:54:53.734591 - deck representation: Deck(dict_keys([]))
+2015-08-07 10:54:53.734742 - Deck configured!
+2015-08-07 10:54:53.734863 - Ingredients imported!
+2015-08-07 10:54:53.734952 - this is a test
+2015-08-07 10:54:53.735057 - subscriber.setHead called
+2015-08-07 10:54:53.735148 - subscriber.setRunner called
+2015-08-07 10:54:53.735297 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 10:54:53.736679 - periodically_send_ip_addresses called
+2015-08-07 10:54:53.736870 - periodically_send_ip_addresses again...
+2015-08-07 10:54:58.703377 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 10:58:21.949920 - starting up
+2015-08-07 10:58:21.951631 - subscriber.__init__ called
+2015-08-07 10:58:21.951796 - trying to make a connection...
+2015-08-07 10:58:21.959181 - otone_client : WampComponent.onJoin called
+2015-08-07 10:58:21.959391 - instantiate_objects called
+2015-08-07 10:58:21.959850 - head string: Head
+2015-08-07 10:58:21.959962 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 10:58:21.960065 - Head configured!
+2015-08-07 10:58:21.960170 - deck string: Deck
+2015-08-07 10:58:21.960269 - deck representation: Deck(dict_keys([]))
+2015-08-07 10:58:21.960398 - Deck configured!
+2015-08-07 10:58:21.960492 - Ingredients imported!
+2015-08-07 10:58:21.960579 - this is a test
+2015-08-07 10:58:21.960802 - subscriber.setHead called
+2015-08-07 10:58:21.960931 - subscriber.setRunner called
+2015-08-07 10:58:21.961095 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 10:58:21.963925 - periodically_send_ip_addresses called
+2015-08-07 10:58:21.964122 - periodically_send_ip_addresses again...
+2015-08-07 10:58:26.947921 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 11:01:03.707129 - starting up
+2015-08-07 11:01:03.708864 - subscriber.__init__ called
+2015-08-07 11:01:03.709025 - trying to make a connection...
+2015-08-07 11:01:03.713401 - otone_client : WampComponent.onJoin called
+2015-08-07 11:01:03.713799 - instantiate_objects called
+2015-08-07 11:01:03.715047 - head string: Head
+2015-08-07 11:01:03.715275 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 11:01:03.715483 - Head configured!
+2015-08-07 11:01:03.715665 - deck string: Deck
+2015-08-07 11:01:03.715842 - deck representation: Deck(dict_keys([]))
+2015-08-07 11:01:03.716052 - Deck configured!
+2015-08-07 11:01:03.716172 - Ingredients imported!
+2015-08-07 11:01:03.716275 - this is a test
+2015-08-07 11:01:03.716399 - subscriber.setHead called
+2015-08-07 11:01:03.716624 - subscriber.setRunner called
+2015-08-07 11:01:03.716905 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 11:01:03.719836 - periodically_send_ip_addresses called
+2015-08-07 11:01:03.720119 - periodically_send_ip_addresses again...
+2015-08-07 11:01:08.288396 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 11:02:46.618584 - starting up
+2015-08-07 11:02:46.621488 - subscriber.__init__ called
+2015-08-07 11:02:46.621744 - trying to make a connection...
+2015-08-07 11:02:46.628445 - otone_client : WampComponent.onJoin called
+2015-08-07 11:02:46.628626 - instantiate_objects called
+2015-08-07 11:02:46.629050 - head string: Head
+2015-08-07 11:02:46.629151 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 11:02:46.629244 - Head configured!
+2015-08-07 11:02:46.629471 - deck string: Deck
+2015-08-07 11:02:46.629618 - deck representation: Deck(dict_keys([]))
+2015-08-07 11:02:46.629799 - Deck configured!
+2015-08-07 11:02:46.629901 - Ingredients imported!
+2015-08-07 11:02:46.630018 - this is a test
+2015-08-07 11:02:46.630159 - subscriber.setHead called
+2015-08-07 11:02:46.630271 - subscriber.setRunner called
+2015-08-07 11:02:46.630403 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 11:02:46.631333 - periodically_send_ip_addresses called
+2015-08-07 11:02:46.631516 - periodically_send_ip_addresses again...
+2015-08-07 11:02:51.787063 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 11:03:44.323779 - starting up
+2015-08-07 11:03:44.326419 - subscriber.__init__ called
+2015-08-07 11:03:44.326621 - trying to make a connection...
+2015-08-07 11:03:44.331120 - otone_client : WampComponent.onJoin called
+2015-08-07 11:03:44.331337 - instantiate_objects called
+2015-08-07 11:03:44.331897 - head string: Head
+2015-08-07 11:03:44.332055 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-07 11:03:44.332203 - Head configured!
+2015-08-07 11:03:44.332345 - deck string: Deck
+2015-08-07 11:03:44.332501 - deck representation: Deck(dict_keys([]))
+2015-08-07 11:03:44.332745 - Deck configured!
+2015-08-07 11:03:44.332859 - Ingredients imported!
+2015-08-07 11:03:44.333027 - this is a test
+2015-08-07 11:03:44.333204 - subscriber.setHead called
+2015-08-07 11:03:44.333350 - subscriber.setRunner called
+2015-08-07 11:03:44.333544 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 11:03:44.334513 - periodically_send_ip_addresses called
+2015-08-07 11:03:44.334710 - periodically_send_ip_addresses again...
+2015-08-07 11:03:50.836214 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 11:06:28.966872 - starting up
+2015-08-07 11:06:28.968548 - subscriber.__init__ called
+2015-08-07 11:06:28.968701 - trying to make a connection...
+2015-08-07 11:06:28.972910 - otone_client : WampComponent.onJoin called
+2015-08-07 11:06:28.973161 - instantiate_objects called
+2015-08-07 11:06:28.974095 - head string: Head
+2015-08-07 11:06:28.974533 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 11:06:28.974892 - Head configured!
+2015-08-07 11:06:28.975198 - deck string: Deck
+2015-08-07 11:06:28.975391 - deck representation: Deck(dict_keys([]))
+2015-08-07 11:06:28.975552 - Deck configured!
+2015-08-07 11:06:28.975696 - Ingredients imported!
+2015-08-07 11:06:28.975820 - this is a test
+2015-08-07 11:06:28.975942 - subscriber.setHead called
+2015-08-07 11:06:28.976120 - subscriber.setRunner called
+2015-08-07 11:06:28.976432 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 11:06:28.978733 - periodically_send_ip_addresses called
+2015-08-07 11:06:28.978923 - periodically_send_ip_addresses again...
+2015-08-07 11:06:39.041282 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 14:29:38.506458 - starting up
+2015-08-07 14:29:38.509553 - subscriber.__init__ called
+2015-08-07 14:29:38.509706 - trying to make a connection...
+2015-08-07 14:29:38.514798 - otone_client : WampComponent.onJoin called
+2015-08-07 14:29:38.515026 - instantiate_objects called
+2015-08-07 14:29:38.516136 - head string: Head
+2015-08-07 14:29:38.516371 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 14:29:38.516585 - Head configured!
+2015-08-07 14:29:38.516796 - deck string: Deck
+2015-08-07 14:29:38.516919 - deck representation: Deck(dict_keys([]))
+2015-08-07 14:29:38.517188 - Deck configured!
+2015-08-07 14:29:38.517339 - Ingredients imported!
+2015-08-07 14:29:38.517470 - this is a test
+2015-08-07 14:29:38.517598 - subscriber.setHead called
+2015-08-07 14:29:38.517724 - subscriber.setRunner called
+2015-08-07 14:29:38.517943 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 14:29:38.518856 - periodically_send_ip_addresses called
+2015-08-07 14:29:38.519043 - periodically_send_ip_addresses again...
+2015-08-07 14:29:45.066472 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 14:51:12.919914 - starting up
+2015-08-07 14:51:12.922656 - subscriber.__init__ called
+2015-08-07 14:51:12.922825 - trying to make a connection...
+2015-08-07 14:51:12.927221 - otone_client : WampComponent.onJoin called
+2015-08-07 14:51:12.927460 - instantiate_objects called
+2015-08-07 14:51:12.929317 - head string: Head
+2015-08-07 14:51:12.929478 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 14:51:12.929624 - Head configured!
+2015-08-07 14:51:12.929832 - deck string: Deck
+2015-08-07 14:51:12.929940 - deck representation: Deck(dict_keys([]))
+2015-08-07 14:51:12.930141 - Deck configured!
+2015-08-07 14:51:12.930265 - Ingredients imported!
+2015-08-07 14:51:12.930369 - this is a test
+2015-08-07 14:51:12.930582 - subscriber.setHead called
+2015-08-07 14:51:12.930739 - subscriber.setRunner called
+2015-08-07 14:51:12.930926 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 14:51:12.931829 - periodically_send_ip_addresses called
+2015-08-07 14:51:12.932044 - periodically_send_ip_addresses again...
+2015-08-07 14:51:14.540472 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-07 16:10:21.201649 - starting up
+2015-08-07 16:10:21.204597 - subscriber.__init__ called
+2015-08-07 16:10:21.204741 - trying to make a connection...
+2015-08-07 16:10:21.209445 - otone_client : WampComponent.onJoin called
+2015-08-07 16:10:21.209627 - instantiate_objects called
+2015-08-07 16:10:21.210956 - head string: Head
+2015-08-07 16:10:21.211221 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-07 16:10:21.211414 - Head configured!
+2015-08-07 16:10:21.211648 - deck string: Deck
+2015-08-07 16:10:21.211835 - deck representation: Deck(dict_keys([]))
+2015-08-07 16:10:21.212045 - Deck configured!
+2015-08-07 16:10:21.212215 - Ingredients imported!
+2015-08-07 16:10:21.212371 - this is a test
+2015-08-07 16:10:21.212519 - subscriber.setHead called
+2015-08-07 16:10:21.212682 - subscriber.setRunner called
+2015-08-07 16:10:21.212896 - about to publish com.opentrons.robot_ready TRUE
+2015-08-07 16:10:21.214025 - periodically_send_ip_addresses called
+2015-08-07 16:10:21.214253 - periodically_send_ip_addresses again...
+2015-08-07 16:10:25.095849 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-11 11:40:45.162266 - starting up
+2015-08-11 11:40:45.164831 - subscriber.__init__ called
+2015-08-11 11:40:45.165003 - publisher.__init__ called
+2015-08-11 11:40:45.165278 - trying to make a connection...
+2015-08-11 11:40:45.191038 - otone_client : WampComponent.onJoin called
+2015-08-11 11:40:45.191290 - instantiate_objects called
+2015-08-11 11:40:45.191706 - head.__init__ called
+2015-08-11 11:40:45.191903 - pipette.__init__ called
+2015-08-11 11:40:45.192089 - tool.__init__ called
+2015-08-11 11:40:45.192241 - pipette.__init__ called
+2015-08-11 11:40:45.192376 - tool.__init__ called
+2015-08-11 11:40:45.192528 - the_queue.__init__ called
+2015-08-11 11:40:45.192772 - head.load_pipette_values called
+2015-08-11 11:40:45.193094 - old_values:
+{'a': {'blowout': 21, 'droptip': 24, 'bottom': 19, 'axis': 'a', 'toolname': 'a_pipette', 'theContainers': {'p10-rack': {'z': 100, 'y': 350.503, 'x': 20}, 'trough': {'z': None, 'y': None, 'x': None}, 'plate-1': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 100, 'y': 190, 'x': 120}}, 'offset': [0, 0, 0], 'top': 2.5, 'bottom_distance': 2, 'resting': 0, 'tooltype': 'pipette', 'volume': 10}, 'b': {'blowout': 20.2, 'droptip': 22.6, 'bottom': 18.2, 'axis': 'b', 'toolname': 'b_pipette', 'theContainers': {'p10-rack': {'z': None, 'y': None, 'x': None}, 'trough': {'z': None, 'y': None, 'x': None}, 'plate-1': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 54, 'y': 324, 'x': 145.997}}, 'offset': [0, 0, 0], 'top': 1.8, 'bottom_distance': 2, 'resting': 0, 'tooltype': 'pipette', 'volume': 200}}
+
+2015-08-11 11:40:45.193376 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-11 11:40:45.193544 - head string: Head
+2015-08-11 11:40:45.193685 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-11 11:40:45.193813 - Head configured!
+2015-08-11 11:40:45.193943 - script_keeper.__init__ called
+2015-08-11 11:40:45.194180 - deck.__init__ called
+2015-08-11 11:40:45.194321 - deck string: Deck
+2015-08-11 11:40:45.194492 - deck representation: Deck(dict_keys([]))
+2015-08-11 11:40:45.194697 - protocol_runner.__init__ called
+2015-08-11 11:40:45.194876 - instruction_queue.__init__ called
+2015-08-11 11:40:45.195061 - deck.configure_deck called
+2015-08-11 11:40:45.195257 - deck_module.__init__ called
+2015-08-11 11:40:45.195402 - deck_module.__init__ called
+2015-08-11 11:40:45.195643 - deck_module.__init__ called
+2015-08-11 11:40:45.195833 - deck_module.__init__ called
+2015-08-11 11:40:45.196013 - deck_module.__init__ called
+2015-08-11 11:40:45.196552 - deck_module.__init__ called
+2015-08-11 11:40:45.196948 - deck_module.__init__ called
+2015-08-11 11:40:45.197129 - Deck configured!
+2015-08-11 11:40:45.197259 - ingredients.__init__ called
+2015-08-11 11:40:45.197397 - ingredients.configure_ingredients called
+2015-08-11 11:40:45.197862 - Ingredients imported!
+2015-08-11 11:40:45.198009 - this is a test
+2015-08-11 11:40:45.198140 - publisher.setHead called
+2015-08-11 11:40:45.198269 - publisher.setRunner called
+2015-08-11 11:40:45.198395 - subscriber.setHead called
+2015-08-11 11:40:45.198594 - subscriber.setRunner called
+2015-08-11 11:40:45.198929 - about to publish com.opentrons.robot_ready TRUE
+2015-08-11 11:40:45.205787 - periodically_send_ip_addresses called
+2015-08-11 11:40:45.206030 - periodically_send_ip_addresses again...
+2015-08-11 11:40:51.942286 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:14:54.649737 - starting up
+2015-08-12 15:14:54.652958 - subscriber.__init__ called
+2015-08-12 15:14:54.653101 - publisher.__init__ called
+2015-08-12 15:14:54.653284 - trying to make a connection...
+2015-08-12 15:14:54.670409 - otone_client : WampComponent.onJoin called
+2015-08-12 15:14:54.670788 - instantiate_objects called
+2015-08-12 15:14:54.671778 - head.__init__ called
+2015-08-12 15:14:54.672294 - pipette.__init__ called
+2015-08-12 15:14:54.672553 - tool.__init__ called
+2015-08-12 15:14:54.672910 - pipette.__init__ called
+2015-08-12 15:14:54.673155 - tool.__init__ called
+2015-08-12 15:14:54.673487 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:14:54.673829 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:14:54.674115 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:14:54.674417 - the_queue.__init__ called
+2015-08-12 15:14:54.674740 - smoothie_ser2net.connect called
+2015-08-12 15:14:54.675074 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:14:54.675537 - head.load_pipette_values called
+2015-08-12 15:14:54.676484 - old_values:
+{'a': {'bottom_distance': 2, 'volume': 10, 'top': 2.5, 'toolname': 'a_pipette', 'bottom': 19, 'axis': 'a', 'resting': 0, 'blowout': 21, 'tooltype': 'pipette', 'droptip': 24, 'theContainers': {'trash': {'z': 100, 'x': 120, 'y': 190}, 'trough': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}}, 'offset': [0, 0, 0]}, 'b': {'bottom_distance': 2, 'volume': 200, 'top': 1.8, 'toolname': 'b_pipette', 'bottom': 18.2, 'axis': 'b', 'resting': 0, 'blowout': 20.2, 'tooltype': 'pipette', 'droptip': 22.6, 'theContainers': {'trash': {'z': 54, 'x': 145.997, 'y': 324}, 'trough': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': None, 'x': None, 'y': None}}, 'offset': [0, 0, 0]}}
+
+2015-08-12 15:14:54.677067 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:14:54.677416 - head string: Head
+2015-08-12 15:14:54.677655 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:14:54.677976 - Head configured!
+2015-08-12 15:14:54.678254 - script_keeper.__init__ called
+2015-08-12 15:14:54.678585 - deck.__init__ called
+2015-08-12 15:14:54.678906 - deck string: Deck
+2015-08-12 15:14:54.679216 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:14:54.679446 - protocol_runner.__init__ called
+2015-08-12 15:14:54.679650 - instruction_queue.__init__ called
+2015-08-12 15:14:54.679926 - deck.configure_deck called
+2015-08-12 15:14:54.680217 - deck_module.__init__ called
+2015-08-12 15:14:54.680505 - deck_module.__init__ called
+2015-08-12 15:14:54.680778 - deck_module.__init__ called
+2015-08-12 15:14:54.681019 - deck_module.__init__ called
+2015-08-12 15:14:54.681273 - deck_module.__init__ called
+2015-08-12 15:14:54.681548 - deck_module.__init__ called
+2015-08-12 15:14:54.681804 - deck_module.__init__ called
+2015-08-12 15:14:54.682051 - Deck configured!
+2015-08-12 15:14:54.682357 - ingredients.__init__ called
+2015-08-12 15:14:54.682691 - ingredients.configure_ingredients called
+2015-08-12 15:14:54.682868 - Ingredients imported!
+2015-08-12 15:14:54.683109 - this is a test
+2015-08-12 15:14:54.683239 - publisher.set_head called
+2015-08-12 15:14:54.683490 - publisher.set_runner called
+2015-08-12 15:14:54.683791 - subscriber.set_head called
+2015-08-12 15:14:54.684145 - subscriber.set_runner called
+2015-08-12 15:14:54.684716 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:15:03.494451 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:19:30.554475 - starting up
+2015-08-12 15:19:30.558427 - subscriber.__init__ called
+2015-08-12 15:19:30.558944 - publisher.__init__ called
+2015-08-12 15:19:30.559090 - trying to make a connection...
+2015-08-12 15:19:30.565487 - otone_client : WampComponent.onJoin called
+2015-08-12 15:19:30.565772 - instantiate_objects called
+2015-08-12 15:19:30.566490 - head.__init__ called
+2015-08-12 15:19:30.566702 - pipette.__init__ called
+2015-08-12 15:19:30.566945 - tool.__init__ called
+2015-08-12 15:19:30.567063 - pipette.__init__ called
+2015-08-12 15:19:30.567243 - tool.__init__ called
+2015-08-12 15:19:30.567401 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:19:30.567547 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:19:30.567709 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:19:30.567925 - the_queue.__init__ called
+2015-08-12 15:19:30.568074 - smoothie_ser2net.connect called
+2015-08-12 15:19:30.568245 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:19:30.568461 - head.load_pipette_values called
+2015-08-12 15:19:30.569075 - old_values:
+{'b': {'axis': 'b', 'tooltype': 'pipette', 'blowout': 20.2, 'bottom': 18.2, 'theContainers': {'p10-rack': {'x': None, 'z': None, 'y': None}, 'trough': {'x': None, 'z': None, 'y': None}, 'plate-1': {'x': None, 'z': None, 'y': None}, 'trash': {'x': 145.997, 'z': 54, 'y': 324}}, 'bottom_distance': 2, 'offset': [0, 0, 0], 'volume': 200, 'top': 1.8, 'toolname': 'b_pipette', 'droptip': 22.6, 'resting': 0}, 'a': {'axis': 'a', 'tooltype': 'pipette', 'blowout': 21, 'bottom': 19, 'theContainers': {'p10-rack': {'x': 20, 'z': 100, 'y': 350.503}, 'trough': {'x': None, 'z': None, 'y': None}, 'plate-1': {'x': None, 'z': None, 'y': None}, 'trash': {'x': 120, 'z': 100, 'y': 190}}, 'bottom_distance': 2, 'offset': [0, 0, 0], 'volume': 10, 'top': 2.5, 'toolname': 'a_pipette', 'droptip': 24, 'resting': 0}}
+
+2015-08-12 15:19:30.569425 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 15:19:30.569570 - head string: Head
+2015-08-12 15:19:30.569772 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 15:19:30.569970 - Head configured!
+2015-08-12 15:19:30.570108 - script_keeper.__init__ called
+2015-08-12 15:19:30.570294 - deck.__init__ called
+2015-08-12 15:19:30.570432 - deck string: Deck
+2015-08-12 15:19:30.570666 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:19:30.570782 - protocol_runner.__init__ called
+2015-08-12 15:19:30.570931 - instruction_queue.__init__ called
+2015-08-12 15:19:30.571054 - deck.configure_deck called
+2015-08-12 15:19:30.571162 - deck_module.__init__ called
+2015-08-12 15:19:30.571261 - deck_module.__init__ called
+2015-08-12 15:19:30.571415 - deck_module.__init__ called
+2015-08-12 15:19:30.571582 - deck_module.__init__ called
+2015-08-12 15:19:30.571727 - deck_module.__init__ called
+2015-08-12 15:19:30.571860 - deck_module.__init__ called
+2015-08-12 15:19:30.571997 - deck_module.__init__ called
+2015-08-12 15:19:30.572131 - Deck configured!
+2015-08-12 15:19:30.572261 - ingredients.__init__ called
+2015-08-12 15:19:30.572419 - ingredients.configure_ingredients called
+2015-08-12 15:19:30.572538 - Ingredients imported!
+2015-08-12 15:19:30.572725 - this is a test
+2015-08-12 15:19:30.572873 - publisher.set_head called
+2015-08-12 15:19:30.573031 - publisher.set_runner called
+2015-08-12 15:19:30.573131 - subscriber.set_head called
+2015-08-12 15:19:30.573290 - subscriber.set_runner called
+2015-08-12 15:19:30.573574 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:19:33.849920 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:31:21.825336 - starting up
+2015-08-12 15:31:21.828201 - subscriber.__init__ called
+2015-08-12 15:31:21.828401 - publisher.__init__ called
+2015-08-12 15:31:21.828628 - trying to make a connection...
+2015-08-12 15:31:21.834681 - otone_client : WampComponent.onJoin called
+2015-08-12 15:31:21.834933 - instantiate_objects called
+2015-08-12 15:31:21.835652 - head.__init__ called
+2015-08-12 15:31:21.835856 - pipette.__init__ called
+2015-08-12 15:31:21.836120 - tool.__init__ called
+2015-08-12 15:31:21.836284 - pipette.__init__ called
+2015-08-12 15:31:21.836413 - tool.__init__ called
+2015-08-12 15:31:21.836843 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:31:21.837133 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:31:21.837378 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:31:21.837701 - the_queue.__init__ called
+2015-08-12 15:31:21.838027 - smoothie_ser2net.connect called
+2015-08-12 15:31:21.838281 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:31:21.838909 - head.load_pipette_values called
+2015-08-12 15:31:21.839780 - old_values:
+{'a': {'toolname': 'a_pipette', 'tooltype': 'pipette', 'volume': 10, 'bottom_distance': 2, 'droptip': 24, 'blowout': 21, 'bottom': 19, 'axis': 'a', 'top': 2.5, 'offset': [0, 0, 0], 'theContainers': {'plate-1': {'y': None, 'z': None, 'x': None}, 'trough': {'y': None, 'z': None, 'x': None}, 'trash': {'y': 190, 'z': 100, 'x': 120}, 'p10-rack': {'y': 350.503, 'z': 100, 'x': 20}}, 'resting': 0}, 'b': {'toolname': 'b_pipette', 'tooltype': 'pipette', 'volume': 200, 'bottom_distance': 2, 'droptip': 22.6, 'blowout': 20.2, 'bottom': 18.2, 'axis': 'b', 'top': 1.8, 'offset': [0, 0, 0], 'theContainers': {'plate-1': {'y': None, 'z': None, 'x': None}, 'trough': {'y': None, 'z': None, 'x': None}, 'trash': {'y': 324, 'z': 54, 'x': 145.997}, 'p10-rack': {'y': None, 'z': None, 'x': None}}, 'resting': 0}}
+
+2015-08-12 15:31:21.840207 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:31:21.840579 - head string: Head
+2015-08-12 15:31:21.840892 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:31:21.841073 - Head configured!
+2015-08-12 15:31:21.841437 - script_keeper.__init__ called
+2015-08-12 15:31:21.841740 - deck.__init__ called
+2015-08-12 15:31:21.841933 - deck string: Deck
+2015-08-12 15:31:21.842165 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:31:21.842321 - protocol_runner.__init__ called
+2015-08-12 15:31:21.842569 - instruction_queue.__init__ called
+2015-08-12 15:31:21.842728 - deck.configure_deck called
+2015-08-12 15:31:21.842943 - deck_module.__init__ called
+2015-08-12 15:31:21.843568 - deck_module.__init__ called
+2015-08-12 15:31:21.844693 - deck_module.__init__ called
+2015-08-12 15:31:21.845907 - deck_module.__init__ called
+2015-08-12 15:31:21.847974 - deck_module.__init__ called
+2015-08-12 15:31:21.848498 - deck_module.__init__ called
+2015-08-12 15:31:21.854725 - deck_module.__init__ called
+2015-08-12 15:31:21.855368 - Deck configured!
+2015-08-12 15:31:21.856552 - ingredients.__init__ called
+2015-08-12 15:31:21.857697 - ingredients.configure_ingredients called
+2015-08-12 15:31:21.857967 - Ingredients imported!
+2015-08-12 15:31:21.858252 - this is a test
+2015-08-12 15:31:21.858620 - publisher.set_head called
+2015-08-12 15:31:21.858939 - publisher.set_runner called
+2015-08-12 15:31:21.859232 - subscriber.set_head called
+2015-08-12 15:31:21.859498 - subscriber.set_runner called
+2015-08-12 15:31:21.866635 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:31:29.378772 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:32:34.126495 - starting up
+2015-08-12 15:32:34.131028 - subscriber.__init__ called
+2015-08-12 15:32:34.131238 - publisher.__init__ called
+2015-08-12 15:32:34.131361 - trying to make a connection...
+2015-08-12 15:32:34.136009 - otone_client : WampComponent.onJoin called
+2015-08-12 15:32:34.136234 - instantiate_objects called
+2015-08-12 15:32:34.136856 - head.__init__ called
+2015-08-12 15:32:34.137039 - pipette.__init__ called
+2015-08-12 15:32:34.137236 - tool.__init__ called
+2015-08-12 15:32:34.137401 - pipette.__init__ called
+2015-08-12 15:32:34.137595 - tool.__init__ called
+2015-08-12 15:32:34.137799 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:32:34.137916 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:32:34.138100 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:32:34.138256 - the_queue.__init__ called
+2015-08-12 15:32:34.138547 - smoothie_ser2net.connect called
+2015-08-12 15:32:34.138745 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:32:34.138980 - head.load_pipette_values called
+2015-08-12 15:32:34.139936 - old_values:
+{'a': {'top': 2.5, 'theContainers': {'trash': {'x': 120, 'y': 190, 'z': 100}, 'p10-rack': {'x': 20, 'y': 350.503, 'z': 100}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'trough': {'x': None, 'y': None, 'z': None}}, 'bottom_distance': 2, 'volume': 10, 'axis': 'a', 'toolname': 'a_pipette', 'bottom': 19, 'tooltype': 'pipette', 'blowout': 21, 'offset': [0, 0, 0], 'droptip': 24, 'resting': 0}, 'b': {'top': 1.8, 'theContainers': {'trash': {'x': 145.997, 'y': 324, 'z': 54}, 'p10-rack': {'x': None, 'y': None, 'z': None}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'trough': {'x': None, 'y': None, 'z': None}}, 'bottom_distance': 2, 'volume': 200, 'axis': 'b', 'toolname': 'b_pipette', 'bottom': 18.2, 'tooltype': 'pipette', 'blowout': 20.2, 'offset': [0, 0, 0], 'droptip': 22.6, 'resting': 0}}
+
+2015-08-12 15:32:34.140215 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:32:34.140399 - head string: Head
+2015-08-12 15:32:34.140561 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:32:34.140756 - Head configured!
+2015-08-12 15:32:34.140932 - script_keeper.__init__ called
+2015-08-12 15:32:34.141107 - deck.__init__ called
+2015-08-12 15:32:34.141222 - deck string: Deck
+2015-08-12 15:32:34.141440 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:32:34.141630 - protocol_runner.__init__ called
+2015-08-12 15:32:34.141803 - instruction_queue.__init__ called
+2015-08-12 15:32:34.141919 - deck.configure_deck called
+2015-08-12 15:32:34.142072 - deck_module.__init__ called
+2015-08-12 15:32:34.142178 - deck_module.__init__ called
+2015-08-12 15:32:34.142309 - deck_module.__init__ called
+2015-08-12 15:32:34.142487 - deck_module.__init__ called
+2015-08-12 15:32:34.142638 - deck_module.__init__ called
+2015-08-12 15:32:34.142759 - deck_module.__init__ called
+2015-08-12 15:32:34.142856 - deck_module.__init__ called
+2015-08-12 15:32:34.142949 - Deck configured!
+2015-08-12 15:32:34.143043 - ingredients.__init__ called
+2015-08-12 15:32:34.143173 - ingredients.configure_ingredients called
+2015-08-12 15:32:34.143286 - Ingredients imported!
+2015-08-12 15:32:34.143443 - this is a test
+2015-08-12 15:32:34.143601 - publisher.set_head called
+2015-08-12 15:32:34.143744 - publisher.set_runner called
+2015-08-12 15:32:34.143897 - subscriber.set_head called
+2015-08-12 15:32:34.144027 - subscriber.set_runner called
+2015-08-12 15:32:34.144249 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:32:40.174058 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:33:45.923957 - starting up
+2015-08-12 15:33:45.927035 - subscriber.__init__ called
+2015-08-12 15:33:45.927344 - publisher.__init__ called
+2015-08-12 15:33:45.927534 - trying to make a connection...
+2015-08-12 15:33:45.931638 - otone_client : WampComponent.onJoin called
+2015-08-12 15:33:45.932292 - instantiate_objects called
+2015-08-12 15:33:45.933219 - head.__init__ called
+2015-08-12 15:33:45.933440 - pipette.__init__ called
+2015-08-12 15:33:45.933660 - tool.__init__ called
+2015-08-12 15:33:45.933839 - pipette.__init__ called
+2015-08-12 15:33:45.934073 - tool.__init__ called
+2015-08-12 15:33:45.934387 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:33:45.934531 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:33:45.934723 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:33:45.934937 - the_queue.__init__ called
+2015-08-12 15:33:45.935129 - smoothie_ser2net.connect called
+2015-08-12 15:33:45.935515 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:33:45.935780 - head.load_pipette_values called
+2015-08-12 15:33:45.936230 - old_values:
+{'a': {'axis': 'a', 'bottom': 19, 'droptip': 24, 'top': 2.5, 'offset': [0, 0, 0], 'resting': 0, 'theContainers': {'trash': {'x': 120, 'z': 100, 'y': 190}, 'plate-1': {'x': None, 'z': None, 'y': None}, 'trough': {'x': None, 'z': None, 'y': None}, 'p10-rack': {'x': 20, 'z': 100, 'y': 350.503}}, 'volume': 10, 'toolname': 'a_pipette', 'blowout': 21, 'bottom_distance': 2, 'tooltype': 'pipette'}, 'b': {'axis': 'b', 'bottom': 18.2, 'droptip': 22.6, 'top': 1.8, 'offset': [0, 0, 0], 'resting': 0, 'theContainers': {'trash': {'x': 145.997, 'z': 54, 'y': 324}, 'plate-1': {'x': None, 'z': None, 'y': None}, 'trough': {'x': None, 'z': None, 'y': None}, 'p10-rack': {'x': None, 'z': None, 'y': None}}, 'volume': 200, 'toolname': 'b_pipette', 'blowout': 20.2, 'bottom_distance': 2, 'tooltype': 'pipette'}}
+
+2015-08-12 15:33:45.936526 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:33:45.936664 - head string: Head
+2015-08-12 15:33:45.936825 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 15:33:45.936961 - Head configured!
+2015-08-12 15:33:45.937131 - script_keeper.__init__ called
+2015-08-12 15:33:45.937315 - deck.__init__ called
+2015-08-12 15:33:45.937459 - deck string: Deck
+2015-08-12 15:33:45.937725 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:33:45.937851 - protocol_runner.__init__ called
+2015-08-12 15:33:45.938014 - instruction_queue.__init__ called
+2015-08-12 15:33:45.938162 - deck.configure_deck called
+2015-08-12 15:33:45.938305 - deck_module.__init__ called
+2015-08-12 15:33:45.938470 - deck_module.__init__ called
+2015-08-12 15:33:45.938598 - deck_module.__init__ called
+2015-08-12 15:33:45.938753 - deck_module.__init__ called
+2015-08-12 15:33:45.938858 - deck_module.__init__ called
+2015-08-12 15:33:45.939028 - deck_module.__init__ called
+2015-08-12 15:33:45.939167 - deck_module.__init__ called
+2015-08-12 15:33:45.939304 - Deck configured!
+2015-08-12 15:33:45.939453 - ingredients.__init__ called
+2015-08-12 15:33:45.939611 - ingredients.configure_ingredients called
+2015-08-12 15:33:45.939741 - Ingredients imported!
+2015-08-12 15:33:45.939886 - this is a test
+2015-08-12 15:33:45.940016 - publisher.set_head called
+2015-08-12 15:33:45.940189 - publisher.set_runner called
+2015-08-12 15:33:45.940338 - subscriber.set_head called
+2015-08-12 15:33:45.940499 - subscriber.set_runner called
+2015-08-12 15:33:45.940739 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:33:49.077466 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:34:33.202165 - starting up
+2015-08-12 15:34:33.205996 - subscriber.__init__ called
+2015-08-12 15:34:33.206252 - publisher.__init__ called
+2015-08-12 15:34:33.206409 - trying to make a connection...
+2015-08-12 15:34:33.210348 - otone_client : WampComponent.onJoin called
+2015-08-12 15:34:33.210563 - instantiate_objects called
+2015-08-12 15:34:33.210959 - head.__init__ called
+2015-08-12 15:34:33.211142 - pipette.__init__ called
+2015-08-12 15:34:33.211355 - tool.__init__ called
+2015-08-12 15:34:33.211516 - pipette.__init__ called
+2015-08-12 15:34:33.211630 - tool.__init__ called
+2015-08-12 15:34:33.211802 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:34:33.211949 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:34:33.212078 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:34:33.212227 - the_queue.__init__ called
+2015-08-12 15:34:33.212366 - smoothie_ser2net.connect called
+2015-08-12 15:34:33.212520 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:34:33.212748 - head.load_pipette_values called
+2015-08-12 15:34:33.213030 - old_values:
+{'b': {'bottom': 18.2, 'toolname': 'b_pipette', 'resting': 0, 'axis': 'b', 'volume': 200, 'offset': [0, 0, 0], 'droptip': 22.6, 'top': 1.8, 'theContainers': {'trash': {'y': 324, 'z': 54, 'x': 145.997}, 'trough': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': None, 'z': None, 'x': None}, 'plate-1': {'y': None, 'z': None, 'x': None}}, 'bottom_distance': 2, 'tooltype': 'pipette', 'blowout': 20.2}, 'a': {'bottom': 19, 'toolname': 'a_pipette', 'resting': 0, 'axis': 'a', 'volume': 10, 'offset': [0, 0, 0], 'droptip': 24, 'top': 2.5, 'theContainers': {'trash': {'y': 190, 'z': 100, 'x': 120}, 'trough': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': 350.503, 'z': 100, 'x': 20}, 'plate-1': {'y': None, 'z': None, 'x': None}}, 'bottom_distance': 2, 'tooltype': 'pipette', 'blowout': 21}}
+
+2015-08-12 15:34:33.213282 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 15:34:33.213440 - head string: Head
+2015-08-12 15:34:33.213623 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:34:33.213763 - Head configured!
+2015-08-12 15:34:33.213912 - script_keeper.__init__ called
+2015-08-12 15:34:33.214070 - deck.__init__ called
+2015-08-12 15:34:33.214278 - deck string: Deck
+2015-08-12 15:34:33.214377 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:34:33.214523 - protocol_runner.__init__ called
+2015-08-12 15:34:33.214667 - instruction_queue.__init__ called
+2015-08-12 15:34:33.214838 - deck.configure_deck called
+2015-08-12 15:34:33.214966 - deck_module.__init__ called
+2015-08-12 15:34:33.215167 - deck_module.__init__ called
+2015-08-12 15:34:33.215292 - deck_module.__init__ called
+2015-08-12 15:34:33.215448 - deck_module.__init__ called
+2015-08-12 15:34:33.215593 - deck_module.__init__ called
+2015-08-12 15:34:33.215749 - deck_module.__init__ called
+2015-08-12 15:34:33.215874 - deck_module.__init__ called
+2015-08-12 15:34:33.215980 - Deck configured!
+2015-08-12 15:34:33.216092 - ingredients.__init__ called
+2015-08-12 15:34:33.216189 - ingredients.configure_ingredients called
+2015-08-12 15:34:33.216323 - Ingredients imported!
+2015-08-12 15:34:33.216432 - this is a test
+2015-08-12 15:34:33.216562 - publisher.set_head called
+2015-08-12 15:34:33.216727 - publisher.set_runner called
+2015-08-12 15:34:33.216837 - subscriber.set_head called
+2015-08-12 15:34:33.216998 - subscriber.set_runner called
+2015-08-12 15:34:33.217204 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:34:41.023320 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:35:38.641127 - starting up
+2015-08-12 15:35:38.643091 - subscriber.__init__ called
+2015-08-12 15:35:38.643220 - publisher.__init__ called
+2015-08-12 15:35:38.643402 - trying to make a connection...
+2015-08-12 15:35:38.648597 - otone_client : WampComponent.onJoin called
+2015-08-12 15:35:38.648814 - instantiate_objects called
+2015-08-12 15:35:38.649099 - head.__init__ called
+2015-08-12 15:35:38.649212 - pipette.__init__ called
+2015-08-12 15:35:38.649320 - tool.__init__ called
+2015-08-12 15:35:38.649441 - pipette.__init__ called
+2015-08-12 15:35:38.649540 - tool.__init__ called
+2015-08-12 15:35:38.649647 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:35:38.649751 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:35:38.649928 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:35:38.650068 - the_queue.__init__ called
+2015-08-12 15:35:38.650213 - smoothie_ser2net.connect called
+2015-08-12 15:35:38.650313 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:35:38.650604 - head.load_pipette_values called
+2015-08-12 15:35:38.650932 - old_values:
+{'a': {'top': 2.5, 'theContainers': {'trough': {'x': None, 'y': None, 'z': None}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': 20, 'y': 350.503, 'z': 100}, 'trash': {'x': 120, 'y': 190, 'z': 100}}, 'blowout': 21, 'resting': 0, 'offset': [0, 0, 0], 'tooltype': 'pipette', 'bottom': 19, 'axis': 'a', 'volume': 10, 'droptip': 24, 'bottom_distance': 2, 'toolname': 'a_pipette'}, 'b': {'top': 1.8, 'theContainers': {'trough': {'x': None, 'y': None, 'z': None}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': None, 'y': None, 'z': None}, 'trash': {'x': 145.997, 'y': 324, 'z': 54}}, 'blowout': 20.2, 'resting': 0, 'offset': [0, 0, 0], 'tooltype': 'pipette', 'bottom': 18.2, 'axis': 'b', 'volume': 200, 'droptip': 22.6, 'bottom_distance': 2, 'toolname': 'b_pipette'}}
+
+2015-08-12 15:35:38.651215 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:35:38.651384 - head string: Head
+2015-08-12 15:35:38.651626 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 15:35:38.651744 - Head configured!
+2015-08-12 15:35:38.651867 - script_keeper.__init__ called
+2015-08-12 15:35:38.652067 - deck.__init__ called
+2015-08-12 15:35:38.652244 - deck string: Deck
+2015-08-12 15:35:38.652386 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:35:38.652578 - protocol_runner.__init__ called
+2015-08-12 15:35:38.652722 - instruction_queue.__init__ called
+2015-08-12 15:35:38.652931 - deck.configure_deck called
+2015-08-12 15:35:38.653595 - deck_module.__init__ called
+2015-08-12 15:35:38.653690 - deck_module.__init__ called
+2015-08-12 15:35:38.664807 - deck_module.__init__ called
+2015-08-12 15:35:38.665089 - deck_module.__init__ called
+2015-08-12 15:35:38.665610 - deck_module.__init__ called
+2015-08-12 15:35:38.674634 - deck_module.__init__ called
+2015-08-12 15:35:38.674809 - deck_module.__init__ called
+2015-08-12 15:35:38.675346 - Deck configured!
+2015-08-12 15:35:38.675730 - ingredients.__init__ called
+2015-08-12 15:35:38.676276 - ingredients.configure_ingredients called
+2015-08-12 15:35:38.676411 - Ingredients imported!
+2015-08-12 15:35:38.676580 - this is a test
+2015-08-12 15:35:38.676762 - publisher.set_head called
+2015-08-12 15:35:38.676944 - publisher.set_runner called
+2015-08-12 15:35:38.677124 - subscriber.set_head called
+2015-08-12 15:35:38.677340 - subscriber.set_runner called
+2015-08-12 15:35:38.677547 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:35:51.192299 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:37:04.939369 - starting up
+2015-08-12 15:37:04.941535 - subscriber.__init__ called
+2015-08-12 15:37:04.941718 - publisher.__init__ called
+2015-08-12 15:37:04.941917 - trying to make a connection...
+2015-08-12 15:37:04.947631 - otone_client : WampComponent.onJoin called
+2015-08-12 15:37:04.947993 - instantiate_objects called
+2015-08-12 15:37:04.948409 - head.__init__ called
+2015-08-12 15:37:04.948582 - pipette.__init__ called
+2015-08-12 15:37:04.948812 - tool.__init__ called
+2015-08-12 15:37:04.948983 - pipette.__init__ called
+2015-08-12 15:37:04.949119 - tool.__init__ called
+2015-08-12 15:37:04.949298 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:37:04.949445 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:37:04.949580 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:37:04.949717 - the_queue.__init__ called
+2015-08-12 15:37:04.949859 - smoothie_ser2net.connect called
+2015-08-12 15:37:04.950001 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:37:04.950332 - head.load_pipette_values called
+2015-08-12 15:37:04.950725 - old_values:
+{'a': {'offset': [0, 0, 0], 'volume': 10, 'theContainers': {'trash': {'z': 100, 'y': 190, 'x': 120}, 'trough': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': 100, 'y': 350.503, 'x': 20}, 'plate-1': {'z': None, 'y': None, 'x': None}}, 'axis': 'a', 'tooltype': 'pipette', 'toolname': 'a_pipette', 'resting': 0, 'blowout': 21, 'bottom': 19, 'bottom_distance': 2, 'top': 2.5, 'droptip': 24}, 'b': {'offset': [0, 0, 0], 'volume': 200, 'theContainers': {'trash': {'z': 54, 'y': 324, 'x': 145.997}, 'trough': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': None, 'y': None, 'x': None}, 'plate-1': {'z': None, 'y': None, 'x': None}}, 'axis': 'b', 'tooltype': 'pipette', 'toolname': 'b_pipette', 'resting': 0, 'blowout': 20.2, 'bottom': 18.2, 'bottom_distance': 2, 'top': 1.8, 'droptip': 22.6}}
+
+2015-08-12 15:37:04.951029 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:37:04.951211 - head string: Head
+2015-08-12 15:37:04.951360 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:37:04.951499 - Head configured!
+2015-08-12 15:37:04.951636 - script_keeper.__init__ called
+2015-08-12 15:37:04.951802 - deck.__init__ called
+2015-08-12 15:37:04.951940 - deck string: Deck
+2015-08-12 15:37:04.952229 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:37:04.952391 - protocol_runner.__init__ called
+2015-08-12 15:37:04.952524 - instruction_queue.__init__ called
+2015-08-12 15:37:04.952653 - deck.configure_deck called
+2015-08-12 15:37:04.952775 - deck_module.__init__ called
+2015-08-12 15:37:04.952898 - deck_module.__init__ called
+2015-08-12 15:37:04.953016 - deck_module.__init__ called
+2015-08-12 15:37:04.953170 - deck_module.__init__ called
+2015-08-12 15:37:04.953338 - deck_module.__init__ called
+2015-08-12 15:37:04.953482 - deck_module.__init__ called
+2015-08-12 15:37:04.953628 - deck_module.__init__ called
+2015-08-12 15:37:04.953766 - Deck configured!
+2015-08-12 15:37:04.953918 - ingredients.__init__ called
+2015-08-12 15:37:04.954054 - ingredients.configure_ingredients called
+2015-08-12 15:37:04.954175 - Ingredients imported!
+2015-08-12 15:37:04.954294 - this is a test
+2015-08-12 15:37:04.954416 - publisher.set_head called
+2015-08-12 15:37:04.954540 - publisher.set_runner called
+2015-08-12 15:37:04.954648 - subscriber.set_head called
+2015-08-12 15:37:04.954754 - subscriber.set_runner called
+2015-08-12 15:37:04.954938 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:37:18.380721 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:38:00.263709 - starting up
+2015-08-12 15:38:00.267349 - subscriber.__init__ called
+2015-08-12 15:38:00.267786 - publisher.__init__ called
+2015-08-12 15:38:00.268055 - trying to make a connection...
+2015-08-12 15:38:00.273102 - otone_client : WampComponent.onJoin called
+2015-08-12 15:38:00.273321 - instantiate_objects called
+2015-08-12 15:38:00.273727 - head.__init__ called
+2015-08-12 15:38:00.273902 - pipette.__init__ called
+2015-08-12 15:38:00.274046 - tool.__init__ called
+2015-08-12 15:38:00.274184 - pipette.__init__ called
+2015-08-12 15:38:00.274316 - tool.__init__ called
+2015-08-12 15:38:00.274462 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:38:00.274592 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:38:00.274717 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:38:00.274847 - the_queue.__init__ called
+2015-08-12 15:38:00.274974 - smoothie_ser2net.connect called
+2015-08-12 15:38:00.275111 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:38:00.276595 - head.load_pipette_values called
+2015-08-12 15:38:00.277056 - old_values:
+{'a': {'tooltype': 'pipette', 'resting': 0, 'blowout': 21, 'axis': 'a', 'volume': 10, 'toolname': 'a_pipette', 'bottom_distance': 2, 'bottom': 19, 'top': 2.5, 'theContainers': {'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 190, 'x': 120, 'z': 100}, 'trough': {'y': None, 'x': None, 'z': None}, 'p10-rack': {'y': 350.503, 'x': 20, 'z': 100}}, 'offset': [0, 0, 0], 'droptip': 24}, 'b': {'tooltype': 'pipette', 'resting': 0, 'blowout': 20.2, 'axis': 'b', 'volume': 200, 'toolname': 'b_pipette', 'bottom_distance': 2, 'bottom': 18.2, 'top': 1.8, 'theContainers': {'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 324, 'x': 145.997, 'z': 54}, 'trough': {'y': None, 'x': None, 'z': None}, 'p10-rack': {'y': None, 'x': None, 'z': None}}, 'offset': [0, 0, 0], 'droptip': 22.6}}
+
+2015-08-12 15:38:00.277317 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:38:00.277462 - head string: Head
+2015-08-12 15:38:00.277584 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 15:38:00.277689 - Head configured!
+2015-08-12 15:38:00.277790 - script_keeper.__init__ called
+2015-08-12 15:38:00.277920 - deck.__init__ called
+2015-08-12 15:38:00.278023 - deck string: Deck
+2015-08-12 15:38:00.278126 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:38:00.278331 - protocol_runner.__init__ called
+2015-08-12 15:38:00.278509 - instruction_queue.__init__ called
+2015-08-12 15:38:00.278637 - deck.configure_deck called
+2015-08-12 15:38:00.278745 - deck_module.__init__ called
+2015-08-12 15:38:00.278848 - deck_module.__init__ called
+2015-08-12 15:38:00.278947 - deck_module.__init__ called
+2015-08-12 15:38:00.279047 - deck_module.__init__ called
+2015-08-12 15:38:00.279146 - deck_module.__init__ called
+2015-08-12 15:38:00.279245 - deck_module.__init__ called
+2015-08-12 15:38:00.279344 - deck_module.__init__ called
+2015-08-12 15:38:00.279441 - Deck configured!
+2015-08-12 15:38:00.279538 - ingredients.__init__ called
+2015-08-12 15:38:00.279630 - ingredients.configure_ingredients called
+2015-08-12 15:38:00.279726 - Ingredients imported!
+2015-08-12 15:38:00.279819 - this is a test
+2015-08-12 15:38:00.279916 - publisher.set_head called
+2015-08-12 15:38:00.280013 - publisher.set_runner called
+2015-08-12 15:38:00.280121 - subscriber.set_head called
+2015-08-12 15:38:00.280211 - subscriber.set_runner called
+2015-08-12 15:38:00.280369 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:38:04.844370 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:39:14.526904 - starting up
+2015-08-12 15:39:14.528696 - subscriber.__init__ called
+2015-08-12 15:39:14.528881 - publisher.__init__ called
+2015-08-12 15:39:14.529223 - trying to make a connection...
+2015-08-12 15:39:14.536988 - otone_client : WampComponent.onJoin called
+2015-08-12 15:39:14.537268 - instantiate_objects called
+2015-08-12 15:39:14.537688 - head.__init__ called
+2015-08-12 15:39:14.537988 - pipette.__init__ called
+2015-08-12 15:39:14.538113 - tool.__init__ called
+2015-08-12 15:39:14.538231 - pipette.__init__ called
+2015-08-12 15:39:14.538335 - tool.__init__ called
+2015-08-12 15:39:14.538445 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:39:14.538589 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:39:14.538688 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:39:14.538791 - the_queue.__init__ called
+2015-08-12 15:39:14.538897 - smoothie_ser2net.connect called
+2015-08-12 15:39:14.539001 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:39:14.539181 - head.load_pipette_values called
+2015-08-12 15:39:14.539407 - old_values:
+{'a': {'resting': 0, 'volume': 10, 'bottom': 19, 'theContainers': {'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 100, 'x': 120, 'y': 190}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}}, 'tooltype': 'pipette', 'axis': 'a', 'droptip': 24, 'top': 2.5, 'blowout': 21, 'toolname': 'a_pipette', 'bottom_distance': 2, 'offset': [0, 0, 0]}, 'b': {'resting': 0, 'volume': 200, 'bottom': 18.2, 'theContainers': {'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 54, 'x': 145.997, 'y': 324}, 'p10-rack': {'z': None, 'x': None, 'y': None}}, 'tooltype': 'pipette', 'axis': 'b', 'droptip': 22.6, 'top': 1.8, 'blowout': 20.2, 'toolname': 'b_pipette', 'bottom_distance': 2, 'offset': [0, 0, 0]}}
+
+2015-08-12 15:39:14.539595 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:39:14.539713 - head string: Head
+2015-08-12 15:39:14.539827 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:39:14.539926 - Head configured!
+2015-08-12 15:39:14.540034 - script_keeper.__init__ called
+2015-08-12 15:39:14.540190 - deck.__init__ called
+2015-08-12 15:39:14.540360 - deck string: Deck
+2015-08-12 15:39:14.540503 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:39:14.540626 - protocol_runner.__init__ called
+2015-08-12 15:39:14.540742 - instruction_queue.__init__ called
+2015-08-12 15:39:14.540856 - deck.configure_deck called
+2015-08-12 15:39:14.540974 - deck_module.__init__ called
+2015-08-12 15:39:14.541103 - deck_module.__init__ called
+2015-08-12 15:39:14.541236 - deck_module.__init__ called
+2015-08-12 15:39:14.541369 - deck_module.__init__ called
+2015-08-12 15:39:14.541583 - deck_module.__init__ called
+2015-08-12 15:39:14.541724 - deck_module.__init__ called
+2015-08-12 15:39:14.541821 - deck_module.__init__ called
+2015-08-12 15:39:14.541915 - Deck configured!
+2015-08-12 15:39:14.542009 - ingredients.__init__ called
+2015-08-12 15:39:14.542107 - ingredients.configure_ingredients called
+2015-08-12 15:39:14.542197 - Ingredients imported!
+2015-08-12 15:39:14.542291 - this is a test
+2015-08-12 15:39:14.542386 - publisher.set_head called
+2015-08-12 15:39:14.542480 - publisher.set_runner called
+2015-08-12 15:39:14.542607 - subscriber.set_head called
+2015-08-12 15:39:14.542721 - subscriber.set_runner called
+2015-08-12 15:39:14.542874 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:39:17.980072 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:39:56.044399 - starting up
+2015-08-12 15:39:56.046789 - subscriber.__init__ called
+2015-08-12 15:39:56.047019 - publisher.__init__ called
+2015-08-12 15:39:56.047200 - trying to make a connection...
+2015-08-12 15:39:56.051915 - otone_client : WampComponent.onJoin called
+2015-08-12 15:39:56.052157 - instantiate_objects called
+2015-08-12 15:39:56.052508 - head.__init__ called
+2015-08-12 15:39:56.052652 - pipette.__init__ called
+2015-08-12 15:39:56.052765 - tool.__init__ called
+2015-08-12 15:39:56.052888 - pipette.__init__ called
+2015-08-12 15:39:56.053017 - tool.__init__ called
+2015-08-12 15:39:56.053156 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:39:56.053291 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:39:56.053471 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:39:56.053604 - the_queue.__init__ called
+2015-08-12 15:39:56.053710 - smoothie_ser2net.connect called
+2015-08-12 15:39:56.053802 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:39:56.053964 - head.load_pipette_values called
+2015-08-12 15:39:56.054191 - old_values:
+{'b': {'theContainers': {'trash': {'z': 54, 'x': 145.997, 'y': 324}, 'p10-rack': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}}, 'blowout': 20.2, 'top': 1.8, 'toolname': 'b_pipette', 'bottom': 18.2, 'volume': 200, 'resting': 0, 'axis': 'b', 'offset': [0, 0, 0], 'bottom_distance': 2, 'tooltype': 'pipette', 'droptip': 22.6}, 'a': {'theContainers': {'trash': {'z': 100, 'x': 120, 'y': 190}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}}, 'blowout': 21, 'top': 2.5, 'toolname': 'a_pipette', 'bottom': 19, 'volume': 10, 'resting': 0, 'axis': 'a', 'offset': [0, 0, 0], 'bottom_distance': 2, 'tooltype': 'pipette', 'droptip': 24}}
+
+2015-08-12 15:39:56.054366 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 15:39:56.054476 - head string: Head
+2015-08-12 15:39:56.054580 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:39:56.054670 - Head configured!
+2015-08-12 15:39:56.054763 - script_keeper.__init__ called
+2015-08-12 15:39:56.054887 - deck.__init__ called
+2015-08-12 15:39:56.054979 - deck string: Deck
+2015-08-12 15:39:56.055179 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:39:56.055304 - protocol_runner.__init__ called
+2015-08-12 15:39:56.055404 - instruction_queue.__init__ called
+2015-08-12 15:39:56.055483 - deck.configure_deck called
+2015-08-12 15:39:56.055609 - deck_module.__init__ called
+2015-08-12 15:39:56.055734 - deck_module.__init__ called
+2015-08-12 15:39:56.055839 - deck_module.__init__ called
+2015-08-12 15:39:56.055943 - deck_module.__init__ called
+2015-08-12 15:39:56.056054 - deck_module.__init__ called
+2015-08-12 15:39:56.056166 - deck_module.__init__ called
+2015-08-12 15:39:56.056275 - deck_module.__init__ called
+2015-08-12 15:39:56.056373 - Deck configured!
+2015-08-12 15:39:56.056488 - ingredients.__init__ called
+2015-08-12 15:39:56.056641 - ingredients.configure_ingredients called
+2015-08-12 15:39:56.056758 - Ingredients imported!
+2015-08-12 15:39:56.056884 - this is a test
+2015-08-12 15:39:56.057008 - publisher.set_head called
+2015-08-12 15:39:56.057147 - publisher.set_runner called
+2015-08-12 15:39:56.057285 - subscriber.set_head called
+2015-08-12 15:39:56.057520 - subscriber.set_runner called
+2015-08-12 15:39:56.057880 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:39:59.405491 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:40:53.165452 - starting up
+2015-08-12 15:40:53.170133 - subscriber.__init__ called
+2015-08-12 15:40:53.170324 - publisher.__init__ called
+2015-08-12 15:40:53.170536 - trying to make a connection...
+2015-08-12 15:40:53.174815 - otone_client : WampComponent.onJoin called
+2015-08-12 15:40:53.175057 - instantiate_objects called
+2015-08-12 15:40:53.175639 - head.__init__ called
+2015-08-12 15:40:53.175860 - pipette.__init__ called
+2015-08-12 15:40:53.176001 - tool.__init__ called
+2015-08-12 15:40:53.176226 - pipette.__init__ called
+2015-08-12 15:40:53.176390 - tool.__init__ called
+2015-08-12 15:40:53.176600 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:40:53.176732 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:40:53.176879 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:40:53.177034 - the_queue.__init__ called
+2015-08-12 15:40:53.177186 - smoothie_ser2net.connect called
+2015-08-12 15:40:53.177324 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:40:53.177577 - head.load_pipette_values called
+2015-08-12 15:40:53.178176 - old_values:
+{'a': {'bottom_distance': 2, 'volume': 10, 'top': 2.5, 'toolname': 'a_pipette', 'axis': 'a', 'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': 100, 'y': 350.503, 'x': 20}, 'trash': {'z': 100, 'y': 190, 'x': 120}, 'trough': {'z': None, 'y': None, 'x': None}}, 'resting': 0, 'blowout': 21, 'droptip': 24, 'offset': [0, 0, 0], 'bottom': 19, 'tooltype': 'pipette'}, 'b': {'bottom_distance': 2, 'volume': 200, 'top': 1.8, 'toolname': 'b_pipette', 'axis': 'b', 'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 54, 'y': 324, 'x': 145.997}, 'trough': {'z': None, 'y': None, 'x': None}}, 'resting': 0, 'blowout': 20.2, 'droptip': 22.6, 'offset': [0, 0, 0], 'bottom': 18.2, 'tooltype': 'pipette'}}
+
+2015-08-12 15:40:53.178520 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:40:53.178656 - head string: Head
+2015-08-12 15:40:53.178845 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 15:40:53.179018 - Head configured!
+2015-08-12 15:40:53.179182 - script_keeper.__init__ called
+2015-08-12 15:40:53.179360 - deck.__init__ called
+2015-08-12 15:40:53.179485 - deck string: Deck
+2015-08-12 15:40:53.179673 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:40:53.179828 - protocol_runner.__init__ called
+2015-08-12 15:40:53.179951 - instruction_queue.__init__ called
+2015-08-12 15:40:53.180113 - deck.configure_deck called
+2015-08-12 15:40:53.180251 - deck_module.__init__ called
+2015-08-12 15:40:53.180418 - deck_module.__init__ called
+2015-08-12 15:40:53.180532 - deck_module.__init__ called
+2015-08-12 15:40:53.180682 - deck_module.__init__ called
+2015-08-12 15:40:53.180783 - deck_module.__init__ called
+2015-08-12 15:40:53.180941 - deck_module.__init__ called
+2015-08-12 15:40:53.181065 - deck_module.__init__ called
+2015-08-12 15:40:53.181231 - Deck configured!
+2015-08-12 15:40:53.181360 - ingredients.__init__ called
+2015-08-12 15:40:53.181494 - ingredients.configure_ingredients called
+2015-08-12 15:40:53.181662 - Ingredients imported!
+2015-08-12 15:40:53.181836 - this is a test
+2015-08-12 15:40:53.181998 - publisher.set_head called
+2015-08-12 15:40:53.182148 - publisher.set_runner called
+2015-08-12 15:40:53.182296 - subscriber.set_head called
+2015-08-12 15:40:53.182442 - subscriber.set_runner called
+2015-08-12 15:40:53.182655 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:40:57.703767 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 15:49:21.650440 - starting up
+2015-08-12 15:49:21.654207 - subscriber.__init__ called
+2015-08-12 15:49:21.654392 - publisher.__init__ called
+2015-08-12 15:49:21.654574 - trying to make a connection...
+2015-08-12 15:49:21.659302 - otone_client : WampComponent.onJoin called
+2015-08-12 15:49:21.659517 - instantiate_objects called
+2015-08-12 15:49:21.660187 - head.__init__ called
+2015-08-12 15:49:21.660369 - pipette.__init__ called
+2015-08-12 15:49:21.660513 - tool.__init__ called
+2015-08-12 15:49:21.660680 - pipette.__init__ called
+2015-08-12 15:49:21.660816 - tool.__init__ called
+2015-08-12 15:49:21.661016 - smoothie_ser2net.set_raw_callback called
+2015-08-12 15:49:21.661179 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 15:49:21.661300 - smoothie_ser2net.set_move_callback called
+2015-08-12 15:49:21.661455 - the_queue.__init__ called
+2015-08-12 15:49:21.661602 - smoothie_ser2net.connect called
+2015-08-12 15:49:21.661764 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 15:49:21.661976 - head.load_pipette_values called
+2015-08-12 15:49:21.663164 - old_values:
+{'a': {'toolname': 'a_pipette', 'theContainers': {'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 190, 'x': 120, 'z': 100}, 'p10-rack': {'y': 350.503, 'x': 20, 'z': 100}, 'trough': {'y': None, 'x': None, 'z': None}}, 'blowout': 21, 'offset': [0, 0, 0], 'bottom_distance': 2, 'bottom': 19, 'tooltype': 'pipette', 'volume': 10, 'top': 2.5, 'axis': 'a', 'resting': 0, 'droptip': 24}, 'b': {'toolname': 'b_pipette', 'theContainers': {'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 324, 'x': 145.997, 'z': 54}, 'p10-rack': {'y': None, 'x': None, 'z': None}, 'trough': {'y': None, 'x': None, 'z': None}}, 'blowout': 20.2, 'offset': [0, 0, 0], 'bottom_distance': 2, 'bottom': 18.2, 'tooltype': 'pipette', 'volume': 200, 'top': 1.8, 'axis': 'b', 'resting': 0, 'droptip': 22.6}}
+
+2015-08-12 15:49:21.663433 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 15:49:21.670705 - head string: Head
+2015-08-12 15:49:21.671035 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 15:49:21.673083 - Head configured!
+2015-08-12 15:49:21.673688 - script_keeper.__init__ called
+2015-08-12 15:49:21.673864 - deck.__init__ called
+2015-08-12 15:49:21.674054 - deck string: Deck
+2015-08-12 15:49:21.674197 - deck representation: Deck(dict_keys([]))
+2015-08-12 15:49:21.674381 - protocol_runner.__init__ called
+2015-08-12 15:49:21.674551 - instruction_queue.__init__ called
+2015-08-12 15:49:21.674739 - deck.configure_deck called
+2015-08-12 15:49:21.674901 - deck_module.__init__ called
+2015-08-12 15:49:21.675072 - deck_module.__init__ called
+2015-08-12 15:49:21.675220 - deck_module.__init__ called
+2015-08-12 15:49:21.675333 - deck_module.__init__ called
+2015-08-12 15:49:21.675528 - deck_module.__init__ called
+2015-08-12 15:49:21.675696 - deck_module.__init__ called
+2015-08-12 15:49:21.675877 - deck_module.__init__ called
+2015-08-12 15:49:21.676053 - Deck configured!
+2015-08-12 15:49:21.676241 - ingredients.__init__ called
+2015-08-12 15:49:21.676385 - ingredients.configure_ingredients called
+2015-08-12 15:49:21.676565 - Ingredients imported!
+2015-08-12 15:49:21.676697 - this is a test
+2015-08-12 15:49:21.676895 - publisher.set_head called
+2015-08-12 15:49:21.677059 - publisher.set_runner called
+2015-08-12 15:49:21.677244 - subscriber.set_head called
+2015-08-12 15:49:21.677443 - subscriber.set_runner called
+2015-08-12 15:49:21.677700 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 15:49:25.954115 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:23:10.348506 - starting up
+2015-08-12 16:23:10.353366 - subscriber.__init__ called
+2015-08-12 16:23:10.353585 - publisher.__init__ called
+2015-08-12 16:23:10.353781 - trying to make a connection...
+2015-08-12 16:23:10.358340 - otone_client : WampComponent.onJoin called
+2015-08-12 16:23:10.358532 - instantiate_objects called
+2015-08-12 16:23:10.359377 - head.__init__ called
+2015-08-12 16:23:10.359630 - pipette.__init__ called
+2015-08-12 16:23:10.359761 - tool.__init__ called
+2015-08-12 16:23:10.359923 - pipette.__init__ called
+2015-08-12 16:23:10.360037 - tool.__init__ called
+2015-08-12 16:23:10.360182 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:23:10.360322 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:23:10.360455 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:23:10.360599 - the_queue.__init__ called
+2015-08-12 16:23:10.360784 - smoothie_ser2net.connect called
+2015-08-12 16:23:10.360900 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:23:10.361149 - head.load_pipette_values called
+2015-08-12 16:23:10.361888 - old_values:
+{'a': {'bottom_distance': 2, 'resting': 0, 'theContainers': {'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 100, 'x': 120, 'y': 190}}, 'tooltype': 'pipette', 'top': 2.5, 'blowout': 21, 'offset': [0, 0, 0], 'volume': 10, 'droptip': 24, 'bottom': 19, 'toolname': 'a_pipette', 'axis': 'a'}, 'b': {'bottom_distance': 2, 'resting': 0, 'theContainers': {'p10-rack': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 54, 'x': 145.997, 'y': 324}}, 'tooltype': 'pipette', 'top': 1.8, 'blowout': 20.2, 'offset': [0, 0, 0], 'volume': 200, 'droptip': 22.6, 'bottom': 18.2, 'toolname': 'b_pipette', 'axis': 'b'}}
+
+2015-08-12 16:23:10.362632 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 16:23:10.362829 - head string: Head
+2015-08-12 16:23:10.363022 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 16:23:10.363165 - Head configured!
+2015-08-12 16:23:10.363308 - script_keeper.__init__ called
+2015-08-12 16:23:10.363551 - deck.__init__ called
+2015-08-12 16:23:10.363709 - deck string: Deck
+2015-08-12 16:23:10.363906 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:23:10.364076 - protocol_runner.__init__ called
+2015-08-12 16:23:10.364226 - instruction_queue.__init__ called
+2015-08-12 16:23:10.364376 - deck.configure_deck called
+2015-08-12 16:23:10.364491 - deck_module.__init__ called
+2015-08-12 16:23:10.364635 - deck_module.__init__ called
+2015-08-12 16:23:10.364776 - deck_module.__init__ called
+2015-08-12 16:23:10.364924 - deck_module.__init__ called
+2015-08-12 16:23:10.365058 - deck_module.__init__ called
+2015-08-12 16:23:10.365236 - deck_module.__init__ called
+2015-08-12 16:23:10.365389 - deck_module.__init__ called
+2015-08-12 16:23:10.365539 - Deck configured!
+2015-08-12 16:23:10.365678 - ingredients.__init__ called
+2015-08-12 16:23:10.365832 - ingredients.configure_ingredients called
+2015-08-12 16:23:10.365975 - Ingredients imported!
+2015-08-12 16:23:10.366127 - this is a test
+2015-08-12 16:23:10.366272 - publisher.set_head called
+2015-08-12 16:23:10.366426 - publisher.set_runner called
+2015-08-12 16:23:10.366579 - subscriber.set_head called
+2015-08-12 16:23:10.366734 - subscriber.set_runner called
+2015-08-12 16:23:10.366950 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:23:16.998226 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:26:04.307395 - starting up
+2015-08-12 16:26:04.311836 - subscriber.__init__ called
+2015-08-12 16:26:04.312052 - publisher.__init__ called
+2015-08-12 16:26:04.312218 - trying to make a connection...
+2015-08-12 16:26:04.317458 - otone_client : WampComponent.onJoin called
+2015-08-12 16:26:04.317728 - instantiate_objects called
+2015-08-12 16:26:04.318425 - head.__init__ called
+2015-08-12 16:26:04.318675 - pipette.__init__ called
+2015-08-12 16:26:04.318862 - tool.__init__ called
+2015-08-12 16:26:04.319075 - pipette.__init__ called
+2015-08-12 16:26:04.319286 - tool.__init__ called
+2015-08-12 16:26:04.319466 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:26:04.319605 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:26:04.319787 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:26:04.319939 - the_queue.__init__ called
+2015-08-12 16:26:04.320080 - smoothie_ser2net.connect called
+2015-08-12 16:26:04.320257 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:26:04.320476 - head.load_pipette_values called
+2015-08-12 16:26:04.321073 - old_values:
+{'b': {'droptip': 22.6, 'theContainers': {'trash': {'y': 324, 'x': 145.997, 'z': 54}, 'p10-rack': {'y': None, 'x': None, 'z': None}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trough': {'y': None, 'x': None, 'z': None}}, 'top': 1.8, 'offset': [0, 0, 0], 'bottom_distance': 2, 'toolname': 'b_pipette', 'blowout': 20.2, 'bottom': 18.2, 'resting': 0, 'axis': 'b', 'volume': 200, 'tooltype': 'pipette'}, 'a': {'droptip': 24, 'theContainers': {'trash': {'y': 190, 'x': 120, 'z': 100}, 'p10-rack': {'y': 350.503, 'x': 20, 'z': 100}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trough': {'y': None, 'x': None, 'z': None}}, 'top': 2.5, 'offset': [0, 0, 0], 'bottom_distance': 2, 'toolname': 'a_pipette', 'blowout': 21, 'bottom': 19, 'resting': 0, 'axis': 'a', 'volume': 10, 'tooltype': 'pipette'}}
+
+2015-08-12 16:26:04.321376 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 16:26:04.321553 - head string: Head
+2015-08-12 16:26:04.321701 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 16:26:04.321802 - Head configured!
+2015-08-12 16:26:04.321934 - script_keeper.__init__ called
+2015-08-12 16:26:04.322131 - deck.__init__ called
+2015-08-12 16:26:04.322252 - deck string: Deck
+2015-08-12 16:26:04.322779 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:26:04.322909 - protocol_runner.__init__ called
+2015-08-12 16:26:04.323078 - instruction_queue.__init__ called
+2015-08-12 16:26:04.323209 - deck.configure_deck called
+2015-08-12 16:26:04.323357 - deck_module.__init__ called
+2015-08-12 16:26:04.323518 - deck_module.__init__ called
+2015-08-12 16:26:04.323656 - deck_module.__init__ called
+2015-08-12 16:26:04.323828 - deck_module.__init__ called
+2015-08-12 16:26:04.323989 - deck_module.__init__ called
+2015-08-12 16:26:04.324126 - deck_module.__init__ called
+2015-08-12 16:26:04.324316 - deck_module.__init__ called
+2015-08-12 16:26:04.324443 - Deck configured!
+2015-08-12 16:26:04.324597 - ingredients.__init__ called
+2015-08-12 16:26:04.324730 - ingredients.configure_ingredients called
+2015-08-12 16:26:04.324883 - Ingredients imported!
+2015-08-12 16:26:04.324971 - this is a test
+2015-08-12 16:26:04.325087 - publisher.set_head called
+2015-08-12 16:26:04.325238 - publisher.set_runner called
+2015-08-12 16:26:04.325358 - subscriber.set_head called
+2015-08-12 16:26:04.325494 - subscriber.set_runner called
+2015-08-12 16:26:04.325687 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:26:11.121330 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:28:18.867073 - starting up
+2015-08-12 16:28:18.870102 - subscriber.__init__ called
+2015-08-12 16:28:18.870267 - publisher.__init__ called
+2015-08-12 16:28:18.870398 - trying to make a connection...
+2015-08-12 16:28:18.875662 - otone_client : WampComponent.onJoin called
+2015-08-12 16:28:18.875872 - instantiate_objects called
+2015-08-12 16:28:18.876184 - head.__init__ called
+2015-08-12 16:28:18.876336 - pipette.__init__ called
+2015-08-12 16:28:18.876518 - tool.__init__ called
+2015-08-12 16:28:18.876648 - pipette.__init__ called
+2015-08-12 16:28:18.876813 - tool.__init__ called
+2015-08-12 16:28:18.876967 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:28:18.877100 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:28:18.877222 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:28:18.877430 - the_queue.__init__ called
+2015-08-12 16:28:18.877596 - smoothie_ser2net.connect called
+2015-08-12 16:28:18.877768 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:28:18.878002 - head.load_pipette_values called
+2015-08-12 16:28:18.878294 - old_values:
+{'a': {'top': 2.5, 'volume': 10, 'resting': 0, 'theContainers': {'trough': {'y': None, 'x': None, 'z': None}, 'p10-rack': {'y': 350.503, 'x': 20, 'z': 100}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 190, 'x': 120, 'z': 100}}, 'axis': 'a', 'bottom_distance': 2, 'offset': [0, 0, 0], 'toolname': 'a_pipette', 'tooltype': 'pipette', 'bottom': 19, 'droptip': 24, 'blowout': 21}, 'b': {'top': 1.8, 'volume': 200, 'resting': 0, 'theContainers': {'trough': {'y': None, 'x': None, 'z': None}, 'p10-rack': {'y': None, 'x': None, 'z': None}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 324, 'x': 145.997, 'z': 54}}, 'axis': 'b', 'bottom_distance': 2, 'offset': [0, 0, 0], 'toolname': 'b_pipette', 'tooltype': 'pipette', 'bottom': 18.2, 'droptip': 22.6, 'blowout': 20.2}}
+
+2015-08-12 16:28:18.878600 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 16:28:18.878776 - head string: Head
+2015-08-12 16:28:18.878967 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 16:28:18.879145 - Head configured!
+2015-08-12 16:28:18.879300 - script_keeper.__init__ called
+2015-08-12 16:28:18.879466 - deck.__init__ called
+2015-08-12 16:28:18.879635 - deck string: Deck
+2015-08-12 16:28:18.879786 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:28:18.879933 - protocol_runner.__init__ called
+2015-08-12 16:28:18.880066 - instruction_queue.__init__ called
+2015-08-12 16:28:18.880239 - deck.configure_deck called
+2015-08-12 16:28:18.880395 - deck_module.__init__ called
+2015-08-12 16:28:18.880547 - deck_module.__init__ called
+2015-08-12 16:28:18.880682 - deck_module.__init__ called
+2015-08-12 16:28:18.880863 - deck_module.__init__ called
+2015-08-12 16:28:18.881010 - deck_module.__init__ called
+2015-08-12 16:28:18.881166 - deck_module.__init__ called
+2015-08-12 16:28:18.881327 - deck_module.__init__ called
+2015-08-12 16:28:18.881477 - Deck configured!
+2015-08-12 16:28:18.881651 - ingredients.__init__ called
+2015-08-12 16:28:18.881809 - ingredients.configure_ingredients called
+2015-08-12 16:28:18.881950 - Ingredients imported!
+2015-08-12 16:28:18.882120 - this is a test
+2015-08-12 16:28:18.882239 - publisher.set_head called
+2015-08-12 16:28:18.882373 - publisher.set_runner called
+2015-08-12 16:28:18.882493 - subscriber.set_head called
+2015-08-12 16:28:18.882599 - subscriber.set_runner called
+2015-08-12 16:28:18.882779 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:28:22.014295 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:29:53.096340 - starting up
+2015-08-12 16:29:53.099495 - subscriber.__init__ called
+2015-08-12 16:29:53.099819 - publisher.__init__ called
+2015-08-12 16:29:53.100037 - trying to make a connection...
+2015-08-12 16:29:53.106535 - otone_client : WampComponent.onJoin called
+2015-08-12 16:29:53.106826 - instantiate_objects called
+2015-08-12 16:29:53.107624 - head.__init__ called
+2015-08-12 16:29:53.107939 - pipette.__init__ called
+2015-08-12 16:29:53.108077 - tool.__init__ called
+2015-08-12 16:29:53.108261 - pipette.__init__ called
+2015-08-12 16:29:53.108430 - tool.__init__ called
+2015-08-12 16:29:53.108597 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:29:53.108761 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:29:53.108926 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:29:53.109073 - the_queue.__init__ called
+2015-08-12 16:29:53.109217 - smoothie_ser2net.connect called
+2015-08-12 16:29:53.109362 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:29:53.109580 - head.load_pipette_values called
+2015-08-12 16:29:53.110173 - old_values:
+{'b': {'bottom_distance': 2, 'tooltype': 'pipette', 'resting': 0, 'toolname': 'b_pipette', 'offset': [0, 0, 0], 'top': 1.8, 'droptip': 22.6, 'axis': 'b', 'bottom': 18.2, 'theContainers': {'plate-1': {'x': None, 'y': None, 'z': None}, 'trough': {'x': None, 'y': None, 'z': None}, 'trash': {'x': 145.997, 'y': 324, 'z': 54}, 'p10-rack': {'x': None, 'y': None, 'z': None}}, 'volume': 200, 'blowout': 20.2}, 'a': {'bottom_distance': 2, 'tooltype': 'pipette', 'resting': 0, 'toolname': 'a_pipette', 'offset': [0, 0, 0], 'top': 2.5, 'droptip': 24, 'axis': 'a', 'bottom': 19, 'theContainers': {'plate-1': {'x': None, 'y': None, 'z': None}, 'trough': {'x': None, 'y': None, 'z': None}, 'trash': {'x': 120, 'y': 190, 'z': 100}, 'p10-rack': {'x': 20, 'y': 350.503, 'z': 100}}, 'volume': 10, 'blowout': 21}}
+
+2015-08-12 16:29:53.110551 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 16:29:53.110917 - head string: Head
+2015-08-12 16:29:53.111167 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 16:29:53.111335 - Head configured!
+2015-08-12 16:29:53.111548 - script_keeper.__init__ called
+2015-08-12 16:29:53.111742 - deck.__init__ called
+2015-08-12 16:29:53.111895 - deck string: Deck
+2015-08-12 16:29:53.112061 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:29:53.112200 - protocol_runner.__init__ called
+2015-08-12 16:29:53.112350 - instruction_queue.__init__ called
+2015-08-12 16:29:53.112487 - deck.configure_deck called
+2015-08-12 16:29:53.112648 - deck_module.__init__ called
+2015-08-12 16:29:53.112810 - deck_module.__init__ called
+2015-08-12 16:29:53.112907 - deck_module.__init__ called
+2015-08-12 16:29:53.113046 - deck_module.__init__ called
+2015-08-12 16:29:53.113173 - deck_module.__init__ called
+2015-08-12 16:29:53.113349 - deck_module.__init__ called
+2015-08-12 16:29:53.113558 - deck_module.__init__ called
+2015-08-12 16:29:53.113809 - Deck configured!
+2015-08-12 16:29:53.114566 - ingredients.__init__ called
+2015-08-12 16:29:53.114931 - ingredients.configure_ingredients called
+2015-08-12 16:29:53.115224 - Ingredients imported!
+2015-08-12 16:29:53.115554 - this is a test
+2015-08-12 16:29:53.115809 - publisher.set_head called
+2015-08-12 16:29:53.116179 - publisher.set_runner called
+2015-08-12 16:29:53.116603 - subscriber.set_head called
+2015-08-12 16:29:53.116959 - subscriber.set_runner called
+2015-08-12 16:29:53.117453 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:30:04.408918 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:31:19.397733 - starting up
+2015-08-12 16:31:19.402538 - subscriber.__init__ called
+2015-08-12 16:31:19.402740 - publisher.__init__ called
+2015-08-12 16:31:19.402949 - trying to make a connection...
+2015-08-12 16:31:19.407139 - otone_client : WampComponent.onJoin called
+2015-08-12 16:31:19.407352 - instantiate_objects called
+2015-08-12 16:31:19.408056 - head.__init__ called
+2015-08-12 16:31:19.408317 - pipette.__init__ called
+2015-08-12 16:31:19.408488 - tool.__init__ called
+2015-08-12 16:31:19.408731 - pipette.__init__ called
+2015-08-12 16:31:19.408971 - tool.__init__ called
+2015-08-12 16:31:19.409207 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:31:19.409360 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:31:19.409502 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:31:19.409651 - the_queue.__init__ called
+2015-08-12 16:31:19.409799 - smoothie_ser2net.connect called
+2015-08-12 16:31:19.409955 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:31:19.410236 - head.load_pipette_values called
+2015-08-12 16:31:19.410820 - old_values:
+{'b': {'theContainers': {'trough': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 54, 'x': 145.997, 'y': 324}}, 'droptip': 22.6, 'tooltype': 'pipette', 'volume': 200, 'axis': 'b', 'blowout': 20.2, 'bottom_distance': 2, 'bottom': 18.2, 'toolname': 'b_pipette', 'top': 1.8, 'resting': 0, 'offset': [0, 0, 0]}, 'a': {'theContainers': {'trough': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'trash': {'z': 100, 'x': 120, 'y': 190}}, 'droptip': 24, 'tooltype': 'pipette', 'volume': 10, 'axis': 'a', 'blowout': 21, 'bottom_distance': 2, 'bottom': 19, 'toolname': 'a_pipette', 'top': 2.5, 'resting': 0, 'offset': [0, 0, 0]}}
+
+2015-08-12 16:31:19.411156 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 16:31:19.411297 - head string: Head
+2015-08-12 16:31:19.411450 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 16:31:19.411606 - Head configured!
+2015-08-12 16:31:19.411728 - script_keeper.__init__ called
+2015-08-12 16:31:19.411912 - deck.__init__ called
+2015-08-12 16:31:19.412009 - deck string: Deck
+2015-08-12 16:31:19.412180 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:31:19.412312 - protocol_runner.__init__ called
+2015-08-12 16:31:19.412448 - instruction_queue.__init__ called
+2015-08-12 16:31:19.412667 - deck.configure_deck called
+2015-08-12 16:31:19.412817 - deck_module.__init__ called
+2015-08-12 16:31:19.412936 - deck_module.__init__ called
+2015-08-12 16:31:19.413117 - deck_module.__init__ called
+2015-08-12 16:31:19.413292 - deck_module.__init__ called
+2015-08-12 16:31:19.413450 - deck_module.__init__ called
+2015-08-12 16:31:19.413603 - deck_module.__init__ called
+2015-08-12 16:31:19.413751 - deck_module.__init__ called
+2015-08-12 16:31:19.413893 - Deck configured!
+2015-08-12 16:31:19.414030 - ingredients.__init__ called
+2015-08-12 16:31:19.414194 - ingredients.configure_ingredients called
+2015-08-12 16:31:19.414323 - Ingredients imported!
+2015-08-12 16:31:19.414478 - this is a test
+2015-08-12 16:31:19.414581 - publisher.set_head called
+2015-08-12 16:31:19.414766 - publisher.set_runner called
+2015-08-12 16:31:19.414938 - subscriber.set_head called
+2015-08-12 16:31:19.415098 - subscriber.set_runner called
+2015-08-12 16:31:19.415310 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:31:28.497699 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:35:44.706500 - starting up
+2015-08-12 16:35:44.711398 - subscriber.__init__ called
+2015-08-12 16:35:44.711613 - publisher.__init__ called
+2015-08-12 16:35:44.712029 - trying to make a connection...
+2015-08-12 16:35:44.717069 - otone_client : WampComponent.onJoin called
+2015-08-12 16:35:44.717291 - instantiate_objects called
+2015-08-12 16:35:44.718207 - head.__init__ called
+2015-08-12 16:35:44.718449 - pipette.__init__ called
+2015-08-12 16:35:44.718642 - tool.__init__ called
+2015-08-12 16:35:44.718885 - pipette.__init__ called
+2015-08-12 16:35:44.719055 - tool.__init__ called
+2015-08-12 16:35:44.719230 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:35:44.719390 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:35:44.719555 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:35:44.719684 - the_queue.__init__ called
+2015-08-12 16:35:44.719850 - smoothie_ser2net.connect called
+2015-08-12 16:35:44.719981 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:35:44.720198 - head.load_pipette_values called
+2015-08-12 16:35:44.720888 - old_values:
+{'a': {'volume': 10, 'blowout': 21, 'resting': 0, 'droptip': 24, 'theContainers': {'trough': {'x': None, 'y': None, 'z': None}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': 20, 'y': 350.503, 'z': 100}, 'trash': {'x': 120, 'y': 190, 'z': 100}}, 'offset': [0, 0, 0], 'bottom': 19, 'top': 2.5, 'toolname': 'a_pipette', 'tooltype': 'pipette', 'axis': 'a', 'bottom_distance': 2}, 'b': {'volume': 200, 'blowout': 20.2, 'resting': 0, 'droptip': 22.6, 'theContainers': {'trough': {'x': None, 'y': None, 'z': None}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': None, 'y': None, 'z': None}, 'trash': {'x': 145.997, 'y': 324, 'z': 54}}, 'offset': [0, 0, 0], 'bottom': 18.2, 'top': 1.8, 'toolname': 'b_pipette', 'tooltype': 'pipette', 'axis': 'b', 'bottom_distance': 2}}
+
+2015-08-12 16:35:44.721169 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 16:35:44.721321 - head string: Head
+2015-08-12 16:35:44.721449 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 16:35:44.721561 - Head configured!
+2015-08-12 16:35:44.721677 - script_keeper.__init__ called
+2015-08-12 16:35:44.721820 - deck.__init__ called
+2015-08-12 16:35:44.721930 - deck string: Deck
+2015-08-12 16:35:44.722070 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:35:44.722180 - protocol_runner.__init__ called
+2015-08-12 16:35:44.722291 - instruction_queue.__init__ called
+2015-08-12 16:35:44.722413 - deck.configure_deck called
+2015-08-12 16:35:44.722566 - deck_module.__init__ called
+2015-08-12 16:35:44.722742 - deck_module.__init__ called
+2015-08-12 16:35:44.722867 - deck_module.__init__ called
+2015-08-12 16:35:44.723006 - deck_module.__init__ called
+2015-08-12 16:35:44.723168 - deck_module.__init__ called
+2015-08-12 16:35:44.723290 - deck_module.__init__ called
+2015-08-12 16:35:44.723433 - deck_module.__init__ called
+2015-08-12 16:35:44.723592 - Deck configured!
+2015-08-12 16:35:44.723724 - ingredients.__init__ called
+2015-08-12 16:35:44.723850 - ingredients.configure_ingredients called
+2015-08-12 16:35:44.723984 - Ingredients imported!
+2015-08-12 16:35:44.724112 - this is a test
+2015-08-12 16:35:44.724246 - publisher.set_head called
+2015-08-12 16:35:44.724375 - publisher.set_runner called
+2015-08-12 16:35:44.724506 - subscriber.set_head called
+2015-08-12 16:35:44.724635 - subscriber.set_runner called
+2015-08-12 16:35:44.724845 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:37:18.853571 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:42:03.568302 - starting up
+2015-08-12 16:42:03.571397 - subscriber.__init__ called
+2015-08-12 16:42:03.571640 - publisher.__init__ called
+2015-08-12 16:42:03.571812 - trying to make a connection...
+2015-08-12 16:42:03.581308 - otone_client : WampComponent.onJoin called
+2015-08-12 16:42:03.581576 - instantiate_objects called
+2015-08-12 16:42:03.582254 - head.__init__ called
+2015-08-12 16:42:03.582552 - pipette.__init__ called
+2015-08-12 16:42:03.582708 - tool.__init__ called
+2015-08-12 16:42:03.582853 - pipette.__init__ called
+2015-08-12 16:42:03.582987 - tool.__init__ called
+2015-08-12 16:42:03.583242 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:42:03.583459 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:42:03.583627 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:42:03.583917 - the_queue.__init__ called
+2015-08-12 16:42:03.584110 - smoothie_ser2net.connect called
+2015-08-12 16:42:03.584465 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:42:03.584841 - head.load_pipette_values called
+2015-08-12 16:42:03.585574 - old_values:
+{'a': {'theContainers': {'trough': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 100, 'x': 120, 'y': 190}}, 'bottom_distance': 2, 'axis': 'a', 'bottom': 19, 'volume': 10, 'resting': 0, 'blowout': 21, 'droptip': 24, 'toolname': 'a_pipette', 'tooltype': 'pipette', 'offset': [0, 0, 0], 'top': 2.5}, 'b': {'theContainers': {'trough': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 54, 'x': 145.997, 'y': 324}}, 'bottom_distance': 2, 'axis': 'b', 'bottom': 18.2, 'volume': 200, 'resting': 0, 'blowout': 20.2, 'droptip': 22.6, 'toolname': 'b_pipette', 'tooltype': 'pipette', 'offset': [0, 0, 0], 'top': 1.8}}
+
+2015-08-12 16:42:03.586002 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 16:42:03.586185 - head string: Head
+2015-08-12 16:42:03.586654 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 16:42:03.586816 - Head configured!
+2015-08-12 16:42:03.586982 - script_keeper.__init__ called
+2015-08-12 16:42:03.587254 - deck.__init__ called
+2015-08-12 16:42:03.587396 - deck string: Deck
+2015-08-12 16:42:03.587532 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:42:03.587661 - protocol_runner.__init__ called
+2015-08-12 16:42:03.587789 - instruction_queue.__init__ called
+2015-08-12 16:42:03.588008 - deck.configure_deck called
+2015-08-12 16:42:03.588204 - deck_module.__init__ called
+2015-08-12 16:42:03.588359 - deck_module.__init__ called
+2015-08-12 16:42:03.588635 - deck_module.__init__ called
+2015-08-12 16:42:03.588831 - deck_module.__init__ called
+2015-08-12 16:42:03.588960 - deck_module.__init__ called
+2015-08-12 16:42:03.589089 - deck_module.__init__ called
+2015-08-12 16:42:03.589258 - deck_module.__init__ called
+2015-08-12 16:42:03.589429 - Deck configured!
+2015-08-12 16:42:03.589731 - ingredients.__init__ called
+2015-08-12 16:42:03.589869 - ingredients.configure_ingredients called
+2015-08-12 16:42:03.590062 - Ingredients imported!
+2015-08-12 16:42:03.590200 - this is a test
+2015-08-12 16:42:03.590407 - publisher.set_head called
+2015-08-12 16:42:03.590546 - publisher.set_runner called
+2015-08-12 16:42:03.590780 - subscriber.set_head called
+2015-08-12 16:42:03.590956 - subscriber.set_runner called
+2015-08-12 16:42:03.591220 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:42:09.704215 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:49:26.349379 - starting up
+2015-08-12 16:49:26.354617 - subscriber.__init__ called
+2015-08-12 16:49:26.354819 - publisher.__init__ called
+2015-08-12 16:49:26.354992 - trying to make a connection...
+2015-08-12 16:49:26.361720 - otone_client : WampComponent.onJoin called
+2015-08-12 16:49:26.362165 - instantiate_objects called
+2015-08-12 16:49:26.363374 - head.__init__ called
+2015-08-12 16:49:26.363591 - pipette.__init__ called
+2015-08-12 16:49:26.363759 - tool.__init__ called
+2015-08-12 16:49:26.363932 - pipette.__init__ called
+2015-08-12 16:49:26.364150 - tool.__init__ called
+2015-08-12 16:49:26.364329 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:49:26.364490 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:49:26.364640 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:49:26.364798 - the_queue.__init__ called
+2015-08-12 16:49:26.365066 - smoothie_ser2net.connect called
+2015-08-12 16:49:26.365268 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:49:26.365608 - head.load_pipette_values called
+2015-08-12 16:49:26.366478 - old_values:
+{'a': {'top': 2.5, 'bottom_distance': 2, 'droptip': 24, 'blowout': 21, 'tooltype': 'pipette', 'volume': 10, 'offset': [0, 0, 0], 'axis': 'a', 'bottom': 19, 'toolname': 'a_pipette', 'resting': 0, 'theContainers': {'trash': {'z': 100, 'x': 120, 'y': 190}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}}}, 'b': {'top': 1.8, 'bottom_distance': 2, 'droptip': 22.6, 'blowout': 20.2, 'tooltype': 'pipette', 'volume': 200, 'offset': [0, 0, 0], 'axis': 'b', 'bottom': 18.2, 'toolname': 'b_pipette', 'resting': 0, 'theContainers': {'trash': {'z': 54, 'x': 145.997, 'y': 324}, 'p10-rack': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}}}}
+
+2015-08-12 16:49:26.367044 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 16:49:26.367197 - head string: Head
+2015-08-12 16:49:26.367379 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 16:49:26.367560 - Head configured!
+2015-08-12 16:49:26.367721 - script_keeper.__init__ called
+2015-08-12 16:49:26.367893 - deck.__init__ called
+2015-08-12 16:49:26.368039 - deck string: Deck
+2015-08-12 16:49:26.368192 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:49:26.368338 - protocol_runner.__init__ called
+2015-08-12 16:49:26.368490 - instruction_queue.__init__ called
+2015-08-12 16:49:26.368629 - deck.configure_deck called
+2015-08-12 16:49:26.368781 - deck_module.__init__ called
+2015-08-12 16:49:26.368937 - deck_module.__init__ called
+2015-08-12 16:49:26.369085 - deck_module.__init__ called
+2015-08-12 16:49:26.369241 - deck_module.__init__ called
+2015-08-12 16:49:26.369379 - deck_module.__init__ called
+2015-08-12 16:49:26.369526 - deck_module.__init__ called
+2015-08-12 16:49:26.369673 - deck_module.__init__ called
+2015-08-12 16:49:26.369803 - Deck configured!
+2015-08-12 16:49:26.369966 - ingredients.__init__ called
+2015-08-12 16:49:26.370114 - ingredients.configure_ingredients called
+2015-08-12 16:49:26.370243 - Ingredients imported!
+2015-08-12 16:49:26.370431 - this is a test
+2015-08-12 16:49:26.370568 - publisher.set_head called
+2015-08-12 16:49:26.370709 - publisher.set_runner called
+2015-08-12 16:49:26.370852 - subscriber.set_head called
+2015-08-12 16:49:26.371022 - subscriber.set_runner called
+2015-08-12 16:49:26.371241 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:49:30.255083 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:50:27.134721 - starting up
+2015-08-12 16:50:27.138879 - subscriber.__init__ called
+2015-08-12 16:50:27.139117 - publisher.__init__ called
+2015-08-12 16:50:27.139319 - trying to make a connection...
+2015-08-12 16:50:27.143596 - otone_client : WampComponent.onJoin called
+2015-08-12 16:50:27.143818 - instantiate_objects called
+2015-08-12 16:50:27.144370 - head.__init__ called
+2015-08-12 16:50:27.144600 - pipette.__init__ called
+2015-08-12 16:50:27.144728 - tool.__init__ called
+2015-08-12 16:50:27.144906 - pipette.__init__ called
+2015-08-12 16:50:27.145033 - tool.__init__ called
+2015-08-12 16:50:27.145170 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:50:27.145488 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:50:27.145677 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:50:27.145788 - the_queue.__init__ called
+2015-08-12 16:50:27.145931 - smoothie_ser2net.connect called
+2015-08-12 16:50:27.146089 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:50:27.146314 - head.load_pipette_values called
+2015-08-12 16:50:27.146860 - old_values:
+{'a': {'resting': 0, 'theContainers': {'plate-1': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': 350.503, 'z': 100, 'x': 20}, 'trough': {'y': None, 'z': None, 'x': None}, 'trash': {'y': 190, 'z': 100, 'x': 120}}, 'bottom_distance': 2, 'droptip': 24, 'bottom': 19, 'axis': 'a', 'tooltype': 'pipette', 'blowout': 21, 'volume': 10, 'top': 2.5, 'offset': [0, 0, 0], 'toolname': 'a_pipette'}, 'b': {'resting': 0, 'theContainers': {'plate-1': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': None, 'z': None, 'x': None}, 'trough': {'y': None, 'z': None, 'x': None}, 'trash': {'y': 324, 'z': 54, 'x': 145.997}}, 'bottom_distance': 2, 'droptip': 22.6, 'bottom': 18.2, 'axis': 'b', 'tooltype': 'pipette', 'blowout': 20.2, 'volume': 200, 'top': 1.8, 'offset': [0, 0, 0], 'toolname': 'b_pipette'}}
+
+2015-08-12 16:50:27.147474 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 16:50:27.147837 - head string: Head
+2015-08-12 16:50:27.148000 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 16:50:27.148144 - Head configured!
+2015-08-12 16:50:27.148349 - script_keeper.__init__ called
+2015-08-12 16:50:27.148510 - deck.__init__ called
+2015-08-12 16:50:27.148655 - deck string: Deck
+2015-08-12 16:50:27.148843 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:50:27.148984 - protocol_runner.__init__ called
+2015-08-12 16:50:27.149129 - instruction_queue.__init__ called
+2015-08-12 16:50:27.149279 - deck.configure_deck called
+2015-08-12 16:50:27.149405 - deck_module.__init__ called
+2015-08-12 16:50:27.149544 - deck_module.__init__ called
+2015-08-12 16:50:27.149683 - deck_module.__init__ called
+2015-08-12 16:50:27.149817 - deck_module.__init__ called
+2015-08-12 16:50:27.149939 - deck_module.__init__ called
+2015-08-12 16:50:27.150064 - deck_module.__init__ called
+2015-08-12 16:50:27.150197 - deck_module.__init__ called
+2015-08-12 16:50:27.150316 - Deck configured!
+2015-08-12 16:50:27.150443 - ingredients.__init__ called
+2015-08-12 16:50:27.150575 - ingredients.configure_ingredients called
+2015-08-12 16:50:27.150705 - Ingredients imported!
+2015-08-12 16:50:27.150834 - this is a test
+2015-08-12 16:50:27.150965 - publisher.set_head called
+2015-08-12 16:50:27.151101 - publisher.set_runner called
+2015-08-12 16:50:27.151233 - subscriber.set_head called
+2015-08-12 16:50:27.151368 - subscriber.set_runner called
+2015-08-12 16:50:27.151566 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:50:30.927340 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:53:33.135680 - starting up
+2015-08-12 16:53:33.140366 - subscriber.__init__ called
+2015-08-12 16:53:33.140556 - publisher.__init__ called
+2015-08-12 16:53:33.140710 - trying to make a connection...
+2015-08-12 16:53:33.146006 - otone_client : WampComponent.onJoin called
+2015-08-12 16:53:33.146218 - instantiate_objects called
+2015-08-12 16:53:33.146799 - head.__init__ called
+2015-08-12 16:53:33.147038 - pipette.__init__ called
+2015-08-12 16:53:33.147181 - tool.__init__ called
+2015-08-12 16:53:33.147319 - pipette.__init__ called
+2015-08-12 16:53:33.147494 - tool.__init__ called
+2015-08-12 16:53:33.147651 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:53:33.147845 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:53:33.148182 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:53:33.148369 - the_queue.__init__ called
+2015-08-12 16:53:33.148539 - smoothie_ser2net.connect called
+2015-08-12 16:53:33.148773 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:53:33.149116 - head.load_pipette_values called
+2015-08-12 16:53:33.149718 - old_values:
+{'b': {'volume': 200, 'bottom_distance': 2, 'axis': 'b', 'offset': [0, 0, 0], 'droptip': 22.6, 'tooltype': 'pipette', 'top': 1.8, 'toolname': 'b_pipette', 'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': None, 'y': None, 'x': None}, 'trough': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 54, 'y': 324, 'x': 145.997}}, 'resting': 0, 'bottom': 18.2, 'blowout': 20.2}, 'a': {'volume': 10, 'bottom_distance': 2, 'axis': 'a', 'offset': [0, 0, 0], 'droptip': 24, 'tooltype': 'pipette', 'top': 2.5, 'toolname': 'a_pipette', 'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': 100, 'y': 350.503, 'x': 20}, 'trough': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 100, 'y': 190, 'x': 120}}, 'resting': 0, 'bottom': 19, 'blowout': 21}}
+
+2015-08-12 16:53:33.150080 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 16:53:33.150265 - head string: Head
+2015-08-12 16:53:33.150474 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-12 16:53:33.150684 - Head configured!
+2015-08-12 16:53:33.151051 - script_keeper.__init__ called
+2015-08-12 16:53:33.151393 - deck.__init__ called
+2015-08-12 16:53:33.151574 - deck string: Deck
+2015-08-12 16:53:33.151728 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:53:33.151988 - protocol_runner.__init__ called
+2015-08-12 16:53:33.152170 - instruction_queue.__init__ called
+2015-08-12 16:53:33.152407 - deck.configure_deck called
+2015-08-12 16:53:33.152564 - deck_module.__init__ called
+2015-08-12 16:53:33.152762 - deck_module.__init__ called
+2015-08-12 16:53:33.152992 - deck_module.__init__ called
+2015-08-12 16:53:33.153170 - deck_module.__init__ called
+2015-08-12 16:53:33.153312 - deck_module.__init__ called
+2015-08-12 16:53:33.153558 - deck_module.__init__ called
+2015-08-12 16:53:33.153763 - deck_module.__init__ called
+2015-08-12 16:53:33.153998 - Deck configured!
+2015-08-12 16:53:33.154173 - ingredients.__init__ called
+2015-08-12 16:53:33.154346 - ingredients.configure_ingredients called
+2015-08-12 16:53:33.154499 - Ingredients imported!
+2015-08-12 16:53:33.154654 - this is a test
+2015-08-12 16:53:33.154912 - publisher.set_head called
+2015-08-12 16:53:33.155089 - publisher.set_runner called
+2015-08-12 16:53:33.155400 - subscriber.set_head called
+2015-08-12 16:53:33.155593 - subscriber.set_runner called
+2015-08-12 16:53:33.155927 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:53:41.826032 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 16:57:42.552215 - starting up
+2015-08-12 16:57:42.557257 - subscriber.__init__ called
+2015-08-12 16:57:42.557603 - publisher.__init__ called
+2015-08-12 16:57:42.557775 - trying to make a connection...
+2015-08-12 16:57:42.562712 - otone_client : WampComponent.onJoin called
+2015-08-12 16:57:42.563002 - instantiate_objects called
+2015-08-12 16:57:42.563720 - head.__init__ called
+2015-08-12 16:57:42.563947 - pipette.__init__ called
+2015-08-12 16:57:42.564074 - tool.__init__ called
+2015-08-12 16:57:42.564255 - pipette.__init__ called
+2015-08-12 16:57:42.564381 - tool.__init__ called
+2015-08-12 16:57:42.564556 - smoothie_ser2net.set_raw_callback called
+2015-08-12 16:57:42.564690 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 16:57:42.564871 - smoothie_ser2net.set_move_callback called
+2015-08-12 16:57:42.565029 - the_queue.__init__ called
+2015-08-12 16:57:42.565190 - smoothie_ser2net.connect called
+2015-08-12 16:57:42.565336 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 16:57:42.565553 - head.load_pipette_values called
+2015-08-12 16:57:42.566276 - old_values:
+{'a': {'resting': 0, 'volume': 10, 'tooltype': 'pipette', 'droptip': 24, 'offset': [0, 0, 0], 'blowout': 21, 'bottom_distance': 2, 'theContainers': {'trash': {'z': 100, 'x': 120, 'y': 190}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'trough': {'z': None, 'x': None, 'y': None}}, 'bottom': 19, 'axis': 'a', 'toolname': 'a_pipette', 'top': 2.5}, 'b': {'resting': 0, 'volume': 200, 'tooltype': 'pipette', 'droptip': 22.6, 'offset': [0, 0, 0], 'blowout': 20.2, 'bottom_distance': 2, 'theContainers': {'trash': {'z': 54, 'x': 145.997, 'y': 324}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}}, 'bottom': 18.2, 'axis': 'b', 'toolname': 'b_pipette', 'top': 1.8}}
+
+2015-08-12 16:57:42.566601 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-12 16:57:42.566830 - head string: Head
+2015-08-12 16:57:42.566989 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 16:57:42.567152 - Head configured!
+2015-08-12 16:57:42.567317 - script_keeper.__init__ called
+2015-08-12 16:57:42.567579 - deck.__init__ called
+2015-08-12 16:57:42.567706 - deck string: Deck
+2015-08-12 16:57:42.567924 - deck representation: Deck(dict_keys([]))
+2015-08-12 16:57:42.568070 - protocol_runner.__init__ called
+2015-08-12 16:57:42.568218 - instruction_queue.__init__ called
+2015-08-12 16:57:42.568363 - deck.configure_deck called
+2015-08-12 16:57:42.568943 - deck_module.__init__ called
+2015-08-12 16:57:42.569120 - deck_module.__init__ called
+2015-08-12 16:57:42.569285 - deck_module.__init__ called
+2015-08-12 16:57:42.569430 - deck_module.__init__ called
+2015-08-12 16:57:42.569652 - deck_module.__init__ called
+2015-08-12 16:57:42.569887 - deck_module.__init__ called
+2015-08-12 16:57:42.570053 - deck_module.__init__ called
+2015-08-12 16:57:42.570221 - Deck configured!
+2015-08-12 16:57:42.570392 - ingredients.__init__ called
+2015-08-12 16:57:42.570653 - ingredients.configure_ingredients called
+2015-08-12 16:57:42.570828 - Ingredients imported!
+2015-08-12 16:57:42.570993 - this is a test
+2015-08-12 16:57:42.571146 - publisher.set_head called
+2015-08-12 16:57:42.571308 - publisher.set_runner called
+2015-08-12 16:57:42.571471 - subscriber.set_head called
+2015-08-12 16:57:42.571686 - subscriber.set_runner called
+2015-08-12 16:57:42.571915 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 16:57:47.672287 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-12 17:08:30.371212 - starting up
+2015-08-12 17:08:30.376496 - subscriber.__init__ called
+2015-08-12 17:08:30.376690 - publisher.__init__ called
+2015-08-12 17:08:30.376905 - trying to make a connection...
+2015-08-12 17:08:30.381930 - otone_client : WampComponent.onJoin called
+2015-08-12 17:08:30.382684 - instantiate_objects called
+2015-08-12 17:08:30.385244 - head.__init__ called
+2015-08-12 17:08:30.385660 - pipette.__init__ called
+2015-08-12 17:08:30.385952 - tool.__init__ called
+2015-08-12 17:08:30.386149 - pipette.__init__ called
+2015-08-12 17:08:30.386358 - tool.__init__ called
+2015-08-12 17:08:30.386560 - smoothie_ser2net.set_raw_callback called
+2015-08-12 17:08:30.386743 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-12 17:08:30.386928 - smoothie_ser2net.set_move_callback called
+2015-08-12 17:08:30.387098 - the_queue.__init__ called
+2015-08-12 17:08:30.387371 - smoothie_ser2net.connect called
+2015-08-12 17:08:30.387581 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-12 17:08:30.387837 - head.load_pipette_values called
+2015-08-12 17:08:30.388821 - old_values:
+{'b': {'bottom_distance': 2, 'axis': 'b', 'toolname': 'b_pipette', 'blowout': 20.2, 'tooltype': 'pipette', 'volume': 200, 'top': 1.8, 'offset': [0, 0, 0], 'theContainers': {'trash': {'x': 145.997, 'y': 324, 'z': 54}, 'trough': {'x': None, 'y': None, 'z': None}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': None, 'y': None, 'z': None}}, 'bottom': 18.2, 'resting': 0, 'droptip': 22.6}, 'a': {'bottom_distance': 2, 'axis': 'a', 'toolname': 'a_pipette', 'blowout': 21, 'tooltype': 'pipette', 'volume': 10, 'top': 2.5, 'offset': [0, 0, 0], 'theContainers': {'trash': {'x': 120, 'y': 190, 'z': 100}, 'trough': {'x': None, 'y': None, 'z': None}, 'plate-1': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': 20, 'y': 350.503, 'z': 100}}, 'bottom': 19, 'resting': 0, 'droptip': 24}}
+
+2015-08-12 17:08:30.389069 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-12 17:08:30.389247 - head string: Head
+2015-08-12 17:08:30.389535 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-12 17:08:30.389680 - Head configured!
+2015-08-12 17:08:30.389866 - script_keeper.__init__ called
+2015-08-12 17:08:30.390052 - deck.__init__ called
+2015-08-12 17:08:30.390231 - deck string: Deck
+2015-08-12 17:08:30.390371 - deck representation: Deck(dict_keys([]))
+2015-08-12 17:08:30.390567 - protocol_runner.__init__ called
+2015-08-12 17:08:30.390695 - instruction_queue.__init__ called
+2015-08-12 17:08:30.390867 - deck.configure_deck called
+2015-08-12 17:08:30.391041 - deck_module.__init__ called
+2015-08-12 17:08:30.391196 - deck_module.__init__ called
+2015-08-12 17:08:30.391339 - deck_module.__init__ called
+2015-08-12 17:08:30.391490 - deck_module.__init__ called
+2015-08-12 17:08:30.391633 - deck_module.__init__ called
+2015-08-12 17:08:30.391791 - deck_module.__init__ called
+2015-08-12 17:08:30.391968 - deck_module.__init__ called
+2015-08-12 17:08:30.392124 - Deck configured!
+2015-08-12 17:08:30.392345 - ingredients.__init__ called
+2015-08-12 17:08:30.392505 - ingredients.configure_ingredients called
+2015-08-12 17:08:30.392675 - Ingredients imported!
+2015-08-12 17:08:30.392875 - this is a test
+2015-08-12 17:08:30.393060 - publisher.set_head called
+2015-08-12 17:08:30.393226 - publisher.set_runner called
+2015-08-12 17:08:30.393369 - subscriber.set_head called
+2015-08-12 17:08:30.393564 - subscriber.set_runner called
+2015-08-12 17:08:30.393792 - about to publish com.opentrons.robot_ready TRUE
+2015-08-12 17:08:32.779507 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:19.662359 - starting up
+2015-08-14 14:03:19.666245 - subscriber.__init__ called
+2015-08-14 14:03:19.666482 - publisher.__init__ called
+2015-08-14 14:03:19.666673 - trying to make a connection...
+2015-08-14 14:03:19.667900 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:24.670848 - trying to make a connection...
+2015-08-14 14:03:24.672293 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:29.680524 - trying to make a connection...
+2015-08-14 14:03:29.682033 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:34.690633 - trying to make a connection...
+2015-08-14 14:03:34.692238 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:39.704568 - trying to make a connection...
+2015-08-14 14:03:39.706194 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:44.712726 - trying to make a connection...
+2015-08-14 14:03:44.714355 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:49.722751 - trying to make a connection...
+2015-08-14 14:03:49.724167 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:54.736666 - trying to make a connection...
+2015-08-14 14:03:54.738306 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:03:59.750606 - trying to make a connection...
+2015-08-14 14:03:59.752139 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:04:04.759444 - trying to make a connection...
+2015-08-14 14:04:04.760556 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:04:09.765974 - trying to make a connection...
+2015-08-14 14:04:09.767607 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:04:14.775190 - trying to make a connection...
+2015-08-14 14:04:14.776446 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:04:19.788336 - trying to make a connection...
+2015-08-14 14:04:19.790780 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:04:24.800018 - trying to make a connection...
+2015-08-14 14:04:24.810778 - otone_client : WampComponent.onJoin called
+2015-08-14 14:04:24.811350 - instantiate_objects called
+2015-08-14 14:04:24.813032 - head.__init__ called
+2015-08-14 14:04:24.813245 - pipette.__init__ called
+2015-08-14 14:04:24.813454 - tool.__init__ called
+2015-08-14 14:04:24.813681 - pipette.__init__ called
+2015-08-14 14:04:24.813861 - tool.__init__ called
+2015-08-14 14:04:24.814075 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:04:24.814272 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:04:24.814580 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:04:24.814740 - the_queue.__init__ called
+2015-08-14 14:04:24.815006 - smoothie_ser2net.connect called
+2015-08-14 14:04:24.815294 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:04:24.815668 - head.load_pipette_values called
+2015-08-14 14:04:24.816643 - old_values:
+{'b': {'resting': 0, 'bottom': 18.2, 'tooltype': 'pipette', 'top': 1.8, 'droptip': 22.6, 'blowout': 20.2, 'volume': 200, 'bottom_distance': 2, 'axis': 'b', 'toolname': 'b_pipette', 'offset': [0, 0, 0], 'theContainers': {'p10-rack': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 324, 'x': 145.997, 'z': 54}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trough': {'y': None, 'x': None, 'z': None}}}, 'a': {'resting': 0, 'bottom': 19, 'tooltype': 'pipette', 'top': 2.5, 'droptip': 24, 'blowout': 21, 'volume': 10, 'bottom_distance': 2, 'axis': 'a', 'toolname': 'a_pipette', 'offset': [0, 0, 0], 'theContainers': {'p10-rack': {'y': 350.503, 'x': 20, 'z': 100}, 'trash': {'y': 190, 'x': 120, 'z': 100}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trough': {'y': None, 'x': None, 'z': None}}}}
+
+2015-08-14 14:04:24.817028 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-14 14:04:24.817195 - head string: Head
+2015-08-14 14:04:24.817395 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 14:04:24.817584 - Head configured!
+2015-08-14 14:04:24.817750 - script_keeper.__init__ called
+2015-08-14 14:04:24.817999 - deck.__init__ called
+2015-08-14 14:04:24.818248 - deck string: Deck
+2015-08-14 14:04:24.818415 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:04:24.818567 - protocol_runner.__init__ called
+2015-08-14 14:04:24.818778 - instruction_queue.__init__ called
+2015-08-14 14:04:24.818944 - deck.configure_deck called
+2015-08-14 14:04:24.819104 - deck_module.__init__ called
+2015-08-14 14:04:24.819265 - deck_module.__init__ called
+2015-08-14 14:04:24.819466 - deck_module.__init__ called
+2015-08-14 14:04:24.819622 - deck_module.__init__ called
+2015-08-14 14:04:24.819808 - deck_module.__init__ called
+2015-08-14 14:04:24.820063 - deck_module.__init__ called
+2015-08-14 14:04:24.820230 - deck_module.__init__ called
+2015-08-14 14:04:24.820404 - Deck configured!
+2015-08-14 14:04:24.820541 - ingredients.__init__ called
+2015-08-14 14:04:24.820679 - ingredients.configure_ingredients called
+2015-08-14 14:04:24.820864 - Ingredients imported!
+2015-08-14 14:04:24.821034 - this is a test
+2015-08-14 14:04:24.821200 - publisher.set_head called
+2015-08-14 14:04:24.821426 - publisher.set_runner called
+2015-08-14 14:04:24.821601 - subscriber.set_head called
+2015-08-14 14:04:24.821754 - subscriber.set_runner called
+2015-08-14 14:04:24.821992 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:04:30.868014 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:06:09.739952 - starting up
+2015-08-14 14:06:09.741624 - subscriber.__init__ called
+2015-08-14 14:06:09.741783 - publisher.__init__ called
+2015-08-14 14:06:09.741975 - trying to make a connection...
+2015-08-14 14:06:09.745785 - otone_client : WampComponent.onJoin called
+2015-08-14 14:06:09.745995 - instantiate_objects called
+2015-08-14 14:06:09.746279 - head.__init__ called
+2015-08-14 14:06:09.746453 - pipette.__init__ called
+2015-08-14 14:06:09.746581 - tool.__init__ called
+2015-08-14 14:06:09.746701 - pipette.__init__ called
+2015-08-14 14:06:09.746812 - tool.__init__ called
+2015-08-14 14:06:09.746994 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:06:09.747132 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:06:09.747306 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:06:09.747460 - the_queue.__init__ called
+2015-08-14 14:06:09.747585 - smoothie_ser2net.connect called
+2015-08-14 14:06:09.747715 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:06:09.747946 - head.load_pipette_values called
+2015-08-14 14:06:09.748291 - old_values:
+{'b': {'blowout': 20.2, 'bottom': 18.2, 'tooltype': 'pipette', 'volume': 200, 'axis': 'b', 'resting': 0, 'top': 1.8, 'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'trough': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 54, 'y': 324, 'x': 145.997}}, 'droptip': 22.6, 'toolname': 'b_pipette', 'offset': [0, 0, 0], 'bottom_distance': 2}, 'a': {'blowout': 21, 'bottom': 19, 'tooltype': 'pipette', 'volume': 10, 'axis': 'a', 'resting': 0, 'top': 2.5, 'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'trough': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': 100, 'y': 350.503, 'x': 20}, 'trash': {'z': 100, 'y': 190, 'x': 120}}, 'droptip': 24, 'toolname': 'a_pipette', 'offset': [0, 0, 0], 'bottom_distance': 2}}
+
+2015-08-14 14:06:09.748579 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-14 14:06:09.748753 - head string: Head
+2015-08-14 14:06:09.748922 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-14 14:06:09.749063 - Head configured!
+2015-08-14 14:06:09.749192 - script_keeper.__init__ called
+2015-08-14 14:06:09.749349 - deck.__init__ called
+2015-08-14 14:06:09.749487 - deck string: Deck
+2015-08-14 14:06:09.749622 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:06:09.749756 - protocol_runner.__init__ called
+2015-08-14 14:06:09.749882 - instruction_queue.__init__ called
+2015-08-14 14:06:09.750008 - deck.configure_deck called
+2015-08-14 14:06:09.750147 - deck_module.__init__ called
+2015-08-14 14:06:09.750391 - deck_module.__init__ called
+2015-08-14 14:06:09.750554 - deck_module.__init__ called
+2015-08-14 14:06:09.750681 - deck_module.__init__ called
+2015-08-14 14:06:09.750801 - deck_module.__init__ called
+2015-08-14 14:06:09.750921 - deck_module.__init__ called
+2015-08-14 14:06:09.751042 - deck_module.__init__ called
+2015-08-14 14:06:09.751160 - Deck configured!
+2015-08-14 14:06:09.751278 - ingredients.__init__ called
+2015-08-14 14:06:09.751395 - ingredients.configure_ingredients called
+2015-08-14 14:06:09.751512 - Ingredients imported!
+2015-08-14 14:06:09.751625 - this is a test
+2015-08-14 14:06:09.751739 - publisher.set_head called
+2015-08-14 14:06:09.751861 - publisher.set_runner called
+2015-08-14 14:06:09.751978 - subscriber.set_head called
+2015-08-14 14:06:09.752092 - subscriber.set_runner called
+2015-08-14 14:06:09.752277 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:06:16.551331 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:45:47.980484 - starting up
+2015-08-14 14:45:47.983988 - subscriber.__init__ called
+2015-08-14 14:45:47.984221 - publisher.__init__ called
+2015-08-14 14:45:47.984373 - trying to make a connection...
+2015-08-14 14:45:47.989196 - otone_client : WampComponent.onJoin called
+2015-08-14 14:45:47.989395 - instantiate_objects called
+2015-08-14 14:45:47.990107 - head.__init__ called
+2015-08-14 14:45:47.990335 - pipette.__init__ called
+2015-08-14 14:45:47.990532 - tool.__init__ called
+2015-08-14 14:45:47.990723 - pipette.__init__ called
+2015-08-14 14:45:47.990912 - tool.__init__ called
+2015-08-14 14:45:47.991069 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:45:47.991300 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:45:47.991452 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:45:47.991598 - the_queue.__init__ called
+2015-08-14 14:45:47.991744 - smoothie_ser2net.connect called
+2015-08-14 14:45:47.991890 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:45:47.992134 - head.load_pipette_values called
+2015-08-14 14:45:47.992870 - old_values:
+{'a': {'offset': [0, 0, 0], 'blowout': 21, 'top': 2.5, 'axis': 'a', 'bottom_distance': 2, 'volume': 10, 'bottom': 19, 'theContainers': {'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'trough': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 100, 'x': 120, 'y': 190}}, 'resting': 0, 'tooltype': 'pipette', 'toolname': 'a_pipette', 'droptip': 24}, 'b': {'offset': [0, 0, 0], 'blowout': 20.2, 'top': 1.8, 'axis': 'b', 'bottom_distance': 2, 'volume': 200, 'bottom': 18.2, 'theContainers': {'p10-rack': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}, 'plate-1': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 54, 'x': 145.997, 'y': 324}}, 'resting': 0, 'tooltype': 'pipette', 'toolname': 'b_pipette', 'droptip': 22.6}}
+
+2015-08-14 14:45:47.993216 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 14:45:47.993355 - head string: Head
+2015-08-14 14:45:47.993529 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 14:45:47.993688 - Head configured!
+2015-08-14 14:45:47.993823 - script_keeper.__init__ called
+2015-08-14 14:45:47.993978 - deck.__init__ called
+2015-08-14 14:45:47.994159 - deck string: Deck
+2015-08-14 14:45:47.994296 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:45:47.994413 - protocol_runner.__init__ called
+2015-08-14 14:45:47.994578 - instruction_queue.__init__ called
+2015-08-14 14:45:47.994775 - deck.configure_deck called
+2015-08-14 14:45:47.994946 - deck_module.__init__ called
+2015-08-14 14:45:47.995095 - deck_module.__init__ called
+2015-08-14 14:45:47.995244 - deck_module.__init__ called
+2015-08-14 14:45:47.995397 - deck_module.__init__ called
+2015-08-14 14:45:47.995542 - deck_module.__init__ called
+2015-08-14 14:45:47.995691 - deck_module.__init__ called
+2015-08-14 14:45:47.995853 - deck_module.__init__ called
+2015-08-14 14:45:47.995963 - Deck configured!
+2015-08-14 14:45:47.996085 - ingredients.__init__ called
+2015-08-14 14:45:47.996231 - ingredients.configure_ingredients called
+2015-08-14 14:45:47.996337 - Ingredients imported!
+2015-08-14 14:45:47.996480 - this is a test
+2015-08-14 14:45:47.996643 - publisher.set_head called
+2015-08-14 14:45:47.996797 - publisher.set_runner called
+2015-08-14 14:45:47.996943 - subscriber.set_head called
+2015-08-14 14:45:47.997067 - subscriber.set_runner called
+2015-08-14 14:45:47.997274 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:45:56.818497 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:47:58.649206 - starting up
+2015-08-14 14:47:58.651120 - subscriber.__init__ called
+2015-08-14 14:47:58.651403 - publisher.__init__ called
+2015-08-14 14:47:58.651545 - trying to make a connection...
+2015-08-14 14:47:58.656313 - otone_client : WampComponent.onJoin called
+2015-08-14 14:47:58.656582 - instantiate_objects called
+2015-08-14 14:47:58.656964 - head.__init__ called
+2015-08-14 14:47:58.657090 - pipette.__init__ called
+2015-08-14 14:47:58.657201 - tool.__init__ called
+2015-08-14 14:47:58.657321 - pipette.__init__ called
+2015-08-14 14:47:58.657421 - tool.__init__ called
+2015-08-14 14:47:58.657528 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:47:58.657638 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:47:58.657738 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:47:58.657839 - the_queue.__init__ called
+2015-08-14 14:47:58.657944 - smoothie_ser2net.connect called
+2015-08-14 14:47:58.658047 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:47:58.658216 - head.load_pipette_values called
+2015-08-14 14:47:58.658483 - old_values:
+{'a': {'resting': 0, 'toolname': 'a_pipette', 'axis': 'a', 'droptip': 24, 'tooltype': 'pipette', 'top': 2.5, 'offset': [0, 0, 0], 'bottom': 19, 'volume': 10, 'bottom_distance': 2, 'blowout': 21, 'theContainers': {'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': 100, 'x': 20, 'y': 350.503}, 'trash': {'z': 100, 'x': 120, 'y': 190}}}, 'b': {'resting': 0, 'toolname': 'b_pipette', 'axis': 'b', 'droptip': 22.6, 'tooltype': 'pipette', 'top': 1.8, 'offset': [0, 0, 0], 'bottom': 18.2, 'volume': 200, 'bottom_distance': 2, 'blowout': 20.2, 'theContainers': {'plate-1': {'z': None, 'x': None, 'y': None}, 'trough': {'z': None, 'x': None, 'y': None}, 'p10-rack': {'z': None, 'x': None, 'y': None}, 'trash': {'z': 54, 'x': 145.997, 'y': 324}}}}
+
+2015-08-14 14:47:58.658663 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 14:47:58.658785 - head string: Head
+2015-08-14 14:47:58.658898 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 14:47:58.658998 - Head configured!
+2015-08-14 14:47:58.659100 - script_keeper.__init__ called
+2015-08-14 14:47:58.659224 - deck.__init__ called
+2015-08-14 14:47:58.659323 - deck string: Deck
+2015-08-14 14:47:58.659515 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:47:58.659678 - protocol_runner.__init__ called
+2015-08-14 14:47:58.659802 - instruction_queue.__init__ called
+2015-08-14 14:47:58.659930 - deck.configure_deck called
+2015-08-14 14:47:58.660077 - deck_module.__init__ called
+2015-08-14 14:47:58.660213 - deck_module.__init__ called
+2015-08-14 14:47:58.660332 - deck_module.__init__ called
+2015-08-14 14:47:58.660442 - deck_module.__init__ called
+2015-08-14 14:47:58.660546 - deck_module.__init__ called
+2015-08-14 14:47:58.660718 - deck_module.__init__ called
+2015-08-14 14:47:58.660889 - deck_module.__init__ called
+2015-08-14 14:47:58.661052 - Deck configured!
+2015-08-14 14:47:58.661245 - ingredients.__init__ called
+2015-08-14 14:47:58.661392 - ingredients.configure_ingredients called
+2015-08-14 14:47:58.661514 - Ingredients imported!
+2015-08-14 14:47:58.661634 - this is a test
+2015-08-14 14:47:58.661752 - publisher.set_head called
+2015-08-14 14:47:58.661852 - publisher.set_runner called
+2015-08-14 14:47:58.661956 - subscriber.set_head called
+2015-08-14 14:47:58.662050 - subscriber.set_runner called
+2015-08-14 14:47:58.662210 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:48:01.504914 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:49:17.984060 - starting up
+2015-08-14 14:49:17.985749 - subscriber.__init__ called
+2015-08-14 14:49:17.985906 - publisher.__init__ called
+2015-08-14 14:49:17.986059 - trying to make a connection...
+2015-08-14 14:49:17.990907 - otone_client : WampComponent.onJoin called
+2015-08-14 14:49:17.991132 - instantiate_objects called
+2015-08-14 14:49:17.991404 - head.__init__ called
+2015-08-14 14:49:17.991523 - pipette.__init__ called
+2015-08-14 14:49:17.991629 - tool.__init__ called
+2015-08-14 14:49:17.991740 - pipette.__init__ called
+2015-08-14 14:49:17.991838 - tool.__init__ called
+2015-08-14 14:49:17.991946 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:49:17.992047 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:49:17.992145 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:49:17.992252 - the_queue.__init__ called
+2015-08-14 14:49:17.992354 - smoothie_ser2net.connect called
+2015-08-14 14:49:17.992446 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:49:17.992614 - head.load_pipette_values called
+2015-08-14 14:49:17.992854 - old_values:
+{'b': {'top': 1.8, 'volume': 200, 'droptip': 22.6, 'theContainers': {'trough': {'x': None, 'z': None, 'y': None}, 'p10-rack': {'x': None, 'z': None, 'y': None}, 'plate-1': {'x': None, 'z': None, 'y': None}, 'trash': {'x': 145.997, 'z': 54, 'y': 324}}, 'axis': 'b', 'bottom': 18.2, 'toolname': 'b_pipette', 'resting': 0, 'blowout': 20.2, 'offset': [0, 0, 0], 'bottom_distance': 2, 'tooltype': 'pipette'}, 'a': {'top': 2.5, 'volume': 10, 'droptip': 24, 'theContainers': {'trough': {'x': None, 'z': None, 'y': None}, 'p10-rack': {'x': 20, 'z': 100, 'y': 350.503}, 'plate-1': {'x': None, 'z': None, 'y': None}, 'trash': {'x': 120, 'z': 100, 'y': 190}}, 'axis': 'a', 'bottom': 19, 'toolname': 'a_pipette', 'resting': 0, 'blowout': 21, 'offset': [0, 0, 0], 'bottom_distance': 2, 'tooltype': 'pipette'}}
+
+2015-08-14 14:49:17.993035 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-14 14:49:17.993156 - head string: Head
+2015-08-14 14:49:17.993267 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 14:49:17.993365 - Head configured!
+2015-08-14 14:49:17.993467 - script_keeper.__init__ called
+2015-08-14 14:49:17.993656 - deck.__init__ called
+2015-08-14 14:49:17.993826 - deck string: Deck
+2015-08-14 14:49:17.993942 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:49:17.994071 - protocol_runner.__init__ called
+2015-08-14 14:49:17.994159 - instruction_queue.__init__ called
+2015-08-14 14:49:17.994293 - deck.configure_deck called
+2015-08-14 14:49:17.994513 - deck_module.__init__ called
+2015-08-14 14:49:17.994660 - deck_module.__init__ called
+2015-08-14 14:49:17.994797 - deck_module.__init__ called
+2015-08-14 14:49:17.994977 - deck_module.__init__ called
+2015-08-14 14:49:17.995143 - deck_module.__init__ called
+2015-08-14 14:49:17.995336 - deck_module.__init__ called
+2015-08-14 14:49:17.995471 - deck_module.__init__ called
+2015-08-14 14:49:17.995645 - Deck configured!
+2015-08-14 14:49:17.995822 - ingredients.__init__ called
+2015-08-14 14:49:17.995992 - ingredients.configure_ingredients called
+2015-08-14 14:49:17.996104 - Ingredients imported!
+2015-08-14 14:49:17.996235 - this is a test
+2015-08-14 14:49:17.996353 - publisher.set_head called
+2015-08-14 14:49:17.996469 - publisher.set_runner called
+2015-08-14 14:49:17.996603 - subscriber.set_head called
+2015-08-14 14:49:17.996702 - subscriber.set_runner called
+2015-08-14 14:49:17.996878 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:49:24.519432 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:52:42.240838 - starting up
+2015-08-14 14:52:42.243105 - subscriber.__init__ called
+2015-08-14 14:52:42.243350 - publisher.__init__ called
+2015-08-14 14:52:42.243513 - trying to make a connection...
+2015-08-14 14:52:42.248200 - otone_client : WampComponent.onJoin called
+2015-08-14 14:52:42.248402 - instantiate_objects called
+2015-08-14 14:52:42.248690 - head.__init__ called
+2015-08-14 14:52:42.248801 - pipette.__init__ called
+2015-08-14 14:52:42.248908 - tool.__init__ called
+2015-08-14 14:52:42.249020 - pipette.__init__ called
+2015-08-14 14:52:42.249120 - tool.__init__ called
+2015-08-14 14:52:42.249233 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:52:42.249333 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:52:42.249442 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:52:42.249542 - the_queue.__init__ called
+2015-08-14 14:52:42.249651 - smoothie_ser2net.connect called
+2015-08-14 14:52:42.249755 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:52:42.249937 - head.load_pipette_values called
+2015-08-14 14:52:42.250178 - old_values:
+{'b': {'axis': 'b', 'droptip': 22.6, 'bottom': 18.2, 'volume': 200, 'theContainers': {'trash': {'y': 324, 'x': 145.997, 'z': 54}, 'p10-rack': {'y': None, 'x': None, 'z': None}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trough': {'y': None, 'x': None, 'z': None}}, 'resting': 0, 'bottom_distance': 2, 'offset': [0, 0, 0], 'tooltype': 'pipette', 'toolname': 'b_pipette', 'blowout': 20.2, 'top': 1.8}, 'a': {'axis': 'a', 'droptip': 24, 'bottom': 19, 'volume': 10, 'theContainers': {'trash': {'y': 190, 'x': 120, 'z': 100}, 'p10-rack': {'y': 350.503, 'x': 20, 'z': 100}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trough': {'y': None, 'x': None, 'z': None}}, 'resting': 0, 'bottom_distance': 2, 'offset': [0, 0, 0], 'tooltype': 'pipette', 'toolname': 'a_pipette', 'blowout': 21, 'top': 2.5}}
+
+2015-08-14 14:52:42.250395 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-14 14:52:42.250552 - head string: Head
+2015-08-14 14:52:42.250682 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 14:52:42.250775 - Head configured!
+2015-08-14 14:52:42.250865 - script_keeper.__init__ called
+2015-08-14 14:52:42.250968 - deck.__init__ called
+2015-08-14 14:52:42.251122 - deck string: Deck
+2015-08-14 14:52:42.251266 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:52:42.251406 - protocol_runner.__init__ called
+2015-08-14 14:52:42.251525 - instruction_queue.__init__ called
+2015-08-14 14:52:42.251655 - deck.configure_deck called
+2015-08-14 14:52:42.251781 - deck_module.__init__ called
+2015-08-14 14:52:42.251910 - deck_module.__init__ called
+2015-08-14 14:52:42.252030 - deck_module.__init__ called
+2015-08-14 14:52:42.252154 - deck_module.__init__ called
+2015-08-14 14:52:42.252254 - deck_module.__init__ called
+2015-08-14 14:52:42.252359 - deck_module.__init__ called
+2015-08-14 14:52:42.252478 - deck_module.__init__ called
+2015-08-14 14:52:42.252673 - Deck configured!
+2015-08-14 14:52:42.252815 - ingredients.__init__ called
+2015-08-14 14:52:42.252969 - ingredients.configure_ingredients called
+2015-08-14 14:52:42.253080 - Ingredients imported!
+2015-08-14 14:52:42.253218 - this is a test
+2015-08-14 14:52:42.253335 - publisher.set_head called
+2015-08-14 14:52:42.253444 - publisher.set_runner called
+2015-08-14 14:52:42.253553 - subscriber.set_head called
+2015-08-14 14:52:42.253677 - subscriber.set_runner called
+2015-08-14 14:52:42.253877 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:52:55.142572 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:56:43.696276 - starting up
+2015-08-14 14:56:43.698726 - subscriber.__init__ called
+2015-08-14 14:56:43.698926 - publisher.__init__ called
+2015-08-14 14:56:43.699232 - trying to make a connection...
+2015-08-14 14:56:43.703741 - otone_client : WampComponent.onJoin called
+2015-08-14 14:56:43.703928 - instantiate_objects called
+2015-08-14 14:56:43.704192 - head.__init__ called
+2015-08-14 14:56:43.704350 - pipette.__init__ called
+2015-08-14 14:56:43.704462 - tool.__init__ called
+2015-08-14 14:56:43.704611 - pipette.__init__ called
+2015-08-14 14:56:43.704752 - tool.__init__ called
+2015-08-14 14:56:43.704898 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:56:43.705016 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:56:43.705181 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:56:43.705299 - the_queue.__init__ called
+2015-08-14 14:56:43.705460 - smoothie_ser2net.connect called
+2015-08-14 14:56:43.705605 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:56:43.705865 - head.load_pipette_values called
+2015-08-14 14:56:43.706139 - old_values:
+{'a': {'offset': [0, 0, 0], 'volume': 10, 'bottom_distance': 2, 'resting': 0, 'axis': 'a', 'theContainers': {'trash': {'y': 190, 'z': 100, 'x': 120}, 'plate-1': {'y': None, 'z': None, 'x': None}, 'trough': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': 350.503, 'z': 100, 'x': 20}}, 'tooltype': 'pipette', 'top': 2.5, 'bottom': 19, 'droptip': 24, 'blowout': 21, 'toolname': 'a_pipette'}, 'b': {'offset': [0, 0, 0], 'volume': 200, 'bottom_distance': 2, 'resting': 0, 'axis': 'b', 'theContainers': {'trash': {'y': 324, 'z': 54, 'x': 145.997}, 'plate-1': {'y': None, 'z': None, 'x': None}, 'trough': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': None, 'z': None, 'x': None}}, 'tooltype': 'pipette', 'top': 1.8, 'bottom': 18.2, 'droptip': 22.6, 'blowout': 20.2, 'toolname': 'b_pipette'}}
+
+2015-08-14 14:56:43.706516 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 14:56:43.707093 - head string: Head
+2015-08-14 14:56:43.707352 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-14 14:56:43.707514 - Head configured!
+2015-08-14 14:56:43.707687 - script_keeper.__init__ called
+2015-08-14 14:56:43.707914 - deck.__init__ called
+2015-08-14 14:56:43.708016 - deck string: Deck
+2015-08-14 14:56:43.708181 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:56:43.708315 - protocol_runner.__init__ called
+2015-08-14 14:56:43.708440 - instruction_queue.__init__ called
+2015-08-14 14:56:43.708595 - deck.configure_deck called
+2015-08-14 14:56:43.708751 - deck_module.__init__ called
+2015-08-14 14:56:43.708892 - deck_module.__init__ called
+2015-08-14 14:56:43.709050 - deck_module.__init__ called
+2015-08-14 14:56:43.709160 - deck_module.__init__ called
+2015-08-14 14:56:43.709333 - deck_module.__init__ called
+2015-08-14 14:56:43.709495 - deck_module.__init__ called
+2015-08-14 14:56:43.709628 - deck_module.__init__ called
+2015-08-14 14:56:43.709767 - Deck configured!
+2015-08-14 14:56:43.709878 - ingredients.__init__ called
+2015-08-14 14:56:43.709971 - ingredients.configure_ingredients called
+2015-08-14 14:56:43.710091 - Ingredients imported!
+2015-08-14 14:56:43.710244 - this is a test
+2015-08-14 14:56:43.710400 - publisher.set_head called
+2015-08-14 14:56:43.710552 - publisher.set_runner called
+2015-08-14 14:56:43.710660 - subscriber.set_head called
+2015-08-14 14:56:43.710819 - subscriber.set_runner called
+2015-08-14 14:56:43.711040 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:56:52.493071 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 14:59:00.407096 - starting up
+2015-08-14 14:59:00.408851 - subscriber.__init__ called
+2015-08-14 14:59:00.409001 - publisher.__init__ called
+2015-08-14 14:59:00.409228 - trying to make a connection...
+2015-08-14 14:59:00.413591 - otone_client : WampComponent.onJoin called
+2015-08-14 14:59:00.413819 - instantiate_objects called
+2015-08-14 14:59:00.414219 - head.__init__ called
+2015-08-14 14:59:00.414423 - pipette.__init__ called
+2015-08-14 14:59:00.414589 - tool.__init__ called
+2015-08-14 14:59:00.414759 - pipette.__init__ called
+2015-08-14 14:59:00.414913 - tool.__init__ called
+2015-08-14 14:59:00.415070 - smoothie_ser2net.set_raw_callback called
+2015-08-14 14:59:00.415209 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 14:59:00.415329 - smoothie_ser2net.set_move_callback called
+2015-08-14 14:59:00.415484 - the_queue.__init__ called
+2015-08-14 14:59:00.415646 - smoothie_ser2net.connect called
+2015-08-14 14:59:00.415816 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 14:59:00.416138 - head.load_pipette_values called
+2015-08-14 14:59:00.416648 - old_values:
+{'b': {'top': 1.8, 'offset': [0, 0, 0], 'volume': 200, 'toolname': 'b_pipette', 'tooltype': 'pipette', 'axis': 'b', 'blowout': 20.2, 'bottom': 18.2, 'theContainers': {'trough': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': None, 'z': None, 'x': None}, 'plate-1': {'y': None, 'z': None, 'x': None}, 'trash': {'y': 324, 'z': 54, 'x': 145.997}}, 'droptip': 22.6, 'resting': 0, 'bottom_distance': 2}, 'a': {'top': 2.5, 'offset': [0, 0, 0], 'volume': 10, 'toolname': 'a_pipette', 'tooltype': 'pipette', 'axis': 'a', 'blowout': 21, 'bottom': 19, 'theContainers': {'trough': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': 350.503, 'z': 100, 'x': 20}, 'plate-1': {'y': None, 'z': None, 'x': None}, 'trash': {'y': 190, 'z': 100, 'x': 120}}, 'droptip': 24, 'resting': 0, 'bottom_distance': 2}}
+
+2015-08-14 14:59:00.417042 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-14 14:59:00.417248 - head string: Head
+2015-08-14 14:59:00.417501 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 14:59:00.417694 - Head configured!
+2015-08-14 14:59:00.417838 - script_keeper.__init__ called
+2015-08-14 14:59:00.418016 - deck.__init__ called
+2015-08-14 14:59:00.418155 - deck string: Deck
+2015-08-14 14:59:00.418269 - deck representation: Deck(dict_keys([]))
+2015-08-14 14:59:00.418374 - protocol_runner.__init__ called
+2015-08-14 14:59:00.418480 - instruction_queue.__init__ called
+2015-08-14 14:59:00.418589 - deck.configure_deck called
+2015-08-14 14:59:00.418690 - deck_module.__init__ called
+2015-08-14 14:59:00.418794 - deck_module.__init__ called
+2015-08-14 14:59:00.418893 - deck_module.__init__ called
+2015-08-14 14:59:00.418994 - deck_module.__init__ called
+2015-08-14 14:59:00.419095 - deck_module.__init__ called
+2015-08-14 14:59:00.419199 - deck_module.__init__ called
+2015-08-14 14:59:00.419300 - deck_module.__init__ called
+2015-08-14 14:59:00.419406 - Deck configured!
+2015-08-14 14:59:00.419502 - ingredients.__init__ called
+2015-08-14 14:59:00.419599 - ingredients.configure_ingredients called
+2015-08-14 14:59:00.419688 - Ingredients imported!
+2015-08-14 14:59:00.419782 - this is a test
+2015-08-14 14:59:00.419879 - publisher.set_head called
+2015-08-14 14:59:00.419982 - publisher.set_runner called
+2015-08-14 14:59:00.420079 - subscriber.set_head called
+2015-08-14 14:59:00.420178 - subscriber.set_runner called
+2015-08-14 14:59:00.420329 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 14:59:42.075074 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 15:06:45.523437 - starting up
+2015-08-14 15:06:45.525163 - subscriber.__init__ called
+2015-08-14 15:06:45.525308 - publisher.__init__ called
+2015-08-14 15:06:45.525474 - trying to make a connection...
+2015-08-14 15:06:45.529946 - otone_client : WampComponent.onJoin called
+2015-08-14 15:06:45.530174 - instantiate_objects called
+2015-08-14 15:06:45.530521 - head.__init__ called
+2015-08-14 15:06:45.530687 - pipette.__init__ called
+2015-08-14 15:06:45.530825 - tool.__init__ called
+2015-08-14 15:06:45.530957 - pipette.__init__ called
+2015-08-14 15:06:45.531086 - tool.__init__ called
+2015-08-14 15:06:45.531238 - smoothie_ser2net.set_raw_callback called
+2015-08-14 15:06:45.531379 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 15:06:45.531503 - smoothie_ser2net.set_move_callback called
+2015-08-14 15:06:45.531641 - the_queue.__init__ called
+2015-08-14 15:06:45.531779 - smoothie_ser2net.connect called
+2015-08-14 15:06:45.531908 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 15:06:45.532118 - head.load_pipette_values called
+2015-08-14 15:06:45.532437 - old_values:
+{'a': {'resting': 0, 'tooltype': 'pipette', 'bottom_distance': 2, 'axis': 'a', 'volume': 10, 'bottom': 19, 'blowout': 21, 'toolname': 'a_pipette', 'theContainers': {'trough': {'y': None, 'x': None, 'z': None}, 'p10-rack': {'y': 350.503, 'x': 20, 'z': 100}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 190, 'x': 120, 'z': 100}}, 'top': 2.5, 'offset': [0, 0, 0], 'droptip': 24}, 'b': {'resting': 0, 'tooltype': 'pipette', 'bottom_distance': 2, 'axis': 'b', 'volume': 200, 'bottom': 18.2, 'blowout': 20.2, 'toolname': 'b_pipette', 'theContainers': {'trough': {'y': None, 'x': None, 'z': None}, 'p10-rack': {'y': None, 'x': None, 'z': None}, 'plate-1': {'y': None, 'x': None, 'z': None}, 'trash': {'y': 324, 'x': 145.997, 'z': 54}}, 'top': 1.8, 'offset': [0, 0, 0], 'droptip': 22.6}}
+
+2015-08-14 15:06:45.532747 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 15:06:45.532899 - head string: Head
+2015-08-14 15:06:45.533031 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 15:06:45.533162 - Head configured!
+2015-08-14 15:06:45.533292 - script_keeper.__init__ called
+2015-08-14 15:06:45.533444 - deck.__init__ called
+2015-08-14 15:06:45.533557 - deck string: Deck
+2015-08-14 15:06:45.533744 - deck representation: Deck(dict_keys([]))
+2015-08-14 15:06:45.533887 - protocol_runner.__init__ called
+2015-08-14 15:06:45.534126 - instruction_queue.__init__ called
+2015-08-14 15:06:45.534327 - deck.configure_deck called
+2015-08-14 15:06:45.534539 - deck_module.__init__ called
+2015-08-14 15:06:45.534688 - deck_module.__init__ called
+2015-08-14 15:06:45.534930 - deck_module.__init__ called
+2015-08-14 15:06:45.535172 - deck_module.__init__ called
+2015-08-14 15:06:45.535336 - deck_module.__init__ called
+2015-08-14 15:06:45.535447 - deck_module.__init__ called
+2015-08-14 15:06:45.535618 - deck_module.__init__ called
+2015-08-14 15:06:45.535800 - Deck configured!
+2015-08-14 15:06:45.535896 - ingredients.__init__ called
+2015-08-14 15:06:45.536038 - ingredients.configure_ingredients called
+2015-08-14 15:06:45.536146 - Ingredients imported!
+2015-08-14 15:06:45.536317 - this is a test
+2015-08-14 15:06:45.536486 - publisher.set_head called
+2015-08-14 15:06:45.536586 - publisher.set_runner called
+2015-08-14 15:06:45.536763 - subscriber.set_head called
+2015-08-14 15:06:45.536917 - subscriber.set_runner called
+2015-08-14 15:06:45.537093 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 15:08:04.984104 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 15:09:54.335194 - starting up
+2015-08-14 15:09:54.340570 - subscriber.__init__ called
+2015-08-14 15:09:54.340776 - publisher.__init__ called
+2015-08-14 15:09:54.340942 - trying to make a connection...
+2015-08-14 15:09:54.345975 - otone_client : WampComponent.onJoin called
+2015-08-14 15:09:54.346162 - instantiate_objects called
+2015-08-14 15:09:54.346929 - head.__init__ called
+2015-08-14 15:09:54.347155 - pipette.__init__ called
+2015-08-14 15:09:54.347294 - tool.__init__ called
+2015-08-14 15:09:54.347550 - pipette.__init__ called
+2015-08-14 15:09:54.347729 - tool.__init__ called
+2015-08-14 15:09:54.347955 - smoothie_ser2net.set_raw_callback called
+2015-08-14 15:09:54.348119 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 15:09:54.348283 - smoothie_ser2net.set_move_callback called
+2015-08-14 15:09:54.348593 - the_queue.__init__ called
+2015-08-14 15:09:54.348938 - smoothie_ser2net.connect called
+2015-08-14 15:09:54.349218 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 15:09:54.349520 - head.load_pipette_values called
+2015-08-14 15:09:54.350181 - old_values:
+{'a': {'tooltype': 'pipette', 'blowout': 21, 'top': 2.5, 'bottom_distance': 2, 'volume': 10, 'resting': 0, 'toolname': 'a_pipette', 'offset': [0, 0, 0], 'axis': 'a', 'theContainers': {'trash': {'y': 190, 'z': 100, 'x': 120}, 'plate-1': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': 350.503, 'z': 100, 'x': 20}, 'trough': {'y': None, 'z': None, 'x': None}}, 'bottom': 19, 'droptip': 24}, 'b': {'tooltype': 'pipette', 'blowout': 20.2, 'top': 1.8, 'bottom_distance': 2, 'volume': 200, 'resting': 0, 'toolname': 'b_pipette', 'offset': [0, 0, 0], 'axis': 'b', 'theContainers': {'trash': {'y': 324, 'z': 54, 'x': 145.997}, 'plate-1': {'y': None, 'z': None, 'x': None}, 'p10-rack': {'y': None, 'z': None, 'x': None}, 'trough': {'y': None, 'z': None, 'x': None}}, 'bottom': 18.2, 'droptip': 22.6}}
+
+2015-08-14 15:09:54.350557 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 15:09:54.350685 - head string: Head
+2015-08-14 15:09:54.350848 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-14 15:09:54.350985 - Head configured!
+2015-08-14 15:09:54.351144 - script_keeper.__init__ called
+2015-08-14 15:09:54.351346 - deck.__init__ called
+2015-08-14 15:09:54.351525 - deck string: Deck
+2015-08-14 15:09:54.351687 - deck representation: Deck(dict_keys([]))
+2015-08-14 15:09:54.351882 - protocol_runner.__init__ called
+2015-08-14 15:09:54.351988 - instruction_queue.__init__ called
+2015-08-14 15:09:54.352134 - deck.configure_deck called
+2015-08-14 15:09:54.352236 - deck_module.__init__ called
+2015-08-14 15:09:54.352401 - deck_module.__init__ called
+2015-08-14 15:09:54.352525 - deck_module.__init__ called
+2015-08-14 15:09:54.352853 - deck_module.__init__ called
+2015-08-14 15:09:54.353012 - deck_module.__init__ called
+2015-08-14 15:09:54.353144 - deck_module.__init__ called
+2015-08-14 15:09:54.353257 - deck_module.__init__ called
+2015-08-14 15:09:54.353364 - Deck configured!
+2015-08-14 15:09:54.353502 - ingredients.__init__ called
+2015-08-14 15:09:54.353643 - ingredients.configure_ingredients called
+2015-08-14 15:09:54.353788 - Ingredients imported!
+2015-08-14 15:09:54.353962 - this is a test
+2015-08-14 15:09:54.354084 - publisher.set_head called
+2015-08-14 15:09:54.354246 - publisher.set_runner called
+2015-08-14 15:09:54.354384 - subscriber.set_head called
+2015-08-14 15:09:54.354536 - subscriber.set_runner called
+2015-08-14 15:09:54.354711 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 15:11:14.015097 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 15:13:20.771387 - starting up
+2015-08-14 15:13:20.774460 - subscriber.__init__ called
+2015-08-14 15:13:20.774653 - publisher.__init__ called
+2015-08-14 15:13:20.774957 - trying to make a connection...
+2015-08-14 15:13:20.779704 - otone_client : WampComponent.onJoin called
+2015-08-14 15:13:20.779914 - instantiate_objects called
+2015-08-14 15:13:20.780571 - head.__init__ called
+2015-08-14 15:13:20.780778 - pipette.__init__ called
+2015-08-14 15:13:20.780903 - tool.__init__ called
+2015-08-14 15:13:20.781063 - pipette.__init__ called
+2015-08-14 15:13:20.781173 - tool.__init__ called
+2015-08-14 15:13:20.781335 - smoothie_ser2net.set_raw_callback called
+2015-08-14 15:13:20.781484 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 15:13:20.781611 - smoothie_ser2net.set_move_callback called
+2015-08-14 15:13:20.781823 - the_queue.__init__ called
+2015-08-14 15:13:20.781971 - smoothie_ser2net.connect called
+2015-08-14 15:13:20.782124 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 15:13:20.782346 - head.load_pipette_values called
+2015-08-14 15:13:20.783032 - old_values:
+{'a': {'axis': 'a', 'theContainers': {'trough': {'z': None, 'y': None, 'x': None}, 'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': 100, 'y': 350.503, 'x': 20}, 'trash': {'z': 100, 'y': 190, 'x': 120}}, 'toolname': 'a_pipette', 'top': 2.5, 'bottom': 19, 'bottom_distance': 2, 'resting': 0, 'blowout': 21, 'volume': 10, 'droptip': 24, 'offset': [0, 0, 0], 'tooltype': 'pipette'}, 'b': {'axis': 'b', 'theContainers': {'trough': {'z': None, 'y': None, 'x': None}, 'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 54, 'y': 324, 'x': 145.997}}, 'toolname': 'b_pipette', 'top': 1.8, 'bottom': 18.2, 'bottom_distance': 2, 'resting': 0, 'blowout': 20.2, 'volume': 200, 'droptip': 22.6, 'offset': [0, 0, 0], 'tooltype': 'pipette'}}
+
+2015-08-14 15:13:20.783324 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 15:13:20.783472 - head string: Head
+2015-08-14 15:13:20.783627 - head representation: Head(dict_keys(['p200', 'p1000']))
+2015-08-14 15:13:20.783780 - Head configured!
+2015-08-14 15:13:20.783931 - script_keeper.__init__ called
+2015-08-14 15:13:20.784135 - deck.__init__ called
+2015-08-14 15:13:20.784265 - deck string: Deck
+2015-08-14 15:13:20.784396 - deck representation: Deck(dict_keys([]))
+2015-08-14 15:13:20.784535 - protocol_runner.__init__ called
+2015-08-14 15:13:20.784670 - instruction_queue.__init__ called
+2015-08-14 15:13:20.784812 - deck.configure_deck called
+2015-08-14 15:13:20.784941 - deck_module.__init__ called
+2015-08-14 15:13:20.785123 - deck_module.__init__ called
+2015-08-14 15:13:20.785248 - deck_module.__init__ called
+2015-08-14 15:13:20.785344 - deck_module.__init__ called
+2015-08-14 15:13:20.785485 - deck_module.__init__ called
+2015-08-14 15:13:20.785625 - deck_module.__init__ called
+2015-08-14 15:13:20.785759 - deck_module.__init__ called
+2015-08-14 15:13:20.785909 - Deck configured!
+2015-08-14 15:13:20.786003 - ingredients.__init__ called
+2015-08-14 15:13:20.786166 - ingredients.configure_ingredients called
+2015-08-14 15:13:20.786277 - Ingredients imported!
+2015-08-14 15:13:20.786454 - this is a test
+2015-08-14 15:13:20.786612 - publisher.set_head called
+2015-08-14 15:13:20.786821 - publisher.set_runner called
+2015-08-14 15:13:20.786967 - subscriber.set_head called
+2015-08-14 15:13:20.787111 - subscriber.set_runner called
+2015-08-14 15:13:20.787317 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 15:13:33.289616 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 15:19:37.333460 - starting up
+2015-08-14 15:19:37.336222 - subscriber.__init__ called
+2015-08-14 15:19:37.336425 - publisher.__init__ called
+2015-08-14 15:19:37.336614 - trying to make a connection...
+2015-08-14 15:19:37.341526 - otone_client : WampComponent.onJoin called
+2015-08-14 15:19:37.341889 - instantiate_objects called
+2015-08-14 15:19:37.342303 - head.__init__ called
+2015-08-14 15:19:37.342494 - pipette.__init__ called
+2015-08-14 15:19:37.342690 - tool.__init__ called
+2015-08-14 15:19:37.342908 - pipette.__init__ called
+2015-08-14 15:19:37.343160 - tool.__init__ called
+2015-08-14 15:19:37.343318 - smoothie_ser2net.set_raw_callback called
+2015-08-14 15:19:37.343604 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 15:19:37.343774 - smoothie_ser2net.set_move_callback called
+2015-08-14 15:19:37.344025 - the_queue.__init__ called
+2015-08-14 15:19:37.344296 - smoothie_ser2net.connect called
+2015-08-14 15:19:37.344451 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 15:19:37.344698 - head.load_pipette_values called
+2015-08-14 15:19:37.344980 - old_values:
+{'a': {'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': 100, 'y': 350.503, 'x': 20}, 'trough': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 100, 'y': 190, 'x': 120}}, 'droptip': 24, 'blowout': 21, 'bottom': 19, 'toolname': 'a_pipette', 'offset': [0, 0, 0], 'axis': 'a', 'bottom_distance': 2, 'tooltype': 'pipette', 'resting': 0, 'top': 2.5, 'volume': 10}, 'b': {'theContainers': {'plate-1': {'z': None, 'y': None, 'x': None}, 'p10-rack': {'z': None, 'y': None, 'x': None}, 'trough': {'z': None, 'y': None, 'x': None}, 'trash': {'z': 54, 'y': 324, 'x': 145.997}}, 'droptip': 22.6, 'blowout': 20.2, 'bottom': 18.2, 'toolname': 'b_pipette', 'offset': [0, 0, 0], 'axis': 'b', 'bottom_distance': 2, 'tooltype': 'pipette', 'resting': 0, 'top': 1.8, 'volume': 200}}
+
+2015-08-14 15:19:37.345273 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 15:19:37.345418 - head string: Head
+2015-08-14 15:19:37.345579 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-14 15:19:37.345718 - Head configured!
+2015-08-14 15:19:37.345880 - script_keeper.__init__ called
+2015-08-14 15:19:37.346077 - deck.__init__ called
+2015-08-14 15:19:37.346256 - deck string: Deck
+2015-08-14 15:19:37.346401 - deck representation: Deck(dict_keys([]))
+2015-08-14 15:19:37.346540 - protocol_runner.__init__ called
+2015-08-14 15:19:37.346712 - instruction_queue.__init__ called
+2015-08-14 15:19:37.346857 - deck.configure_deck called
+2015-08-14 15:19:37.346977 - deck_module.__init__ called
+2015-08-14 15:19:37.347160 - deck_module.__init__ called
+2015-08-14 15:19:37.347296 - deck_module.__init__ called
+2015-08-14 15:19:37.347419 - deck_module.__init__ called
+2015-08-14 15:19:37.347615 - deck_module.__init__ called
+2015-08-14 15:19:37.347819 - deck_module.__init__ called
+2015-08-14 15:19:37.347916 - deck_module.__init__ called
+2015-08-14 15:19:37.348050 - Deck configured!
+2015-08-14 15:19:37.348240 - ingredients.__init__ called
+2015-08-14 15:19:37.348402 - ingredients.configure_ingredients called
+2015-08-14 15:19:37.348535 - Ingredients imported!
+2015-08-14 15:19:37.348635 - this is a test
+2015-08-14 15:19:37.348734 - publisher.set_head called
+2015-08-14 15:19:37.348881 - publisher.set_runner called
+2015-08-14 15:19:37.349052 - subscriber.set_head called
+2015-08-14 15:19:37.349167 - subscriber.set_runner called
+2015-08-14 15:19:37.349409 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 15:19:47.442739 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 15:21:50.198374 - starting up
+2015-08-14 15:21:50.199946 - subscriber.__init__ called
+2015-08-14 15:21:50.200097 - publisher.__init__ called
+2015-08-14 15:21:50.200251 - trying to make a connection...
+2015-08-14 15:21:50.205294 - otone_client : WampComponent.onJoin called
+2015-08-14 15:21:50.205513 - instantiate_objects called
+2015-08-14 15:21:50.205864 - head.__init__ called
+2015-08-14 15:21:50.206123 - pipette.__init__ called
+2015-08-14 15:21:50.206237 - tool.__init__ called
+2015-08-14 15:21:50.206378 - pipette.__init__ called
+2015-08-14 15:21:50.206485 - tool.__init__ called
+2015-08-14 15:21:50.206592 - smoothie_ser2net.set_raw_callback called
+2015-08-14 15:21:50.206691 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 15:21:50.206790 - smoothie_ser2net.set_move_callback called
+2015-08-14 15:21:50.206889 - the_queue.__init__ called
+2015-08-14 15:21:50.206994 - smoothie_ser2net.connect called
+2015-08-14 15:21:50.207094 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 15:21:50.207272 - head.load_pipette_values called
+2015-08-14 15:21:50.207510 - old_values:
+{'a': {'droptip': 24, 'top': 2.5, 'axis': 'a', 'offset': [0, 0, 0], 'toolname': 'a_pipette', 'resting': 0, 'bottom': 19, 'volume': 10, 'tooltype': 'pipette', 'blowout': 21, 'bottom_distance': 2, 'theContainers': {'trash': {'x': 120, 'z': 100, 'y': 190}, 'trough': {'x': None, 'z': None, 'y': None}, 'p10-rack': {'x': 20, 'z': 100, 'y': 350.503}, 'plate-1': {'x': None, 'z': None, 'y': None}}}, 'b': {'droptip': 22.6, 'top': 1.8, 'axis': 'b', 'offset': [0, 0, 0], 'toolname': 'b_pipette', 'resting': 0, 'bottom': 18.2, 'volume': 200, 'tooltype': 'pipette', 'blowout': 20.2, 'bottom_distance': 2, 'theContainers': {'trash': {'x': 145.997, 'z': 54, 'y': 324}, 'trough': {'x': None, 'z': None, 'y': None}, 'p10-rack': {'x': None, 'z': None, 'y': None}, 'plate-1': {'x': None, 'z': None, 'y': None}}}}
+
+2015-08-14 15:21:50.207703 - self.PIPETTES[b]:
+
+'b_pipette'
+
+2015-08-14 15:21:50.207815 - head string: Head
+2015-08-14 15:21:50.207928 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-14 15:21:50.208031 - Head configured!
+2015-08-14 15:21:50.208135 - script_keeper.__init__ called
+2015-08-14 15:21:50.208270 - deck.__init__ called
+2015-08-14 15:21:50.208371 - deck string: Deck
+2015-08-14 15:21:50.208487 - deck representation: Deck(dict_keys([]))
+2015-08-14 15:21:50.208589 - protocol_runner.__init__ called
+2015-08-14 15:21:50.208799 - instruction_queue.__init__ called
+2015-08-14 15:21:50.208946 - deck.configure_deck called
+2015-08-14 15:21:50.209110 - deck_module.__init__ called
+2015-08-14 15:21:50.209277 - deck_module.__init__ called
+2015-08-14 15:21:50.209386 - deck_module.__init__ called
+2015-08-14 15:21:50.209499 - deck_module.__init__ called
+2015-08-14 15:21:50.209619 - deck_module.__init__ called
+2015-08-14 15:21:50.209782 - deck_module.__init__ called
+2015-08-14 15:21:50.209886 - deck_module.__init__ called
+2015-08-14 15:21:50.210019 - Deck configured!
+2015-08-14 15:21:50.210171 - ingredients.__init__ called
+2015-08-14 15:21:50.210282 - ingredients.configure_ingredients called
+2015-08-14 15:21:50.210387 - Ingredients imported!
+2015-08-14 15:21:50.210482 - this is a test
+2015-08-14 15:21:50.210607 - publisher.set_head called
+2015-08-14 15:21:50.210714 - publisher.set_runner called
+2015-08-14 15:21:50.210826 - subscriber.set_head called
+2015-08-14 15:21:50.210929 - subscriber.set_runner called
+2015-08-14 15:21:50.211110 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 15:21:53.748450 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-14 15:27:26.350403 - starting up
+2015-08-14 15:27:26.353689 - subscriber.__init__ called
+2015-08-14 15:27:26.353874 - publisher.__init__ called
+2015-08-14 15:27:26.354043 - trying to make a connection...
+2015-08-14 15:27:26.358612 - otone_client : WampComponent.onJoin called
+2015-08-14 15:27:26.358809 - instantiate_objects called
+2015-08-14 15:27:26.359600 - head.__init__ called
+2015-08-14 15:27:26.359811 - pipette.__init__ called
+2015-08-14 15:27:26.360005 - tool.__init__ called
+2015-08-14 15:27:26.360200 - pipette.__init__ called
+2015-08-14 15:27:26.360349 - tool.__init__ called
+2015-08-14 15:27:26.360491 - smoothie_ser2net.set_raw_callback called
+2015-08-14 15:27:26.360681 - smoothie_ser2net.set_limit_hit_callback called
+2015-08-14 15:27:26.360864 - smoothie_ser2net.set_move_callback called
+2015-08-14 15:27:26.361026 - the_queue.__init__ called
+2015-08-14 15:27:26.361153 - smoothie_ser2net.connect called
+2015-08-14 15:27:26.361292 - smoothie_ser2net:
+	CB_Factory.__init__ called
+2015-08-14 15:27:26.361595 - head.load_pipette_values called
+2015-08-14 15:27:26.362391 - old_values:
+{'b': {'axis': 'b', 'resting': 0, 'top': 1.8, 'volume': 200, 'theContainers': {'plate-1': {'x': None, 'y': None, 'z': None}, 'trough': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': None, 'y': None, 'z': None}, 'trash': {'x': 145.997, 'y': 324, 'z': 54}}, 'tooltype': 'pipette', 'offset': [0, 0, 0], 'droptip': 22.6, 'bottom': 18.2, 'blowout': 20.2, 'toolname': 'b_pipette', 'bottom_distance': 2}, 'a': {'axis': 'a', 'resting': 0, 'top': 2.5, 'volume': 10, 'theContainers': {'plate-1': {'x': None, 'y': None, 'z': None}, 'trough': {'x': None, 'y': None, 'z': None}, 'p10-rack': {'x': 20, 'y': 350.503, 'z': 100}, 'trash': {'x': 120, 'y': 190, 'z': 100}}, 'tooltype': 'pipette', 'offset': [0, 0, 0], 'droptip': 24, 'bottom': 19, 'blowout': 21, 'toolname': 'a_pipette', 'bottom_distance': 2}}
+
+2015-08-14 15:27:26.362703 - self.PIPETTES[a]:
+
+'a_pipette'
+
+2015-08-14 15:27:26.362861 - head string: Head
+2015-08-14 15:27:26.363042 - head representation: Head(dict_keys(['p1000', 'p200']))
+2015-08-14 15:27:26.363236 - Head configured!
+2015-08-14 15:27:26.363518 - script_keeper.__init__ called
+2015-08-14 15:27:26.363725 - deck.__init__ called
+2015-08-14 15:27:26.363879 - deck string: Deck
+2015-08-14 15:27:26.364030 - deck representation: Deck(dict_keys([]))
+2015-08-14 15:27:26.364192 - protocol_runner.__init__ called
+2015-08-14 15:27:26.364369 - instruction_queue.__init__ called
+2015-08-14 15:27:26.364515 - deck.configure_deck called
+2015-08-14 15:27:26.364718 - deck_module.__init__ called
+2015-08-14 15:27:26.364913 - deck_module.__init__ called
+2015-08-14 15:27:26.365104 - deck_module.__init__ called
+2015-08-14 15:27:26.365275 - deck_module.__init__ called
+2015-08-14 15:27:26.365435 - deck_module.__init__ called
+2015-08-14 15:27:26.365641 - deck_module.__init__ called
+2015-08-14 15:27:26.365791 - deck_module.__init__ called
+2015-08-14 15:27:26.366243 - Deck configured!
+2015-08-14 15:27:26.367317 - ingredients.__init__ called
+2015-08-14 15:27:26.368095 - ingredients.configure_ingredients called
+2015-08-14 15:27:26.368731 - Ingredients imported!
+2015-08-14 15:27:26.369050 - this is a test
+2015-08-14 15:27:26.369442 - publisher.set_head called
+2015-08-14 15:27:26.369763 - publisher.set_runner called
+2015-08-14 15:27:26.370049 - subscriber.set_head called
+2015-08-14 15:27:26.370303 - subscriber.set_runner called
+2015-08-14 15:27:26.370533 - about to publish com.opentrons.robot_ready TRUE
+2015-08-14 15:27:30.772716 - error while trying to make a connection, sleeping for 5 seconds

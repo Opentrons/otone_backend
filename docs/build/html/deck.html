@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>deck module &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="backend" href="modules.html" />
+    <link rel="next" title="deck_module module" href="deck_module.html" />
+    <link rel="prev" title="backend" href="modules.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="deck_module.html" title="deck_module module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="backend"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">backend</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-deck">
+<span id="deck-module"></span><h1>deck module<a class="headerlink" href="#module-deck" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="deck.Deck">
+<em class="property">class </em><code class="descclassname">deck.</code><code class="descname">Deck</code><span class="sig-paren">(</span><em>modules</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deck.html#Deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deck.Deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>The Deck class is a representation of the robot deck</p>
+<p>The Deck class is intended to be instantiated to a deck object which 
+contains the subclassed deck modules labeled by slot #.
+Slot numbers are integers from 1 to 15, starting from the front-left slot
+and ending with the back-right slot as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+<td>6</td>
+<td>9</td>
+<td>12</td>
+<td>15</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>5</td>
+<td>8</td>
+<td>11</td>
+<td>14</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>4</td>
+<td>7</td>
+<td>10</td>
+<td>13</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="deck.Deck.configure_deck">
+<code class="descname">configure_deck</code><span class="sig-paren">(</span><em>deck_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deck.html#Deck.configure_deck"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deck.Deck.configure_deck" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load deck modules specified in protocol.json file</p>
+<p>deck_data = dictionary containing the module data.
+:returns: A list of instantiated deck modules
+:rtype: List</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">backend</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="deck_module.html"
+                        title="next chapter">deck_module module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/deck.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/deck.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

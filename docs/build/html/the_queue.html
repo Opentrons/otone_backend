@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>the_queue module &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="backend" href="modules.html" />
+    <link rel="next" title="tool module" href="tool.html" />
+    <link rel="prev" title="smoothie_ser2net module" href="smoothie_ser2net.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tool.html" title="tool module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="smoothie_ser2net.html" title="smoothie_ser2net module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">backend</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-the_queue">
+<span id="the-queue-module"></span><h1>the_queue module<a class="headerlink" href="#module-the_queue" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="the_queue.TheQueue">
+<em class="property">class </em><code class="descclassname">the_queue.</code><code class="descname">TheQueue</code><span class="sig-paren">(</span><em>head</em>, <em>publisher</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>TheQueue class-converted from js dict in Planner.js into a python class</p>
+<p>TheQueue class is used to hold the array of groups contained in a protocol instruction
+and process them iteratively.</p>
+<p>The robot_protocol file is an array of instructions.</p>
+<dl class="docutils">
+<dt>An instruction is an array of groups + a specified tool which executes </dt>
+<dd>the group.</dd>
+<dt>A group can be defined as the lifecycle of a tip.  Each group holds</dt>
+<dd>a single command.</dd>
+<dt>A command is one of the following:</dt>
+<dd>Transfer; Consolodate; Distribute; Mix</dd>
+<dt>The instructionQueue iteratively selects an instruction in the</dt>
+<dd>robot_protocol array and passes it to theQueue object along with the
+specified tool(pipette).  The theQueue object iteratively processes 
+the groups in the instruction until theQueue is empty, which triggers
+the InstructionQueue to select the next instruction.  All protocol
+processing stops when the instructionQueue is empty.</dd>
+<dt>TheQueue object holds the groups contained in the instruction in a</dt>
+<dd>FIFO array called qlist.  When a &#8216;{stat:0}&#8217; is received from the 
+smoothieAPI object, TheQueue pops off the next group in qlist, passing 
+the command to the smoothieAPI.</dd>
+</dl>
+<p><code class="xref py py-obj docutils literal"><span class="pre">qlist</span></code> - List that holds the commands</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Use a dictionary object, similar to <a class="reference internal" href="subscriber.html#subscriber.Subscriber.dispatcher" title="subscriber.Subscriber.dispatcher"><code class="xref py py-obj docutils literal"><span class="pre">subscriber.Subscriber.dispatcher</span></code></a>, to process commands with head&#8217;s microcontroller</dt>
+<dd><p class="first last">&#8211;&gt; promote modularity, enable dictionary to be swapped in/out and linked with microcontroller being used (could be other than Smoothieboard)</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Remove redundant methods</p>
+</li>
+</ol>
+<dl class="method">
+<dt id="the_queue.TheQueue.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>commands</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a command to TheQueue&#8217;s <code class="xref py py-obj docutils literal"><span class="pre">qlist</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear <code class="xref py py-obj docutils literal"><span class="pre">qlist</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">is_busy</span></code>, <code class="xref py py-obj docutils literal"><span class="pre">paused</span></code>, and <code class="xref py py-obj docutils literal"><span class="pre">current_command</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.erase_job">
+<code class="descname">erase_job</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.erase_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.erase_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <a class="reference internal" href="#the_queue.TheQueue.clear" title="the_queue.TheQueue.clear"><code class="xref py py-meth docutils literal"><span class="pre">clear()</span></code></a>... redundant, consider removing, and why does it have unused data parameter???</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.kill">
+<code class="descname">kill</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.kill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.kill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kill <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> operation and clear <code class="xref py py-obj docutils literal"><span class="pre">qlist</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.pause">
+<code class="descname">pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.pause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pauses TheQueue by setting paused True</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.pause_job">
+<code class="descname">pause_job</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.pause_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.pause_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <a class="reference internal" href="#the_queue.TheQueue.pause" title="the_queue.TheQueue.pause"><code class="xref py py-meth docutils literal"><span class="pre">pause()</span></code></a>... redundant, consider removing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> to reset and clear <code class="xref py py-obj docutils literal"><span class="pre">qlist</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.resume">
+<code class="descname">resume</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.resume"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.resume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resumes TheQueue by setting paused False and calling <a class="reference internal" href="#the_queue.TheQueue.step" title="the_queue.TheQueue.step"><code class="xref py py-meth docutils literal"><span class="pre">step()</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.resume_job">
+<code class="descname">resume_job</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.resume_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.resume_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call <a class="reference internal" href="#the_queue.TheQueue.resume" title="the_queue.TheQueue.resume"><code class="xref py py-meth docutils literal"><span class="pre">resume()</span></code></a>... redundant, consider removing</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.sent_successfully">
+<code class="descname">sent_successfully</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.sent_successfully"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.sent_successfully" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to be passed to smoothieAPI (<a class="reference internal" href="smoothie_ser2net.html#module-smoothie_ser2net" title="smoothie_ser2net"><code class="xref py py-class docutils literal"><span class="pre">smoothie_ser2net</span></code></a>) in <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a> object</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">NOT ACTUALLY IMPLEMENTED YET</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="the_queue.TheQueue.step">
+<code class="descname">step</code><span class="sig-paren">(</span><em>just_started</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/the_queue.html#TheQueue.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#the_queue.TheQueue.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop a command from <code class="xref py py-obj docutils literal"><span class="pre">qlist</span></code> and process it via smoothieAPI (<a class="reference internal" href="smoothie_ser2net.html#module-smoothie_ser2net" title="smoothie_ser2net"><code class="xref py py-class docutils literal"><span class="pre">smoothie_ser2net</span></code></a>) object in <a class="reference internal" href="head.html#module-head" title="head"><code class="xref py py-class docutils literal"><span class="pre">head</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>1. Use a dictionary object, similar to <a class="reference internal" href="subscriber.html#subscriber.Subscriber.dispatcher" title="subscriber.Subscriber.dispatcher"><code class="xref py py-obj docutils literal"><span class="pre">subscriber.Subscriber.dispatcher</span></code></a>, to process commands with head&#8217;s microcontroller
+&#8211;&gt; promote modularity, enable dictionary to be swapped in/out and linked with microcontroller being used (could be other than Smoothieboard)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="smoothie_ser2net.html"
+                        title="previous chapter">smoothie_ser2net module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tool.html"
+                        title="next chapter">tool module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/the_queue.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/the_queue.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

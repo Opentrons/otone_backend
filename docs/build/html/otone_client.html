@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>otone_client module &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OT.One 1.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-otone_client">
+<span id="otone-client-module"></span><h1>otone_client module<a class="headerlink" href="#module-otone_client" title="Permalink to this headline">¶</a></h1>
+<p>Created on Fri Apr 24 15:11:09 2015</p>
+<p>&#64;author: Randy</p>
+<p>This is the main module of the OTOne Python backend code. When started, it creates 
+a publisher (<a class="reference internal" href="publisher.html#publisher.Publisher" title="publisher.Publisher"><code class="xref py py-class docutils literal"><span class="pre">publisher.Publisher</span></code></a>) and a subscriber (<a class="reference internal" href="subscriber.html#subscriber.Subscriber" title="subscriber.Subscriber"><code class="xref py py-class docutils literal"><span class="pre">subscriber.Subscriber</span></code></a>)
+for handling all communication with a WAMP router and then tries to make a connection 
+(<a class="reference internal" href="#otone_client.make_a_connection" title="otone_client.make_a_connection"><code class="xref py py-meth docutils literal"><span class="pre">otone_client.make_a_connection()</span></code></a>) with the Crossbar.io WAMP router. Once that 
+connection is established, it instantiates and configures various objects with 
+<a class="reference internal" href="#otone_client.instantiate_objects" title="otone_client.instantiate_objects"><code class="xref py py-meth docutils literal"><span class="pre">otone_client.instantiate_objects()</span></code></a>:</p>
+<blockquote>
+<div><p>head: <a class="reference internal" href="head.html#head.Head" title="head.Head"><code class="xref py py-class docutils literal"><span class="pre">head.Head</span></code></a> - Represents the robot head and creates a connection with Smoothieboard</p>
+<p>deck: <a class="reference internal" href="deck.html#deck.Deck" title="deck.Deck"><code class="xref py py-class docutils literal"><span class="pre">deck.Deck</span></code></a> - Represents the robot deck</p>
+<p>runner: <a class="reference internal" href="protocol_runner.html#protocol_runner.ProtocolRunner" title="protocol_runner.ProtocolRunner"><code class="xref py py-class docutils literal"><span class="pre">protocol_runner.ProtocolRunner</span></code></a> - Runs protocol jobs</p>
+<p>the_sk: <a class="reference internal" href="script_keeper.html#script_keeper.ScriptKeeper" title="script_keeper.ScriptKeeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper.ScriptKeeper</span></code></a> - Handles shell scripts</p>
+</div></blockquote>
+<dl class="class">
+<dt id="otone_client.WampComponent">
+<em class="property">class </em><code class="descclassname">otone_client.</code><code class="descname">WampComponent</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/otone_client.html#WampComponent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#otone_client.WampComponent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">autobahn.asyncio.wamp.ApplicationSession</span></code></p>
+<p>WAMP application session for OTOne (Overrides protocol.ApplicationSession - WAMP endpoint session)</p>
+<dl class="method">
+<dt id="otone_client.WampComponent.onConnect">
+<code class="descname">onConnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/otone_client.html#WampComponent.onConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#otone_client.WampComponent.onConnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback fired when the transport this session will run over has been established.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="otone_client.WampComponent.onDisconnect">
+<code class="descname">onDisconnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/otone_client.html#WampComponent.onDisconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#otone_client.WampComponent.onDisconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback fired when underlying transport has been closed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="otone_client.WampComponent.onJoin">
+<code class="descname">onJoin</code><span class="sig-paren">(</span><em>details</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/otone_client.html#WampComponent.onJoin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#otone_client.WampComponent.onJoin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback fired when WAMP session has been established.</p>
+<p>May return a Deferred/Future.</p>
+<p>Starts instatiation of robot objects by calling <a class="reference internal" href="#otone_client.instantiate_objects" title="otone_client.instantiate_objects"><code class="xref py py-meth docutils literal"><span class="pre">otone_client.instantiate_objects()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="otone_client.WampComponent.onLeave">
+<code class="descname">onLeave</code><span class="sig-paren">(</span><em>details</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/otone_client.html#WampComponent.onLeave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#otone_client.WampComponent.onLeave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback fired when WAMP session has been closed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>details</strong> &#8211; Close information.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="otone_client.instantiate_objects">
+<code class="descclassname">otone_client.</code><code class="descname">instantiate_objects</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/otone_client.html#instantiate_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#otone_client.instantiate_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>After connection has been made, instatiate the various robot objects</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="otone_client.make_a_connection">
+<code class="descclassname">otone_client.</code><code class="descname">make_a_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/otone_client.html#make_a_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#otone_client.make_a_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to create streaming transport connection and run event loop</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/otone_client.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/otone_client.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

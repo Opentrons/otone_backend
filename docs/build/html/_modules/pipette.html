@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pipette &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for pipette</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">collections</span>
+
+<span class="kn">from</span> <span class="nn">tool</span> <span class="kn">import</span> <span class="n">Tool</span>
+<span class="kn">from</span> <span class="nn">file_io</span> <span class="kn">import</span> <span class="n">FileIO</span>
+
+
+<span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
+
+<div class="viewcode-block" id="Pipette"><a class="viewcode-back" href="../pipette.html#pipette.Pipette">[docs]</a><span class="k">class</span> <span class="nc">Pipette</span><span class="p">(</span><span class="n">Tool</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Representation of a pipette on the robot head</span>
+
+<span class="sd">    Class for holding a pipette&#39;s calibrated values, and includes functions</span>
+<span class="sd">    for mapping locations and such.</span>
+<span class="sd">    Each pipette instance is created inside the head object, and is either</span>
+<span class="sd">    motor axis &#39;a&#39; or &#39;b&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Calibrated values include:</span>
+<span class="sd">        Plunger locations(top, bottom, blowout, droptip)</span>
+<span class="sd">        Container coordinates (XYZ coordinate of each container&#39;s origin)</span>
+
+<span class="sd">    :todo:</span>
+<span class="sd">    1. way to save/load container calibrations independent of protocol. Could be save all</span>
+<span class="sd">    info here and handle how displayed in GUI or save with some kind of reference to n most recently</span>
+<span class="sd">    loaded protocols and provide container data according to specified protocol and provide list of </span>
+<span class="sd">    protocols for which container data is saved...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="c">#Special Methods</span>
+    <span class="c">#from pipette.js    </span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize Pipette</span>
+<span class="sd">        </span>
+<span class="sd">        toolname = the name of the tool (string)</span>
+<span class="sd">        tooltype = the type of tool e.g. 1ch pipette, 8ch pipette, etc.(string)</span>
+<span class="sd">        axis = position of tool on head &amp; associated </span>
+<span class="sd">                motor (A, B, C, etc) (string)</span>
+<span class="sd">        offset = the offset in space from the A tool which is defined to</span>
+<span class="sd">            have offset = (0,0,0)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.__init__ called&#39;</span><span class="p">)</span>
+        <span class="n">toolname</span> <span class="o">=</span> <span class="n">axis</span> <span class="o">+</span> <span class="s">&#39;_pipette&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">toolname</span><span class="p">,</span> <span class="s">&#39;pipette&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        
+        <span class="c">#default parameters to start with</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resting</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c">#rest position of plunger when not engaged</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top</span> <span class="o">=</span> <span class="mi">0</span>   <span class="c">#just touching the plunger (saved)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c">#calculated by pipette object (saved)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blowout</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c">#value saved 2-5 mm before droptip (saved)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">droptip</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c">#complete max position of plunger (saved)</span>
+        
+        <span class="c">#the calibrated plate offsets for this pipette</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">volume</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c">#max volume pipette can hold calculated during calibration (saved in pipette_calibrations.json)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_distance</span> <span class="o">=</span> <span class="mi">2</span> <span class="c">#distance between blowout and botton</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span> <span class="o">=</span> <span class="p">{}</span> <span class="c">#(saved)</span>
+
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;{0.toolname!r}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+       
+       
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;Pipette({0.toolname!r},{0.tooltype!r},{0.axis!r})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        
+        
+<span class="c">#Methods</span>
+    <span class="c">#from pipette.js        </span>
+<div class="viewcode-block" id="Pipette.init_sequence"><a class="viewcode-back" href="../pipette.html#pipette.Pipette.init_sequence">[docs]</a>    <span class="k">def</span> <span class="nf">init_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the initial pipetting sequence when running pipette command - returns plunger to resting position</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.init_sequence called&#39;</span><span class="p">)</span>
+        <span class="n">oneCommand</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">oneCommand</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resting</span> <span class="c">#self.bottom</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">oneCommand</span><span class="p">]</span>
+        
+    <span class="c">#from pipette.js       </span></div>
+<div class="viewcode-block" id="Pipette.end_sequence"><a class="viewcode-back" href="../pipette.html#pipette.Pipette.end_sequence">[docs]</a>    <span class="k">def</span> <span class="nf">end_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the end pipetting sequence when running pipette command - currently an empty dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.end_sequence called&#39;</span><span class="p">)</span>
+        <span class="n">oneCommand</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">oneCommand</span><span class="p">]</span>
+        
+    <span class="c">#from pipette.js </span>
+    <span class="c">#main function is to translate instructions from rel coordinates to </span>
+    <span class="c">#absolute coords.</span></div>
+<div class="viewcode-block" id="Pipette.pmap"><a class="viewcode-back" href="../pipette.html#pipette.Pipette.pmap">[docs]</a>    <span class="k">def</span> <span class="nf">pmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Translates relative coordinates from instructions into absolute coordinates, either</span>
+<span class="sd">        for a pipette plunger operation, or a pipette head move to container operation</span>
+
+<span class="sd">        :example loc:</span>
+<span class="sd">        loc = {</span>
+<span class="sd">            x:number, </span>
+<span class="sd">            y:number,</span>
+<span class="sd">            z:number,</span>
+<span class="sd">            container:string,////</span>
+<span class="sd">            plunger:float ||&#39;blowout&#39; || &#39;droptip&#39; || &#39;resting&#39;</span>
+<span class="sd">            speed: integer ms (add label for this pipettes axis)</span>
+<span class="sd">        }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.pmap called&#39;</span><span class="p">)</span>
+        
+        <span class="n">temploc</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">should_home_axis</span> <span class="o">=</span> <span class="bp">False</span>
+        
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">loc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">==</span><span class="s">&#39;plunger&#39;</span><span class="p">:</span>
+                  <span class="c">#convert the relative thumb value to it&#39;s absolute coordinate</span>
+                  <span class="k">if</span> <span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;blowout&#39;</span><span class="p">:</span>
+                      <span class="n">temploc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blowout</span>
+         
+                  <span class="k">elif</span> <span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;droptip&#39;</span><span class="p">:</span>
+                      <span class="n">temploc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">droptip</span>
+                      <span class="n">should_home_axis</span> <span class="o">=</span> <span class="bp">True</span>
+                      
+                  <span class="k">elif</span> <span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;resting&#39;</span><span class="p">:</span>
+                      <span class="n">temploc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resting</span>
+              
+                  <span class="k">else</span><span class="p">:</span>
+                      <span class="n">temploc</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rel_to_abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span>
+                      
+            <span class="c"># if there is a container specified, all XYZ values are </span>
+            <span class="c">#relative to self container&#39;s origin</span>
+            <span class="k">elif</span> <span class="n">n</span><span class="o">==</span><span class="s">&#39;container&#39;</span><span class="p">:</span>
+                <span class="n">containerName</span> <span class="o">=</span> <span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">containerName</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">):</span>
+                    <span class="c"># save the container&#39;s coords</span>
+                    <span class="n">theContainer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">[</span><span class="n">containerName</span><span class="p">]</span>
+                    <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s">&#39;x&#39;</span> <span class="p">:</span> <span class="n">theContainer</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">],</span>
+                        <span class="s">&#39;y&#39;</span> <span class="p">:</span> <span class="n">theContainer</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">],</span>
+                        <span class="s">&#39;z&#39;</span> <span class="p">:</span> <span class="n">theContainer</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span>
+                    <span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;Cannot find container &#39;</span><span class="p">,</span><span class="n">containerName</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="s">&#39;speed&#39;</span><span class="p">:</span>
+                <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;axis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axis</span>
+                <span class="n">temploc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">temploc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="c"># just copy over other coordinates</span>
+    
+        <span class="c"># then add the container&#39;s position to self location</span>
+        <span class="c"># only if it has been specified</span>
+        <span class="c">#ToDo: probably need to utilize None instead of math.nan here</span>
+        <span class="c">#this flips the coord system</span>
+        <span class="k">if</span> <span class="s">&#39;container&#39;</span> <span class="ow">in</span> <span class="n">loc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">loc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;temploc:</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">,</span><span class="n">temploc</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s">&#39;x&#39;</span> <span class="ow">in</span> <span class="n">temploc</span> <span class="ow">and</span> <span class="s">&#39;x&#39;</span> <span class="ow">in</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">temploc</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">][</span><span class="s">&#39;x&#39;</span><span class="p">]):</span>
+                        <span class="c"># moving right from container.x</span>
+                        <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">][</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> 
+
+                <span class="k">if</span> <span class="s">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">temploc</span> <span class="ow">and</span> <span class="s">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">temploc</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">][</span><span class="s">&#39;y&#39;</span><span class="p">]):</span>
+                        <span class="c"># moving away (forward) from container.y</span>
+                        <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">][</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span> 
+
+                <span class="k">if</span> <span class="s">&#39;z&#39;</span> <span class="ow">in</span> <span class="n">temploc</span> <span class="ow">and</span> <span class="s">&#39;z&#39;</span> <span class="ow">in</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">temploc</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">])</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">][</span><span class="s">&#39;z&#39;</span><span class="p">]):</span>
+                        <span class="c"># moving vertically from container.z when positive</span>
+                        <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">][</span><span class="s">&#39;z&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span> 
+
+                <span class="k">del</span> <span class="n">temploc</span><span class="p">[</span><span class="s">&#39;container&#39;</span><span class="p">]</span>
+
+<span class="c">#        # don&#39;t let it go less than 0 on any axis</span>
+<span class="c">#        for c in temploc:</span>
+<span class="c">#            if temploc[c]&lt;0:  temploc[c]=0</span>
+
+        <span class="n">return_value</span> <span class="o">=</span> <span class="p">[</span><span class="n">temploc</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">should_home_axis</span><span class="p">:</span>
+            <span class="n">top_command</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+            <span class="n">top_command</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resting</span>
+            <span class="n">return_value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">top_command</span><span class="p">)</span>
+
+            <span class="n">home_command</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+            <span class="n">home_command</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">return_value</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;home&#39;</span><span class="p">:</span> <span class="n">home_command</span><span class="p">})</span> <span class="c">#if tip has been dropped</span>
+        
+<span class="c">#        return temploc</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;return_value:</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">,</span><span class="n">return_value</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">return_value</span>
+
+
+    <span class="c">#from pipette.js  </span></div>
+<div class="viewcode-block" id="Pipette.calibrate"><a class="viewcode-back" href="../pipette.html#pipette.Pipette.calibrate">[docs]</a>    <span class="k">def</span> <span class="nf">calibrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">property_</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set a given pipette property to a value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.calibrate called&#39;</span><span class="p">)</span>
+       <span class="c">#ToDo: probably need to utilize None instead of math.nan here</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">property_</span><span class="o">==</span><span class="s">&#39;top&#39;</span> <span class="ow">or</span> <span class="n">property_</span><span class="o">==</span><span class="s">&#39;blowout&#39;</span> <span class="ow">or</span> <span class="n">property_</span><span class="o">==</span><span class="s">&#39;droptip&#39;</span><span class="p">)):</span>
+            <span class="c"># if it&#39;s a top or blowout value, save it</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">property_</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  
+            <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">blowout</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom_distance</span>
+
+      
+    <span class="c">#from pipette.js</span></div>
+<div class="viewcode-block" id="Pipette.create_deck"><a class="viewcode-back" href="../pipette.html#pipette.Pipette.create_deck">[docs]</a>    <span class="k">def</span> <span class="nf">create_deck</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">containerNameArray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a list of containers represented on deck for the pipette given a list of containers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># The following statement needs to be verified:</span>
+        <span class="c">#All containers created while the robot is on, regardless of how many jobs it runs,</span>
+        <span class="c">#will be saved for each pipette, so that its XYZ origin is remembered until poweroff</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> 
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.create_deck called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">containerNameArray:</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">containerNameArray</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">BEFORE self.theContainers:</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="n">containerNameArray</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">containerNameArray</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="c">#self.theOldContainers = [self.theConold_name for old_name in self.theContainers if old_name in containerNameArray]</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">containerNameArray</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+            <span class="c">#js for i=0  i&lt;containerNameArray.length  i++:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">containerNameArray</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">containerNameArray</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">[</span><span class="n">containerNameArray</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;x&#39;</span> <span class="p">:</span> <span class="bp">None</span><span class="p">,</span><span class="s">&#39;y&#39;</span> <span class="p">:</span> <span class="bp">None</span><span class="p">,</span><span class="s">&#39;z&#39;</span> <span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+                    
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">AFTER self.theContainers:</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span>
+
+    <span class="c">#from pipette.js</span></div>
+<div class="viewcode-block" id="Pipette.calibrate_container"><a class="viewcode-back" href="../pipette.html#pipette.Pipette.calibrate_container">[docs]</a>    <span class="k">def</span> <span class="nf">calibrate_container</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">containerName</span><span class="p">,</span> <span class="n">coords</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the absolute location coordinates of a given container for this pipette</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.calibrate_container called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">containerName: &#39;</span><span class="p">,</span><span class="n">containerName</span><span class="p">,</span><span class="s">&#39;,</span><span class="se">\n</span><span class="s">coords: &#39;</span><span class="p">,</span><span class="n">coords</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">containerName</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">[</span><span class="n">containerName</span><span class="p">]</span> <span class="ow">and</span> <span class="n">coords</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;type(coords) = &#39;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">coords</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">coords</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">[</span><span class="n">containerName</span><span class="p">][</span><span class="s">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">]</span>  
+            <span class="k">if</span> <span class="n">coords</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">[</span><span class="n">containerName</span><span class="p">][</span><span class="s">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">]</span>  
+            <span class="k">if</span> <span class="n">coords</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">theContainers</span><span class="p">[</span><span class="n">containerName</span><span class="p">][</span><span class="s">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="s">&#39;z&#39;</span><span class="p">]</span>  
+
+                <span class="c">#js console.log(&#39;axis &#39;+self.axis+ &#39;calibrated container &#39;+containerName)  </span>
+                <span class="c">#js console.log(self.theContainers[containerName])</span>
+            <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">axis &#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">axis</span><span class="p">,</span> <span class="s">&#39;calibrated container &#39;</span><span class="p">,</span><span class="n">containerName</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>  
+                
+
+    <span class="c">#from pipette.js        </span></div>
+<div class="viewcode-block" id="Pipette.rel_to_abs"><a class="viewcode-back" href="../pipette.html#pipette.Pipette.rel_to_abs">[docs]</a>    <span class="k">def</span> <span class="nf">rel_to_abs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rel_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a relative value between top and bottom to an absolute position for a pipette plunger operation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;pipette.rel_to_abs called&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">rel_val: &#39;</span><span class="p">,</span><span class="n">rel_val</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rel_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c">#FileIO.log(&#39;******************&#39;)</span>
+            <span class="c">#FileIO.log(&#39;type(rel_val) = &#39;,type(rel_val))</span>
+            <span class="c">#FileIO.log(&#39;******************&#39;)</span>
+            <span class="k">if</span> <span class="n">rel_val</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">rel_val</span> <span class="o">=</span> <span class="mi">0</span>  
+            <span class="k">if</span> <span class="n">rel_val</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">rel_val</span> <span class="o">=</span> <span class="mi">1</span>  
+            <span class="n">diff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>  
+            <span class="n">absol</span> <span class="o">=</span> <span class="p">(</span><span class="n">rel_val</span> <span class="o">*</span> <span class="n">diff</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">top</span>  
+            <span class="c">#js if abs % 1 &gt; 0: abs = abs.toFixed(2)</span>
+            <span class="k">if</span> <span class="n">absol</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">absol</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">absol</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+            <span class="c">#js return Number(absol) </span>
+            <span class="k">return</span> <span class="n">absol</span>
+
+       </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

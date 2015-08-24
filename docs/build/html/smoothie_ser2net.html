@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>smoothie_ser2net module &mdash; OT.One 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="OT.One 1.0.0 documentation" href="index.html" />
+    <link rel="up" title="backend" href="modules.html" />
+    <link rel="next" title="the_queue module" href="the_queue.html" />
+    <link rel="prev" title="script_keeper module" href="script_keeper.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="the_queue.html" title="the_queue module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="script_keeper.html" title="script_keeper module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">OT.One 1.0.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">backend</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-smoothie_ser2net">
+<span id="smoothie-ser2net-module"></span><h1>smoothie_ser2net module<a class="headerlink" href="#module-smoothie_ser2net" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="smoothie_ser2net.Smoothie">
+<em class="property">class </em><code class="descclassname">smoothie_ser2net.</code><code class="descname">Smoothie</code><span class="sig-paren">(</span><em>outer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Smoothie class</p>
+<p>The Smoothie class is instantiated into a smoothie object
+to communicate with the smoothieboard. A &#8220;nested&#8221; asyncio.Protocol subclass, CB_Factory, 
+is used with asyncio&#8217;s create_connection function to create a streaming transport 
+connection to host and port 0.0.0.0:3333, which in turn is connected to the smoothieboard
+via ser2net. CB_Factory contains three callbacks:</p>
+<ul class="simple">
+<li>connection_made</li>
+<li>data_received</li>
+<li>connection_lost</li>
+</ul>
+<p>CB_Factory Callbacks:</p>
+<ul class="simple">
+<li>connection_made     causes the machine to home and is not currently set to call an external</li>
+</ul>
+<p>callback</p>
+<ul class="simple">
+<li>data_receieved      parses data receieved into command lines and calls the smoothie_handler</li>
+</ul>
+<p>function for each command line and that in turn calls the on_raw_data and on_state_change external
+callbacks</p>
+<ul class="simple">
+<li>connection_lost     is not currently set to an external callback</li>
+</ul>
+<p>External Callbacks:</p>
+<ul class="simple">
+<li>on_raw_data</li>
+<li>on_state_change</li>
+<li>on_limit_hit</li>
+</ul>
+<p>The smoothie object also contains an index of smoothieboard commands in the form of a 
+dictionary object called _dict, and a dictionary object called theState to hold information about the state
+of the robot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>Show an example coords_list in documentation (<a class="reference internal" href="#smoothie_ser2net.Smoothie.move" title="smoothie_ser2net.Smoothie.move"><code class="xref py py-meth docutils literal"><span class="pre">move()</span></code></a>)</li>
+</ol>
+<dl class="class">
+<dt id="smoothie_ser2net.Smoothie.CB_Factory">
+<em class="property">class </em><code class="descname">CB_Factory</code><span class="sig-paren">(</span><em>outer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.CB_Factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.CB_Factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">asyncio.protocols.Protocol</span></code></p>
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.CB_Factory.connection_lost">
+<code class="descname">connection_lost</code><span class="sig-paren">(</span><em>exc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.CB_Factory.connection_lost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.CB_Factory.connection_lost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback when connection is lost</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.CB_Factory.connection_made">
+<code class="descname">connection_made</code><span class="sig-paren">(</span><em>transport</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.CB_Factory.connection_made"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.CB_Factory.connection_made" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback when a connection is made</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.CB_Factory.data_received">
+<code class="descname">data_received</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.CB_Factory.data_received"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.CB_Factory.data_received" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback when data is received from Smoothieboard</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="smoothie_ser2net.Smoothie.CB_Factory.old_data">
+<code class="descname">old_data</code><em class="property"> = None</em><a class="headerlink" href="#smoothie_ser2net.Smoothie.CB_Factory.old_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="smoothie_ser2net.Smoothie.CB_Factory.proc_data">
+<code class="descname">proc_data</code><em class="property"> = ''</em><a class="headerlink" href="#smoothie_ser2net.Smoothie.CB_Factory.proc_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.connect">
+<code class="descclassname">Smoothie.</code><code class="descname">connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a connection to Smoothieboard using <a class="reference internal" href="#smoothie_ser2net.Smoothie.CB_Factory" title="smoothie_ser2net.Smoothie.CB_Factory"><code class="xref py py-class docutils literal"><span class="pre">CB_Factory</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.delay">
+<code class="descclassname">Smoothie.</code><code class="descname">delay</code><span class="sig-paren">(</span><em>milli_seconds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.delay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.delay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delay for given number of milli_seconds</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.delay_state">
+<code class="descclassname">Smoothie.</code><code class="descname">delay_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.delay_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.delay_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets theState object&#8217;s delaying value to 0, and then calls <a class="reference internal" href="#smoothie_ser2net.Smoothie.on_state_change" title="smoothie_ser2net.Smoothie.on_state_change"><code class="xref py py-meth docutils literal"><span class="pre">on_state_change()</span></code></a>.
+Used by <a class="reference internal" href="#smoothie_ser2net.Smoothie.delay" title="smoothie_ser2net.Smoothie.delay"><code class="xref py py-meth docutils literal"><span class="pre">delay()</span></code></a> for timing end of a delay</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.get_state">
+<code class="descclassname">Smoothie.</code><code class="descname">get_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the robot state</p>
+<p>example state:</p>
+<p>theState = {
+&#8216;x&#8217;: 0,
+&#8216;y&#8217;: 0,
+&#8216;z&#8217;: 0,
+&#8216;a&#8217;: 0,
+&#8216;b&#8217;: 0,
+&#8216;c&#8217;: 0,
+&#8216;stat&#8217;: 1,
+&#8216;delaying&#8217;: 0,
+&#8216;homing&#8217;: {</p>
+<blockquote>
+<div>&#8216;x&#8217;: False,
+&#8216;y&#8217;: False,
+&#8216;z&#8217;: False,
+&#8216;a&#8217;: False,
+&#8216;b&#8217;: False,
+&#8216;c&#8217;: False
+}</div></blockquote>
+<p>}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.halt">
+<code class="descclassname">Smoothie.</code><code class="descname">halt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.halt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.halt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Halt robot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.home">
+<code class="descclassname">Smoothie.</code><code class="descname">home</code><span class="sig-paren">(</span><em>axis_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.home"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Home robots according to axis_dict argument</p>
+<p>If axis_dict is empty, homes all in the order ABZ, XY, to clear the deck before moving in XY plane</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.move">
+<code class="descclassname">Smoothie.</code><code class="descname">move</code><span class="sig-paren">(</span><em>coords_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move according to coords_list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li>Show an example coords_list in documentation</li>
+</ol>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="smoothie_ser2net.Smoothie.old_msg">
+<code class="descclassname">Smoothie.</code><code class="descname">old_msg</code><em class="property"> = ''</em><a class="headerlink" href="#smoothie_ser2net.Smoothie.old_msg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.on_connect">
+<code class="descclassname">Smoothie.</code><code class="descname">on_connect</code><span class="sig-paren">(</span><em>theState</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.on_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.on_connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback when connection made</p>
+<p>currently does zilch</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.on_disconnect">
+<code class="descclassname">Smoothie.</code><code class="descname">on_disconnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.on_disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.on_disconnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback when disconnected</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.on_limit_hit">
+<code class="descclassname">Smoothie.</code><code class="descname">on_limit_hit</code><span class="sig-paren">(</span><em>axis</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.on_limit_hit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.on_limit_hit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls an external callback for when a limitswitch is hit</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.on_raw_data">
+<code class="descclassname">Smoothie.</code><code class="descname">on_raw_data</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.on_raw_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.on_raw_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls an external callback to show raw data lines received</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.on_state_change">
+<code class="descclassname">Smoothie.</code><code class="descname">on_state_change</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.on_state_change"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.on_state_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls an external callback for when theState changes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.on_success_connecting">
+<code class="descclassname">Smoothie.</code><code class="descname">on_success_connecting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.on_success_connecting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.on_success_connecting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smoothie callback for when a connection is made</p>
+<p>Sends startup commands to engage automatic feedback from Smoothieboard, <a class="reference internal" href="#smoothie_ser2net.Smoothie.home" title="smoothie_ser2net.Smoothie.home"><code class="xref py py-meth docutils literal"><span class="pre">home()</span></code></a>, 
+and call <a class="reference internal" href="#smoothie_ser2net.Smoothie.on_connect" title="smoothie_ser2net.Smoothie.on_connect"><code class="xref py py-meth docutils literal"><span class="pre">on_connect()</span></code></a> callback</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.raw">
+<code class="descclassname">Smoothie.</code><code class="descname">raw</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a raw command to the Smoothieboard</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.reset">
+<code class="descclassname">Smoothie.</code><code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset robot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.send">
+<code class="descclassname">Smoothie.</code><code class="descname">send</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>sends data to the smoothieboard using a transport</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.set_limit_hit_callback">
+<code class="descclassname">Smoothie.</code><code class="descname">set_limit_hit_callback</code><span class="sig-paren">(</span><em>callback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.set_limit_hit_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.set_limit_hit_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect the external callback for limit hit data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.set_move_callback">
+<code class="descclassname">Smoothie.</code><code class="descname">set_move_callback</code><span class="sig-paren">(</span><em>callback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.set_move_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.set_move_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect the external callback for move call</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.set_raw_callback">
+<code class="descclassname">Smoothie.</code><code class="descname">set_raw_callback</code><span class="sig-paren">(</span><em>callback</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.set_raw_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.set_raw_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>connects the external callback for raw data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.set_speed">
+<code class="descclassname">Smoothie.</code><code class="descname">set_speed</code><span class="sig-paren">(</span><em>axis</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.set_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.set_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the speed for a given axis</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.smoothie_handler">
+<code class="descclassname">Smoothie.</code><code class="descname">smoothie_handler</code><span class="sig-paren">(</span><em>msg</em>, <em>data_</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.smoothie_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.smoothie_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle lines of data from Smoothieboard</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="smoothie_ser2net.Smoothie.theState">
+<code class="descclassname">Smoothie.</code><code class="descname">theState</code><em class="property"> = {'c': 0, 'x': 0, 'b': 0, 'y': 0, 'z': 0, 'stat': 1, 'delaying': 0, 'homing': {'c': False, 'x': False, 'b': False, 'y': False, 'z': False, 'a': False}, 'a': 0}</em><a class="headerlink" href="#smoothie_ser2net.Smoothie.theState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="script_keeper.html"
+                        title="previous chapter">script_keeper module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="the_queue.html"
+                        title="next chapter">the_queue module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/smoothie_ser2net.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Nick Wagner.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
+      
+      |
+      <a href="_sources/smoothie_ser2net.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
