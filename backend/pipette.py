@@ -198,8 +198,7 @@ class Pipette(Tool):
 
     #from pipette.js  
     def calibrate(self, property_, value):
-        """
-        Set a given pipette property to a value
+        """Set a given pipette property to a value
         """
         if debug == True: 
             FileIO.log('pipette.calibrate called')
