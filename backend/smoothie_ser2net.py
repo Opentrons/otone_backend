@@ -256,8 +256,8 @@ class Smoothie(object):
                             if h_value == True:
                                 stillHoming = True
 
-                        if stillHoming==False:
-                            didStateChange = True
+                        #if stillHoming==False:
+                            #didStateChange = True
 
                 if key == 'limit':
                     self.on_limit_hit(value)

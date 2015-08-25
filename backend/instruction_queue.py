@@ -1,7 +1,7 @@
 from file_io import FileIO
 import json, collections, asyncio
 
-debug = True
+debug = False
 verbose = False
 
 class InstructionQueue:
