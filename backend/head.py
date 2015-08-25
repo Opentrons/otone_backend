@@ -434,7 +434,7 @@ class Head:
             if property_=='top' or property_=='blowout' or property_=='droptip':
                 value = state[pipette]
                 self.PIPETTES[pipette].calibrate(property_,value)  
-                self.save_pipette_values()  
+                self.save_pipette_values()
 
 
     def calibrate_container(self, pipette, container):   
