@@ -256,8 +256,8 @@ class Smoothie(object):
                             if h_value == True:
                                 stillHoming = True
 
-                        #if stillHoming==False:
-                            #didStateChange = True
+                        if stillHoming==False:
+                            didStateChange = True
 
                 if key == 'limit':
                     self.on_limit_hit(value)
@@ -266,7 +266,8 @@ class Smoothie(object):
                 if len(self.smoothieQueue)>0:
                     self.try_step()
                 else:
-                    self.on_state_change(self.theState)
+                    if didStateChange == True:
+                        self.on_state_change(self.theState)
 
 
             self.prevMsg = msg
