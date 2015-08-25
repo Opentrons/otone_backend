@@ -429,7 +429,7 @@ class Head:
         if debug == True: FileIO.log('head.calibrate_pipette called')
         #maps to smoothieAPI.get_state() with extra code
         if pipette and self.PIPETTES[pipette]: 
-            state = self.smoothieAPI.getState()  
+            state = self.smoothieAPI.get_state()
             # firststop, bottom to delete
             if property_=='top' or property_=='blowout' or property_=='droptip':
                 value = state[pipette]  
