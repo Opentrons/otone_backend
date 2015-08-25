@@ -432,7 +432,7 @@ class Head:
             state = self.smoothieAPI.get_state()
             # firststop, bottom to delete
             if property_=='top' or property_=='blowout' or property_=='droptip':
-                value = state[pipette]  
+                value = state[pipette]
                 self.PIPETTES[pipette].calibrate(property_,value)  
                 self.save_pipette_values()  
 

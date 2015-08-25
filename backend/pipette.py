@@ -5,7 +5,7 @@ from file_io import FileIO
 
 
 debug = True
-verbose = False
+verbose = True
 
 class Pipette(Tool):
     """
@@ -200,7 +200,7 @@ class Pipette(Tool):
     def calibrate(self, property_, value):
         """Set a given pipette property to a value
         """
-        if debug == True: 
+        if debug == True:
             FileIO.log('pipette.calibrate called')
             if verbose == True: FileIO.log('\tproperty_: ',property_,'\n\tvalue:',value,'\n')
        #ToDo: probably need to utilize None instead of math.nan here
