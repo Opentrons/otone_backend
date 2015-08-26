@@ -4,8 +4,7 @@ debug = True
 verbose = False
 
 class DeckModule:
-    """
-    Base class for specific module types
+    """Base class for specific module types
     
     A DeckModule is a base class intended to be subclassed into specific
     module types that correspond to the physical objects placed in one of the
@@ -19,8 +18,7 @@ class DeckModule:
     
 #Special Methods
     def __init__(self, modname, modtype, slot):
-        """
-        Initialize DeckModule
+        """Initialize DeckModule
         
         modname = the name of the module (string)
         modetype = the type of module e.g. plate, spinner, etc. (string)
@@ -43,8 +41,7 @@ class DeckModule:
         
 #Methods
     def set_location(self, location):
-        """
-        Set/reset x,y reference location of a deck module from a 
+        """Set/reset x,y reference location of a deck module from a 
         calibration procedure
         
         location = a tuple containing the location in mm of the reference 
@@ -56,8 +53,7 @@ class DeckModule:
         
         
     def set_slot(self, slot):
-        """
-        Set a new slot of a DeckModule on the deck
+        """Set a new slot of a DeckModule on the deck
         
         slot = an integer between 1 and 15 to indicate the position
         of this deckModule

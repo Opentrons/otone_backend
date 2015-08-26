@@ -4,8 +4,7 @@ debug = True
 verbose = False
 
 class Ingredients:
-    """
-    Hold information about the liquid sources
+    """Hold information about the liquid sources
     
     The Ingredients class is intended to be instatiated into an ingredients
     object whose primary function (currently) is to keep track of reagent
@@ -14,8 +13,7 @@ class Ingredients:
     
 #Special Methods
     def __init__(self, ingredients):
-        """
-        Initialize Ingredients object
+        """Initialize Ingredients object
         """
         if debug == True: FileIO.log('ingredients.__init__ called')
         self.ingredientDict = ingredients
@@ -31,7 +29,8 @@ class Ingredients:
         
 #Methods
     def configure_ingredients(self, ingredients_data):
-        """
+        """Recreate and fill ingredientsDict
+        
         ingredients_data = a dictionary of the form:
         {"water": [{"container": "source-bucket","location": "A1","volume": 150000}],
          "wine": [{"container": "source-bucket","location": "A2","volume": 25000}]

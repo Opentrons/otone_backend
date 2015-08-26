@@ -2,14 +2,12 @@
 
 
 class Grabber(Tool):
-    """
-    Grabber Class - concept for anticipated future use
+    """Grabber Class - concept for anticipated future use
     """
     
 #Special Methods
     def __init__(self, toolname, tooltype, axis):
-        """
-        Initialize Grabber
+        """Initialize Grabber
         
         toolname = the name of the tool (string)
         tooltype = the type of tool e.g. 1ch pipette, 8ch pipette, etc.(string)
@@ -29,14 +27,12 @@ class Grabber(Tool):
         
 #Methods
     def grab(self):
-        """
-        Placeholder
+        """Placeholder
         """
         print('the grabber grabbed something')
         
         
     def release(self):
-        """
-        Placeholder
+        """Placeholder
         """
         print('the grabber released something')

@@ -57,8 +57,7 @@
 <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="DeckModule"><a class="viewcode-back" href="../deck_module.html#deck_module.DeckModule">[docs]</a><span class="k">class</span> <span class="nc">DeckModule</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base class for specific module types</span>
+    <span class="sd">&quot;&quot;&quot;Base class for specific module types</span>
 <span class="sd">    </span>
 <span class="sd">    A DeckModule is a base class intended to be subclassed into specific</span>
 <span class="sd">    module types that correspond to the physical objects placed in one of the</span>
@@ -72,8 +71,7 @@
     
 <span class="c">#Special Methods</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modname</span><span class="p">,</span> <span class="n">modtype</span><span class="p">,</span> <span class="n">slot</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize DeckModule</span>
+        <span class="sd">&quot;&quot;&quot;Initialize DeckModule</span>
 <span class="sd">        </span>
 <span class="sd">        modname = the name of the module (string)</span>
 <span class="sd">        modetype = the type of module e.g. plate, spinner, etc. (string)</span>
@@ -96,8 +94,7 @@
         
 <span class="c">#Methods</span>
 <div class="viewcode-block" id="DeckModule.set_location"><a class="viewcode-back" href="../deck_module.html#deck_module.DeckModule.set_location">[docs]</a>    <span class="k">def</span> <span class="nf">set_location</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set/reset x,y reference location of a deck module from a </span>
+        <span class="sd">&quot;&quot;&quot;Set/reset x,y reference location of a deck module from a </span>
 <span class="sd">        calibration procedure</span>
 <span class="sd">        </span>
 <span class="sd">        location = a tuple containing the location in mm of the reference </span>
@@ -109,8 +106,7 @@
         
         </div>
 <div class="viewcode-block" id="DeckModule.set_slot"><a class="viewcode-back" href="../deck_module.html#deck_module.DeckModule.set_slot">[docs]</a>    <span class="k">def</span> <span class="nf">set_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slot</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set a new slot of a DeckModule on the deck</span>
+        <span class="sd">&quot;&quot;&quot;Set a new slot of a DeckModule on the deck</span>
 <span class="sd">        </span>
 <span class="sd">        slot = an integer between 1 and 15 to indicate the position</span>
 <span class="sd">        of this deckModule</span>

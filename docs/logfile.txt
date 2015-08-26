@@ -2467,3 +2467,87 @@
 2015-08-14 15:27:26.370303 - subscriber.set_runner called
 2015-08-14 15:27:26.370533 - about to publish com.opentrons.robot_ready TRUE
 2015-08-14 15:27:30.772716 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:40:02.778533 - starting up
+2015-08-26 00:40:02.781548 - subscriber.__init__ called
+2015-08-26 00:40:02.781759 - publisher.__init__ called
+2015-08-26 00:40:02.781975 - trying to make a connection...
+2015-08-26 00:40:02.783003 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:40:07.786025 - trying to make a connection...
+2015-08-26 00:40:07.787977 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:42:45.553518 - starting up
+2015-08-26 00:42:45.555251 - subscriber.__init__ called
+2015-08-26 00:42:45.555418 - publisher.__init__ called
+2015-08-26 00:42:45.555583 - trying to make a connection...
+2015-08-26 00:42:45.556697 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:43:56.303171 - starting up
+2015-08-26 00:43:56.304706 - subscriber.__init__ called
+2015-08-26 00:43:56.304862 - publisher.__init__ called
+2015-08-26 00:43:56.305017 - trying to make a connection...
+2015-08-26 00:43:56.306212 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:44:01.311739 - trying to make a connection...
+2015-08-26 00:44:01.313502 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:44:54.812956 - starting up
+2015-08-26 00:44:54.814488 - subscriber.__init__ called
+2015-08-26 00:44:54.814640 - publisher.__init__ called
+2015-08-26 00:44:54.814790 - trying to make a connection...
+2015-08-26 00:44:54.815814 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:44:59.821336 - trying to make a connection...
+2015-08-26 00:44:59.823349 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:45:50.375394 - starting up
+2015-08-26 00:45:50.376940 - subscriber.__init__ called
+2015-08-26 00:45:50.377083 - publisher.__init__ called
+2015-08-26 00:45:50.377235 - trying to make a connection...
+2015-08-26 00:45:50.378225 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:45:55.383764 - trying to make a connection...
+2015-08-26 00:45:55.386335 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:46:03.916398 - starting up
+2015-08-26 00:46:03.917923 - subscriber.__init__ called
+2015-08-26 00:46:03.918069 - publisher.__init__ called
+2015-08-26 00:46:03.918225 - trying to make a connection...
+2015-08-26 00:46:03.919311 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:46:42.340390 - starting up
+2015-08-26 00:46:42.341968 - subscriber.__init__ called
+2015-08-26 00:46:42.342095 - publisher.__init__ called
+2015-08-26 00:46:42.342255 - trying to make a connection...
+2015-08-26 00:46:42.343282 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:46:47.348817 - trying to make a connection...
+2015-08-26 00:46:47.350776 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:47:57.385461 - starting up
+2015-08-26 00:47:57.387017 - subscriber.__init__ called
+2015-08-26 00:47:57.387146 - publisher.__init__ called
+2015-08-26 00:47:57.387313 - trying to make a connection...
+2015-08-26 00:47:57.388336 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:48:02.392452 - trying to make a connection...
+2015-08-26 00:48:02.394269 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:50:08.786332 - starting up
+2015-08-26 00:50:08.787922 - subscriber.__init__ called
+2015-08-26 00:50:08.788083 - publisher.__init__ called
+2015-08-26 00:50:08.788226 - trying to make a connection...
+2015-08-26 00:50:08.789181 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:50:51.012400 - starting up
+2015-08-26 00:50:51.013906 - subscriber.__init__ called
+2015-08-26 00:50:51.014050 - publisher.__init__ called
+2015-08-26 00:50:51.014231 - trying to make a connection...
+2015-08-26 00:50:51.015292 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:52:34.158960 - starting up
+2015-08-26 00:52:34.160678 - subscriber.__init__ called
+2015-08-26 00:52:34.160857 - publisher.__init__ called
+2015-08-26 00:52:34.161001 - trying to make a connection...
+2015-08-26 00:52:34.162110 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:54:33.373659 - starting up
+2015-08-26 00:54:33.375217 - subscriber.__init__ called
+2015-08-26 00:54:33.375371 - publisher.__init__ called
+2015-08-26 00:54:33.375528 - trying to make a connection...
+2015-08-26 00:54:33.376528 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 00:55:50.453199 - starting up
+2015-08-26 00:55:50.454907 - subscriber.__init__ called
+2015-08-26 00:55:50.455056 - publisher.__init__ called
+2015-08-26 00:55:50.455206 - trying to make a connection...
+2015-08-26 00:55:50.456269 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 01:19:13.413276 - starting up
+2015-08-26 01:19:13.416213 - subscriber.__init__ called
+2015-08-26 01:19:13.416433 - publisher.__init__ called
+2015-08-26 01:19:13.416738 - trying to make a connection...
+2015-08-26 01:19:13.418572 - error while trying to make a connection, sleeping for 5 seconds
+2015-08-26 01:19:18.420272 - trying to make a connection...
+2015-08-26 01:19:18.421974 - error while trying to make a connection, sleeping for 5 seconds

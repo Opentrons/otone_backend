@@ -5,8 +5,7 @@ debug = False
 verbose = False
 
 class InstructionQueue:
-    """
-    Holds protocol instructions and starts a job.
+    """Holds protocol instructions and starts a job.
     
 
     The instructionArray file is an array (list) of instructions.  
@@ -30,8 +29,7 @@ class InstructionQueue:
     """
 #Special Methods
     def __init__(self, head, publisher):
-        """
-        Initialize Instruction Queue object
+        """Initialize Instruction Queue object
         
         """
         if debug == True: FileIO.log('instruction_queue.__init__ called')
@@ -49,8 +47,7 @@ class InstructionQueue:
         
 #Methods
     def start_job(self, instructions, should_home):
-        """
-        Start the ProtocolRunner job with a givein list of instructions
+        """Start the ProtocolRunner job with a givein list of instructions
         """
         if debug == True: 
             FileIO.log('instruction_queue.start_job called')
@@ -91,8 +88,7 @@ class InstructionQueue:
                 self.ins_step()  #changed name to distinguish from theQueue step function
     
     def start_infinity_job(self, infinity_instructions):
-        """
-        Start a job and save instructions to a variable (infinity_data) so they can be perpetually run with :meth:`start_job`
+        """Start a job and save instructions to a variable (infinity_data) so they can be perpetually run with :meth:`start_job`
         """
         if debug == True: FileIO.log('instruction_queue.start_infinity_job called')
         if infinity_instructions and len(infinity_instructions):
@@ -100,8 +96,7 @@ class InstructionQueue:
             self.start_job(infinity_instructions, True)
 
     def erase_job(self):
-        """
-        Erase the ProtocolRunner job
+        """Erase the ProtocolRunner job
         """
         if debug == True: FileIO.log('instruction_queue.erase_job called')
         self.head.erase_job()
@@ -110,8 +105,7 @@ class InstructionQueue:
         
 #    def step(self)  #changed name to distinguish from theQueue step function
     def ins_step(self):
-        """
-        Increment to the next instruction in the :obj:`instructionArray`
+        """Increment to the next instruction in the :obj:`instructionArray`
         """
         if debug == True:
             FileIO.log('instruction_queue.ins_step called,\nlen(self.instructionArray): ',len(self.instructionArray),'\n')
@@ -135,8 +129,7 @@ class InstructionQueue:
 
   
     def send_instruction(self,instruction):
-        """
-        Execute groups (:meth:`head.pipette`) from the given instruction list one by one
+        """Execute groups (:meth:`head.pipette`) from the given instruction list one by one
         """
         if debug == True: 
             FileIO.log('instruction_queue.send_instruction called')

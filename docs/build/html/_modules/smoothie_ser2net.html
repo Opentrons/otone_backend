@@ -62,8 +62,7 @@
 <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="Smoothie"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie">[docs]</a><span class="k">class</span> <span class="nc">Smoothie</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Smoothie class </span>
+    <span class="sd">&quot;&quot;&quot;Smoothie class </span>
 
 <span class="sd">    The Smoothie class is instantiated into a smoothie object</span>
 <span class="sd">    to communicate with the smoothieboard. A &quot;nested&quot; asyncio.Protocol subclass, CB_Factory, </span>
@@ -102,6 +101,10 @@
 
 <span class="sd">    :todo:</span>
 <span class="sd">    1. Show an example coords_list in documentation (:meth:`move`)</span>
+<span class="sd">    2. (see also below)</span>
+
+<span class="sd">    :See also:</span>
+<span class="sd">    :download:`../../backend/OTONE_DATAFLOW.pdf`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_dict</span> <span class="o">=</span> <span class="p">{</span>
@@ -146,6 +149,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">limit_hit_callback</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">move_callback</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">my_loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smoothieQueue</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ack_msg_rcvd</span> <span class="o">=</span> <span class="s">&quot;ok&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_ready</span> <span class="o">=</span> <span class="mi">0</span>
 
 <div class="viewcode-block" id="Smoothie.CB_Factory"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.CB_Factory">[docs]</a>    <span class="k">class</span> <span class="nc">CB_Factory</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">Protocol</span><span class="p">):</span>
         <span class="n">proc_data</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
@@ -156,8 +163,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">outer</span> <span class="o">=</span> <span class="n">outer</span>
         
 <div class="viewcode-block" id="Smoothie.CB_Factory.connection_made"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.CB_Factory.connection_made">[docs]</a>        <span class="k">def</span> <span class="nf">connection_made</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transport</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Callback when a connection is made</span>
+            <span class="sd">&quot;&quot;&quot;Callback when a connection is made</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;smoothie_ser2net:</span><span class="se">\n\t</span><span class="s">CB_Factory.connection_made called&quot;</span><span class="p">)</span>
 
@@ -168,8 +174,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.CB_Factory.data_received"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.CB_Factory.data_received">[docs]</a>        <span class="k">def</span> <span class="nf">data_received</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Callback when data is received from Smoothieboard</span>
+            <span class="sd">&quot;&quot;&quot;Callback when data is received from Smoothieboard</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">debug</span><span class="o">==</span><span class="bp">True</span> <span class="ow">or</span> <span class="n">io_debug</span><span class="o">==</span><span class="bp">True</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">old_data</span> <span class="o">!=</span> <span class="n">data</span><span class="p">:</span>            
@@ -186,8 +191,7 @@
             
 </div>
 <div class="viewcode-block" id="Smoothie.CB_Factory.connection_lost"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.CB_Factory.connection_lost">[docs]</a>        <span class="k">def</span> <span class="nf">connection_lost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Callback when connection is lost</span>
+            <span class="sd">&quot;&quot;&quot;Callback when connection is lost</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
                 <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;smoothie_ser2net:</span><span class="se">\n\t</span><span class="s">CBFactory.connection_lost called&quot;</span><span class="p">)</span>
@@ -197,29 +201,25 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">outer</span><span class="o">.</span><span class="n">on_disconnect</span><span class="p">()</span><span class="c">#self.outer)</span>
 </div></div>
 <div class="viewcode-block" id="Smoothie.set_raw_callback"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.set_raw_callback">[docs]</a>    <span class="k">def</span> <span class="nf">set_raw_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        connects the external callback for raw data</span>
+        <span class="sd">&quot;&quot;&quot;connects the external callback for raw data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.set_raw_callback called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw_callback</span> <span class="o">=</span> <span class="n">callback</span>
 </div>
 <div class="viewcode-block" id="Smoothie.set_limit_hit_callback"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.set_limit_hit_callback">[docs]</a>    <span class="k">def</span> <span class="nf">set_limit_hit_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Connect the external callback for limit hit data</span>
+        <span class="sd">&quot;&quot;&quot;Connect the external callback for limit hit data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.set_limit_hit_callback called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">limit_hit_callback</span> <span class="o">=</span> <span class="n">callback</span>
 </div>
 <div class="viewcode-block" id="Smoothie.set_move_callback"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.set_move_callback">[docs]</a>    <span class="k">def</span> <span class="nf">set_move_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Connect the external callback for move call</span>
+        <span class="sd">&quot;&quot;&quot;Connect the external callback for move call</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.set_move_callback called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">move_callback</span> <span class="o">=</span> <span class="n">callback</span>
 </div>
 <div class="viewcode-block" id="Smoothie.connect"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Make a connection to Smoothieboard using :class:`CB_Factory`</span>
+        <span class="sd">&quot;&quot;&quot;Make a connection to Smoothieboard using :class:`CB_Factory`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.connect called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">my_loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
@@ -228,8 +228,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.on_success_connecting"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.on_success_connecting">[docs]</a>    <span class="k">def</span> <span class="nf">on_success_connecting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Smoothie callback for when a connection is made</span>
+        <span class="sd">&quot;&quot;&quot;Smoothie callback for when a connection is made</span>
 
 <span class="sd">        Sends startup commands to engage automatic feedback from Smoothieboard, :meth:`home`, </span>
 <span class="sd">        and call :meth:`on_connect` callback</span>
@@ -238,6 +237,7 @@
         <span class="c">#print(type(self._dict[&#39;setupFeedback&#39;]))</span>
         <span class="n">thestring</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;setupFeedback&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">thestring</span><span class="p">)</span>
+        <span class="c">#self.try_add(thestring)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">thestring</span><span class="p">)</span><span class="c">#self  self._dict[&#39;setupFeedback&#39;])</span>
         <span class="c">#if debug!=True:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">(</span><span class="nb">dict</span><span class="p">())</span>
@@ -248,8 +248,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.send"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        sends data to the smoothieboard using a transport</span>
+        <span class="sd">&quot;&quot;&quot;sends data to the smoothieboard using a transport</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
             <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.send called&#39;</span><span class="p">)</span>
@@ -261,8 +260,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.smoothie_handler"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.smoothie_handler">[docs]</a>    <span class="k">def</span> <span class="nf">smoothie_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">data_</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Handle lines of data from Smoothieboard</span>
+        <span class="sd">&quot;&quot;&quot;Handle lines of data from Smoothieboard</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ok_print</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
@@ -274,6 +272,9 @@
 
         <span class="c">#print(&#39;msg type: &#39;,type(msg))</span>
         <span class="c">#print(&#39;msg.find?: &#39;,msg.find(&#39;{&#39;))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ack_msg_rcvd</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;ok... self.already_trying: &#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;{&#39;</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">[</span><span class="n">msg</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;{&#39;</span><span class="p">):]</span>
             <span class="k">try</span><span class="p">:</span>
@@ -285,11 +286,15 @@
             <span class="k">if</span> <span class="n">ok_print</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net(1):</span><span class="se">\n\t</span><span class="s">theState: &#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&quot;!!&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span> <span class="o">=</span> <span class="bp">False</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">try_step</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">ok_print</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net:</span><span class="se">\n\t</span><span class="s">theState[&#39;</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="s">&#39;] = &#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="n">key</span><span class="p">],</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;stat&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
                     <span class="n">didStateChange</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span> <span class="o">=</span> <span class="bp">False</span>
 
                 <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
@@ -313,8 +318,13 @@
                 <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;limit&#39;</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">on_limit_hit</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">didStateChange</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">on_state_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">didStateChange</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="s">&#39;stat&#39;</span><span class="p">]</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">state_ready</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smoothieQueue</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">try_step</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">didStateChange</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">on_state_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">)</span>
+
 
             <span class="bp">self</span><span class="o">.</span><span class="n">prevMsg</span> <span class="o">=</span> <span class="n">msg</span>
             <span class="k">if</span> <span class="n">ok_print</span><span class="p">:</span>
@@ -322,8 +332,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.get_state"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.get_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the robot state</span>
+        <span class="sd">&quot;&quot;&quot;Returns the robot state</span>
 
 <span class="sd">        example state:</span>
 
@@ -352,9 +361,17 @@
         <span class="k">return</span> <span class="n">temp_state</span>
 
 </div>
+<div class="viewcode-block" id="Smoothie.try_add"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.try_add">[docs]</a>    <span class="k">def</span> <span class="nf">try_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a command to the smoothieQueue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.try_add called&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">smoothieQueue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="c">#if len(self.smoothieQueue) == 1:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">try_step</span><span class="p">()</span>
+
+</div>
 <div class="viewcode-block" id="Smoothie.move"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords_list</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Move according to coords_list</span>
+        <span class="sd">&quot;&quot;&quot;Move according to coords_list</span>
 
 <span class="sd">        :todo:</span>
 <span class="sd">        1. Show an example coords_list in documentation</span>
@@ -391,18 +408,33 @@
 
                     <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net:</span><span class="se">\n\t</span><span class="s">cmd: &#39;</span><span class="p">,</span><span class="n">cmd</span><span class="p">,</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-                    
 
                 <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net:</span><span class="se">\n\t</span><span class="s">my_transport not none? &#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">my_transport</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_transport</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">move_callback</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">try_add</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+            
+<span class="c">#            if self.my_transport is not None:</span>
+<span class="c">#                self.move_callback()</span>
+<span class="c">#                self.send(cmd)</span>
+
+</div>
+<div class="viewcode-block" id="Smoothie.try_step"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.try_step">[docs]</a>    <span class="k">def</span> <span class="nf">try_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Try to step the smoothieQueue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> 
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.try_step called&#39;</span><span class="p">)</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;self.already_trying: &#39;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span><span class="p">)</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;self.theState[&#39;stat&#39;]: &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="s">&#39;stat&#39;</span><span class="p">])</span>
+            <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;self.theState[&#39;delaying&#39;]: &quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="s">&#39;delaying&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="s">&#39;stat&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="s">&#39;delaying&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">already_trying</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smoothieQueue</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        
 
 </div>
 <div class="viewcode-block" id="Smoothie.delay"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.delay">[docs]</a>    <span class="k">def</span> <span class="nf">delay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">milli_seconds</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delay for given number of milli_seconds</span>
+        <span class="sd">&quot;&quot;&quot;Delay for given number of milli_seconds</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.delay called&#39;</span><span class="p">)</span>
         <span class="n">float_milli_seconds</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">milli_seconds</span><span class="p">)</span>    
@@ -413,8 +445,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.delay_state"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.delay_state">[docs]</a>    <span class="k">def</span> <span class="nf">delay_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets theState object&#39;s delaying value to 0, and then calls :meth:`on_state_change`.</span>
+        <span class="sd">&quot;&quot;&quot;Sets theState object&#39;s delaying value to 0, and then calls :meth:`on_state_change`.</span>
 <span class="sd">        Used by :meth:`delay` for timing end of a delay</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.delay_state called&#39;</span><span class="p">)</span>
@@ -423,8 +454,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.home"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.home">[docs]</a>    <span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Home robots according to axis_dict argument</span>
+        <span class="sd">&quot;&quot;&quot;Home robots according to axis_dict argument</span>
 
 <span class="sd">        If axis_dict is empty, homes all in the order ABZ, XY, to clear the deck before moving in XY plane</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -458,8 +488,13 @@
             <span class="k">if</span> <span class="n">homingABZ</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
                 <span class="n">homeCommand</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;home&#39;</span><span class="p">]</span>
             <span class="n">homeCommand</span> <span class="o">+=</span> <span class="s">&#39;Z&#39;</span>
-            <span class="n">homeCommand</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">theState</span><span class="p">[</span><span class="s">&#39;homing&#39;</span><span class="p">][</span><span class="s">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">homingABZ</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">if</span> <span class="n">homingABZ</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">homeCommand</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">try_add</span><span class="p">(</span><span class="n">homeCommand</span><span class="p">)</span>
+            <span class="n">homeCommand</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
 
         <span class="k">if</span> <span class="s">&#39;x&#39;</span> <span class="ow">in</span> <span class="n">axis_dict</span> <span class="ow">or</span> <span class="s">&#39;X&#39;</span> <span class="ow">in</span> <span class="n">axis_dict</span><span class="p">:</span>
             <span class="n">homeCommand</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;home&#39;</span><span class="p">]</span>
@@ -475,22 +510,22 @@
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">homeCommand</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">3</span><span class="p">:</span>
             <span class="n">homeCommand</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">homeCommand</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">try_add</span><span class="p">(</span><span class="n">homeCommand</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="Smoothie.halt"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.halt">[docs]</a>    <span class="k">def</span> <span class="nf">halt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Halt robot</span>
+        <span class="sd">&quot;&quot;&quot;Halt robot</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.halt called&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_transport</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">onOffString</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;off&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;on&#39;</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">onOffString</span><span class="p">)</span>    <span class="c">#self</span>
+            <span class="c">#onOffString = self._dict[&#39;off&#39;] + &#39;\r\n&#39; + self._dict[&#39;on&#39;]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">try_add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;off&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">try_add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;on&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="c">#self.send(onOffString)    #self</span>
 
 </div>
 <div class="viewcode-block" id="Smoothie.reset"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reset robot</span>
+        <span class="sd">&quot;&quot;&quot;Reset robot</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.reset called&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_transport</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -499,8 +534,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.set_speed"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.set_speed">[docs]</a>    <span class="k">def</span> <span class="nf">set_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the speed for a given axis</span>
+        <span class="sd">&quot;&quot;&quot;Set the speed for a given axis</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
             <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.set_speed called&#39;</span><span class="p">)</span>
@@ -509,7 +543,8 @@
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">complex</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">axis</span><span class="o">==</span><span class="s">&#39;xyz&#39;</span> <span class="ow">or</span> <span class="n">axis</span><span class="o">==</span><span class="s">&#39;a&#39;</span> <span class="ow">or</span> <span class="n">axis</span> <span class="o">==</span> <span class="s">&#39;b&#39;</span> <span class="ow">or</span> <span class="n">axis</span> <span class="o">==</span> <span class="s">&#39;c&#39;</span><span class="p">:</span>
                     <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dict</span><span class="p">[</span><span class="s">&#39;speed_&#39;</span><span class="o">+</span><span class="n">axis</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">try_add</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+                    <span class="c">#self.send(string)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.set_speed: axis??? &#39;</span><span class="o">+</span><span class="n">axis</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -519,10 +554,10 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.raw"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.raw">[docs]</a>    <span class="k">def</span> <span class="nf">raw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Send a raw command to the Smoothieboard</span>
+        <span class="sd">&quot;&quot;&quot;Send a raw command to the Smoothieboard</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">my_transport</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c">#self.try_add(string)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 
 
@@ -543,8 +578,7 @@
 
 </div>
 <div class="viewcode-block" id="Smoothie.on_connect"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.on_connect">[docs]</a>    <span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theState</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Callback when connection made</span>
+        <span class="sd">&quot;&quot;&quot;Callback when connection made</span>
 
 <span class="sd">        currently does zilch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -553,8 +587,7 @@
 </div>
     <span class="nd">@asyncio.coroutine</span>
 <div class="viewcode-block" id="Smoothie.on_disconnect"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.on_disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Callback when disconnected</span>
+        <span class="sd">&quot;&quot;&quot;Callback when disconnected</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.on_disconnect called&#39;</span><span class="p">)</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
@@ -567,8 +600,7 @@
         <span class="c">#    self.od_cb()</span>
 </div>
 <div class="viewcode-block" id="Smoothie.on_raw_data"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.on_raw_data">[docs]</a>    <span class="k">def</span> <span class="nf">on_raw_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calls an external callback to show raw data lines received</span>
+        <span class="sd">&quot;&quot;&quot;Calls an external callback to show raw data lines received</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">old_msg</span> <span class="o">!=</span> <span class="n">msg</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
@@ -579,8 +611,7 @@
         
 </div>
 <div class="viewcode-block" id="Smoothie.on_state_change"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.on_state_change">[docs]</a>    <span class="k">def</span> <span class="nf">on_state_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calls an external callback for when theState changes</span>
+        <span class="sd">&quot;&quot;&quot;Calls an external callback for when theState changes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span><span class="o">==</span><span class="bp">True</span><span class="p">:</span>
             <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.on_state_change called&#39;</span><span class="p">)</span>
@@ -593,8 +624,7 @@
                 <span class="k">raise</span>
 </div>
 <div class="viewcode-block" id="Smoothie.on_limit_hit"><a class="viewcode-back" href="../smoothie_ser2net.html#smoothie_ser2net.Smoothie.on_limit_hit">[docs]</a>    <span class="k">def</span> <span class="nf">on_limit_hit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calls an external callback for when a limitswitch is hit</span>
+        <span class="sd">&quot;&quot;&quot;Calls an external callback for when a limitswitch is hit</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
             <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;smoothie_ser2net.on_limit_hit called&#39;</span><span class="p">)</span>

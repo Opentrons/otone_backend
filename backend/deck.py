@@ -5,8 +5,7 @@ debug = True
 verbose = False
 
 class Deck:
-    """
-    The Deck class is a representation of the robot deck
+    """The Deck class is a representation of the robot deck
 
     The Deck class is intended to be instantiated to a deck object which 
     contains the subclassed deck modules labeled by slot #.
@@ -26,8 +25,7 @@ class Deck:
     """
 #Special Methods
     def __init__(self, modules):
-        """
-        Initialize the Deck
+        """Initialize the Deck
         
         modules = a dictionary of the modules needed on the deck of the form:
 
@@ -52,8 +50,7 @@ class Deck:
     
 #Methods
     def configure_deck(self, deck_data):
-        """
-        Load deck modules specified in protocol.json file
+        """Load deck modules specified in protocol.json file
         
         deck_data = dictionary containing the module data.
         :returns: A list of instantiated deck modules

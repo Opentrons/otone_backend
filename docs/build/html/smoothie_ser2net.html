@@ -107,7 +107,17 @@ of the robot.</p>
 </table>
 <ol class="arabic simple">
 <li>Show an example coords_list in documentation (<a class="reference internal" href="#smoothie_ser2net.Smoothie.move" title="smoothie_ser2net.Smoothie.move"><code class="xref py py-meth docutils literal"><span class="pre">move()</span></code></a>)</li>
+<li>(see also below)</li>
 </ol>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">See also:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference download internal" href="_downloads/OTONE_DATAFLOW.pdf"><code class="xref download docutils literal"><span class="pre">../../backend/OTONE_DATAFLOW.pdf</span></code></a></p>
 <dl class="class">
 <dt id="smoothie_ser2net.Smoothie.CB_Factory">
 <em class="property">class </em><code class="descname">CB_Factory</code><span class="sig-paren">(</span><em>outer</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.CB_Factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.CB_Factory" title="Permalink to this definition">¶</a></dt>
@@ -311,8 +321,20 @@ and call <a class="reference internal" href="#smoothie_ser2net.Smoothie.on_conne
 
 <dl class="attribute">
 <dt id="smoothie_ser2net.Smoothie.theState">
-<code class="descclassname">Smoothie.</code><code class="descname">theState</code><em class="property"> = {'c': 0, 'x': 0, 'b': 0, 'y': 0, 'z': 0, 'stat': 1, 'delaying': 0, 'homing': {'c': False, 'x': False, 'b': False, 'y': False, 'z': False, 'a': False}, 'a': 0}</em><a class="headerlink" href="#smoothie_ser2net.Smoothie.theState" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">Smoothie.</code><code class="descname">theState</code><em class="property"> = {'homing': {'z': False, 'a': False, 'x': False, 'b': False, 'c': False, 'y': False}, 'z': 0, 'stat': 1, 'delaying': 0, 'a': 0, 'x': 0, 'y': 0, 'c': 0, 'b': 0}</em><a class="headerlink" href="#smoothie_ser2net.Smoothie.theState" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.try_add">
+<code class="descclassname">Smoothie.</code><code class="descname">try_add</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.try_add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.try_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a command to the smoothieQueue</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smoothie_ser2net.Smoothie.try_step">
+<code class="descclassname">Smoothie.</code><code class="descname">try_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smoothie_ser2net.html#Smoothie.try_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smoothie_ser2net.Smoothie.try_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to step the smoothieQueue</p>
+</dd></dl>
 
 </dd></dl>
 

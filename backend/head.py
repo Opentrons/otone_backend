@@ -11,27 +11,19 @@ debug = True
 verbose = True
 
 class Head:
-    """
-    A representation of the robot head
+    """A representation of the robot head
     
     The Head class is intended to be instantiated to a head object which
     aggregates the subclassed tool objects and the smoothieAPI object.
     It also hold a references to theQueue and publisher objects.
     Appropriate methods are exposed to allow access to the aggregated object's
     functionality.
-
-    :todo:
-    1. Figure out if :meth:`move_plunger` is redundant and refactor accordingly
-    2. Should :obj:`theState` be updated BEFORE the actions taken from given state?
-    3. Is :meth:`create_deck` redundant?
-    4. Is :meth:`create_pipettes` needed?
     """
     
 #Special Methods-----------------------
     #def __init__(self, tools, global_handlers, theQueue):
     def __init__(self, tools, publisher):
-        """
-        Initialize Head object
+        """Initialize Head object
         
         tools = dictionary of the tools on the head
         
@@ -65,8 +57,7 @@ class Head:
     # this function fires when 'smoothie.js' transitions between {stat:0} and {stat:1}
     #SMOOTHIEBOARD.on_state_change = function (state) {
     def on_state_change(self, state):
-        """
-        Check the given state (from Smoothieboard) and engage :obj:`theQueue` (:class:`the_queue`) accordingly
+        """Check the given state (from Smoothieboard) and engage :obj:`theQueue` (:class:`the_queue`) accordingly
 
         If the state is 1 or the state.delaying is 1 then :obj:`theQueue` is_busy,
 
@@ -75,7 +66,7 @@ class Head:
         to step. Then update :obj:`theState`.
 
         :todo:
-        2. Should :obj:`theState` be updated BEFORE the actions taken from given state?
+        :obj:`theState` should be updated BEFORE the actions taken from given state
         """
         if debug == True: FileIO.log('head.on_state_change called')
         
@@ -94,8 +85,7 @@ class Head:
 
 #local functions---------------
     def get_tool_type(self, head_tool):
-        """
-        Get the tooltype and axis from head_tool dict
+        """Get the tooltype and axis from head_tool dict
         
         :returns: (tool_type, axis)
         :rtype: tuple
@@ -110,8 +100,7 @@ class Head:
         
 #Methods-----------------------
     def configure_head(self, head_data):
-        """
-        Configure the head per Head section of protocol.json file
+        """Configure the head per Head section of protocol.json file
         
         
         :example head_data:
@@ -204,8 +193,7 @@ class Head:
         
     #this came from pipette class in js code
     def create_pipettes(self, axis):
-        """
-        Create and return a dictionary of Pipette objects
+        """Create and return a dictionary of Pipette objects
 
         :returns: A dictionary of pipette objects
         :rtype: dictionary
@@ -213,7 +201,7 @@ class Head:
         :note: Seems nothing calls this...
 
         :todo:
-        4. Is :meth:`create_pipettes` needed?
+        Is :meth:`create_pipettes` even needed?
         """
         if debug == True: FileIO.log('head.create_pipettes called')
         thePipettes = {}
@@ -230,8 +218,7 @@ class Head:
     #corresponding to the exposed methods in the Planner.js file
     #from planner.js
     def home(self, axis_dict):   #, callback):
-        """
-        Home robot according to axis_dict
+        """Home robot according to axis_dict
         """
         #maps to smoothieAPI.home()
         #print('{} msg received in head, calling home on smoothie'.format(axis_dict))
@@ -243,8 +230,7 @@ class Head:
         
     #from planner.js
     def raw(self, string):
-        """
-        Send a raw command to the Smoothieboard
+        """Send a raw command to the Smoothieboard
         """
         if debug == True: FileIO.log('head.raw called')
         #maps to smoothieAPI.raw()
@@ -254,8 +240,7 @@ class Head:
         
     #from planner.js
     def kill(self):
-        """
-        Halt the Smoothieboard (M112) and clear the the object (:class:`the_queue`)
+        """Halt the Smoothieboard (M112) and clear the the object (:class:`the_queue`)
         """
         if debug == True: FileIO.log('head.kill called')
         #maps to smoothieAPI.halt() with extra code
@@ -265,8 +250,7 @@ class Head:
 
     #from planner.js
     def reset(self):
-        """
-        Reset the Smoothieboard and clear theQueue object (:class:`the_queue`)
+        """Reset the Smoothieboard and clear theQueue object (:class:`the_queue`)
         """
         if debug == True: FileIO.log('head.reset called')
         #maps to smoothieAPI.reset() with extra code
@@ -276,8 +260,7 @@ class Head:
         
     #from planner.js
     def get_state(self):
-        """
-        Get state information from Smoothieboard
+        """Get state information from Smoothieboard
         """
         if debug == True: FileIO.log('head.get_state called')
         #maps to smoothieAPI.get_state()
@@ -287,8 +270,7 @@ class Head:
         
         #from planner.js
     def set_speed(self, axis, value):
-        """
-        Set the speed for given axis to given value
+        """Set the speed for given axis to given value
         """
         if debug == True: FileIO.log('head.set_speed called')
         
@@ -301,8 +283,7 @@ class Head:
         #function move (locations)
         #doesn't map to smoothieAPI
     def move(self, locations):
-        """
-        Moves the head by adding locations to theQueue
+        """Moves the head by adding locations to theQueue
 
 
 
@@ -328,8 +309,7 @@ class Head:
     #function step (locations)
     #doesn't map to smoothieAPI
     def step(self, locations):
-        """
-        Step to the next command in theQueue(:class:`the_queue`) object's qlist
+        """Step to the next command in theQueue(:class:`the_queue`) object's qlist
 
         
         locations = [location,location,...]
@@ -366,8 +346,7 @@ class Head:
     #from planner.js
     #function pipette(group)
     def pipette(self, group):
-        """
-        Run a pipette operation based on a given Group from protocol instructions
+        """Run a pipette operation based on a given Group from protocol instructions
 
 
         group = {
@@ -422,8 +401,7 @@ class Head:
     
     #from planner.js
     def calibrate_pipette(self, pipette, property_):
-        """
-        Sets the value of a property for given pipette by fetching state information 
+        """Sets the value of a property for given pipette by fetching state information 
         from smoothieboard(:meth:`smoothie_ser2net.get_state`)
         """
         if debug == True: FileIO.log('head.calibrate_pipette called')
@@ -438,8 +416,7 @@ class Head:
 
 
     def calibrate_container(self, pipette, container):   
-        """
-        Set the location of a container
+        """Set the location of a container
         """
         if debug == True: FileIO.log('head.calibrate_container called')
         if pipette and self.PIPETTES[pipette]:     
@@ -448,8 +425,7 @@ class Head:
 
              
     def save_volume(self, data):
-        """
-        Save pipette volume to data/pipette_values.json
+        """Save pipette volume to data/pipette_values.json
         """
         if debug == True: FileIO.log('head.save_volume called')
         if(self.PIPETTES[data.axis] and data.volume is not None and data.volume > 0):
@@ -460,8 +436,7 @@ class Head:
         
     #from planner.js
     def save_pipette_values(self):
-        """
-        Save pipette values to data/pipette_values.json
+        """Save pipette values to data/pipette_values.json
         """
         if debug == True: FileIO.log('head.save_pipette_values called')
         pipette_values = {}
@@ -492,8 +467,7 @@ class Head:
     #fs.readFile('./data/pipette_calibrations.json', 'utf8', function (err,data)
     #load_pipette_values()
     def load_pipette_values(self):
-        """
-        Load pipette values from data/pipette_calibrations.json
+        """Load pipette values from data/pipette_calibrations.json
         """
         if debug == True: FileIO.log('head.load_pipette_values called')
         old_values = FileIO.get_dict_from_json(os.path.join(self.dir_path,'data/pipette_calibrations.json'))
@@ -522,16 +496,13 @@ class Head:
     # an array of new container names to be stored in each pipette
     #ToDo: this method may be redundant
     def create_deck(self, new_deck):
-        """
-        Create a dictionary of new container names to be stored in each pipette given a deck list
+        """Create a dictionary of new container names to be stored in each pipette given a deck list
 
         Calls :meth:`head.save_pipette_values` right before returning dictionary
 
         :returns: container data for each axis
         :rtype: dictionary
         
-        :todo:
-        3. Is :meth:`create_deck` redundant?
         """
         if debug == True: 
             FileIO.log('head.create_deck called')
@@ -554,8 +525,7 @@ class Head:
             
             
     def get_deck(self):
-        """
-        Get a dictionary of container names currently stored in each pipette
+        """Get a dictionary of container names currently stored in each pipette
 
         Calls :meth:`head.save_pipette_values` right before returning dictionary
 
@@ -579,8 +549,7 @@ class Head:
 
 
     def get_pipettes(self):
-        """
-        Get a dictionary of pipette properties for each pipette on head
+        """Get a dictionary of pipette properties for each pipette on head
 
         :returns: Pipette properties for each pipette
         :rtype: dictionary
@@ -606,8 +575,7 @@ class Head:
 
     #from planner.js
     def move_pipette(self, axis, property_):
-        """
-        Move the pipette to one of it's calibrated positions (top, bottom, blowout, droptip)
+        """Move the pipette to one of it's calibrated positions (top, bottom, blowout, droptip)
         
         This command is useful for seeing saved pipette positions while calibrating
         """
@@ -629,8 +597,7 @@ class Head:
     
     
     def move_plunger(self, axis, locations):
-        """
-        Move the plunger for given axis according to locations
+        """Move the plunger for given axis according to locations
 
         :note: This is only called from :class:`subscriber` and may be redundant
 
@@ -638,8 +605,6 @@ class Head:
 
         loc = {'plunger' : number}
 
-        :todo:
-        1. Figure out if :meth:`move_plunger` is redundant and refactor accordingly
         """
 
         if debug == True:
@@ -654,16 +619,14 @@ class Head:
 
 
     def erase_job(self):
-        """
-        Tell theQueue to clear
+        """Tell theQueue to clear
         """
         if debug == True: FileIO.log('head.erase_job called')
         self.theQueue.clear()
 
 
     def publish_calibrations(self):
-        """
-        Publish calibrations data
+        """Publish calibrations data
         """
         if debug == True: FileIO.log('head.publish_calibrations called')
         self.pubber.send_message('containerLocations',self.get_deck())

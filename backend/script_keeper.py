@@ -18,7 +18,7 @@ class ScriptKeeper:
     ot_config file aggregates useful information for reference
 
     :todo:
-    1. Formalize format and keywords of data returning from shell otone_scripts (:meth:`read_progress`)
+    Formalize format and keywords of data returning from shell otone_scripts (:meth:`read_progress`)
     """
     
     #Special Methods-----------------------
@@ -310,7 +310,7 @@ def read_progress(string):
     changed to json and the keywords are yet to be formalized.
 
     :todo:
-    1. Formalize format and keywords of data returning from shell otone_scripts
+    Formalize format and keywords of data returning from shell otone_scripts
     """
     if debug == True: FileIO.log('read_progress called')
     deli = "\n"

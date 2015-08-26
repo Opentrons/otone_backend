@@ -9,8 +9,7 @@ io_debug = False
 verbose = False
 
 class Smoothie(object):
-    """
-    Smoothie class 
+    """Smoothie class 
 
     The Smoothie class is instantiated into a smoothie object
     to communicate with the smoothieboard. A "nested" asyncio.Protocol subclass, CB_Factory, 
@@ -49,6 +48,10 @@ class Smoothie(object):
 
     :todo:
     1. Show an example coords_list in documentation (:meth:`move`)
+    2. (see also below)
+
+    :See also:
+    :download:`../../backend/OTONE_DATAFLOW.pdf`
     """
 
     _dict = {

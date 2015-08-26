@@ -48,9 +48,8 @@ class Subscriber():
     * 'restart' : lambda self: self.restart()
 
     :todo:
-    1. refactor dispatch to not use lambda functions -> cleaner documentation
-    2. clean up inclusion of head and runner objects -> referenced by dispatch
-    3. move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
+    - clean up inclusion of head and runner objects -> referenced by dispatch
+    - move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
     
 
 
@@ -203,7 +202,7 @@ class Subscriber():
         """Intermediate step to have :class:`head` load deck data and return deck information back to Browser
 
         :todo:
-        3. move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
+        move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
         """
         if debug == True:
             FileIO.log('subscriber.create_deck called')

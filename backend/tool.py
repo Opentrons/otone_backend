@@ -5,8 +5,7 @@ verbose = False
 
 
 class Tool:
-    """
-    Tool class which could be a 1 channel pipette, 8ch pipette, grabber, etc
+    """Tool class which could be a 1 channel pipette, 8ch pipette, grabber, etc
     
     A Tool is a base class intended to be subclassed into specific tool types
     that are attached to the physical moveable head of the robot.  Example
@@ -18,8 +17,7 @@ class Tool:
     """
     
     def __init__(self, toolname, tooltype, axis):
-        """
-        Initialize Tool
+        """Initialize Tool
         
         toolname = the name of the tool (string)
         tooltype = the type of tool e.g. 1ch pipette, 8ch pipette, etc.(string)
@@ -44,8 +42,7 @@ class Tool:
         
 #Methods
     def set_offset(self, offset):
-        """
-        Set/reset x,y,z offset of a tool relative to A from a calibration procedure
+        """Set/reset x,y,z offset of a tool relative to A from a calibration procedure
         
         location = a tuple containing the offset in mm
                 of the tool relative to the A tool

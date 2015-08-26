@@ -57,8 +57,7 @@
 <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="Ingredients"><a class="viewcode-back" href="../ingredients.html#ingredients.Ingredients">[docs]</a><span class="k">class</span> <span class="nc">Ingredients</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Hold information about the liquid sources</span>
+    <span class="sd">&quot;&quot;&quot;Hold information about the liquid sources</span>
 <span class="sd">    </span>
 <span class="sd">    The Ingredients class is intended to be instatiated into an ingredients</span>
 <span class="sd">    object whose primary function (currently) is to keep track of reagent</span>
@@ -67,8 +66,7 @@
     
 <span class="c">#Special Methods</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ingredients</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize Ingredients object</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Ingredients object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;ingredients.__init__ called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ingredientDict</span> <span class="o">=</span> <span class="n">ingredients</span>
@@ -84,7 +82,8 @@
         
 <span class="c">#Methods</span>
 <div class="viewcode-block" id="Ingredients.configure_ingredients"><a class="viewcode-back" href="../ingredients.html#ingredients.Ingredients.configure_ingredients">[docs]</a>    <span class="k">def</span> <span class="nf">configure_ingredients</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ingredients_data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Recreate and fill ingredientsDict</span>
+<span class="sd">        </span>
 <span class="sd">        ingredients_data = a dictionary of the form:</span>
 <span class="sd">        {&quot;water&quot;: [{&quot;container&quot;: &quot;source-bucket&quot;,&quot;location&quot;: &quot;A1&quot;,&quot;volume&quot;: 150000}],</span>
 <span class="sd">         &quot;wine&quot;: [{&quot;container&quot;: &quot;source-bucket&quot;,&quot;location&quot;: &quot;A2&quot;,&quot;volume&quot;: 25000}]</span>

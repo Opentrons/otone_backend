@@ -82,6 +82,7 @@ functionality.</p>
 <li>Figure out if <a class="reference internal" href="#head.Head.move_plunger" title="head.Head.move_plunger"><code class="xref py py-meth docutils literal"><span class="pre">move_plunger()</span></code></a> is redundant and refactor accordingly</li>
 <li>Should <a class="reference internal" href="#head.Head.theState" title="head.Head.theState"><code class="xref py py-obj docutils literal"><span class="pre">theState</span></code></a> be updated BEFORE the actions taken from given state?</li>
 <li>Is <a class="reference internal" href="#head.Head.create_deck" title="head.Head.create_deck"><code class="xref py py-meth docutils literal"><span class="pre">create_deck()</span></code></a> redundant?</li>
+<li>Is <a class="reference internal" href="#head.Head.create_pipettes" title="head.Head.create_pipettes"><code class="xref py py-meth docutils literal"><span class="pre">create_pipettes()</span></code></a> needed?</li>
 </ol>
 <dl class="method">
 <dt id="head.Head.calibrate_container">
@@ -172,8 +173,15 @@ from smoothieboard(<code class="xref py py-meth docutils literal"><span class="p
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dictionary</td>
 </tr>
+<tr class="field-odd field"><th class="field-name">Note:</th><td class="field-body">Seems nothing calls this...</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Todo:</th><td class="field-body"></td>
+</tr>
 </tbody>
 </table>
+<ol class="arabic simple" start="4">
+<li>Is <a class="reference internal" href="#head.Head.create_pipettes" title="head.Head.create_pipettes"><code class="xref py py-meth docutils literal"><span class="pre">create_pipettes()</span></code></a> needed?</li>
+</ol>
 </dd></dl>
 
 <dl class="method">
@@ -222,9 +230,9 @@ from smoothieboard(<code class="xref py py-meth docutils literal"><span class="p
 </dd></dl>
 
 <dl class="method">
-<dt id="head.Head.get_tool_info">
-<code class="descname">get_tool_info</code><span class="sig-paren">(</span><em>head_data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.get_tool_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.get_tool_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the tooltype and axis from head data dict</p>
+<dt id="head.Head.get_tool_type">
+<code class="descname">get_tool_type</code><span class="sig-paren">(</span><em>head_tool</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.get_tool_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.get_tool_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the tooltype and axis from head_tool dict</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -363,6 +371,11 @@ if a container is specified, XYZ coordinates are relative to the container&#8217
 </dd></dl>
 
 <dl class="method">
+<dt id="head.Head.relative_coords">
+<code class="descname">relative_coords</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.relative_coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.relative_coords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="head.Head.reset">
 <code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/head.html#Head.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#head.Head.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset the Smoothieboard and clear theQueue object (<a class="reference internal" href="the_queue.html#module-the_queue" title="the_queue"><code class="xref py py-class docutils literal"><span class="pre">the_queue</span></code></a>)</p>
@@ -402,7 +415,7 @@ if a container is specified, XYZ coordinates are relative to the container&#8217
 
 <dl class="attribute">
 <dt id="head.Head.theState">
-<code class="descname">theState</code><em class="property"> = {'x': 0, 'b': 0, 'y': 0, 'z': 0, 'a': 0}</em><a class="headerlink" href="#head.Head.theState" title="Permalink to this definition">¶</a></dt>
+<code class="descname">theState</code><em class="property"> = {'z': 0, 'b': 0, 'x': 0, 'y': 0, 'a': 0}</em><a class="headerlink" href="#head.Head.theState" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

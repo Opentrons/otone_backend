@@ -7,8 +7,7 @@ debug = True
 verbose = False
 
 class Publisher:
-    """
-    Publisher to centralize publishing data and callbacks
+    """Publisher to centralize publishing data and callbacks
     
     later maybe replaced with WAMP
     """
@@ -16,8 +15,7 @@ class Publisher:
 
 #Special Methods
     def __init__(self, session):
-        """
-        Initialize Publisher object
+        """Initialize Publisher object
         
         """
         if debug == True: FileIO.log('publisher.__init__ called')
@@ -31,16 +29,14 @@ class Publisher:
 
 
     def set_head(self, head):
-        """
-        Set the Publisher's Head
+        """Set the Publisher's Head
         """
         if debug == True: FileIO.log('publisher.set_head called')
         self.head = head
 
 
     def set_runner(self, runner):
-        """
-        Set the Publisher's ProtocolRunner
+        """Set the Publisher's ProtocolRunner
         """
         if debug == True: FileIO.log('publisher.set_runner called')
         self.runner = runner
@@ -48,8 +44,7 @@ class Publisher:
 
 #Handlers
     def on_smoothie_connect(self):
-        """
-        Publish that Smoothieboard is connected
+        """Publish that Smoothieboard is connected
         """
         if debug == True: FileIO.log('publisher.on_smoothie_connect called')
         self.send_message('status',{'string':'Connected to the Smoothieboard','color':'green'})
@@ -60,8 +55,7 @@ class Publisher:
         #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
 
     def on_smoothie_disconnect(self):
-        """
-        Publish that Smoothieboard is disconnected and try to reconnect
+        """Publish that Smoothieboard is disconnected and try to reconnect
         """
         if debug == True: FileIO.log('publisher.on_smoothie_disconnect called')
         self.send_message('status',{'string':'Smoothieboard Disconnected','color':'red'})
@@ -77,8 +71,7 @@ class Publisher:
     #originally in app.js
     
     def on_start(self):  #called from planner/theQueue
-        """
-        Publish that theQueue started a command
+        """Publish that theQueue started a command
         """
         if debug == True: FileIO.log('publisher.on_start called')
         self.send_message('status',{'string':'Robot is moving','color':'orange'})
@@ -104,8 +97,7 @@ class Publisher:
         #    FileIO.log("error trying to publish in onRawData")
 
     def on_limit_hit(self,axis):
-        """
-        Publish that a limit switch was hit
+        """Publish that a limit switch was hit
         """
         if debug == True: FileIO.log('publisher.on_limit_hit called')
         self.send_message('limit',axis)
@@ -119,8 +111,7 @@ class Publisher:
         #    FileIO.log("error trying to publish in onRawData")
         
     def on_finish(self):     #called from planner/theQueue
-        """
-        Publish status and move on to next instruction step
+        """Publish status and move on to next instruction step
         """
         if debug == True: FileIO.log('publisher.on_finish called')
         self.send_message('status',{'string':'Robot stopped','color':'black'})
@@ -134,8 +125,7 @@ class Publisher:
 
 #OTHER DATA NEEDING TO GO BACK TO UI
     def finished(self):
-        """
-        Publish that instruction queue finished
+        """Publish that instruction queue finished
         """
         if debug == True: FileIO.log('publisher.finished called')
         self.send_message('finished',None)
@@ -145,8 +135,7 @@ class Publisher:
         #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
 
     def send_message(self,type_,damsg):
-        """
-        Send a message
+        """Send a message
         """
         if debug == True and verbose == True: FileIO.log('publisher.send_message called')
         if damsg is not None:
@@ -165,8 +154,7 @@ class Publisher:
 
 
     def send_ctrl_message(self,type_,damsg):
-        """
-        Send a Control Message (Similar to Control Transfer in USB), not implemented yet
+        """Send a Control Message (Similar to Control Transfer in USB), not implemented yet
         """
         if debug == True: FileIO.log('publisher.send_ctrl_message called')
         if damsg is not None:

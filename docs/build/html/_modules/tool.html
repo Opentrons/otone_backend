@@ -58,8 +58,7 @@
 
 
 <div class="viewcode-block" id="Tool"><a class="viewcode-back" href="../tool.html#tool.Tool">[docs]</a><span class="k">class</span> <span class="nc">Tool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tool class which could be a 1 channel pipette, 8ch pipette, grabber, etc</span>
+    <span class="sd">&quot;&quot;&quot;Tool class which could be a 1 channel pipette, 8ch pipette, grabber, etc</span>
 <span class="sd">    </span>
 <span class="sd">    A Tool is a base class intended to be subclassed into specific tool types</span>
 <span class="sd">    that are attached to the physical moveable head of the robot.  Example</span>
@@ -71,8 +70,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">toolname</span><span class="p">,</span> <span class="n">tooltype</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize Tool</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Tool</span>
 <span class="sd">        </span>
 <span class="sd">        toolname = the name of the tool (string)</span>
 <span class="sd">        tooltype = the type of tool e.g. 1ch pipette, 8ch pipette, etc.(string)</span>
@@ -97,8 +95,7 @@
         
 <span class="c">#Methods</span>
 <div class="viewcode-block" id="Tool.set_offset"><a class="viewcode-back" href="../tool.html#tool.Tool.set_offset">[docs]</a>    <span class="k">def</span> <span class="nf">set_offset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set/reset x,y,z offset of a tool relative to A from a calibration procedure</span>
+        <span class="sd">&quot;&quot;&quot;Set/reset x,y,z offset of a tool relative to A from a calibration procedure</span>
 <span class="sd">        </span>
 <span class="sd">        location = a tuple containing the offset in mm</span>
 <span class="sd">                of the tool relative to the A tool</span>

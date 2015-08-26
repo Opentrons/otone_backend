@@ -54,12 +54,11 @@
 <span class="kn">from</span> <span class="nn">file_io</span> <span class="kn">import</span> <span class="n">FileIO</span>
 <span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">collections</span><span class="o">,</span> <span class="nn">asyncio</span>
 
-<span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">debug</span> <span class="o">=</span> <span class="bp">False</span>
 <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="InstructionQueue"><a class="viewcode-back" href="../instruction_queue.html#instruction_queue.InstructionQueue">[docs]</a><span class="k">class</span> <span class="nc">InstructionQueue</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Holds protocol instructions and starts a job.</span>
+    <span class="sd">&quot;&quot;&quot;Holds protocol instructions and starts a job.</span>
 <span class="sd">    </span>
 
 <span class="sd">    The instructionArray file is an array (list) of instructions.  </span>
@@ -83,8 +82,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 <span class="c">#Special Methods</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">publisher</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize Instruction Queue object</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Instruction Queue object</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;instruction_queue.__init__ called&#39;</span><span class="p">)</span>
@@ -102,8 +100,7 @@
         
 <span class="c">#Methods</span>
 <div class="viewcode-block" id="InstructionQueue.start_job"><a class="viewcode-back" href="../instruction_queue.html#instruction_queue.InstructionQueue.start_job">[docs]</a>    <span class="k">def</span> <span class="nf">start_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instructions</span><span class="p">,</span> <span class="n">should_home</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Start the ProtocolRunner job with a givein list of instructions</span>
+        <span class="sd">&quot;&quot;&quot;Start the ProtocolRunner job with a givein list of instructions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> 
             <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;instruction_queue.start_job called&#39;</span><span class="p">)</span>
@@ -144,8 +141,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">ins_step</span><span class="p">()</span>  <span class="c">#changed name to distinguish from theQueue step function</span>
     </div>
 <div class="viewcode-block" id="InstructionQueue.start_infinity_job"><a class="viewcode-back" href="../instruction_queue.html#instruction_queue.InstructionQueue.start_infinity_job">[docs]</a>    <span class="k">def</span> <span class="nf">start_infinity_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infinity_instructions</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Start a job and save instructions to a variable (infinity_data) so they can be perpetually run with :meth:`start_job`</span>
+        <span class="sd">&quot;&quot;&quot;Start a job and save instructions to a variable (infinity_data) so they can be perpetually run with :meth:`start_job`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;instruction_queue.start_infinity_job called&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">infinity_instructions</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">infinity_instructions</span><span class="p">):</span>
@@ -153,8 +149,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">start_job</span><span class="p">(</span><span class="n">infinity_instructions</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="InstructionQueue.erase_job"><a class="viewcode-back" href="../instruction_queue.html#instruction_queue.InstructionQueue.erase_job">[docs]</a>    <span class="k">def</span> <span class="nf">erase_job</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Erase the ProtocolRunner job</span>
+        <span class="sd">&quot;&quot;&quot;Erase the ProtocolRunner job</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;instruction_queue.erase_job called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">erase_job</span><span class="p">()</span>
@@ -163,8 +158,7 @@
         
 <span class="c">#    def step(self)  #changed name to distinguish from theQueue step function</span></div>
 <div class="viewcode-block" id="InstructionQueue.ins_step"><a class="viewcode-back" href="../instruction_queue.html#instruction_queue.InstructionQueue.ins_step">[docs]</a>    <span class="k">def</span> <span class="nf">ins_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Increment to the next instruction in the :obj:`instructionArray`</span>
+        <span class="sd">&quot;&quot;&quot;Increment to the next instruction in the :obj:`instructionArray`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
             <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;instruction_queue.ins_step called,</span><span class="se">\n</span><span class="s">len(self.instructionArray): &#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instructionArray</span><span class="p">),</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
@@ -188,8 +182,7 @@
 
   </div>
 <div class="viewcode-block" id="InstructionQueue.send_instruction"><a class="viewcode-back" href="../instruction_queue.html#instruction_queue.InstructionQueue.send_instruction">[docs]</a>    <span class="k">def</span> <span class="nf">send_instruction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">instruction</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Execute groups (:meth:`head.pipette`) from the given instruction list one by one</span>
+        <span class="sd">&quot;&quot;&quot;Execute groups (:meth:`head.pipette`) from the given instruction list one by one</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> 
             <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;instruction_queue.send_instruction called&#39;</span><span class="p">)</span>

@@ -2,8 +2,7 @@ import json
 import datetime
 
 class FileIO:
-    """
-    Provides static methods for file i/o and logging
+    """Provides static methods for file i/o and logging
     
     The FileIO class is intended to provide standard static methods for use
     by other classes in the application.
@@ -12,8 +11,7 @@ class FileIO:
 
 #Special Methods
     def __init__(self):
-        """
-        Initialize FileIO object
+        """Initialize FileIO object
         
         """
         #ToDo: read in a config file containing paths to folders for

@@ -58,22 +58,20 @@
 <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="ProtocolRunner"><a class="viewcode-back" href="../protocol_runner.html#protocol_runner.ProtocolRunner">[docs]</a><span class="k">class</span> <span class="nc">ProtocolRunner</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Run and manage the running protocol job</span>
+    <span class="sd">&quot;&quot;&quot;Run and manage the running protocol job</span>
 
 <span class="sd">    :note: The only thing this object currently does is hold the InstructionQueue (:class:`instruction_queue`) object, but</span>
 <span class="sd">    it will do more in the future</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">,</span> <span class="n">publisher</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize ProtocolRunner object</span>
+        <span class="sd">&quot;&quot;&quot;Initialize ProtocolRunner object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;protocol_runner.__init__ called&#39;</span><span class="p">)</span>
         <span class="c">#intantiate the two queue objects</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">insQueue</span> <span class="o">=</span> <span class="n">InstructionQueue</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">publisher</span><span class="p">)</span>
-        
-        
+
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;ProtocolRunner&quot;</span>
         

@@ -125,8 +125,13 @@ as the head, queue objects etc.</p>
 <dl class="method">
 <dt id="subscriber.Subscriber.change_hostname">
 <code class="descname">change_hostname</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.change_hostname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.change_hostname" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run otone_scripts to change Raspberry Pi hostname</p>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run shell scripts to change Raspberry Pi hostname</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="subscriber.Subscriber.configure_head">
+<code class="descname">configure_head</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.configure_head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.configure_head" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="subscriber.Subscriber.create_deck">
@@ -159,7 +164,7 @@ as the head, queue objects etc.</p>
 
 <dl class="attribute">
 <dt id="subscriber.Subscriber.dispatcher">
-<code class="descname">dispatcher</code><em class="property"> = {'speed': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29268&gt;, 'reset': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28d08&gt;, 'home': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28bf8&gt;, 'createDeck': &lt;function Subscriber.&lt;lambda&gt; at 0x106c292f0&gt;, 'step': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28e18&gt;, 'move': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28d90&gt;, 'pauseJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29488&gt;, 'infinity': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29400&gt;, 'reboot': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29950&gt;, 'getCalibrations': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29048&gt;, 'restart': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29a60&gt;, 'calibratePipette': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28ea0&gt;, 'instructions': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29378&gt;, 'shareinet': &lt;function Subscriber.&lt;lambda&gt; at 0x106c299d8&gt;, 'raw': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29620&gt;, 'movePipette': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29158&gt;, 'stop': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28c80&gt;, 'update': &lt;function Subscriber.&lt;lambda&gt; at 0x106c296a8&gt;, 'saveVolume': &lt;function Subscriber.&lt;lambda&gt; at 0x106c290d0&gt;, 'wifimode': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29730&gt;, 'wifiscan': &lt;function Subscriber.&lt;lambda&gt; at 0x106c297b8&gt;, 'eraseJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29598&gt;, 'resumeJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29510&gt;, 'calibrateContainer': &lt;function Subscriber.&lt;lambda&gt; at 0x106c28f28&gt;, 'movePlunger': &lt;function Subscriber.&lt;lambda&gt; at 0x106c291e0&gt;, 'hostname': &lt;function Subscriber.&lt;lambda&gt; at 0x106c29840&gt;, 'poweroff': &lt;function Subscriber.&lt;lambda&gt; at 0x106c298c8&gt;}</em><a class="headerlink" href="#subscriber.Subscriber.dispatcher" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dispatcher</code><em class="property"> = {'shareinet': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a9d8&gt;, 'calibratePipette': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12d90&gt;, 'stop': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12b70&gt;, 'restart': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1aa60&gt;, 'speed': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a158&gt;, 'reset': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12bf8&gt;, 'raw': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a620&gt;, 'step': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12d08&gt;, 'move': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12c80&gt;, 'infinity': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a400&gt;, 'home': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12ae8&gt;, 'configureHead': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a268&gt;, 'update': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a6a8&gt;, 'movePlunger': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a0d0&gt;, 'wifimode': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a730&gt;, 'pauseJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a488&gt;, 'movePipette': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a048&gt;, 'calibrateContainer': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12e18&gt;, 'relativeCoords': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a2f0&gt;, 'hostname': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a840&gt;, 'poweroff': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a8c8&gt;, 'createDeck': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a1e0&gt;, 'wifiscan': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a7b8&gt;, 'instructions': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a378&gt;, 'saveVolume': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12f28&gt;, 'resumeJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a510&gt;, 'getCalibrations': &lt;function Subscriber.&lt;lambda&gt; at 0x106d12ea0&gt;, 'eraseJob': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a598&gt;, 'reboot': &lt;function Subscriber.&lt;lambda&gt; at 0x106d1a950&gt;}</em><a class="headerlink" href="#subscriber.Subscriber.dispatcher" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -249,19 +254,19 @@ as the head, queue objects etc.</p>
 <dl class="method">
 <dt id="subscriber.Subscriber.update">
 <code class="descname">update</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run update otone_scripts</p>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run update shell scripts</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="subscriber.Subscriber.wifi_mode">
 <code class="descname">wifi_mode</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.wifi_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.wifi_mode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run otone_scripts to change WiFi mode</p>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run shell scripts to change WiFi mode</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="subscriber.Subscriber.wifi_scan">
 <code class="descname">wifi_scan</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/subscriber.html#Subscriber.wifi_scan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subscriber.Subscriber.wifi_scan" title="Permalink to this definition">¶</a></dt>
-<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run scritps to scan WiFi networks</p>
+<dd><p>Intermediate step to have <a class="reference internal" href="script_keeper.html#module-script_keeper" title="script_keeper"><code class="xref py py-class docutils literal"><span class="pre">script_keeper</span></code></a> run scripts to scan WiFi networks</p>
 </dd></dl>
 
 </dd></dl>

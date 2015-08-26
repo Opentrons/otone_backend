@@ -60,8 +60,7 @@
 <span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="Publisher"><a class="viewcode-back" href="../publisher.html#publisher.Publisher">[docs]</a><span class="k">class</span> <span class="nc">Publisher</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Publisher to centralize publishing data and callbacks</span>
+    <span class="sd">&quot;&quot;&quot;Publisher to centralize publishing data and callbacks</span>
 <span class="sd">    </span>
 <span class="sd">    later maybe replaced with WAMP</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -69,8 +68,7 @@
 
 <span class="c">#Special Methods</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize Publisher object</span>
+        <span class="sd">&quot;&quot;&quot;Initialize Publisher object</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.__init__ called&#39;</span><span class="p">)</span>
@@ -84,16 +82,14 @@
 
 
 <div class="viewcode-block" id="Publisher.set_head"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.set_head">[docs]</a>    <span class="k">def</span> <span class="nf">set_head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the Publisher&#39;s Head</span>
+        <span class="sd">&quot;&quot;&quot;Set the Publisher&#39;s Head</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.set_head called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">head</span>
 
 </div>
 <div class="viewcode-block" id="Publisher.set_runner"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.set_runner">[docs]</a>    <span class="k">def</span> <span class="nf">set_runner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runner</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the Publisher&#39;s ProtocolRunner</span>
+        <span class="sd">&quot;&quot;&quot;Set the Publisher&#39;s ProtocolRunner</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.set_runner called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">runner</span> <span class="o">=</span> <span class="n">runner</span>
@@ -101,8 +97,7 @@
 
 <span class="c">#Handlers</span></div>
 <div class="viewcode-block" id="Publisher.on_smoothie_connect"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.on_smoothie_connect">[docs]</a>    <span class="k">def</span> <span class="nf">on_smoothie_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Publish that Smoothieboard is connected</span>
+        <span class="sd">&quot;&quot;&quot;Publish that Smoothieboard is connected</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.on_smoothie_connect called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">,{</span><span class="s">&#39;string&#39;</span><span class="p">:</span><span class="s">&#39;Connected to the Smoothieboard&#39;</span><span class="p">,</span><span class="s">&#39;color&#39;</span><span class="p">:</span><span class="s">&#39;green&#39;</span><span class="p">})</span>
@@ -113,8 +108,7 @@
         <span class="c">#self.caller._myAppSession.publish(&#39;com.opentrons.robot_to_browser&#39;,json.dumps(msg))</span>
 </div>
 <div class="viewcode-block" id="Publisher.on_smoothie_disconnect"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.on_smoothie_disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">on_smoothie_disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Publish that Smoothieboard is disconnected and try to reconnect</span>
+        <span class="sd">&quot;&quot;&quot;Publish that Smoothieboard is disconnected and try to reconnect</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.on_smoothie_disconnect called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">,{</span><span class="s">&#39;string&#39;</span><span class="p">:</span><span class="s">&#39;Smoothieboard Disconnected&#39;</span><span class="p">,</span><span class="s">&#39;color&#39;</span><span class="p">:</span><span class="s">&#39;red&#39;</span><span class="p">})</span>
@@ -130,8 +124,7 @@
     <span class="c">#originally in app.js</span>
     </div>
 <div class="viewcode-block" id="Publisher.on_start"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.on_start">[docs]</a>    <span class="k">def</span> <span class="nf">on_start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c">#called from planner/theQueue</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Publish that theQueue started a command</span>
+        <span class="sd">&quot;&quot;&quot;Publish that theQueue started a command</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.on_start called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">,{</span><span class="s">&#39;string&#39;</span><span class="p">:</span><span class="s">&#39;Robot is moving&#39;</span><span class="p">,</span><span class="s">&#39;color&#39;</span><span class="p">:</span><span class="s">&#39;orange&#39;</span><span class="p">})</span>
@@ -157,8 +150,7 @@
         <span class="c">#    FileIO.log(&quot;error trying to publish in onRawData&quot;)</span>
 </div>
 <div class="viewcode-block" id="Publisher.on_limit_hit"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.on_limit_hit">[docs]</a>    <span class="k">def</span> <span class="nf">on_limit_hit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">axis</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Publish that a limit switch was hit</span>
+        <span class="sd">&quot;&quot;&quot;Publish that a limit switch was hit</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.on_limit_hit called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;limit&#39;</span><span class="p">,</span><span class="n">axis</span><span class="p">)</span>
@@ -172,8 +164,7 @@
         <span class="c">#    FileIO.log(&quot;error trying to publish in onRawData&quot;)</span>
         </div>
 <div class="viewcode-block" id="Publisher.on_finish"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.on_finish">[docs]</a>    <span class="k">def</span> <span class="nf">on_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="c">#called from planner/theQueue</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Publish status and move on to next instruction step</span>
+        <span class="sd">&quot;&quot;&quot;Publish status and move on to next instruction step</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.on_finish called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;status&#39;</span><span class="p">,{</span><span class="s">&#39;string&#39;</span><span class="p">:</span><span class="s">&#39;Robot stopped&#39;</span><span class="p">,</span><span class="s">&#39;color&#39;</span><span class="p">:</span><span class="s">&#39;black&#39;</span><span class="p">})</span>
@@ -187,8 +178,7 @@
 
 <span class="c">#OTHER DATA NEEDING TO GO BACK TO UI</span></div>
 <div class="viewcode-block" id="Publisher.finished"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.finished">[docs]</a>    <span class="k">def</span> <span class="nf">finished</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Publish that instruction queue finished</span>
+        <span class="sd">&quot;&quot;&quot;Publish that instruction queue finished</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.finished called&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s">&#39;finished&#39;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
@@ -198,8 +188,7 @@
         <span class="c">#self.caller._myAppSession.publish(&#39;com.opentrons.robot_to_browser&#39;,json.dumps(msg))</span>
 </div>
 <div class="viewcode-block" id="Publisher.send_message"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">type_</span><span class="p">,</span><span class="n">damsg</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Send a message</span>
+        <span class="sd">&quot;&quot;&quot;Send a message</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.send_message called&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">damsg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -218,8 +207,7 @@
 
 </div>
 <div class="viewcode-block" id="Publisher.send_ctrl_message"><a class="viewcode-back" href="../publisher.html#publisher.Publisher.send_ctrl_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_ctrl_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">type_</span><span class="p">,</span><span class="n">damsg</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Send a Control Message (Similar to Control Transfer in USB), not implemented yet</span>
+        <span class="sd">&quot;&quot;&quot;Send a Control Message (Similar to Control Transfer in USB), not implemented yet</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">debug</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="n">FileIO</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s">&#39;publisher.send_ctrl_message called&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">damsg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
