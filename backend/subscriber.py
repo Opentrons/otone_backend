@@ -243,7 +243,7 @@ class Subscriber():
         """Intermediate step to have :class:`script_keeper` run shell scripts to change WiFi mode
         """
         if debug == True: FileIO.log('subscriber.wifi_mode called')
-        sk.wifi_mode(data)
+        sk.change_wifi_mode(data)
 
 
     def wifi_scan(self, data):
