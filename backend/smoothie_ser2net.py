@@ -468,6 +468,7 @@ class Smoothie(object):
             #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
             self.try_add(self._dict['off'] + '\r\n')
             self.try_add(self._dict['on'] + '\r\n')
+            self.raw(self._dict['on'] + '\r\n') #just in case...
             #self.send(onOffString)    #self
 
 
