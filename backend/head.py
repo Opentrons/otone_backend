@@ -154,6 +154,17 @@ class Head:
 
 
                 setattr(self.PIPETTES[hd['axis']],'trash_container',hd['trash-container'])
+                if 'tip-depth' in hd:
+                    setattr(self.PIPETTES[hd['axis']],'tip-depth',hd['tip-depth'])
+                if 'tip-height' in hd:
+                    setattr(self.PIPETTES[hd['axis']],'tip-height',hd['tip-height'])
+                if 'tip-total' in hd:
+                    setattr(self.PIPETTES[hd['axis']],'tip-total',hd['tip-total'])
+                if 'axis' in hd:
+                    setattr(self.PIPETTES[hd['axis']],'axis',hd['axis'])
+                if 'volume' in hd:
+                    setattr(self.PIPETTES[hd['axis']],'volume',hd['volume'])
+
             elif tool_type[0] == 'grabber':
                 #newtool = Grabber(key,*tool_info)
                 pass
