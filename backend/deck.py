@@ -85,13 +85,13 @@ class Deck:
         if debug == True: FileIO.log('deck.save_containers called')
         containers_text = json.dumps(containers_data,sort_keys=True,indent=4,separators=(',',': '))
         if debug == True: FileIO.log('containers_text: ', containers_text)
-        filename = os.path.join(self.dir_par_par_path,'data/containers.json')
+        filename = os.path.join(self.dir_par_par_path,'otone_data/containers.json')
         FileIO.writeFile(filename,container_text,lambda: FileIO.onError('\t\tError saving the file:\r\r'))              
 
 
     def get_containers(self):
         if debug == True: FileIO.log('deck.get_containers called')
-        containers = FileIO.get_dict_from_json(os.path.join(self.dir_par_par_path,'data/containers.json'))
+        containers = FileIO.get_dict_from_json(os.path.join(self.dir_par_par_path,'otone_data/containers.json'))
         return containers
 
 
