@@ -438,7 +438,7 @@ class Head:
 
              
     def save_volume(self, data):
-        """Save pipette volume to data/pipette_values.json
+        """Save pipette volume to otone_data/pipette_values.json
         """
         if debug == True: FileIO.log('head.save_volume called')
         if(self.PIPETTES[data.axis] and data.volume is not None and data.volume > 0):
@@ -449,7 +449,7 @@ class Head:
         
     #from planner.js
     def save_pipette_values(self):
-        """Save pipette values to data/pipette_values.json
+        """Save pipette values to otone_data/pipette_values.json
         """
         if debug == True: FileIO.log('head.save_pipette_values called')
         pipette_values = {}
@@ -470,7 +470,7 @@ class Head:
         filetext = json.dumps(pipette_values,sort_keys=True,indent=4,separators=(',',': '))
         if debug == True: FileIO.log('filetext: ', filetext)
         
-        filename = os.path.join(self.dir_par_par_path,'data/pipette_calibrations.json')
+        filename = os.path.join(self.dir_par_par_path,'otone_data/pipette_calibrations.json')
 
         # save the pipette's values to a local file, to be loaded when the server restarts
         FileIO.writeFile(filename,filetext,lambda: FileIO.onError('\t\tError saving the file:\r\r'))      

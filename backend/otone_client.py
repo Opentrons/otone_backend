@@ -212,7 +212,6 @@ def instantiate_objects():
     ingr.configure_ingredients(ingr_data) #configure the ingredienets from prot_dict data
     if debug == True:
         FileIO.log('Ingredients imported!')
-
         FileIO.log('this is a test') 
 
 
