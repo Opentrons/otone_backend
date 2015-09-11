@@ -85,7 +85,7 @@ if not os.path.exists(fname_data_calibrations):
     open(fname_data_calibrations,"w+")
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
 
-prot_dict = FileIO.get_dict_from_json(fname_data_protocol)
+prot_dict = FileIO.get_dict_from_json(fname_default_protocol)
 
 
 
