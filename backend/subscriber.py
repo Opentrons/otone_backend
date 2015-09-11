@@ -170,7 +170,7 @@ class Subscriber():
         self.head.publish_calibrations()
 
     def get_containers(self):
-        self.
+        self.deck.publish_containers()
 
 
     def move_pipette(self, data):
