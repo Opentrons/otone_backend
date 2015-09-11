@@ -41,7 +41,9 @@ class Head:
         #connect with the smoothie board
         self.smoothieAPI.connect()
         self.path = os.path.abspath(__file__)
-        self.dir_path = os.path.dirname(self.path)        
+        self.dir_path = os.path.dirname(self.path)  
+        self.dir_par_path = os.path.dirname(self.dir_path)
+        self.dir_par_par_path = os.path.dirname(self.dir_par_path)      
 
         self.load_pipette_values()
         
@@ -468,7 +470,7 @@ class Head:
         filetext = json.dumps(pipette_values,sort_keys=True,indent=4,separators=(',',': '))
         if debug == True: FileIO.log('filetext: ', filetext)
         
-        filename = os.path.join(self.dir_path,'data/pipette_calibrations.json')
+        filename = os.path.join(self.dir_par_par_path,'data/pipette_calibrations.json')
 
         # save the pipette's values to a local file, to be loaded when the server restarts
         FileIO.writeFile(filename,filetext,lambda: FileIO.onError('\t\tError saving the file:\r\r'))      
@@ -481,7 +483,7 @@ class Head:
         """Load pipette values from data/pipette_calibrations.json
         """
         if debug == True: FileIO.log('head.load_pipette_values called')
-        old_values = FileIO.get_dict_from_json(os.path.join(self.dir_path,'data/pipette_calibrations.json'))
+        old_values = FileIO.get_dict_from_json(os.path.join(self.dir_par_par_path,'data/pipette_calibrations.json'))
         if debug == True: FileIO.log('old_values:\n',old_values,'\n')
         
         if self.PIPETTES is not None and len(self.PIPETTES) > 0:

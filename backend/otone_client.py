@@ -24,7 +24,7 @@ connection is established, it instantiates and configures various objects with
 """
 
 #import RobotLib
-import json, asyncio, sys, time, collections, os, sys
+import json, asyncio, sys, time, collections, os, sys, shutil
 
 from head import Head
 from deck import Deck
@@ -60,8 +60,23 @@ if debug == True: FileIO.log('starting up')
 #for testing purposes, read in a protocol.json file
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
-fname=os.path.join(dir_path,'data/sample_user_protocol.json')
-prot_dict = FileIO.get_dict_from_json(fname)
+dir_par_path = os.path.dirname(dir_path)
+dir_par_par_path = os.path.dirname(dir_par_path)
+fname_default_protocol = os.path.join(dir_path,'data/sample_user_protocol.json')
+fname_default_containers = os.path.join(dir_path, 'data/sample_containers.json')
+fname_default_calibrations = os.path.join(dir_path, 'data/pipette_calibrations.json')
+fname_data = os.path.join(dir_par_par_path,'otone_data')
+fname_data_containers = os.path.join(dir_par_par_path,'data/containers.json')
+fname_data_calibrations = os.path.join(dir_par_par_path, 'data/pipette_calibrations.json')
+    
+if not os.path.isdir(fname_data):
+    os.makedirs(fname_data)
+if not os.path.exists(fname_data_containers):
+    shutil.copy(fname_default_containers, fname_data_containers)
+if not os.path.exists(fname_data_calibrations):
+    shutil.copy(fname_default_calibrations, fname_data_calibrations)
+
+prot_dict = FileIO.get_dict_from_json(fname_data_protocol)
 
 
 
@@ -162,7 +177,7 @@ def instantiate_objects():
 
 
     #instantiate the deck
-    deck = Deck(def_start_protocol['deck'])
+    deck = Deck(def_start_protocol['deck'], publisher)
     if debug == True:
         FileIO.log('deck string: ', str(deck))
         FileIO.log('deck representation: ', repr(deck))

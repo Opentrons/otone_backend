@@ -61,6 +61,7 @@ class Subscriber():
         """
         if debug == True: FileIO.log('subscriber.__init__ called')
         self.head = None
+        self.deck = None
         self.runner = None
         self.caller = session
         self.loop = loop
@@ -91,6 +92,10 @@ class Subscriber():
         """
         if debug == True: FileIO.log('subscriber.set_head called')
         self.head = head
+
+
+    def set_deck(self, deck):
+        self.deck = deck
 
 
     def set_runner(self, runner):
@@ -163,6 +168,9 @@ class Subscriber():
         """
         if debug == True: FileIO.log('subscriber.get_calibrations called')
         self.head.publish_calibrations()
+
+    def get_containers(self):
+        self.
 
 
     def move_pipette(self, data):
@@ -359,6 +367,7 @@ class Subscriber():
               'movePipette' : lambda self, data: self.move_pipette(data),#needs xtra code
               'movePlunger' : lambda self, data: self.move_plunger(data),
               'speed' : lambda self, data: self.speed(data),          #needs xtra code
+              'getContainers' : lambda self, data: self.get_containers(data),
               'createDeck' : lambda self, data: self.create_deck(data),#needs xtra code
               'configureHead' : lambda self, data: self.configure_head(data),
               'relativeCoords' : lambda self: self.head.relative_coords(),
