@@ -68,7 +68,13 @@ fname_default_calibrations = os.path.join(dir_path, 'data/pipette_calibrations.j
 fname_data = os.path.join(dir_par_par_path,'otone_data')
 fname_data_containers = os.path.join(dir_par_par_path,'data/containers.json')
 fname_data_calibrations = os.path.join(dir_par_par_path, 'data/pipette_calibrations.json')
-    
+print('dir_path: ', dir_path)
+print('dir_par_path: ', dir_par_path)
+print('dir_par_part_path: ', dir_par_par_path)
+print('fname_default_containers: ', fname_default_containers)
+print('fname_data_containers: ', fname_data_containers)
+
+
 if not os.path.isdir(fname_data):
     os.makedirs(fname_data)
 if not os.path.exists(fname_data_containers):
