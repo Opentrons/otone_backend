@@ -172,7 +172,6 @@ class Subscriber():
     def get_containers(self):
         self.deck.publish_containers()
 
-
     def move_pipette(self, data):
         """Tell the :class:`head` to move a :class:`pipette` 
         """
@@ -367,7 +366,7 @@ class Subscriber():
               'movePipette' : lambda self, data: self.move_pipette(data),#needs xtra code
               'movePlunger' : lambda self, data: self.move_plunger(data),
               'speed' : lambda self, data: self.speed(data),          #needs xtra code
-              'getContainers' : lambda self, data: self.get_containers(data),
+              'getContainers' : lambda self: self.get_containers(),
               'createDeck' : lambda self, data: self.create_deck(data),#needs xtra code
               'configureHead' : lambda self, data: self.configure_head(data),
               'relativeCoords' : lambda self: self.head.relative_coords(),

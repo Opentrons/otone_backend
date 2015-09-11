@@ -120,7 +120,10 @@ class Publisher:
         #    'data':{'string':'Robot stopped','color':'black'}
         #}
         #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        self.runner.insQueue.ins_step() #changed name 
+        try:
+            self.runner.insQueue.ins_step() #changed name 
+        except AttributeError as ae:
+            print(ae)
 
 
 #OTHER DATA NEEDING TO GO BACK TO UI
