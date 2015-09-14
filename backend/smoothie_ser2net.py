@@ -101,6 +101,7 @@ class Smoothie(object):
         self.my_transport = None
         self.outer = outer
         self.raw_callback = None
+        self.position_callback = None
         self.limit_hit_callback = None
         self.move_callback = None
         self.my_loop = asyncio.get_event_loop()
@@ -160,6 +161,14 @@ class Smoothie(object):
         """
         if debug == True: FileIO.log('smoothie_ser2net.set_raw_callback called')
         self.raw_callback = callback
+
+
+    def set_position_callback(self, callback):
+        """connects the external callback for position data
+        """
+        if debug == True: FileIO.log('smoothie_ser2net.set_position_callback called')
+        self.position_callback = callback
+
 
     def set_limit_hit_callback(self, callback):
         """Connect the external callback for limit hit data
@@ -276,6 +285,17 @@ class Smoothie(object):
 
                 if key == 'limit':
                     self.on_limit_hit(value)
+
+
+            if 'x' in data or 'y' in data or 'z' in data or 'a' in data or 'b' in data or 'c' in data:
+                pos = {}
+                pos['x']=self.theState['x']
+                pos['y']=self.theState['y']
+                pos['z']=self.theState['z']
+                pos['a']=self.theState['a']
+                pos['b']=self.theState['b']
+                pos['c']=self.theState['c']
+                self.on_position_data(pos)
 
             if didStateChange == True or self.theState['stat']==self.state_ready and self.already_trying == False:
                 if len(self.smoothieQueue)>0:
@@ -591,6 +611,14 @@ class Smoothie(object):
                 self.old_msg = msg
         if self.raw_callback != None:
             self.raw_callback(msg)
+
+
+    def on_position_data(self, msg):
+        """Calls an external callback to show raw data lines received
+        """
+        if debug == True: FileIO.log('smoothie_ser2net.on_position_data called')
+        if self.position_callback != None:
+            self.position_callback(msg)
         
 
     def on_state_change(self, state):

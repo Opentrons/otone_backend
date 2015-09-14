@@ -34,6 +34,7 @@ class Head:
         self.tools = tools
         self.pubber = publisher
         self.smoothieAPI.set_raw_callback(self.pubber.on_raw_data)
+        self.smoothieAPI.set_position_callback(self.pubber.on_position_data)
         self.smoothieAPI.set_limit_hit_callback(self.pubber.on_limit_hit)
         self.smoothieAPI.set_move_callback(self.pubber.on_start)
         self.theQueue = TheQueue(self, publisher)

@@ -80,7 +80,8 @@ class Publisher:
         #    'data':{'string':'Robot is moving','color':'orange'}
         #}
         #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        
+
+
     def on_raw_data(self,string):     #called from smoothie/createSerialConnection
         """
         Publish raw data from Smoothieboard
@@ -95,6 +96,15 @@ class Publisher:
         #    self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
         #except:
         #    FileIO.log("error trying to publish in onRawData")
+
+
+    def on_position_data(self,string):
+        """
+        Publish position data from Smoothieboard
+        """
+        if debug == True and verbose == True: FileIO.log('publisher.on_position_data called')
+        self.send_message('position',{'string':string})
+
 
     def on_limit_hit(self,axis):
         """Publish that a limit switch was hit
