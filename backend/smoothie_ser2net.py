@@ -253,7 +253,7 @@ class Smoothie(object):
 
                 if key in self.theState:
                     if key.upper()=='X' or key.upper()=='Y':
-                        self.theState[key] = value + theState['direction'][key]
+                        self.theState[key] = value + self.theState['direction'][key]
                     else:
                         self.theState[key] = value
                 if ok_print:
