@@ -75,6 +75,14 @@ class Smoothie(object):
         'a': 0,
         'b': 0,
         'c': 0,
+        'direction': {
+            'x': 0,
+            'y': 0,
+            'z': 0,
+            'a': 0,
+            'b': 0,
+            'c': 0
+        },
         'stat': 1,
         'delaying': 0,
         'homing': {
@@ -244,7 +252,10 @@ class Smoothie(object):
                     self.already_trying = False
 
                 if key in self.theState:
-                    self.theState[key] = value
+                    if key.upper()=='X' or key.upper()=='Y':
+                        self.theState[key] = value + theState['direction'][key]
+                    else:
+                        self.theState[key] = value
                 if ok_print:
                     if debug == True and verbose == True:
                         FileIO.log('smoothie_ser2net:\n\tkey:   ',key)
@@ -255,6 +266,7 @@ class Smoothie(object):
                         if debug == True and verbose == True:
                             FileIO.log('smoothie_ser2net:\n\tchanging key [',key,'] homing to False')
                         self.theState['homing'][key] = False
+                        self.theState['direction'][key] = 0
                         for h_key, h_value in self.theState['homing'].items():
                             if h_value == True:
                                 stillHoming = True
@@ -291,6 +303,14 @@ class Smoothie(object):
         'b': 0,
         'c': 0,
         'stat': 1,
+        'direction': {
+            'x': 0,
+            'y': 0,
+            'z': 0,
+            'a': 0,
+            'b': 0,
+            'c': 0
+        },
         'delaying': 0,
         'homing': {
             'x': False,
@@ -350,9 +370,24 @@ class Smoothie(object):
                         try:
                             if float(value)<0:
                                 value = 0
+                            #SWITCH DIRECTION STUFF HERE
+                            if axis=='X' or axis=='Y':
+                                tvalue = float(theState[n])
+                                if value < tvalue and theState['direction'][n]==0:
+                                    theState['direction'][n] = 0.5
+                                elif value > tvalue and theState['direction'][n]>0:
+                                    theState['direction'][n] = 0
+                                value = value - theState['direction'][n]
                         except:
                             pass
-
+                    else:
+                        if axis=='X' or axis=='Y':
+                            if value < 0 and theState['direction'][n]==0:
+                                theState['direction'][n] = 0.5
+                                value = value - theState['direction'][n]
+                            elif value > 0 and theState['direction'][n]>0:
+                                value = value + theState['direction'][n]
+                                theState['direction'][n] = 0
                     cmd = cmd + str(value)
                     if debug == True and verbose == True: FileIO.log('smoothie_ser2net:\n\tcmd: ',cmd,'\n')
 
