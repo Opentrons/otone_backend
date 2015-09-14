@@ -372,22 +372,22 @@ class Smoothie(object):
                                 value = 0
                             #SWITCH DIRECTION STUFF HERE
                             if axis=='X' or axis=='Y':
-                                tvalue = float(theState[n])
-                                if value < tvalue and theState['direction'][n]==0:
-                                    theState['direction'][n] = 0.5
-                                elif value > tvalue and theState['direction'][n]>0:
-                                    theState['direction'][n] = 0
-                                value = value - theState['direction'][n]
+                                tvalue = float(self.theState[n])
+                                if value < tvalue and self.theState['direction'][n]==0:
+                                    self.theState['direction'][n] = 0.5
+                                elif value > tvalue and self.theState['direction'][n]>0:
+                                    self.theState['direction'][n] = 0
+                                value = value - self.theState['direction'][n]
                         except:
                             pass
                     else:
                         if axis=='X' or axis=='Y':
-                            if value < 0 and theState['direction'][n]==0:
-                                theState['direction'][n] = 0.5
-                                value = value - theState['direction'][n]
-                            elif value > 0 and theState['direction'][n]>0:
-                                value = value + theState['direction'][n]
-                                theState['direction'][n] = 0
+                            if value < 0 and self.theState['direction'][n]==0:
+                                self.theState['direction'][n] = 0.5
+                                value = value - self.theState['direction'][n]
+                            elif value > 0 and self.theState['direction'][n]>0:
+                                value = value + self.theState['direction'][n]
+                                self.theState['direction'][n] = 0
                     cmd = cmd + str(value)
                     if debug == True and verbose == True: FileIO.log('smoothie_ser2net:\n\tcmd: ',cmd,'\n')
 
