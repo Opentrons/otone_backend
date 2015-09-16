@@ -217,6 +217,7 @@ def instantiate_objects():
 
     publisher.set_head(head)
     publisher.set_runner(runner)
+    subscriber.set_deck(deck)
     subscriber.set_head(head)
     subscriber.set_runner(runner)
 
