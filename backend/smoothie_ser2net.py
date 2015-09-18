@@ -439,11 +439,17 @@ class Smoothie(object):
         """Delay for given number of milli_seconds
         """
         if debug == True: FileIO.log('smoothie_ser2net.delay called')
-        float_milli_seconds = float(milli_seconds)    
-        if float_milli_seconds >= 0:
-            self.my_loop.call_later(float(float(milli_seconds)/1000.0), self.delay_state)
-            self.theState['delaying'] = 1
-            self.on_state_change(self.theState)
+        print('milli_seconds: ',milli_seconds)
+        try:
+            float_milli_seconds = float(milli_seconds)
+        except:
+            print('*** error floating milli_seconds ***')
+            float_milli_seconds = 0
+        finally:
+            if float_milli_seconds >= 0:
+                self.my_loop.call_later(float(float_milli_seconds/1000.0), self.delay_state)
+                self.theState['delaying'] = 1
+                self.on_state_change(self.theState)
 
 
     def delay_state(self):
