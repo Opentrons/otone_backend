@@ -99,3 +99,16 @@ class Deck:
     def publish_containers(self):
         if debug == True: FileIO.log('deck.publish_containers called')
         self.pubber.send_message('containers',self.get_containers())
+
+
+    def container_depth_override(self, container_name, new_depth):
+        FileIO.log('deck.container_depth_override called')
+        containers = FileIO.get_dict_from_json(os.path.join(self.dir_par_par_path,'otone_data/containers.json'))
+        if container_name in containers and new_depth is not None:
+            if 'locations' in containers[container_name]:
+                containers[container_name]['locations']['depth'] = new_depth
+                self.save_containers(containers)
+                self.publish_containers()
+            else:
+                FileIO.log('error in deck.container_depth_override, locations not in containers-->',container_name)
+

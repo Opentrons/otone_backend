@@ -163,6 +163,13 @@ class Subscriber():
         self.get_calibrations()
 
 
+    def container_depth_override(self, data):
+        FileIO.log('subscriber.container_depth_override called')
+        container_name = data['name']
+        new_depth = data['depth']
+        self.deck.container_depth_override(container_name,new_depth)
+
+
     def get_calibrations(self):
         """Tell the :class:`head` to publish calibrations
         """
@@ -383,6 +390,7 @@ class Subscriber():
               'poweroff' : lambda self: self.poweroff(),
               'reboot' : lambda self: self.reboot(),
               'shareinet': lambda self: self.loop.create_task(self.share_inet()),
-              'restart' : lambda self: self.restart()
+              'restart' : lambda self: self.restart(),
+              'containerDepthOverride': lambda self, data: self.container_depth_override(data)
               }
     
