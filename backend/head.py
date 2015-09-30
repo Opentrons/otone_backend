@@ -112,7 +112,17 @@ class Head:
             "p200" : {
                 "tool" : "pipette",
                 "tip-racks" : [{"container" : "p200-rack"}],
+
+                ... or ...
+                "tip-racks" : ["p200-rack","some-other-rack"]  <--- preferred array format for JSON
+
+
                 "trash-container" : {"container" : "trash"},
+
+
+                ... or ...
+                "trash-container" : ["trash"] <--- preferred array format for JSON (although currently only one trash container supported)
+
                 "tip-depth" : 5,
                 "tip-height" : 45,
                 "tip-total" : 8,
@@ -151,9 +161,13 @@ class Head:
                 setattr(self.PIPETTES[hd['axis']],'tip_racks',hd['tip-racks'])
                 if len(hd['tip-racks'])>0:
                     tpOD = hd['tip-racks'][0]
-                    tpItems = tpOD.items()
-                    listTPItems = list(tpItems)
-                    setattr(self.PIPETTES[hd['axis']],'tip_rack_origin',listTPItems[0][1])
+                    if isinstance(tpOD,dict):
+                        tpItems = tpOD.items()
+                        listTPItems = list(tpItems)
+                        setattr(self.PIPETTES[hd['axis']],'tip_rack_origin',listTPItems[0][1])
+                    elif isinstance(tpOD,str):
+                        setattr(self.PIPETTES[hd['axis']],'tip_rack_origin',tpOD)
+
 
 
                 setattr(self.PIPETTES[hd['axis']],'trash_container',hd['trash-container'])

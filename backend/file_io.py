@@ -1,5 +1,5 @@
 import json
-import datetime
+import datetime, collections
 
 class FileIO:
     """Provides static methods for file i/o and logging
@@ -61,7 +61,7 @@ class FileIO:
         try:
             in_file = None
             in_file = open(fname,"r")   # Open the file
-            prot_dict = json.load(in_file)   #create dictionary from file
+            prot_dict = json.load(in_file,object_pairs_hook=collections.OrderedDict)   #create dictionary from file
             print ("FileIO: json file: '{0}' imported!".format(fname))
         except EnvironmentError as err:
             print('Error reading json file: ',err)

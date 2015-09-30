@@ -56,7 +56,7 @@ class Pipette(Tool):
 
         self.theContainers = {} #(saved)
         self.tip_racks = []
-        self.trash_container = {}
+        self.trash_container = []
         self.tip_rack_origin = ""
 
 
@@ -205,15 +205,14 @@ class Pipette(Tool):
             self.bottom = self.blowout - self.bottom_distance
         elif (value != None and (property_=='tip_racks')):
             self.tip_racks.extend(value)
-            if isinstance(value, list):
-                self.tip_racks.extend(value)
-                if debug == True: 
-                    FileIO.log('new tip-racks: ',self.tip_racks)
+            #if isinstance(value, list):
+            #    self.tip_racks.extend(value)
+            if debug == True: 
+                FileIO.log('new tip-racks: ',self.tip_racks)
         elif (value != None and (property_=='trash_container')):
-            if isinstance(value, dict):
-                self.trash_container = {}
-                self.trash_container.update(value)
-                if debug == True: FileIO.log('new trash_container: ',self.trash_container)
+            self.trash_container = list
+            self.trash_container.extend(value)
+            if debug == True: FileIO.log('new trash_container: ',self.trash_container)
 
 
     def relative_coords(self):
