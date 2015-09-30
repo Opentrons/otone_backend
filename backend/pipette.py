@@ -210,7 +210,7 @@ class Pipette(Tool):
             if debug == True: 
                 FileIO.log('new tip-racks: ',self.tip_racks)
         elif (value != None and (property_=='trash_container')):
-            self.trash_container = list
+            self.trash_container = []
             self.trash_container.extend(value)
             if debug == True: FileIO.log('new trash_container: ',self.trash_container)
 
