@@ -109,6 +109,7 @@ class Smoothie(object):
         self.already_trying = False
         self.ack_msg_rcvd = "ok"
         self.state_ready = 0
+        self.delay = None
 
     class CB_Factory(asyncio.Protocol):
         proc_data = ""
@@ -447,7 +448,7 @@ class Smoothie(object):
             float_milli_seconds = 0
         finally:
             if float_milli_seconds >= 0:
-                self.my_loop.call_later(float(float_milli_seconds/1000.0), self.delay_state)
+                self.delay = self.my_loop.call_later(float(float_milli_seconds/1000.0), self.delay_state)
                 self.theState['delaying'] = 1
                 self.on_state_change(self.theState)
 
@@ -525,6 +526,10 @@ class Smoothie(object):
         """Halt robot
         """
         if debug == True: FileIO.log('smoothie_ser2net.halt called')
+        if self.delay is not None:
+            self.delay.cancel()
+            self.delay = None
+            self.delay_state()
         if self.my_transport is not None:
             #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
             self.try_add(self._dict['off'] + '\r\n')
