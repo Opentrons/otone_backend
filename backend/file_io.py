@@ -41,7 +41,7 @@ class FileIO:
             logfile = None
             logfile = open('logfile.txt',"a")
             print(tstamp, '-', "".join([str(m) for m in msg]))
-            print(tstamp, '-', "".join([str(m) for m in msg]), file = logfile)
+            #print(tstamp, '-', "".join([str(m) for m in msg]), file = logfile)
         except EnvironmentError as err:
             print('Error appending log file: {0}'.format(err))
         finally:
