@@ -129,7 +129,7 @@ class Subscriber():
         """Dispatch commands according to :obj:`dispatcher` dictionary
         """
         if debug == True:
-            FileIO.log('subcriber.dispatch called')
+            FileIO.log('subscriber.dispatch called')
             if verbose == True: FileIO.log('\n\n\ttype_: ',type_,'\n\tdata:',data,'\n')
         if data is not None:
             self.dispatcher[type_](self,data)

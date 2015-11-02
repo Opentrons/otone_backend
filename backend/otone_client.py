@@ -78,9 +78,10 @@ print('fname_data_containers: ', fname_data_containers)
 
 if not os.path.isdir(fname_data):
     os.makedirs(fname_data)
-if not os.path.exists(fname_data_containers):
-    open(fname_data_containers,"w+")
-    shutil.copy(fname_default_containers, fname_data_containers)
+#if not os.path.exists(fname_data_containers):
+open(fname_data_containers,"w+")
+shutil.copy(fname_default_containers, fname_data_containers)
+
 if not os.path.exists(fname_data_calibrations):
     open(fname_data_calibrations,"w+")
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
