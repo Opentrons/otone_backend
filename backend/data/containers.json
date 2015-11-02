@@ -5,7 +5,7 @@
             "A1":{"x":0, "y":0, "z":0, "depth":0, "diameter":0 }
          }
       },
-      "tube-rack-15_50ml_PCR":{
+      "tube-rack-15_50ml":{
          "locations":{
             "A1":{"x":0, "y":0, "z":0, "depth":76.81281249999999, "diameter":16, "total-liquid-volume":15000 },
             "B1":{"x":32, "y":0, "z":0, "depth":76.81281249999999, "diameter":16, "total-liquid-volume":15000 },
@@ -19,7 +19,7 @@
             "B4":{"x":50, "y":86, "z":0, "depth":76.81281249999999, "diameter":26, "total-liquid-volume":50000 }
          }
       },
-      "tube-rack-.75ml _PCR":{
+      "tube-rack-.75ml":{
          "locations":{
             "A1":{"x":0, "y":0, "z":0, "depth":20, "diameter":6, "total-liquid-volume":750 },
             "B1":{"x":18, "y":0, "z":0, "depth":20, "diameter":6, "total-liquid-volume":750 },
@@ -47,7 +47,7 @@
             "D6":{"x":54, "y":90, "z":0, "depth":20, "diameter":6, "total-liquid-volume":750 }
          }
       },
-      "tube-rack-2ml_PCR":{
+      "tube-rack-2ml":{
          "locations":{
             "A1":{"x":0, "y":0, "z":0, "depth":20, "diameter":9, "total-liquid-volume":2000 },
             "B1":{"x":18, "y":0, "z":0, "depth":20, "diameter":9, "total-liquid-volume":2000 },
@@ -499,7 +499,7 @@
             "P24":{"x":67.5, "y":103.5, "z":0, "depth":9.5, "diameter":3.1, "total-liquid-volume":55 }
          }
       },
-      "tube-rack-.75ml":{
+      "tube-rack-.75ml_old":{
          "locations":{
             "A1":{"x":0, "y":0, "z":0, "depth":20, "diameter":6, "total-liquid-volume":750 },
             "A2":{"x":18, "y":0, "z":0, "depth":20, "diameter":6, "total-liquid-volume":750 },
@@ -1351,7 +1351,7 @@
             "A12":{"x":0, "y":99, "z":0, "diameter":6.4 }
          }
       },
-      "tube-rack-15/50ml":{
+      "tube-rack-15_50ml_old":{
          "locations":{
             "A1":{"x":0, "y":0, "z":0, "depth":76.81281249999999, "diameter":16, "total-liquid-volume":15000 },
             "A2":{"x":32, "y":0, "z":0, "depth":76.81281249999999, "diameter":16, "total-liquid-volume":15000 },
@@ -1373,7 +1373,7 @@
             "A4":{"x":6, "y":87, "z":0, "depth":40, "diameter":8, "total-liquid-volume":22000 }
          }
       },
-      "tube-rack-2ml":{
+      "tube-rack-2ml_old":{
          "locations":{
             "A1":{"x":0, "y":0, "z":0, "depth":26.717499999999998, "diameter":9, "total-liquid-volume":2000 },
             "A2":{"x":18, "y":0, "z":0, "depth":26.717499999999998, "diameter":9, "total-liquid-volume":2000 },
