@@ -357,6 +357,9 @@ class Smoothie(object):
         #if len(self.smoothieQueue) == 1:
         self.try_step()
 
+    def clear_queue(self):
+        self.smoothieQueue = []
+
 
     def move(self, coords_list):
         """Move according to coords_list
@@ -532,6 +535,8 @@ class Smoothie(object):
             self.delay_state()
         if self.my_transport is not None:
             #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
+            self.clear_queue()
+            self.theState['stat'] = self.state_ready
             self.try_add(self._dict['off'] + '\r\n')
             self.try_add(self._dict['on'] + '\r\n')
             self.raw(self._dict['on'] + '\r\n') #just in case...
