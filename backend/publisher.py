@@ -136,6 +136,10 @@ class Publisher:
             print(ae)
 
 
+    def show_delay(self, time_left):
+        self.send_message('delay',time_left)
+
+
 #OTHER DATA NEEDING TO GO BACK TO UI
     def finished(self):
         """Publish that instruction queue finished
