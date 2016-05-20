@@ -199,10 +199,10 @@ class Pipette(Tool):
             FileIO.log('pipette.calibrate called')
             if verbose == True: FileIO.log('\tproperty_: ',property_,'\n\tvalue:',value,'\n')
        #ToDo: probably need to utilize None instead of math.nan here
-        if (value != None and (property_=='top' or property_=='blowout' or property_=='droptip')):
+        if (value != None and (property_=='top' or property_=='bottom' or property_=='blowout' or property_=='droptip')):
             # if it's a top or blowout value, save it
             self.__dict__[property_] = value  
-            self.bottom = self.blowout - self.bottom_distance
+            # self.bottom = self.blowout - self.bottom_distance
         elif (value != None and (property_=='tip_racks')):
             self.tip_racks.extend(value)
             #if isinstance(value, list):
