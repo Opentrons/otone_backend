@@ -52,7 +52,6 @@ class Pipette(Tool):
         #the calibrated plate offsets for this pipette
 
         self.volume = 200  #max volume pipette can hold calculated during calibration (saved in pipette_calibrations.json)
-        self.bottom_distance = 2 #distance between blowout and botton
 
         self.theContainers = {} #(saved)
         self.tip_racks = []
@@ -202,7 +201,6 @@ class Pipette(Tool):
         if (value != None and (property_=='top' or property_=='bottom' or property_=='blowout' or property_=='droptip')):
             # if it's a top or blowout value, save it
             self.__dict__[property_] = value  
-            # self.bottom = self.blowout - self.bottom_distance
         elif (value != None and (property_=='tip_racks')):
             self.tip_racks.extend(value)
             #if isinstance(value, list):
