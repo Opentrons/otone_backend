@@ -2,7 +2,7 @@
    "containers":{
       "point":{
          "locations":{
-            "A1":{"x":0, "y":0, "z":0, "depth":0, "diameter":0 }
+            "A1":{"x":0, "y":0, "z":0, "depth":0, "diameter":0, "total-liquid-volume":1 }
          }
       },
       "tube-rack-15_50ml":{
