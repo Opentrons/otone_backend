@@ -37,9 +37,6 @@ from ingredients import Ingredients
 
 from protocol_runner import ProtocolRunner
 
-import script_keeper as sk
-from script_keeper import ScriptKeeper
-
 
 debug = True
 verbose = False
@@ -183,7 +180,6 @@ def instantiate_objects():
 
 
     #instantiate the script keeper (sk)
-    the_sk = ScriptKeeper(publisher)
 
 
     #instantiate the deck
@@ -231,9 +227,6 @@ def instantiate_objects():
         while True:
             if debug == True and verbose == True: FileIO.log('periodically_send_ip_addresses again...')
             yield from asyncio.sleep(2)
-            stuff = yield from sk.per_data()
-            session_factory._myAppSession.publish('com.opentrons.robot_to_browser_ctrl',json.dumps(stuff,sort_keys=True,indent=4,separators=(',',': ')))
-
 
     asyncio.Task(periodically_send_ip_addresses())
 
@@ -247,9 +240,7 @@ try:
     url = "ws://127.0.0.1:8080/ws"
     transport_factory = websocket \
             .WampWebSocketClientFactory(session_factory,
-                                        url=url,
-                                        debug=False,
-                                        debug_wamp=False)
+                                        url=url)
     loop = asyncio.get_event_loop()
 
     subscriber = Subscriber(session_factory, loop)

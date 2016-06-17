@@ -1,3 +1,4 @@
+version: 2
 controller: {}
 workers: 
 - type: router
@@ -13,4 +14,3 @@ workers:
       paths:
         /: {directory:  "../../otone_frontend/web", type: static}
         ws: {type: "websocket"}
-

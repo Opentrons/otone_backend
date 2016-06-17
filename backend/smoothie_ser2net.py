@@ -2,7 +2,7 @@
 
 import asyncio, json, math
 from file_io import FileIO
-import script_keeper as sk
+# import script_keeper as sk
 
 debug = True
 io_debug = False
@@ -212,7 +212,7 @@ class Smoothie(object):
         self.send(thestring)#self  self._dict['setupFeedback'])
         #if debug!=True:
         self.home(dict())
-        sk.write_led(17,0)
+        # sk.write_led(17,0)
         #sk.set_connection_status(99)
             #pass
         self.on_connect(self.theState) #self
