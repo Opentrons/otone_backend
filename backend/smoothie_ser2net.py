@@ -2,6 +2,9 @@
 
 import asyncio, json, math
 from file_io import FileIO
+
+import serial_asyncio
+import serial
 # import script_keeper as sk
 
 debug = True
@@ -195,7 +198,11 @@ class Smoothie(object):
         if debug == True: FileIO.log('smoothie_ser2net.connect called')
         self.my_loop = asyncio.get_event_loop()
         callbacker = self.CB_Factory(self)
-        asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
+        # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
+        asyncio.async(
+            # self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333)
+            serial_asyncio.create_serial_connection(self.my_loop, lambda: callbacker, '/dev/cu.usbmodem1411')
+        )
 
 
     def on_success_connecting(self):
