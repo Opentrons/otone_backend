@@ -199,10 +199,13 @@ class Smoothie(object):
         self.my_loop = asyncio.get_event_loop()
         callbacker = self.CB_Factory(self)
         # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
-        asyncio.async(
-            # self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333)
-            serial_asyncio.create_serial_connection(self.my_loop, lambda: callbacker, '/dev/cu.usbmodem1411')
+
+        serial_connection_coro = serial_asyncio.create_serial_connection(
+            self.my_loop,
+            lambda: callbacker, '/dev/cu.usbmodem1411'
         )
+
+        asyncio.async(serial_connection_coro)
 
 
     def on_success_connecting(self):
