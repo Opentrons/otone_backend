@@ -32,6 +32,11 @@ var/
 *.manifest
 *.spec
 
+# Crossbar
+#  Usually these files are written by the Crossbar server
+*.priv
+*.pub
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
