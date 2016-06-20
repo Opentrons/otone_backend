@@ -65,7 +65,7 @@ class Publisher:
         #}
         #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
         #try to reconnect
-        self.head.smoothieAPI.connect()#self.onSmoothieConnect, self.onSmoothieDisconnect)
+        #self.head.smoothieAPI.connect()#self.onSmoothieConnect, self.onSmoothieDisconnect)
         
 #Event handlers-----------------
     #originally in app.js

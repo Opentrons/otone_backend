@@ -1,6 +1,6 @@
 import json, os
 
-import smoothie_ser2net as openSmoothie
+import smoothie_pyserial as openSmoothie
 
 from the_queue import TheQueue
 from file_io import FileIO
@@ -38,6 +38,8 @@ class Head:
         self.smoothieAPI.set_limit_hit_callback(self.pubber.on_limit_hit)
         self.smoothieAPI.set_move_callback(self.pubber.on_start)
         self.smoothieAPI.set_delay_callback(self.pubber.show_delay)
+        self.smoothieAPI.set_on_connect_callback(self.pubber.on_smoothie_connect)
+        self.smoothieAPI.set_on_disconnect_callback(self.pubber.on_smoothie_disconnect)
         self.theQueue = TheQueue(self, publisher)
         
         #connect with the smoothie board
@@ -431,7 +433,7 @@ class Head:
     #from planner.js
     def calibrate_pipette(self, pipette, property_):
         """Sets the value of a property for given pipette by fetching state information 
-        from smoothieboard(:meth:`smoothie_ser2net.get_state`)
+        from smoothieboard(:meth:`smoothie_pyserial.get_state`)
         """
         if debug == True: FileIO.log('head.calibrate_pipette called')
         #maps to smoothieAPI.get_state() with extra code
