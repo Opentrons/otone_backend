@@ -35,6 +35,8 @@ var/
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+# also ignore the output files we'll be generating for each OS
+pyinstaller/output/*
 
 # Crossbar
 #  Usually these files are written by the Crossbar server
