@@ -1,7 +1,6 @@
 .DS_Store
 
 # Ignore any Opentrons auto-generated files
-./src/backend/logfile.txt
 ./src/backend/otone_data
 
 # Byte-compiled / optimized / DLL files
@@ -31,12 +30,8 @@ var/
 *.egg
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-# also ignore the output files we'll be generating for each OS
-pyinstaller/output/*
+pyinstaller/build
+pyinstaller/dist
 
 # Crossbar
 #  Usually these files are written by the Crossbar server

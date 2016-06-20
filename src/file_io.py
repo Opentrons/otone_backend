@@ -39,7 +39,7 @@ class FileIO:
         tstamp = datetime.datetime.now()
         try:
             logfile = None
-            logfile = open('logfile.txt',"a")
+            logfile = open('otone_data/logfile.txt',"a")
             print(tstamp, '-', "".join([str(m) for m in msg]))
             #print(tstamp, '-', "".join([str(m) for m in msg]), file = logfile)
         except EnvironmentError as err:
