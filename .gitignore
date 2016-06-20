@@ -1,5 +1,9 @@
 .DS_Store
 
+# Ignore any Opentrons auto-generated files
+./src/backend/logfile.txt
+./src/backend/otone_data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
