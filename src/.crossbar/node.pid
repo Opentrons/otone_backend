@@ -3,17 +3,17 @@
         "/usr/local/bin/crossbar", 
         "start"
     ], 
-    "pid": 11010, 
     "options": {
-        "logdir": null, 
-        "command": "start", 
-        "cdc": false, 
-        "colour": "auto", 
-        "cbdir": "/Users/andy/Documents/github/otone_backend/.crossbar", 
         "logtofile": false, 
-        "logformat": "standard", 
-        "config": "config.json", 
         "loglevel": "info", 
-        "reactor": null
-    }
+        "config": "config.json", 
+        "reactor": null, 
+        "cdc": false, 
+        "cbdir": "/Users/andy/Documents/github/otone_backend/src/.crossbar", 
+        "command": "start", 
+        "colour": "auto", 
+        "logformat": "standard", 
+        "logdir": null
+    }, 
+    "pid": 12247
 }
