@@ -35,7 +35,7 @@
                     "paths": {
                         "/": {
                             "type": "static",
-                            "directory": "../../otone_frontend/web"
+                            "directory": "../web"
                         },
                         "ws": {
                             "type": "websocket"

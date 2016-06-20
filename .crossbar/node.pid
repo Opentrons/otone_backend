@@ -1,0 +1,19 @@
+{
+    "argv": [
+        "/usr/local/bin/crossbar", 
+        "start"
+    ], 
+    "pid": 11010, 
+    "options": {
+        "logdir": null, 
+        "command": "start", 
+        "cdc": false, 
+        "colour": "auto", 
+        "cbdir": "/Users/andy/Documents/github/otone_backend/.crossbar", 
+        "logtofile": false, 
+        "logformat": "standard", 
+        "config": "config.json", 
+        "loglevel": "info", 
+        "reactor": null
+    }
+}
