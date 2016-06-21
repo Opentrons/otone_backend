@@ -6,6 +6,7 @@ from file_io import FileIO
 import serial_asyncio
 import serial
 import smoothie_usb_util
+import time
 # import script_keeper as sk
 
 debug = True
@@ -138,6 +139,16 @@ class Smoothie(object):
             self.outer.my_transport = transport
             self.outer.on_success_connecting
 
+            # replace pyserials connection_lost method so that we can catch an disconnect Error
+            original_call_connection_lost = transport._call_connection_lost
+            def con_lost(*args, **kwargs):
+                self.connection_lost(*args)
+                original_call_connection_lost(*args)
+            self.transport._call_connection_lost = con_lost
+
+            loop = asyncio.get_event_loop()
+            loop.call_later(2, self.outer.on_success_connecting)#, self.outer)
+
 
         def data_received(self, data):
             """Callback when data is received from Smoothieboard
@@ -210,11 +221,16 @@ class Smoothie(object):
         """Make a connection to Smoothieboard using :class:`CB_Factory`
         """
         FileIO.log('smoothie_pyserial.connect')
-        port_desc = None
+        port_desc = self.smoothie_usb_finder.find_smoothie()
+
         while not port_desc:
+            FileIO.log('smoothie_pyserial.connect FAILED')
+            self.on_disconnect_callback()
+            time.sleep(1)
             port_desc = self.smoothie_usb_finder.find_smoothie()
-            FileIO.log('port_desc:',port_desc)
-            yield from asyncio.sleep(1)
+
+        FileIO.log('smoothie_pyserial.connect SUCCESS')
+
         self.my_loop = asyncio.get_event_loop()
         callbacker = self.CB_Factory(self)
         # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
@@ -639,10 +655,11 @@ class Smoothie(object):
         """Callback when disconnected
         """
         if debug == True: FileIO.log('smoothie_pyserial.on_disconnect called')
-        self.connect()
         
         if hasattr(self.on_disconnect_callback, '__call__'):
             self.on_disconnect_callback()
+
+        self.connect()
 
     def on_raw_data(self, msg):
         """Calls an external callback to show raw data lines received

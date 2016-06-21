@@ -12,12 +12,18 @@
         ],
         "resting": 0,
         "theContainers": {
-            "p10-rack": {
-                "x": 20,
-                "y": 350.503,
-                "z": 100
+            "p200-rack": {
+                "rel_x": null,
+                "rel_y": null,
+                "rel_z": null,
+                "x": null,
+                "y": null,
+                "z": null
             },
-            "plate-1": {
+            "scale": {
+                "rel_x": null,
+                "rel_y": null,
+                "rel_z": null,
                 "x": null,
                 "y": null,
                 "z": null
@@ -54,12 +60,18 @@
         ],
         "resting": 0,
         "theContainers": {
-            "p10-rack": {
+            "p200-rack": {
+                "rel_x": null,
+                "rel_y": null,
+                "rel_z": null,
                 "x": null,
                 "y": null,
                 "z": null
             },
-            "plate-1": {
+            "scale": {
+                "rel_x": null,
+                "rel_y": null,
+                "rel_z": null,
                 "x": null,
                 "y": null,
                 "z": null
@@ -75,12 +87,18 @@
                 "z": null
             }
         },
-        "tip_rack_origin": "",
-        "tip_racks": [],
+        "tip_rack_origin": "p200-rack",
+        "tip_racks": [
+            {
+                "container": "p200-rack"
+            }
+        ],
         "toolname": "b_pipette",
         "tooltype": "pipette",
         "top": 1.8,
-        "trash_container": [],
-        "volume": 200
+        "trash_container": {
+            "container": "trash"
+        },
+        "volume": 206
     }
 }

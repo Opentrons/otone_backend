@@ -47,7 +47,7 @@ class Publisher:
         """Publish that Smoothieboard is connected
         """
         if debug == True: FileIO.log('publisher.on_smoothie_connect called')
-        self.send_message('status',{'string':'Connected to the Smoothieboard','color':'green'})
+        self.send_message('status',{'string':'Connected to the Smoothieboard','color':'rgb(27,225,100)'})
         #msg = {
         #    'type': 'status',
         #    'data':{'string':'Connected to the Smoothieboard','color':'green'}
@@ -74,7 +74,7 @@ class Publisher:
         """Publish that theQueue started a command
         """
         if debug == True: FileIO.log('publisher.on_start called')
-        self.send_message('status',{'string':'Robot is moving','color':'orange'})
+        # self.send_message('status',{'string':'Robot is moving','color':'orange'})
         #msg = {
         #    'type': 'status',
         #    'data':{'string':'Robot is moving','color':'orange'}
@@ -124,7 +124,7 @@ class Publisher:
         """Publish status and move on to next instruction step
         """
         if debug == True: FileIO.log('publisher.on_finish called')
-        self.send_message('status',{'string':'Robot stopped','color':'black'})
+        # self.send_message('status',{'string':'Robot stopped','color':'black'})
         #msg = {
         #    'type': 'status',
         #    'data':{'string':'Robot stopped','color':'black'}
