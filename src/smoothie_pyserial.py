@@ -221,23 +221,29 @@ class Smoothie(object):
         """Make a connection to Smoothieboard using :class:`CB_Factory`
         """
         FileIO.log('smoothie_pyserial.connect')
-        port_desc = self.smoothie_usb_finder.find_smoothie()
 
-        while not port_desc:
-            FileIO.log('smoothie_pyserial.connect FAILED')
-            self.on_disconnect_callback()
-            time.sleep(1)
+        @asyncio.coroutine
+        def search_serial_ports():
             port_desc = self.smoothie_usb_finder.find_smoothie()
 
-        FileIO.log('smoothie_pyserial.connect SUCCESS')
+            while not port_desc:
+                FileIO.log('smoothie_pyserial.connect FAILED')
+                self.on_disconnect_callback()
+                yield from asyncio.sleep(1)
+                port_desc = self.smoothie_usb_finder.find_smoothie()
 
-        self.my_loop = asyncio.get_event_loop()
-        callbacker = self.CB_Factory(self)
-        # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
-        asyncio.async(
-            # self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333)
-            serial_asyncio.create_serial_connection(self.my_loop, lambda: callbacker, port_desc['portname'])
-        )
+            FileIO.log('smoothie_pyserial.connect SUCCESS')
+
+            self.my_loop = asyncio.get_event_loop()
+            callbacker = self.CB_Factory(self)
+            # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
+            asyncio.async(
+                # self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333)
+                serial_asyncio.create_serial_connection(self.my_loop, lambda: callbacker, port_desc['portname'])
+            )
+
+        tasks = [search_serial_ports()]
+        asyncio.ensure_future(asyncio.wait(tasks))
 
     #@asyncio.coroutine
     def on_success_connecting(self):
