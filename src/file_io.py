@@ -38,10 +38,9 @@ class FileIO:
     def log(*msg):
         tstamp = datetime.datetime.now()
         try:
-            logfile = None
+            # NOTE (Ahmed): this will always open relative to the CWD of the process -- not a good idea.
             logfile = open('otone_data/logfile.txt',"a")
             print(tstamp, '-', "".join([str(m) for m in msg]))
-            #print(tstamp, '-', "".join([str(m) for m in msg]), file = logfile)
         except EnvironmentError as err:
             print('Error appending log file: {0}'.format(err))
         finally:
