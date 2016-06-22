@@ -243,7 +243,7 @@ class Smoothie(object):
             )
 
         tasks = [search_serial_ports()]
-        asyncio.ensure_future(asyncio.wait(tasks))
+        asyncio.async(asyncio.wait(tasks))
 
     #@asyncio.coroutine
     def on_success_connecting(self):

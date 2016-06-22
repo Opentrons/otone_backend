@@ -234,10 +234,21 @@ try:
     # TODO: should not be hardcoded but rather moved to setting file...
     url = "ws://127.0.0.1:8080/ws"
 
+
+    from autobahn.wamp.serializer import JsonSerializer
+
+    serializers = []
+    # serializers.append(JsonSerializer(batched=True))
+    serializers.append(JsonSerializer())
+
+    from autobahn.wamp.serializer import MsgPackSerializer
+    # serializers.append(MsgPackSerializer(batched=True))
+    serializers.append(MsgPackSerializer())
+
     transport_factory = websocket.WampWebSocketClientFactory(
         session_factory,
         url=url,
-        serializers=None
+        serializers=serializers
     )
     loop = asyncio.get_event_loop()
 
