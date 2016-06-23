@@ -79,10 +79,14 @@ class Smoothie(object):
         self.delay_end = 0
         self.serial_port = None
         self.attempting_connection = False
-        self.callbacker = None
+        self.callbacker = self.CB_Factory(self)
+        self.connected = False
         self.smoothie_usb_finder = smoothie_usb_util.SmoothieUSBUtil()
 
 
+        # the below coroutine loops forever
+        # reading from an available serial port until it gets a terminating '\r\n'
+        # if it fails, it calls .connect()
         @asyncio.coroutine
         def read_loop():
             while True:
@@ -92,9 +96,9 @@ class Smoothie(object):
                         if data and self.callbacker:
                             self.callbacker.data_received(data)
                     except:
-                        self.connect()
+                        self.callbacker.connection_lost()
                 else:
-                    self.connect()
+                    self.callbacker.connection_lost()
                 yield from asyncio.sleep(0.1)
 
         asyncio.async(read_loop())
@@ -110,6 +114,7 @@ class Smoothie(object):
         def connection_made(self):
             """Callback when a connection is made
             """
+            self.outer.connected = True
             if debug == True: FileIO.log("smoothie_pyserial:\n\tCB_Factory.connection_made called")
 
             loop = asyncio.get_event_loop()
@@ -136,14 +141,16 @@ class Smoothie(object):
         def connection_lost(self):
             """Callback when connection is lost
             """
-            FileIO.log("smoothie_pyserial:\n\tCBFactory.connection_lost called")
+            if self.outer.serial_port and self.outer.connected:
+                self.outer.connected = False
+                FileIO.log("smoothie_pyserial:\n\tCBFactory.connection_lost called")
 
-            self.outer.theState['stat'] = 0
-            self.outer.theState['delaying'] = 0
-            
-            self.outer.already_trying = False
-            proc_data = ""
-            self.outer.on_disconnect()
+                self.outer.theState['stat'] = 0
+                self.outer.theState['delaying'] = 0
+                
+                self.outer.already_trying = False
+                proc_data = ""
+                self.outer.on_disconnect()
 
     def set_raw_callback(self, callback):
         """connects the external callback for raw data
@@ -187,8 +194,11 @@ class Smoothie(object):
         self.on_disconnect_callback = callback
 
     def connect(self):
-        """Make a connection to Smoothieboard using :class:`CB_Factory`
+        """Make a connection to Smoothieboard
+            This method is called whenever the port is found to either not exist or throw an error
         """
+
+        # only enter the method is we are currently not attempting a Smoothieboard discovery
         if not self.attempting_connection:
             self.attempting_connection = True
             FileIO.log('smoothie_pyserial.connect')
@@ -206,16 +216,16 @@ class Smoothie(object):
                 FileIO.log('smoothie_pyserial.connect SUCCESS')
 
                 self.my_loop = asyncio.get_event_loop()
-                self.callbacker = self.CB_Factory(self)
+
                 try:
+                    # pause for a couple seconds, because the port has a tendancy to
+                    # disappear then reappear after first being plugged in
                     yield from asyncio.sleep(2)
-                    # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
                     self.serial_port = serial.Serial(port_desc['portname'], 115200, timeout=0.1)
                     self.attempting_connection = False
                     self.callbacker.connection_made()
                 except serial.SerialException or OSError:
                     self.callbacker.connection_lost()
-                    self.connect()
 
             tasks = [search_serial_ports()]
             asyncio.async(asyncio.wait(tasks))
@@ -249,10 +259,8 @@ class Smoothie(object):
                 self.serial_port.write(string)
             except serial.SerialException:
                 self.callbacker.connection_lost()
-                self.connect()
         else:
             self.callbacker.connection_lost()
-            self.connect()
 
 
     def smoothie_handler(self, msg, data_):
