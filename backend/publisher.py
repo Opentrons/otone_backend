@@ -59,7 +59,7 @@ class Publisher:
         """
         if debug == True: FileIO.log('publisher.on_smoothie_disconnect called')
         self.send_message('status',{'string':'Smoothieboard Disconnected','color':'red'})
-        self.head.theQueue.clear()
+        self.head.theQueue.is_busy = False
         #msg = {
         #    'type': 'status',
         #    'data':{'string':'Smoothieboard Disconnected','color':'red'}

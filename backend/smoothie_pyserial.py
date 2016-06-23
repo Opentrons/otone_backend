@@ -143,6 +143,8 @@ class Smoothie(object):
             """
             if self.outer.serial_port and self.outer.connected:
                 self.outer.connected = False
+                self.outer.smoothieQueue = list()
+                self.outer.already_trying = False
                 FileIO.log("smoothie_pyserial:\n\tCBFactory.connection_lost called")
 
                 self.outer.theState['stat'] = 0
