@@ -3,7 +3,6 @@
 import asyncio, json, math
 from file_io import FileIO
 
-import serial_asyncio
 import serial
 import smoothie_usb_util
 import time
