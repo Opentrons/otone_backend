@@ -136,9 +136,9 @@ class Smoothie(object):
                         self.connect()
                 else:
                     self.connect()
-                yield from asyncio.sleep(0.2)
+                yield from asyncio.sleep(0.1)
 
-        asyncio.ensure_future(read_loop())
+        asyncio.async(read_loop())
 
     class CB_Factory(asyncio.Protocol):
         proc_data = ""
@@ -249,9 +249,9 @@ class Smoothie(object):
                 self.my_loop = asyncio.get_event_loop()
                 self.callbacker = self.CB_Factory(self)
                 try:
-                    yield from asyncio.sleep(3)
+                    yield from asyncio.sleep(2)
                     # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
-                    self.serial_port = serial.Serial(port_desc['portname'], 115200, timeout=0.2)
+                    self.serial_port = serial.Serial(port_desc['portname'], 115200, timeout=0.1)
                     self.attempting_connection = False
                     self.callbacker.connection_made()
                 except serial.SerialException or OSError:
@@ -259,7 +259,7 @@ class Smoothie(object):
                     self.connect()
 
             tasks = [search_serial_ports()]
-            asyncio.ensure_future(asyncio.wait(tasks))
+            asyncio.async(asyncio.wait(tasks))
 
     #@asyncio.coroutine
     def on_success_connecting(self):
