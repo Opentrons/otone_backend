@@ -99,7 +99,7 @@ class Smoothie(object):
                         self.callbacker.connection_lost()
                 else:
                     self.callbacker.connection_lost()
-                yield from asyncio.sleep(0.1)
+                yield from asyncio.sleep(0.2)
 
         asyncio.async(read_loop())
 
@@ -223,7 +223,7 @@ class Smoothie(object):
                     # pause for a couple seconds, because the port has a tendancy to
                     # disappear then reappear after first being plugged in
                     yield from asyncio.sleep(2)
-                    self.serial_port = serial.Serial(port_desc['portname'], 115200, timeout=0.1)
+                    self.serial_port = serial.Serial(port_desc['portname'], 115200, timeout=0.05)
                     self.attempting_connection = False
                     self.callbacker.connection_made()
                 except serial.SerialException or OSError:
