@@ -61,20 +61,20 @@
         "resting": 0,
         "theContainers": {
             "p200-rack": {
-                "rel_x": null,
-                "rel_y": null,
-                "rel_z": null,
-                "x": null,
-                "y": null,
-                "z": null
+                "rel_x": 0.0,
+                "rel_y": 0.0,
+                "rel_z": 0.0,
+                "x": 145.992,
+                "y": 324.0,
+                "z": 54.0
             },
             "scale": {
                 "rel_x": null,
                 "rel_y": null,
                 "rel_z": null,
-                "x": null,
-                "y": null,
-                "z": null
+                "x": 165.997,
+                "y": 324.0,
+                "z": 54.0
             },
             "trash": {
                 "x": 145.997,
@@ -82,9 +82,9 @@
                 "z": 54
             },
             "trough": {
-                "x": null,
-                "y": null,
-                "z": null
+                "x": 0.0,
+                "y": 200.0,
+                "z": 50.0
             }
         },
         "tip_rack_origin": "p200-rack",

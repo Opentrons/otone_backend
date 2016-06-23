@@ -10,7 +10,7 @@ import time
 
 debug = True
 io_debug = False
-verbose = False
+verbose = True
 
 class Smoothie(object):
     """Smoothie class 
@@ -87,7 +87,7 @@ class Smoothie(object):
             'b': 0,
             'c': 0
         },
-        'stat': 1,
+        'stat': 0,
         'delaying': 0,
         'homing': {
             'x': False,
@@ -102,7 +102,6 @@ class Smoothie(object):
     old_msg = ""
     
     def __init__(self, outer):
-        self.my_transport = None
         self.outer = outer
         self.raw_callback = None
         self.position_callback = None
@@ -119,7 +118,27 @@ class Smoothie(object):
         self.delay_handler = None
         self.delay_start = 0
         self.delay_end = 0
+        self.serial_port = None
+        self.attempting_connection = False
+        self.callbacker = None
         self.smoothie_usb_finder = smoothie_usb_util.SmoothieUSBUtil()
+
+
+        @asyncio.coroutine
+        def read_loop():
+            while True:
+                if self.serial_port:
+                    try:
+                        data = self.serial_port.readline().decode('UTF-8')
+                        if data and self.callbacker:
+                            self.callbacker.data_received(data)
+                    except:
+                        self.connect()
+                else:
+                    self.connect()
+                yield from asyncio.sleep(0.2)
+
+        asyncio.ensure_future(read_loop())
 
     class CB_Factory(asyncio.Protocol):
         proc_data = ""
@@ -129,24 +148,13 @@ class Smoothie(object):
             if debug == True: FileIO.log('smoothie_pyserial:\n\tCB_Factory.__init__ called')
             self.outer = outer
         
-        def connection_made(self, transport):
+        def connection_made(self):
             """Callback when a connection is made
             """
             if debug == True: FileIO.log("smoothie_pyserial:\n\tCB_Factory.connection_made called")
 
-            self.transport = transport
-            self.outer.my_transport = transport
-            self.outer.on_success_connecting
-
-            # replace pyserials connection_lost method so that we can catch an disconnect Error
-            original_call_connection_lost = transport._call_connection_lost
-            def con_lost(*args, **kwargs):
-                self.connection_lost(*args)
-                original_call_connection_lost(*args)
-            self.transport._call_connection_lost = con_lost
-
             loop = asyncio.get_event_loop()
-            loop.call_later(2, self.outer.on_success_connecting)#, self.outer)
+            loop.call_later(1, self.outer.on_success_connecting)#, self.outer)
 
 
         def data_received(self, data):
@@ -154,10 +162,10 @@ class Smoothie(object):
             """
             if debug==True or io_debug==True:
                 if self.old_data != data:            
-                    FileIO.log('smoothie_pyserial:\n\tCBFactory.data_received: '+data.decode(),'\n')
+                    FileIO.log('smoothie_pyserial:\n\tCBFactory.data_received: '+data,'\n')
                     self.old_data = data
             
-            self.proc_data = self.proc_data + data.decode()
+            self.proc_data = self.proc_data + data
             deli = "\n"
             sub_data = self.proc_data[:self.proc_data.rfind("\n")]
             self.proc_data = self.proc_data[self.proc_data.rfind("\n")+1:]
@@ -166,12 +174,15 @@ class Smoothie(object):
                 self.outer.smoothie_handler(ds,data)  #self.outer
             
 
-        def connection_lost(self, exc):
+        def connection_lost(self):
             """Callback when connection is lost
             """
             FileIO.log("smoothie_pyserial:\n\tCBFactory.connection_lost called")
+
+            self.outer.theState['stat'] = 0
+            self.outer.theState['delaying'] = 0
             
-            self.outer.my_transport = None
+            self.outer.already_trying = False
             proc_data = ""
             self.outer.on_disconnect()
 
@@ -219,30 +230,36 @@ class Smoothie(object):
     def connect(self):
         """Make a connection to Smoothieboard using :class:`CB_Factory`
         """
-        FileIO.log('smoothie_pyserial.connect')
+        if not self.attempting_connection:
+            self.attempting_connection = True
+            FileIO.log('smoothie_pyserial.connect')
 
-        @asyncio.coroutine
-        def search_serial_ports():
-            port_desc = self.smoothie_usb_finder.find_smoothie()
-
-            while not port_desc:
-                FileIO.log('smoothie_pyserial.connect FAILED')
-                self.on_disconnect_callback()
-                yield from asyncio.sleep(1)
+            @asyncio.coroutine
+            def search_serial_ports():
                 port_desc = self.smoothie_usb_finder.find_smoothie()
 
-            FileIO.log('smoothie_pyserial.connect SUCCESS')
+                while not port_desc:
+                    FileIO.log('smoothie_pyserial.connect FAILED')
+                    self.on_disconnect_callback()
+                    yield from asyncio.sleep(1)
+                    port_desc = self.smoothie_usb_finder.find_smoothie()
 
-            self.my_loop = asyncio.get_event_loop()
-            callbacker = self.CB_Factory(self)
-            # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
-            asyncio.async(
-                # self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333)
-                serial_asyncio.create_serial_connection(self.my_loop, lambda: callbacker, port_desc['portname'])
-            )
+                FileIO.log('smoothie_pyserial.connect SUCCESS')
 
-        tasks = [search_serial_ports()]
-        asyncio.ensure_future(asyncio.wait(tasks))
+                self.my_loop = asyncio.get_event_loop()
+                self.callbacker = self.CB_Factory(self)
+                try:
+                    yield from asyncio.sleep(3)
+                    # asyncio.async(self.my_loop.create_connection(lambda: callbacker, host='0.0.0.0', port=3333))
+                    self.serial_port = serial.Serial(port_desc['portname'], 115200, timeout=0.2)
+                    self.attempting_connection = False
+                    self.callbacker.connection_made()
+                except serial.SerialException or OSError:
+                    self.callbacker.connection_lost()
+                    self.connect()
+
+            tasks = [search_serial_ports()]
+            asyncio.ensure_future(asyncio.wait(tasks))
 
     #@asyncio.coroutine
     def on_success_connecting(self):
@@ -265,11 +282,18 @@ class Smoothie(object):
         """
         if debug == True:
             FileIO.log('smoothie_pyserial.send called')
-            if verbose == True: FileIO.log('\n\tstring: ',string,'\n')
         self.on_raw_data('--> '+string)  #self
-        if self.my_transport is not None:
-            strong = string + "\r\n"
-            self.my_transport.write(strong.encode())
+        if self.serial_port and self.serial_port.is_open:
+            if verbose == True: FileIO.log('\n\tstring: ',string,'\n')
+            string = (string+'\r\n').encode('UTF-8')
+            try:
+                self.serial_port.write(string)
+            except serial.SerialException:
+                self.callbacker.connection_lost()
+                self.connect()
+        else:
+            self.callbacker.connection_lost()
+            self.connect()
 
 
     def smoothie_handler(self, msg, data_):
@@ -457,13 +481,8 @@ class Smoothie(object):
                     cmd = cmd + str(value)
                     if debug == True and verbose == True: FileIO.log('smoothie_pyserial:\n\tcmd: ',cmd,'\n')
 
-                if debug == True and verbose == True: FileIO.log('smoothie_pyserial:\n\tmy_transport not none? ',self.my_transport is not None)
 
             self.try_add(cmd)
-            
-#            if self.my_transport is not None:
-#                self.move_callback()
-#                self.send(cmd)
 
 
     def try_step(self):
@@ -585,21 +604,20 @@ class Smoothie(object):
             self.delay_handler.cancel()
             self.delay_handler = None
             self.delay_state()
-        if self.my_transport is not None:
             #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
-            self.try_add(self._dict['off'] + '\r\n')
-            self.try_add(self._dict['on'] + '\r\n')
-            self.raw(self._dict['on'] + '\r\n') #just in case...
-            #self.send(onOffString)    #self
+
+        self.try_add(self._dict['off'] + '\r\n')
+        self.try_add(self._dict['on'] + '\r\n')
+        self.raw(self._dict['on'] + '\r\n') #just in case...
+        #self.send(onOffString)    #self
 
 
     def reset(self):
         """Reset robot
         """
         if debug == True: FileIO.log('smoothie_pyserial.reset called')
-        if self.my_transport is not None:
-            resetString = _dict['reset']
-            self.send(self, resetString)
+        resetString = _dict['reset']
+        self.send(self, resetString)
 
 
     def set_speed(self, axis, value):
@@ -608,26 +626,23 @@ class Smoothie(object):
         if debug == True:
             FileIO.log('smoothie_pyserial.set_speed called')
             if verbose == True: FileIO.log('\n\taxis: ',axis,'\n\tvalue: ',value)
-        if self.my_transport is not None:
-            if isinstance(value,(int, float, complex)) or isinstance(value, str):
-                if axis=='xyz' or axis=='a' or axis == 'b' or axis == 'c':
-                    string = self._dict['speed_'+axis] + str(value)
-                    self.try_add(string)
-                    #self.send(string)
-                else:
-                    FileIO.log('smoothie_pyserial.set_speed: axis??? '+axis)
+
+        if isinstance(value,(int, float, complex)) or isinstance(value, str):
+            if axis=='xyz' or axis=='a' or axis == 'b' or axis == 'c':
+                string = self._dict['speed_'+axis] + str(value)
+                self.try_add(string)
+                #self.send(string)
             else:
-                FileIO.log('smoothie_pyserial: value is not a number???')
+                FileIO.log('smoothie_pyserial.set_speed: axis??? '+axis)
         else:
-            FileIO.log('smoothie_pyserial: my_transport is None')
+            FileIO.log('smoothie_pyserial: value is not a number???')
 
 
     def raw(self, string):
         """Send a raw command to the Smoothieboard
         """
-        if self.my_transport is not None:
-            #self.try_add(string)
-            self.send(string)
+        #self.try_add(string)
+        self.send(string)
 
 
     #############################################
