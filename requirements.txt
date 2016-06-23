@@ -23,7 +23,6 @@ PyInstaller==3.2
 PyNaCl==1.0.1
 pyOpenSSL==16.0.0
 pyserial==3.1.1
-git+https://github.com/pyserial/pyserial-asyncio.git#egg=079fcb984626f05a4fd8dc321e401d412eaa5ead
 PyTrie==0.2
 PyYAML==3.11
 requests==2.10.0

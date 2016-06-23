@@ -8,54 +8,13 @@ import smoothie_usb_util
 import time
 # import script_keeper as sk
 
-debug = True
+debug = False
 io_debug = False
-verbose = True
+verbose = False
 
 class Smoothie(object):
     """Smoothie class 
 
-    The Smoothie class is instantiated into a smoothie object
-    to communicate with the smoothieboard. A "nested" asyncio.Protocol subclass, CB_Factory, 
-    is used with asyncio's create_connection function to create a streaming transport 
-    connection to host and port 0.0.0.0:3333, which in turn is connected to the smoothieboard
-    via pyserial. CB_Factory contains three callbacks:
-
-    - connection_made
-    - data_received
-    - connection_lost
-
-
-    CB_Factory Callbacks:
-
-    - connection_made     causes the machine to home and is not currently set to call an external 
-    callback
-
-    - data_receieved      parses data receieved into command lines and calls the smoothie_handler 
-    function for each command line and that in turn calls the on_raw_data and on_state_change external
-    callbacks
-
-    - connection_lost     is not currently set to an external callback
-
-    
-    External Callbacks:
-
-    - on_raw_data
-
-    - on_state_change
-
-    - on_limit_hit
-
-    The smoothie object also contains an index of smoothieboard commands in the form of a 
-    dictionary object called _dict, and a dictionary object called theState to hold information about the state
-    of the robot.
-
-    :todo:
-    1. Show an example coords_list in documentation (:meth:`move`)
-    2. (see also below)
-
-    :See also:
-    :download:`../../backend/OTONE_DATAFLOW.pdf`
     """
 
     _dict = {
