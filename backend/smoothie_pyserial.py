@@ -393,7 +393,7 @@ class Smoothie(object):
         1. Show an example coords_list in documentation
         """
         logging.debug('smoothie_pyserial.move called')
-        logging.debug('\ncoords_list: ',coords_list,'\n')
+        logging.debug('coords_list: {}'.format(coords_list))
         
         absolMov = True
         if isinstance(coords_list, dict):
@@ -406,9 +406,9 @@ class Smoothie(object):
             cmd = header
 
             for n, value in coords_list.items():
-                logging.debug('smoothie_pyserial:\n\tn:     ',n)
-                logging.debug('smoothie_pyserial:\n\tvalue: ',value,'\n')
-                logging.debug('smoothie_pyserial:\n\tvalue type: ', type(value),'\n')
+                logging.debug('smoothie_pyserial:\n\tn: {}'.format(n))
+                logging.debug('smoothie_pyserial:\n\tvalue: {}'.format(value))
+                logging.debug('smoothie_pyserial:\n\tvalue type: {}'.format(type(value)))
                 if n.upper()=='X' or n.upper()=='Y' or n.upper()=='Z' or n.upper()=='A' or n.upper()=='B':
                     axis = n.upper()
                     cmd = cmd + axis
@@ -436,7 +436,7 @@ class Smoothie(object):
                                 value = value + self.theState['direction'][n]
                                 self.theState['direction'][n] = 0
                     cmd = cmd + str(value)
-                    logging.debug('smoothie_pyserial:\n\tcmd: ',cmd,'\n')
+                    logging.debug('smoothie_pyserial:\n\tcmd: {}'.format(cmd))
 
 
             self.try_add(cmd)
@@ -499,7 +499,7 @@ class Smoothie(object):
         """
         #axis_dict = json.loads(axisJSON)
         logging.debug('smoothie_pyserial.home called')
-        logging.debug('\n\taxis_dict: ', axis_dict,'\n')
+        logging.debug('\n\taxis_dict: {}'.format(axis_dict))
         if axis_dict is None or len(axis_dict)==0:
             axis_dict = {'a':True, 'b':True, 'x':True, 'y':True, 'z':True}
 
