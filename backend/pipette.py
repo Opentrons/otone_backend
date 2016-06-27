@@ -1,11 +1,8 @@
 import math, collections
 
 from tool import Tool
-from file_io import FileIO
 
-
-debug = True
-verbose = True
+import logging
 
 class Pipette(Tool):
     """Representation of a pipette on the robot head
@@ -38,7 +35,7 @@ class Pipette(Tool):
         offset = the offset in space from the A tool which is defined to
             have offset = (0,0,0)
         """
-        if debug == True: FileIO.log('pipette.__init__ called')
+        logging.info('pipette.__init__ called')
         toolname = axis + '_pipette'
         super().__init__(toolname, 'pipette', axis)
 
@@ -72,7 +69,7 @@ class Pipette(Tool):
     def init_sequence(self):
         """Returns the initial pipetting sequence when running pipette command - returns plunger to resting position
         """
-        if debug == True: FileIO.log('pipette.init_sequence called')
+        logging.debug('pipette.init_sequence called')
         oneCommand = {}
         oneCommand[self.axis] = self.resting #self.bottom
 
@@ -82,7 +79,7 @@ class Pipette(Tool):
     def end_sequence(self):
         """Returns the end pipetting sequence when running pipette command - currently an empty dictionary
         """
-        if debug == True: FileIO.log('pipette.end_sequence called')
+        logging.debug('pipette.end_sequence called')
         oneCommand = {}
 
         return [oneCommand]
@@ -105,7 +102,7 @@ class Pipette(Tool):
         }
         """
 
-        if debug == True: FileIO.log('pipette.pmap called')
+        logging.debug('pipette.pmap called')
 
         temploc = collections.OrderedDict()
         should_home_axis = False
@@ -139,7 +136,7 @@ class Pipette(Tool):
                         'z' : theContainer['z']
                     }
                 else:
-                    if debug == True: FileIO.log('Cannot find container ',containerName)
+                    logging.error('Cannot find container ',containerName)
             elif n == 'speed':
                 temploc['axis'] = self.axis
                 temploc[n] = loc[n]
@@ -152,7 +149,7 @@ class Pipette(Tool):
         #this flips the coord system
         if 'container' in loc:
             if loc['container'] is not None:
-                if debug == True and verbose == True: FileIO.log('temploc:\n\n',temploc,'\n\n')
+                logging.debug('temploc:\n\n',temploc,'\n\n')
                 if 'x' in temploc and 'x' in temploc['container']:
                     if not math.isnan(temploc['x']) and not math.isnan(temploc['container']['x']):
                         # moving right from container.x
@@ -186,7 +183,7 @@ class Pipette(Tool):
             return_value.append({'home': home_command}) #if tip has been dropped
    
 #        return temploc
-        if debug == True and verbose == True: FileIO.log('return_value:\n\n',return_value,'\n')
+        logging.debug('return_value:\n\n',return_value,'\n')
         return return_value
 
 
@@ -194,9 +191,8 @@ class Pipette(Tool):
     def calibrate(self, property_, value):
         """Set a given pipette property to a value
         """
-        if debug == True:
-            FileIO.log('pipette.calibrate called')
-            if verbose == True: FileIO.log('\tproperty_: ',property_,'\n\tvalue:',value,'\n')
+        logging.debug('pipette.calibrate called')
+        logging.debug('\tproperty_: ',property_,'\n\tvalue:',value,'\n')
        #ToDo: probably need to utilize None instead of math.nan here
         if (value != None and (property_=='top' or property_=='bottom' or property_=='blowout' or property_=='droptip')):
             # if it's a top or blowout value, save it
@@ -205,12 +201,11 @@ class Pipette(Tool):
             self.tip_racks.extend(value)
             #if isinstance(value, list):
             #    self.tip_racks.extend(value)
-            if debug == True: 
-                FileIO.log('new tip-racks: ',self.tip_racks)
+            logging.debug('new tip-racks: ',self.tip_racks)
         elif (value != None and (property_=='trash_container')):
             self.trash_container = []
             self.trash_container.extend(value)
-            if debug == True: FileIO.log('new trash_container: ',self.trash_container)
+            logging.debug('new trash_container: ',self.trash_container)
 
 
     def relative_coords(self):
@@ -234,11 +229,9 @@ class Pipette(Tool):
         # The following statement needs to be verified:
         #All containers created while the robot is on, regardless of how many jobs it runs,
         #will be saved for each pipette, so that its XYZ origin is remembered until poweroff
-        if debug == True: 
-            FileIO.log('pipette.create_deck called')
-            if verbose == True:
-                FileIO.log('\ncontainerNameArray:\n', containerNameArray,'\n')
-                FileIO.log('\nBEFORE self.theContainers:\n',self.theContainers,'\n')
+        logging.debug('pipette.create_deck called')
+        logging.debug('\ncontainerNameArray:\n', containerNameArray,'\n')
+        logging.debug('\nBEFORE self.theContainers:\n',self.theContainers,'\n')
 
 
         if containerNameArray and len(containerNameArray)>0:
@@ -252,39 +245,17 @@ class Pipette(Tool):
                 if containerNameArray[i] not in list(self.theContainers.keys()):
                     self.theContainers[containerNameArray[i]] = {'x' : None,'y' : None,'z' : None, 'rel_x' : None,'rel_y' : None,'rel_z' : None}
                     
-        if debug == True and verbose == True: FileIO.log('\nAFTER self.theContainers:\n',self.theContainers,'\n')
+        logging.debug('\nAFTER self.theContainers:\n',self.theContainers,'\n')
         return self.theContainers
 
     #from pipette.js
     def calibrate_container(self, containerName, coords):
         """Set the absolute location coordinates of a given container for this pipette
         """
-        if debug == True:
-            FileIO.log('pipette.calibrate_container called')
-            if verbose == True: FileIO.log('\ncontainerName: ',containerName,',\ncoords: ',coords,'\n')
+        logging.info('pipette.calibrate_container called')
+        logging.debug('\ncontainerName: ',containerName,',\ncoords: ',coords,'\n')
         if containerName and self.theContainers[containerName] and coords:
-            #if containerName == self.tip_rack_origin and self.tip_rack_origin in self.theContainers:
-            #    FileIO.log('type(coords) = ',type(coords))
-            #    if coords['x'] is not None:
-            #        self.theContainers[containerName]['x'] = coords['x']
-            #    if coords['y'] is not None:
-            #        self.theContainers[containerName]['y'] = coords['y']
-            #    if coords['z'] is not None:
-            #        self.theContainers[containerName]['z'] = coords['z']
-
-            #    for k in self.theContainers.keys():
-            #        if self.theContainers[self.tip_rack_origin]['x'] is not None:
-            #            if self.theContainers[k]['x'] is not None:
-            #                self.theContainers[containerName]['rel_x'] = self.theContainers[containerName]['x'] - self.theContainers[self.tip_rack_origin]['x']
-            #        if self.theContainers[self.tip_rack_origin]['y'] is not None:
-            #            if self.theContainers[k]['y'] is not None:
-            #                self.theContainers[containerName]['rel_y'] = self.theContainers[containerName]['y'] - self.theContainers[self.tip_rack_origin]['y']
-            #        if self.theContainers[self.tip_rack_origin]['z'] is not None:
-            #            if self.theContainers[k]['z'] is not None:
-            #                self.theContainers[containerName]['rel_z'] = self.theContainers[containerName]['z'] - self.theContainers[self.tip_rack_origin]['z']
-
-            #else:
-            FileIO.log('type(coords) = ',type(coords))
+            logging.debug('type(coords) = ',type(coords))
             if coords['x'] is not None:
                 self.theContainers[containerName]['x'] = coords['x']
             if coords['y'] is not None:
@@ -300,21 +271,18 @@ class Pipette(Tool):
 
                 #js console.log('axis '+self.axis+ 'calibrated container '+containerName)
                 #js console.log(self.theContainers[containerName])
-            if debug == True: FileIO.log('\naxis ',self.axis, 'calibrated container ',containerName,'\n')
+            logging.debug('\naxis ',self.axis, 'calibrated container ',containerName,'\n')
 
 
     #from pipette.js
     def rel_to_abs(self, rel_val):
         """Convert a relative value between top and bottom to an absolute position for a pipette plunger operation
         """
-        if debug == True:
-            FileIO.log('pipette.rel_to_abs called')
-            if verbose == True: FileIO.log('\n\nrel_val: ',rel_val,'\n')
+        logging.debug('pipette.rel_to_abs called')
+        logging.debug('\n\nrel_val: ',rel_val,'\n')
 
         if rel_val is not None:
-            #FileIO.log('******************')
-            #FileIO.log('type(rel_val) = ',type(rel_val))
-            #FileIO.log('******************')
+
             if rel_val < 0: rel_val = 0
             if rel_val > 1: rel_val = 1
             diff = self.bottom - self.top

@@ -1,8 +1,4 @@
-from file_io import FileIO
-
-debug = True
-verbose = False
-
+import logging
 
 class Tool:
     """Tool class which could be a 1 channel pipette, 8ch pipette, grabber, etc
@@ -26,7 +22,7 @@ class Tool:
         offset = the offset in space from the A tool which is defined to
             have offset = (0,0,0)
         """
-        if debug == True: FileIO.log('tool.__init__ called')
+        logging.info('tool.__init__ called')
         self.toolname = toolname
         self.tooltype = tooltype
         self.axis = axis
@@ -47,6 +43,6 @@ class Tool:
         location = a tuple containing the offset in mm
                 of the tool relative to the A tool
         """
-        if debug == True: FileIO.log('tool.set_offset called')
+        logging.debug('tool.set_offset called')
         self.offset = offset
         return self.offset

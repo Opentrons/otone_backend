@@ -1,7 +1,4 @@
-from file_io import FileIO
-
-debug = True
-verbose = False
+import logging
 
 #converted from js dict in Planner.js into a python class
 class TheQueue:
@@ -44,7 +41,7 @@ class TheQueue:
     def __init__(self, head, publisher):
         """Initialize TheQueue object 
         """
-        if debug == True: FileIO.log('the_queue.__init__ called')
+        logging.info('the_queue.__init__ called')
         self.head = head
         self.paused = False
         self.is_busy = False
@@ -66,7 +63,7 @@ class TheQueue:
         
         .. note:: NOT ACTUALLY IMPLEMENTED YET
         """
-        if debug == True: FileIO.log('the_queue.sent_successfully called')
+        logging.debug('the_queue.sent_successfully called')
         if self.just_started and self.pubber.on_start and type(self.pubber.on_start) == 'function':
             self.pubber.on_start()
 
@@ -77,36 +74,35 @@ class TheQueue:
     def pause(self):
         """Pauses TheQueue by setting paused True
         """
-        if debug == True: FileIO.log('the_queue.pause called')
+        logging.debug('the_queue.pause called')
         if len(self.qlist):
             self.paused = True
             
     def resume(self):
         """Resumes TheQueue by setting paused False and calling :meth:`step`
         """
-        if debug == True: FileIO.log('the_queue.resume called')
+        logging.debug('the_queue.resume called')
         self.paused = False
         self.step(False)
         
     def add(self,commands):
         """Add a command to TheQueue's :obj:`qlist`
         """
-        if debug == True: 
-            FileIO.log('the_queue.add called')
-            if verbose == True: FileIO.log('\ncommands:\n',commands,'\n')
+        logging.debug('the_queue.add called')
+        logging.debug('\ncommands:\n',commands,'\n')
         if commands and self.paused==False:
             # test to see if the queue is currently empty
 #            self.just_started = False   #is this needed?
             if len(self.qlist)==0:
                 self.just_started = True
-                if debug == True and verbose == True: FileIO.log('the_queue.add:\n\tbefore self.qlist: ',self.qlist,'\n')
+                logging.debug('the_queue.add:\n\tbefore self.qlist: ',self.qlist,'\n')
             # add new commands to the end of the queue
-            if debug == True and verbose == True: FileIO.log('type(commands): '+str(type(commands)))
+            logging.debug('type(commands): '+str(type(commands)))
             if isinstance(commands, list):
                 self.qlist.extend(commands)
             elif isinstance(commands, dict):
                 self.qlist.append(commands)
-            if debug == True and verbose == True: FileIO.log('the_queue.add:\n\tafter self.qlist: ',self.qlist,'\n')
+            logging.debug('the_queue.add:\n\tafter self.qlist: ',self.qlist,'\n')
     
             self.step(self.just_started) # attempt to increment the queue
 
@@ -115,17 +111,16 @@ class TheQueue:
         """Pop a command from :obj:`qlist` and process it via smoothieAPI (:class:`smoothie_ser2net`) object in :class:`head`
 
         """
-        if debug == True: 
-            FileIO.log('the_queue.step called')
-            if verbose == True: FileIO.log('\njust_started: ',just_started,'\n')
+        logging.debug('the_queue.step called')
+        logging.debug('\njust_started: ',just_started,'\n')
         if self.is_busy==False:
-            if debug == True and verbose == True: FileIO.log('\tthe_queue len(self.qlist): ',len(self.qlist))
+            logging.debug('\tthe_queue len(self.qlist): ',len(self.qlist))
             if len(self.qlist)>0:
                 # pull out the first in line from the queue
 #                self.current_command = self.qlist.splice(0,1)[0];
                 self.current_command = self.qlist.pop(0)
                 self.is_busy = True;
-                if debug == True and verbose == True: FileIO.log('\n\n\tthe_queue.current_command:\n\n',self.current_command,'\n')
+                logging.debug('\n\n\tthe_queue.current_command:\n\n',self.current_command,'\n')
 
                 # 'wait' for someone to click a button on interface. Not there yet.
                 if 'wait' in self.current_command:
@@ -151,7 +146,7 @@ class TheQueue:
     def clear(self):
         """Clear :obj:`qlist`, :obj:`is_busy`, :obj:`paused`, and :obj:`current_command`
         """
-        if debug == True: FileIO.log('the_queue.clear called')
+        logging.debug('the_queue.clear called')
         self.qlist = list()
         self.is_busy = False
         self.paused = False
@@ -162,7 +157,7 @@ class TheQueue:
     def pause_job(self):
         """Call :meth:`pause`... redundant, consider removing
         """
-        if debug == True: FileIO.log('the_queue.pause_job called')
+        logging.debug('the_queue.pause_job called')
         #doesn't map to smoothieAPI
         #function pauseJob()
         self.pause()
@@ -171,7 +166,7 @@ class TheQueue:
     def resume_job(self):
         """Call :meth:`resume`... redundant, consider removing
         """
-        if debug == True: FileIO.log('the_queue.resume_job called')
+        logging.debug('the_queue.resume_job called')
         #doesn't map to smoothieAPI
         #function resumeJob()
         self.resume()
@@ -180,7 +175,7 @@ class TheQueue:
     def erase_job(self, data):
         """Call :meth:`clear`... redundant, consider removing, and why does it have unused data parameter???
         """
-        if debug == True: FileIO.log('the_queue.erase_job called')
+        logging.debug('the_queue.erase_job called')
         #doesn't map to smoothieAPI
         #function eraseJob(){
         self.clear() 
@@ -190,7 +185,7 @@ class TheQueue:
     def kill(self):
         """Kill :class:`head` operation and clear :obj:`qlist`
         """
-        if debug == True: FileIO.log('the_queue.kill called')
+        logging.debug('the_queue.kill called')
         self.head.kill()
         self.clear()
 
@@ -198,7 +193,7 @@ class TheQueue:
     def reset(self):
         """Tell :class:`head` to reset and clear :obj:`qlist`
         """
-        if debug == True: FileIO.log('the_queue.reset called')
+        logging.debug('the_queue.reset called')
         self.head.reset()
         self.clear()  
         

@@ -1,8 +1,6 @@
 from instruction_queue import InstructionQueue
-from file_io import FileIO
 
-debug = True
-verbose = False
+import logging
 
 class ProtocolRunner:
     """Run and manage the running protocol job
@@ -14,7 +12,7 @@ class ProtocolRunner:
     def __init__(self, head, publisher):
         """Initialize ProtocolRunner object
         """
-        if debug == True: FileIO.log('protocol_runner.__init__ called')
+        logging.info('protocol_runner.__init__ called')
         #intantiate the two queue objects
         self.insQueue = InstructionQueue(head, publisher)
 

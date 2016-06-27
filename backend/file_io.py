@@ -1,6 +1,8 @@
 import json
 import datetime, collections
 
+import logging
+
 class FileIO:
     """Provides static methods for file i/o and logging
     
@@ -24,7 +26,7 @@ class FileIO:
 #static methods
     @staticmethod
     def writeFile(filename,filetext,onError):
-        FileIO.log('file_io.writeFile called, filetext: ',filetext)
+        logging.debug('file_io.writeFile called, filetext: ',filetext)
         try:
             out_file = None
             out_file = open(filename, "w")
@@ -40,10 +42,8 @@ class FileIO:
         try:
             logfile = None
             logfile = open('otone_data/logfile.txt',"a")
-            print(tstamp, '-', "".join([str(m) for m in msg]))
-            #print(tstamp, '-', "".join([str(m) for m in msg]), file = logfile)
         except EnvironmentError as err:
-            print('Error appending log file: {0}'.format(err))
+            logging.error('Error appending log file: {0}'.format(err))
         finally:
             if logfile is not None:
                 logfile.close()
@@ -62,9 +62,9 @@ class FileIO:
             in_file = None
             in_file = open(fname,"r")   # Open the file
             prot_dict = json.load(in_file,object_pairs_hook=collections.OrderedDict)   #create dictionary from file
-            print ("FileIO: json file: '{0}' imported!".format(fname))
+            logging.debug("FileIO: json file: '{0}' imported!".format(fname))
         except EnvironmentError as err:
-            print('Error reading json file: ',err)
+            logging.error('Error reading json file: ',err)
             raise
 
         finally:

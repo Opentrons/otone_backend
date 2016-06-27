@@ -1,9 +1,7 @@
 import json, collections, subprocess, asyncio
 from autobahn.asyncio.wamp import ApplicationSessionFactory
-from file_io import FileIO
 
-debug = True
-verbose = True
+import logging
 
 class Subscriber():
     """Subscribes to messages from WAMP Router on 'com.opentrons.browser_to_robot' and dispatches commands according to the :obj:`dispatcher` dictionary.
@@ -58,7 +56,7 @@ class Subscriber():
     def __init__(self, session,loop):
         """Initialize Subscriber object
         """
-        if debug == True: FileIO.log('subscriber.__init__ called')
+        logging.info('subscriber.__init__ called')
         self.head = None
         self.deck = None
         self.runner = None
@@ -72,7 +70,7 @@ class Subscriber():
     def home(self, data):
         """Intermediate step to start a homing sequence
         """
-        if debug == True: FileIO.log('subscriber.home called')
+        logging.debug('subscriber.home called')
         self.runner.insQueue.infinity_data = None
         self.runner.insQueue.erase_job()
         self.head.home(data)
@@ -81,7 +79,7 @@ class Subscriber():
     def reset(self):
         """Intermediate step to reset Smoothieboard
         """
-        if debug == True: FileIO.log('subscriber.reset called')
+        logging.debug('subscriber.reset called')
         self.runner.insQueue.infinity_data = None
         self.head.theQueue.reset()
 
@@ -89,7 +87,7 @@ class Subscriber():
     def set_head(self, head):
         """Set reference to :class:`head` object
         """
-        if debug == True: FileIO.log('subscriber.set_head called')
+        logging.debug('subscriber.set_head called')
         self.head = head
 
 
@@ -100,36 +98,33 @@ class Subscriber():
     def set_runner(self, runner):
         """Set reference to :class:`protocol_runner` object
         """
-        if debug == True: FileIO.log('subscriber.set_runner called')
+        logging.debug('subscriber.set_runner called')
         self.runner = runner
 
 
     def dispatch_message(self, message):
         """The first point of contact for incoming messages.
         """
-        if debug == True:
-            FileIO.log('subscriber.dispatch_message called')
-            if verbose == True: FileIO.log('\nmessage: ',message,'\n')
-        #print('message type: ',type(message))
+        logging.debug('subscriber.dispatch_message called')
+        logging.debug('\nmessage: ',message,'\n')
         try:
             dictum = collections.OrderedDict(json.loads(message.strip(), object_pairs_hook=collections.OrderedDict))
-            if debug == True and verbose == True: FileIO.log('\tdictum[type]: ',dictum['type'])
+            logging.debug('\tdictum[type]: ',dictum['type'])
             if 'data' in dictum:
-                if debug == True and verbose == True: FileIO.log('\tdictum[data]:\n\n',json.dumps(dictum['data'],sort_keys=True,indent=4,separators=(',',': ')),'\n')
+                logging.debug('\tdictum[data]:\n\n',json.dumps(dictum['data'],sort_keys=True,indent=4,separators=(',',': ')),'\n')
                 self.dispatch(dictum['type'],dictum['data'])
             else:
                 self.dispatch(dictum['type'],None)
         except:
-            FileIO.log('*** error in subscriber.dispatch_message ***')
+            logging.error('*** error in subscriber.dispatch_message ***')
             raise
 
 
     def dispatch(self, type_, data):
         """Dispatch commands according to :obj:`dispatcher` dictionary
         """
-        if debug == True:
-            FileIO.log('subscriber.dispatch called')
-            if verbose == True: FileIO.log('\n\n\ttype_: ',type_,'\n\tdata:',data,'\n')
+        logging.debug('subscriber.dispatch called')
+        logging.debug('\n\n\ttype_: ',type_,'\n\tdata:',data,'\n')
         if data is not None:
             self.dispatcher[type_](self,data)
         else:
@@ -139,9 +134,8 @@ class Subscriber():
     def calibrate_pipette(self, data):
         """Tell the :head:`head` to calibrate a :class:`pipette`
         """
-        if debug == True:
-            FileIO.log('subscriber.calibrate_pipette called')
-            if verbose == True: FileIO.log('\nargs: ', data,'\n')
+        logging.debug('subscriber.calibrate_pipette called')
+        logging.debug('\nargs: ', data,'\n')
         if 'axis' in data and 'property' in data:
             axis = data['axis']
             property_ = data['property']
@@ -152,9 +146,8 @@ class Subscriber():
     def calibrate_container(self, data):
         """Tell the :class:`head` to calibrate a container
         """
-        if debug == True:
-            FileIO.log('subscriber.calibrate_container called')
-            if verbose == True: FileIO.log('\nargs: ', data,'\n')
+        logging.debug('subscriber.calibrate_container called')
+        logging.debug('\nargs: ', data,'\n')
         if 'axis' in data and 'name' in data:
             axis = data['axis']
             container_ = data['name']
@@ -163,7 +156,7 @@ class Subscriber():
 
 
     def container_depth_override(self, data):
-        FileIO.log('subscriber.container_depth_override called')
+        logging.debug('subscriber.container_depth_override called')
         container_name = data['name']
         new_depth = data['depth']
         self.deck.container_depth_override(container_name,new_depth)
@@ -172,7 +165,7 @@ class Subscriber():
     def get_calibrations(self):
         """Tell the :class:`head` to publish calibrations
         """
-        if debug == True: FileIO.log('subscriber.get_calibrations called')
+        logging.debug('subscriber.get_calibrations called')
         self.head.publish_calibrations()
 
     def get_containers(self):
@@ -181,7 +174,7 @@ class Subscriber():
     def move_pipette(self, data):
         """Tell the :class:`head` to move a :class:`pipette` 
         """
-        if debug == True: FileIO.log('subscriber.move_pipette called')
+        logging.debug('subscriber.move_pipette called')
         axis = data['axis']
         property_ = data['property']
         self.head.move_pipette(axis, property_)
@@ -190,18 +183,16 @@ class Subscriber():
     def move_plunger(self, data):
         """Tell the :class:`head` to move a :class:`pipette` to given location(s)
         """
-        if debug == True:
-            FileIO.log('subscriber.move_plunger called')
-            if verbose == True: FileIO.log('\ndata:\n\t',data,'\n')
+        logging.debug('subscriber.move_plunger called')
+        logging.debug('\ndata:\n\t',data,'\n')
         self.head.move_plunger(data['axis'], data['locations'])
 
 
     def speed(self, data):
         """Tell the :class:`head` to change speed
         """
-        if debug == True:
-            FileIO.log('subscriber.speed called')
-            if verbose == True: FileIO.log('\ndata:\n\t',data,'\n')
+        logging.debug('subscriber.speed called')
+        logging.debug('\ndata:\n\t',data,'\n')
         axis = data['axis']
         value = data['value']
         if axis=='ab':
@@ -217,37 +208,34 @@ class Subscriber():
         :todo:
         move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
         """
-        if debug == True:
-            FileIO.log('subscriber.create_deck called')
-            if verbose == True: FileIO.log('\targs: ', data,'\n')
+        logging.debug('subscriber.create_deck called')
+        logging.debug('\targs: ', data,'\n')
         msg = {
             'type' : 'containerLocations',
             'data' : self.head.create_deck(data)
         }
-        if debug == True and verbose == True: FileIO.log('pre-call self.caller._myAppSession.publish() ',json.dumps(msg,sort_keys=True,indent=4,separators=(',',': ')),'\n')
+        logging.debug('pre-call self.caller._myAppSession.publish() ',json.dumps(msg,sort_keys=True,indent=4,separators=(',',': ')),'\n')
         self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg,sort_keys=True,indent=4,separators=(',',': ')))
 
 
     def configure_head(self, data):
-        if debug == True:
-            FileIO.log('subscriber.configure_head called')
-            if verbose == True: FileIO.log('\targs: ', data,'\n')
+        logging.debug('subscriber.configure_head called')
+        logging.debug('\targs: ', data,'\n')
         self.head.configure_head(data)
 
 
     def instructions(self, data):
         """Intermediate step to have :class:`prtocol_runner` and :class:`the_queue` start running a protocol
         """
-        if debug == True:
-            FileIO.log('subscriber.instructions called')
-            if verbose == True: FileIO.log('\targs: ', data,'\n')
+        logging.debug('subscriber.instructions called')
+        logging.debug('\targs: ', data,'\n')
         if data and len(data):
             self.runner.insQueue.start_job (data, True)
 
     def infinity(self, data):
         """Intermediate step to have :class:`protocol_runner` and :class:`the_queue` run a protocol to infinity and beyond
         """
-        if debug == True: FileIO.log('subscriber.infinity called')
+        logging.debug('subscriber.infinity called')
         if data and len(data):
             self.runner.insQueue.start_infinity_job (data)
 

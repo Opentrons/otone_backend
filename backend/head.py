@@ -6,9 +6,7 @@ from the_queue import TheQueue
 from file_io import FileIO
 from pipette import Pipette
 
-
-debug = True
-verbose = True
+import logging
 
 class Head:
     """A representation of the robot head
@@ -28,7 +26,7 @@ class Head:
         tools = dictionary of the tools on the head
         
         """
-        if debug == True: FileIO.log('head.__init__ called')
+        logging.info('head.__init__ called')
         self.smoothieAPI = openSmoothie.Smoothie(self)
         self.PIPETTES = {'a':Pipette('a'),'b':Pipette('b')}    #need to create this dict in head setup
         self.tools = tools
@@ -74,7 +72,7 @@ class Head:
         :todo:
         :obj:`theState` should be updated BEFORE the actions taken from given state
         """
-        if debug == True: FileIO.log('head.on_state_change called')
+        logging.debug('head.on_state_change called')
         
         if state['stat'] == 1 or state['delaying'] == 1:
             self.theQueue.is_busy = True
@@ -86,7 +84,7 @@ class Head:
                 self.theQueue.step(False)
     
         self.theState = state
-        if debug == True and verbose == True: FileIO.log('\n\n\tHead state:\n\n',self.theState,'\n')
+        logging.debug('\n\n\tHead state:\n\n',self.theState,'\n')
 
 
 #local functions---------------
@@ -96,7 +94,7 @@ class Head:
         :returns: (tool_type, axis)
         :rtype: tuple
         """
-        if debug == True: FileIO.log('head.get_tool_info called')
+        logging.debug('head.get_tool_info called')
         tool_type = head_tool['tool']
         axis = head_tool['axis']
         
@@ -143,9 +141,8 @@ class Head:
                 "volume" : 800
             }
         """
-        if debug == True: 
-            FileIO.log('head.configure_head called')
-            if verbose == True: FileIO.log('\targs: ',head_data,'\n')
+        logging.debug('head.configure_head called')
+        logging.debug('\targs: ',head_data,'\n')
         #delete any previous tools in head
         del self.tools
         self.tools = []
@@ -156,7 +153,6 @@ class Head:
             hd = head_data[key]
             #get the tool type to know what kind of tool to instantiate
             tool_type = self.get_tool_type(hd)  #tuple (toolType, axis)
-            print('tool_type...'+tool_type[0])
             if tool_type[0] == 'pipette':
                 #newtool = Pipette(hd['axis'])
                 #pass
@@ -191,26 +187,9 @@ class Head:
             else:
                 #ToDo - add error handling here
                 pass
-            
-            #add tool to the tools list
-            #self.tools.append(newtool)
-
-
-
-
         
 
-        #fill the PIPETTES object with tools of the tool type 'pipette'
-        #for tool in self.tools:
-        #    print('from line 545 in head: ',tool,type(tool))
-        #    if tool.tooltype == 'pipette':
-        #        print('tooltype called')
-        #        axis = tool.axis
-        #        if 'tip-racks' in tool:
-        #            self.PIPETTES[axis].calibrate('tip_racks',head_data[key]['tip-racks'])
-        #        self.PIPETTES[axis] = Pipette(axis)
-        #        if 'tip-racks' in tool:
-        #            self.PIPETTES[axis].calibrate('tip_racks',head_data['tip-racks'])
+
 
         self.save_pipette_values()
         self.publish_calibrations()
@@ -234,7 +213,7 @@ class Head:
         :todo:
         Is :meth:`create_pipettes` even needed?
         """
-        if debug == True: FileIO.log('head.create_pipettes called')
+        logging.debug('head.create_pipettes called')
         thePipettes = {}
         if len(axis):
             for a in axis:
@@ -252,9 +231,7 @@ class Head:
         """Home robot according to axis_dict
         """
         #maps to smoothieAPI.home()
-        #print('{} msg received in head, calling home on smoothie'.format(axis_dict))
-        if debug == True:
-            FileIO.log('head.home called, args: ',axis_dict)
+        logging.debug('head.home called, args: ',axis_dict)
         
         self.smoothieAPI.home(axis_dict)
         
@@ -263,7 +240,7 @@ class Head:
     def raw(self, string):
         """Send a raw command to the Smoothieboard
         """
-        if debug == True: FileIO.log('head.raw called')
+        logging.debug('head.raw called')
         #maps to smoothieAPI.raw()
         #function raw(string)
         self.smoothieAPI.raw(string)
@@ -273,9 +250,8 @@ class Head:
     def kill(self):
         """Halt the Smoothieboard (M112) and clear the the object (:class:`the_queue`)
         """
-        if debug == True: FileIO.log('head.kill called')
+        logging.debug('head.kill called')
         #maps to smoothieAPI.halt() with extra code
-#        print('{} msg received in head, calling halt on smoothie'.format(data))
         self.smoothieAPI.halt()
         self.theQueue.clear();
 
@@ -283,7 +259,7 @@ class Head:
     def reset(self):
         """Reset the Smoothieboard and clear theQueue object (:class:`the_queue`)
         """
-        if debug == True: FileIO.log('head.reset called')
+        logging.debug('head.reset called')
         #maps to smoothieAPI.reset() with extra code
         self.smoothieAPI.reset()
         self.theQueue.clear();
@@ -293,7 +269,7 @@ class Head:
     def get_state(self):
         """Get state information from Smoothieboard
         """
-        if debug == True: FileIO.log('head.get_state called')
+        logging.debug('head.get_state called')
         #maps to smoothieAPI.get_state()
         #function get_state ()
         return self.smoothieAPI.get_state()
@@ -303,7 +279,7 @@ class Head:
     def set_speed(self, axis, value):
         """Set the speed for given axis to given value
         """
-        if debug == True: FileIO.log('head.set_speed called')
+        logging.debug('head.set_speed called')
         
         #maps to smoothieAPI.set_speed()
         #function setSpeed(axis, value, callback)
@@ -330,10 +306,9 @@ class Head:
         }
 
         """
-        if debug == True: FileIO.log('head.move called')
+        logging.debug('head.move called')
         if locations:
-            if debug == True and verbose == True:
-                FileIO.log('locations:\n',locations)
+            logging.debug('locations:\n',locations)
             self.theQueue.add(locations)
         
     #from planner.js
@@ -353,13 +328,11 @@ class Head:
         'b' : 32
         }
         """
-        if debug == True:
-            FileIO.log('head.step called')
-            if verbose == True: 
-                FileIO.log('\tlocations:\n\n',locations,'\n')
-                # only step with the UI if the queue is currently empty
-                FileIO.log('head:\n\tlen(self.theQueue.qlist): ',len(self.theQueue.qlist),'\n')
-                FileIO.log('head:\n\tself.theQueue.is_busy?: ',self.theQueue.is_busy,'\n')
+        logging.debug('head.step called')
+        logging.debug('\tlocations:\n\n',locations,'\n')
+        # only step with the UI if the queue is currently empty
+        logging.debug('head:\n\tlen(self.theQueue.qlist): ',len(self.theQueue.qlist),'\n')
+        logging.debug('head:\n\tself.theQueue.is_busy?: ',self.theQueue.is_busy,'\n')
         if len(self.theQueue.qlist)==0: # and self.theQueue.is_busy==False:
 
             if locations is not None:
@@ -399,7 +372,7 @@ class Head:
         (180 degree rotation around X axis, ie Z and Y +/- flipped)
         
         """
-        if debug == True: FileIO.log('head.pipette called')
+        logging.debug('head.pipette called')
         if group and 'axis' in group and group['axis'] in self.PIPETTES and 'locations' in group and len(group['locations'])>0:
     
             this_axis = group['axis']  
@@ -408,9 +381,8 @@ class Head:
             # the array of move commands we are about to build from each location
             # starting with this pipette's initializing move commands
             move_commands = current_pipette.init_sequence()
-            if debug == True and verbose == True:
-                FileIO.log('\nhead.pipette\n\tcurrent_pipette.init_sequence():\n\n',current_pipette.init_sequence(),'\n')
-                FileIO.log('\nhead.pipette\n\tmove_commands:\n\n',move_commands,'\n')
+            logging.debug('\nhead.pipette\n\tcurrent_pipette.init_sequence():\n\n',current_pipette.init_sequence(),'\n')
+            logging.debug('\nhead.pipette\n\tmove_commands:\n\n',move_commands,'\n')
     
             # loop through each location
             # using each pipette's calibrations to test and convert to absolute coordinates
@@ -419,7 +391,7 @@ class Head:
                 thisLocation = group['locations'][i]  
     
                 # convert to absolute coordinates for the specifed pipette axis
-                if debug == True: FileIO.log('head.pipette:\n\tlocation: ',thisLocation,'\n')
+                logging.debug('head.pipette:\n\tlocation: ',thisLocation,'\n')
                 absCoords = current_pipette.pmap(thisLocation)  
     
                 # add the absolute coordinates we just made to our final array
@@ -435,7 +407,7 @@ class Head:
         """Sets the value of a property for given pipette by fetching state information 
         from smoothieboard(:meth:`smoothie_pyserial.get_state`)
         """
-        if debug == True: FileIO.log('head.calibrate_pipette called')
+        logging.debug('head.calibrate_pipette called')
         #maps to smoothieAPI.get_state() with extra code
         if pipette and self.PIPETTES[pipette]: 
             state = self.smoothieAPI.get_state()
@@ -448,7 +420,7 @@ class Head:
     def calibrate_container(self, pipette, container):   
         """Set the location of a container
         """
-        if debug == True: FileIO.log('head.calibrate_container called')
+        logging.debug('head.calibrate_container called')
         if pipette and self.PIPETTES[pipette]:     
             state = self.smoothieAPI.get_state()
             self.PIPETTES[pipette].calibrate_container(container,state)
@@ -457,7 +429,7 @@ class Head:
     def save_volume(self, data):
         """Save pipette volume to otone_data/pipette_values.json
         """
-        if debug == True: FileIO.log('head.save_volume called')
+        logging.debug('head.save_volume called')
         if(self.PIPETTES[data.axis] and data.volume is not None and data.volume > 0):
             self.PIPETTES[data.axis].volume = data.volume
             
@@ -468,7 +440,7 @@ class Head:
     def save_pipette_values(self):
         """Save pipette values to otone_data/pipette_values.json
         """
-        if debug == True: FileIO.log('head.save_pipette_values called')
+        logging.debug('head.save_pipette_values called')
         pipette_values = {}
 
         for axis in self.PIPETTES:
@@ -485,7 +457,7 @@ class Head:
             #  'theContainers'
 
         filetext = json.dumps(pipette_values,sort_keys=True,indent=4,separators=(',',': '))
-        if debug == True: FileIO.log('filetext: ', filetext)
+        logging.debug('filetext: ', filetext)
         
         filename = os.path.join(self.dir_path,'otone_data/pipette_calibrations.json')
 
@@ -499,9 +471,10 @@ class Head:
     def load_pipette_values(self):
         """Load pipette values from data/pipette_calibrations.json
         """
-        if debug == True: FileIO.log('head.load_pipette_values called')
+        logging.debug('head.load_pipette_values called')
         old_values = FileIO.get_dict_from_json(os.path.join(self.dir_path,'otone_data/pipette_calibrations.json'))
-        if debug == True: FileIO.log('old_values:\n',old_values,'\n')
+        logging.debug('old_values:\n')
+        logging.debug(old_values)
         
         if self.PIPETTES is not None and len(self.PIPETTES) > 0:
             for axis in old_values:
@@ -518,9 +491,10 @@ class Head:
                     #  'volume'
                     #  'theContainers'
             
-            if debug == True: FileIO.log('self.PIPETTES[',axis,']:\n\n',self.PIPETTES[axis],'\n')
+            logging.debug('self.PIPETTES[{}]:\n\n'.format(axis))
+            logging.debug(self.PIPETTES[axis])
         else:
-            if debug == True: FileIO.log('head.load_pipette_values: No pipettes defined in PIPETTES')
+            logging.debug('head.load_pipette_values: No pipettes defined in PIPETTES')
             
     #from planner.js
     # an array of new container names to be stored in each pipette
@@ -534,10 +508,8 @@ class Head:
         :rtype: dictionary
         
         """
-        if debug == True: 
-            FileIO.log('head.create_deck called')
-            if verbose == True:
-                FileIO.log('\tnewDeck:\n\n', new_deck,'\n')
+        logging.debug('head.create_deck called')
+        logging.debug('\tnewDeck:\n\n', new_deck,'\n')
         
         #doesn't map to smoothieAPI
         nameArray = []  
@@ -563,18 +535,18 @@ class Head:
         :rtype: dictionary
         
         """
-        if debug == True: FileIO.log('head.get_deck called')
+        logging.debug('head.get_deck called')
         response = {}
         for axis in self.PIPETTES:
             response[axis] = {}
-            if debug == True: FileIO.log('self.PIPETTES[',axis,'].theContainers:\n\n',self.PIPETTES[axis].theContainers)
+            logging.debug('self.PIPETTES[',axis,'].theContainers:\n\n',self.PIPETTES[axis].theContainers)
             for name in self.PIPETTES[axis].theContainers:
-                if debug == True: FileIO.log('self.PIPETTES[',axis,'].theContainers[',name,']:\n\n',self.PIPETTES[axis].theContainers[name])
+                logging.debug('self.PIPETTES[',axis,'].theContainers[',name,']:\n\n',self.PIPETTES[axis].theContainers[name])
                 response[axis][name] = self.PIPETTES[axis].theContainers[name]
   
         self.save_pipette_values()
 
-        if debug == True: FileIO.log('head.get_deck response:\n\n',response)
+        logging.debug('head.get_deck response:\n\n',response)
         return response
 
 
@@ -585,7 +557,7 @@ class Head:
         :rtype: dictionary
         
         """
-        if debug == True: FileIO.log('head.get_pipettes called')
+        logging.debug('head.get_pipettes called')
         response = {}
 
         for axis in self.PIPETTES:
@@ -600,7 +572,7 @@ class Head:
             #  'droptip'
             #  'volume'
         
-        if debug == True: FileIO.log('head.get_pipettes response:\n\n',response);
+        logging.debug('head.get_pipettes response:\n\n',response);
         return response
 
     #from planner.js
@@ -611,17 +583,14 @@ class Head:
         """
         #doesn't map to smoothieAPI
         #function movePipette (axis, property)
-        if debug == True: 
-            FileIO.log('head.move_pipette called')
-            if verbose == True:
-                FileIO.log('\n\taxis: ',axis,'\n\tproperty_: ',property_,'\n')
-                FileIO.log('head:\n\tself.PIPETTES[axis].__dict__[',property_,'] = ',self.PIPETTES[axis].__dict__[property_],'\n')
+        logging.debug('head.move_pipette called')
+        logging.debug('\n\taxis: ',axis,'\n\tproperty_: ',property_,'\n')
+        logging.debug('head:\n\tself.PIPETTES[axis].__dict__[',property_,'] = ',self.PIPETTES[axis].__dict__[property_],'\n')
         if self.PIPETTES[axis] and property_ in self.PIPETTES[axis].__dict__:
             moveCommand = {}
             moveCommand[axis] = self.PIPETTES[axis].__dict__[property_]
-            if debug == True and verbose == True:
-                FileIO.log('\nmoveCommand = ',moveCommand)
-                FileIO.log(moveCommand)
+            logging.debug('\nmoveCommand = ',moveCommand)
+            logging.debug(moveCommand)
             self.move(moveCommand)
             
     
@@ -637,10 +606,8 @@ class Head:
 
         """
 
-        if debug == True:
-            FileIO.log('head.move_plunger called')
-            if verbose == True:
-                FileIO.log('\n\tlocations:\n\n',locations,'\n')
+        logging.debug('head.move_plunger called')
+        logging.debug('\n\tlocations:\n\n',locations,'\n')
 
         if(self.PIPETTES[axis]):
             for i in range(len(locations)):
@@ -651,14 +618,14 @@ class Head:
     def erase_job(self):
         """Tell theQueue to clear
         """
-        if debug == True: FileIO.log('head.erase_job called')
+        logging.debug('head.erase_job called')
         self.theQueue.clear()
 
 
     def publish_calibrations(self):
         """Publish calibrations data
         """
-        if debug == True: FileIO.log('head.publish_calibrations called')
+        logging.debug('head.publish_calibrations called')
         self.pubber.send_message('containerLocations',self.get_deck())
         self.pubber.send_message('pipetteValues',self.get_pipettes())
         

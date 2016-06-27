@@ -1,7 +1,4 @@
-from file_io import FileIO
-
-debug = True
-verbose = False
+import logging
 
 class Ingredients:
     """Hold information about the liquid sources
@@ -15,7 +12,8 @@ class Ingredients:
     def __init__(self, ingredients):
         """Initialize Ingredients object
         """
-        if debug == True: FileIO.log('ingredients.__init__ called')
+
+        logging.debug('ingredients.__init__ called')
         self.ingredientDict = ingredients
         
         
@@ -36,7 +34,7 @@ class Ingredients:
          "wine": [{"container": "source-bucket","location": "A2","volume": 25000}]
         }
         """
-        if debug == True: FileIO.log('ingredients.configure_ingredients called')
+        logging.debug('ingredients.configure_ingredients called')
         #delete any previous ingredients
         if self.ingredientDict:
             del self.ingredientDict
