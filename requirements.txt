@@ -1,3 +1,6 @@
+git+https://github.com/OpenTrons/autobahn-python.git#egg=autobahn-python
+git+https://github.com/pyserial/pyserial-asyncio.git#egg=079fcb984626f05a4fd8dc321e401d412eaa5ead
+
 argh==0.26.2
 attrs==16.0.0
 cbor==1.0.0
@@ -38,5 +41,3 @@ zope.interface==4.2.0
 
 
 # Custom commits/branches
-git+https://github.com/OpenTrons/autobahn-python.git#egg=autobahn-python
-git+https://github.com/pyserial/pyserial-asyncio.git#egg=079fcb984626f05a4fd8dc321e401d412eaa5ead
