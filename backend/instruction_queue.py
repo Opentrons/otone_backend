@@ -48,11 +48,11 @@ class InstructionQueue:
         """Start the ProtocolRunner job with a givein list of instructions
         """
         logging.info('instruction_queue.start_job called')
-        logging.debug('\ninstructions:\n\n',instructions,'\n')
+        logging.debug('instructions: {}'.format(instructions))
         if instructions and len(instructions):
             self.head.erase_job()
             self.instructionArray = instructions
-            logging.debug('instruction_queue:\n\tnew instructions:\n\n',self.instructionArray,'\n')
+            logging.debug('instruction_queue: new instructions: {}'.format(self.instructionArray))
 
             if self.infinity_data is None or should_home == True:
                 self.head.home({'x':True,'y':True,'z':True,'a':True,'b':True})
@@ -103,8 +103,8 @@ class InstructionQueue:
     def ins_step(self):
         """Increment to the next instruction in the :obj:`instructionArray`
         """
-        logging.debug('instruction_queue.ins_step called,\nlen(self.instructionArray): ',len(self.instructionArray),'\n')
-        logging.debug('instruction_queue self.instructionArray:\n\n',self.instructionArray,'\n')
+        logging.debug('instruction_queue.ins_step called, len(self.instructionArray): {}'.format(len(self.instructionArray)))
+        logging.debug('instruction_queue self.instructionArray: {}'.format(self.instructionArray))
         if len(self.instructionArray)>0:
             #pop the first item in the instructionArray list
             #this_instruction = self.instructionArray.splice(0,1)[0]
@@ -126,7 +126,7 @@ class InstructionQueue:
         """Execute groups (:meth:`head.pipette`) from the given instruction list one by one
         """
         logging.debug('instruction_queue.send_instruction called')
-        logging.debug('\n\tinstruction:\n\n', json.dumps(instruction,sort_keys=True,indent=4,separators=(',',': ')),'\n')
+        logging.debug('instruction: {0}'.format(json.dumps(instruction,sort_keys=True,indent=4,separators=(',',': '))))
         if 'groups' in instruction and len(instruction['groups']):
             for m in instruction['groups']:
                 this_group = m
