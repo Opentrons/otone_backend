@@ -579,7 +579,7 @@ class Smoothie(object):
         """Set the speed for a given axis
         """
         logging.debug('smoothie_pyserial.set_speed called')
-        logging.debug('\n\taxis: ',axis,'\n\tvalue: ',value)
+        logging.debug('axis: {0}, value: {1}'.format(axis,value))
 
         if isinstance(value,(int, float, complex)) or isinstance(value, str):
             if axis=='xyz' or axis=='a' or axis == 'b' or axis == 'c':
@@ -656,7 +656,7 @@ class Smoothie(object):
         """Calls an external callback for when theState changes
         """
         logging.debug('smoothie_pyserial.on_state_change called')
-        logging.debug('\n\n\tstate:\n\n',state,'\n')
+        logging.debug('state: {}'.format(state))
         if hasattr(self.outer,'on_state_change'):
             try:
                 self.outer.on_state_change(state)

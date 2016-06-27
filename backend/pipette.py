@@ -136,7 +136,7 @@ class Pipette(Tool):
                         'z' : theContainer['z']
                     }
                 else:
-                    logging.error('Cannot find container ',containerName)
+                    logging.error('Cannot find container: {}'.format(containerName))
             elif n == 'speed':
                 temploc['axis'] = self.axis
                 temploc[n] = loc[n]
