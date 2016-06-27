@@ -37,9 +37,6 @@ from ingredients import Ingredients
 
 from protocol_runner import ProtocolRunner
 
-import script_keeper as sk
-from script_keeper import ScriptKeeper
-
 
 debug = True
 verbose = False
@@ -65,15 +62,9 @@ dir_par_par_path = os.path.dirname(dir_par_path)
 fname_default_protocol = os.path.join(dir_path,'data/sample_user_protocol.json')
 fname_default_containers = os.path.join(dir_path, 'data/containers.json')
 fname_default_calibrations = os.path.join(dir_path, 'data/pipette_calibrations.json')
-fname_data = os.path.join(dir_par_par_path,'otone_data')
-fname_data_containers = os.path.join(dir_par_par_path,'otone_data/containers.json')
-fname_data_calibrations = os.path.join(dir_par_par_path, 'otone_data/pipette_calibrations.json')
-print('dir_path: ', dir_path)
-print('dir_par_path: ', dir_par_path)
-print('dir_par_part_path: ', dir_par_par_path)
-print('fname_data: ', fname_data)
-print('fname_default_containers: ', fname_default_containers)
-print('fname_data_containers: ', fname_data_containers)
+fname_data = os.path.join(dir_path,'otone_data')
+fname_data_containers = os.path.join(dir_path,'otone_data/containers.json')
+fname_data_calibrations = os.path.join(dir_path, 'otone_data/pipette_calibrations.json')
 
 
 if not os.path.isdir(fname_data):
@@ -183,7 +174,6 @@ def instantiate_objects():
 
 
     #instantiate the script keeper (sk)
-    the_sk = ScriptKeeper(publisher)
 
 
     #instantiate the deck
@@ -231,9 +221,6 @@ def instantiate_objects():
         while True:
             if debug == True and verbose == True: FileIO.log('periodically_send_ip_addresses again...')
             yield from asyncio.sleep(2)
-            stuff = yield from sk.per_data()
-            session_factory._myAppSession.publish('com.opentrons.robot_to_browser_ctrl',json.dumps(stuff,sort_keys=True,indent=4,separators=(',',': ')))
-
 
     asyncio.Task(periodically_send_ip_addresses())
 
@@ -247,9 +234,7 @@ try:
     url = "ws://127.0.0.1:8080/ws"
     transport_factory = websocket \
             .WampWebSocketClientFactory(session_factory,
-                                        url=url,
-                                        debug=False,
-                                        debug_wamp=False)
+                                        url=url)
     loop = asyncio.get_event_loop()
 
     subscriber = Subscriber(session_factory, loop)

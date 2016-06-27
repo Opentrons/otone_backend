@@ -1,7 +1,6 @@
 import json, collections, subprocess, asyncio
 from autobahn.asyncio.wamp import ApplicationSessionFactory
 from file_io import FileIO
-import script_keeper as sk
 
 debug = True
 verbose = True
@@ -251,111 +250,6 @@ class Subscriber():
         if debug == True: FileIO.log('subscriber.infinity called')
         if data and len(data):
             self.runner.insQueue.start_infinity_job (data)
-
-
-    def wifi_mode(self, data):
-        """Intermediate step to have :class:`script_keeper` run shell scripts to change WiFi mode
-        """
-        if debug == True: FileIO.log('subscriber.wifi_mode called')
-        sk.change_wifi_mode(data)
-
-
-    def wifi_scan(self, data):
-        """Intermediate step to have :class:`script_keeper` run scripts to scan WiFi networks
-        """
-        if debug == True: FileIO.log('subscriber.wifi_mode called')
-        ws = collections.OrderedDict(sk.wifi_scan(data))
-        self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(ws,sort_keys=True,indent=4,separators=(',',': ')))
-
-
-    def change_hostname(self, data):
-        """Intermediate step to have :class:`script_keeper` run shell scripts to change Raspberry Pi hostname
-        """
-        if debug == True: FileIO.log('subscriber.change_hostname called')
-        sk.change_hostname(data)
-
-
-    def poweroff(self):
-        """Intermediate step to have :class:`script_keeper` poweroff Raspberry Pi
-        """
-        if debug == True: FileIO.log('subscriber.poweroff called')
-        sk.poweroff()
-
-
-    def reboot(self):
-        """Intermediate step to have :class:`script_keeper` reboot Raspberry Pi
-        """
-        if debug == True: FileIO.log('subscriber.reboot called')
-        sk.reboot()
-
-
-    def restart(self):
-        """Intermediate step to have :class:`script_keeper` restart Crossbar.io and Python Code
-        """
-        if debug == True: FileIO.log('subscriber.restart called')
-        sk.restart()
-
-
-    @asyncio.coroutine
-    def update(self, data):
-        """Intermediate step to have :class:`script_keeper` run update shell scripts
-        """
-        if debug == True: FileIO.log('subscriber.update called')
-        if data == "all":
-            #fut = self.loop.create_task(sk.cool_update('data',total=61))
-            #try:
-            #    yield from asyncio.wait_for(fut,60)
-            #except asyncio.TimeoutError:
-            #    failure_string = '!ot!update!failure!msg:'+data+'update timed out'
-            #    sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('otone_scripts',start=12,total=72))
-            try:
-                yield from asyncio.wait_for(fut,60)
-            except asyncio.TimeoutError:
-                failure_string = '!ot!update!failure!msg:'+data+'update timed out'
-                sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('otone_backend',start=24,total=72))
-            try:
-                yield from asyncio.wait_for(fut,60)
-            except asyncio.TimeoutError:
-                failure_string = '!ot!update!failure!msg:'+data+'update timed out'
-                sk.read_progress(failure_string)
-            #fut = self.loop.create_task(sk.cool_update('central',start=36,total=72))
-            #try:
-            #    yield from asyncio.wait_for(fut,60)
-            #except asyncio.TimeoutError:
-            #    failure_string = '!ot!update!failure!msg:'+data+'update timed out'
-            #    sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('otone_frontend',start=48,total=72))
-            try:
-                yield from asyncio.wait_for(fut,60)
-            except asyncio.TimeoutError:
-                failure_string = '!ot!update!failure!msg:'+data+'update timed out'
-                sk.read_progress(failure_string)
-            fut = self.loop.create_task(sk.cool_update('otone_firmware',start=60,total=72))
-            try:
-                yield from asyncio.wait_for(fut,60)
-            except asyncio.TimeoutError:
-                failure_string = '!ot!update!failure!msg:'+data+'update timed out'
-                sk.read_progress(failure_string)
-            if sk.updated == True:
-                subprocess.call(['sudo','reboot'])
-        else:
-            fut = self.loop.create_task(sk.cool_update(data,action='START'))
-            try:
-                yield from asyncio.wait_for(fut,60)
-            except asyncio.TimeoutError:
-                failure_string = '!ot!update!failure!msg:'+data+'update timed out'
-                sk.read_progress(failure_string)
-        #sk.update(data)
-
-    @asyncio.coroutine
-    def share_inet(self):
-        """Intermediate step to have :class:`script_keeper` run a script to have Raspberry Pi ethernet interface obtain an ip address
-        """
-        if debug == True: FileIO.log('subscriber.share_inet called')
-        FileIO.log('subscriber.share_inet called')
-        yield from sk.share_inet()
 
 
     #instantiate/activate the dispatcher/router dictionary

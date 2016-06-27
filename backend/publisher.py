@@ -47,39 +47,20 @@ class Publisher:
         """Publish that Smoothieboard is connected
         """
         if debug == True: FileIO.log('publisher.on_smoothie_connect called')
-        self.send_message('status',{'string':'Connected to the Smoothieboard','color':'green'})
-        #msg = {
-        #    'type': 'status',
-        #    'data':{'string':'Connected to the Smoothieboard','color':'green'}
-        #}
-        #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
+        self.send_message('status',{'string':'Connected to the Smoothieboard','color':'rgb(27,225,100)'})
 
     def on_smoothie_disconnect(self):
         """Publish that Smoothieboard is disconnected and try to reconnect
         """
         if debug == True: FileIO.log('publisher.on_smoothie_disconnect called')
         self.send_message('status',{'string':'Smoothieboard Disconnected','color':'red'})
-        #msg = {
-        #    'type': 'status',
-        #    'data':{'string':'Smoothieboard Disconnected','color':'red'}
-        #}
-        #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        #try to reconnect
-        self.head.smoothieAPI.connect()#self.onSmoothieConnect, self.onSmoothieDisconnect)
+        self.head.theQueue.is_busy = False
         
-#Event handlers-----------------
-    #originally in app.js
     
     def on_start(self):  #called from planner/theQueue
         """Publish that theQueue started a command
         """
         if debug == True: FileIO.log('publisher.on_start called')
-        self.send_message('status',{'string':'Robot is moving','color':'orange'})
-        #msg = {
-        #    'type': 'status',
-        #    'data':{'string':'Robot is moving','color':'orange'}
-        #}
-        #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
 
 
     def on_raw_data(self,string):     #called from smoothie/createSerialConnection
@@ -88,14 +69,6 @@ class Publisher:
         """
         if debug == True and verbose == True: FileIO.log('publisher.on_raw_data called')
         self.send_message('smoothie',{'string':string})
-        #msg = {
-        #    'type': 'smoothie',
-        #    'data':{'string':string}
-        #}
-        #try:
-        #    self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        #except:
-        #    FileIO.log("error trying to publish in onRawData")
 
 
     def on_position_data(self,string):
@@ -111,25 +84,12 @@ class Publisher:
         """
         if debug == True: FileIO.log('publisher.on_limit_hit called')
         self.send_message('limit',axis)
-        #msg = {
-        #    'type': 'limit',
-        #    'data': axis
-        #}
-        #try:
-        #    self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        #except:
-        #    FileIO.log("error trying to publish in onRawData")
         
     def on_finish(self):     #called from planner/theQueue
         """Publish status and move on to next instruction step
         """
         if debug == True: FileIO.log('publisher.on_finish called')
-        self.send_message('status',{'string':'Robot stopped','color':'black'})
-        #msg = {
-        #    'type': 'status',
-        #    'data':{'string':'Robot stopped','color':'black'}
-        #}
-        #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
+
         try:
             self.runner.insQueue.ins_step() #changed name 
         except AttributeError as ae:
@@ -146,10 +106,6 @@ class Publisher:
         """
         if debug == True: FileIO.log('publisher.finished called')
         self.send_message('finished',None)
-        #msg = {
-        #    'type':'finished'
-        #}
-        #self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
 
     def send_message(self,type_,damsg):
         """Send a message
