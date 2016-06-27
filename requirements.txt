@@ -3,7 +3,6 @@ attrs==16.0.0
 cbor==1.0.0
 cffi==1.6.0
 click==6.6
-crossbar==0.14.0
 cryptography==1.4
 idna==2.1
 Jinja2==2.8
