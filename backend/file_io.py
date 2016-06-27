@@ -26,7 +26,7 @@ class FileIO:
 #static methods
     @staticmethod
     def writeFile(filename,filetext,onError):
-        logging.debug('file_io.writeFile called, filetext: ',filetext)
+        logging.debug('file_io.writeFile called, filetext: {}'.format(filetext))
         try:
             out_file = None
             out_file = open(filename, "w")

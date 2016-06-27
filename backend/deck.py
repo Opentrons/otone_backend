@@ -107,5 +107,5 @@ class Deck:
                 self.save_containers(containers)
                 self.publish_containers()
             else:
-                logging.error('error in deck.container_depth_override, locations not in containers-->',container_name)
+                logging.error('error in deck.container_depth_override, locations not in containers--> {}'.format(container_name))
 
