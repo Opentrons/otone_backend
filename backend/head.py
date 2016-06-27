@@ -142,7 +142,7 @@ class Head:
             }
         """
         logging.debug('head.configure_head called')
-        logging.debug('\targs: ',head_data,'\n')
+        logging.debug('\targs: {}'.format(head_data))
         #delete any previous tools in head
         del self.tools
         self.tools = []
@@ -231,7 +231,7 @@ class Head:
         """Home robot according to axis_dict
         """
         #maps to smoothieAPI.home()
-        logging.debug('head.home called, args: ',axis_dict)
+        logging.debug('head.home called, args: {}'.format(axis_dict))
         
         self.smoothieAPI.home(axis_dict)
         
@@ -308,7 +308,7 @@ class Head:
         """
         logging.debug('head.move called')
         if locations:
-            logging.debug('locations:\n',locations)
+            logging.debug('locations: {}'.format(locations))
             self.theQueue.add(locations)
         
     #from planner.js
@@ -329,10 +329,10 @@ class Head:
         }
         """
         logging.debug('head.step called')
-        logging.debug('\tlocations:\n\n',locations,'\n')
+        logging.debug('locations: {}'.format(locations))
         # only step with the UI if the queue is currently empty
-        logging.debug('head:\n\tlen(self.theQueue.qlist): ',len(self.theQueue.qlist),'\n')
-        logging.debug('head:\n\tself.theQueue.is_busy?: ',self.theQueue.is_busy,'\n')
+        logging.debug('head:\n\tlen(self.theQueue.qlist): {}'.format(len(self.theQueue.qlist)))
+        logging.debug('head:\n\tself.theQueue.is_busy?: {}'.format(self.theQueue.is_busy))
         if len(self.theQueue.qlist)==0: # and self.theQueue.is_busy==False:
 
             if locations is not None:
@@ -381,8 +381,8 @@ class Head:
             # the array of move commands we are about to build from each location
             # starting with this pipette's initializing move commands
             move_commands = current_pipette.init_sequence()
-            logging.debug('\nhead.pipette\n\tcurrent_pipette.init_sequence():\n\n',current_pipette.init_sequence(),'\n')
-            logging.debug('\nhead.pipette\n\tmove_commands:\n\n',move_commands,'\n')
+            logging.debug('head.pipette, current_pipette.init_sequence(): {}'.format(current_pipette.init_sequence()))
+            logging.debug('head.pipette, move_commands: {}'.format(move_commands))
     
             # loop through each location
             # using each pipette's calibrations to test and convert to absolute coordinates
@@ -391,7 +391,7 @@ class Head:
                 thisLocation = group['locations'][i]  
     
                 # convert to absolute coordinates for the specifed pipette axis
-                logging.debug('head.pipette:\n\tlocation: ',thisLocation,'\n')
+                logging.debug('head.pipette:\n\tlocation: {}'.format(thisLocation))
                 absCoords = current_pipette.pmap(thisLocation)  
     
                 # add the absolute coordinates we just made to our final array
@@ -457,7 +457,7 @@ class Head:
             #  'theContainers'
 
         filetext = json.dumps(pipette_values,sort_keys=True,indent=4,separators=(',',': '))
-        logging.debug('filetext: ', filetext)
+        logging.debug('filetext: {}'.format(filetext))
         
         filename = os.path.join(self.dir_path,'otone_data/pipette_calibrations.json')
 
@@ -509,7 +509,7 @@ class Head:
         
         """
         logging.debug('head.create_deck called')
-        logging.debug('\tnewDeck:\n\n', new_deck,'\n')
+        logging.debug('newDeck: {}'.format(new_deck))
         
         #doesn't map to smoothieAPI
         nameArray = []  
@@ -539,14 +539,14 @@ class Head:
         response = {}
         for axis in self.PIPETTES:
             response[axis] = {}
-            logging.debug('self.PIPETTES[',axis,'].theContainers:\n\n',self.PIPETTES[axis].theContainers)
+            logging.debug('self.PIPETTES[{0}].theContainers: {1}'.format(axis, self.PIPETTES[axis].theContainers))
             for name in self.PIPETTES[axis].theContainers:
-                logging.debug('self.PIPETTES[',axis,'].theContainers[',name,']:\n\n',self.PIPETTES[axis].theContainers[name])
+                logging.debug('self.PIPETTES[{0}].theContainers[{1}]'.format(axis, self.PIPETTES[axis].theContainers[name]))
                 response[axis][name] = self.PIPETTES[axis].theContainers[name]
   
         self.save_pipette_values()
 
-        logging.debug('head.get_deck response:\n\n',response)
+        logging.debug('head.get_deck response: {}'.format(response))
         return response
 
 
@@ -572,7 +572,7 @@ class Head:
             #  'droptip'
             #  'volume'
         
-        logging.debug('head.get_pipettes response:\n\n',response);
+        logging.debug('head.get_pipettes response: {}'.format(response))
         return response
 
     #from planner.js
@@ -584,12 +584,12 @@ class Head:
         #doesn't map to smoothieAPI
         #function movePipette (axis, property)
         logging.debug('head.move_pipette called')
-        logging.debug('\n\taxis: ',axis,'\n\tproperty_: ',property_,'\n')
-        logging.debug('head:\n\tself.PIPETTES[axis].__dict__[',property_,'] = ',self.PIPETTES[axis].__dict__[property_],'\n')
+        logging.debug('axis: {0}, property_: {1}'.format(axis,property_))
+        logging.debug('head:\n\tself.PIPETTES[axis].__dict__[{0}] = {1}'.format(property_,self.PIPETTES[axis].__dict__[property_]))
         if self.PIPETTES[axis] and property_ in self.PIPETTES[axis].__dict__:
             moveCommand = {}
             moveCommand[axis] = self.PIPETTES[axis].__dict__[property_]
-            logging.debug('\nmoveCommand = ',moveCommand)
+            logging.debug('moveCommand = {}'.format(moveCommand))
             logging.debug(moveCommand)
             self.move(moveCommand)
             
@@ -607,7 +607,7 @@ class Head:
         """
 
         logging.debug('head.move_plunger called')
-        logging.debug('\n\tlocations:\n\n',locations,'\n')
+        logging.debug('locations: {}'.format(locations))
 
         if(self.PIPETTES[axis]):
             for i in range(len(locations)):
