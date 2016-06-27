@@ -23,6 +23,9 @@ connection is established, it instantiates and configures various objects with
 
 """
 
+
+from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
+
 #import RobotLib
 import json, asyncio, sys, time, collections, os, sys, shutil
 
@@ -231,10 +234,20 @@ try:
 
     session_factory._myAppSession = None
 
+    # TODO: should not be hardcoded but rather moved to setting file...
     url = "ws://127.0.0.1:8080/ws"
-    transport_factory = websocket \
-            .WampWebSocketClientFactory(session_factory,
-                                        url=url)
+
+
+    serializers = []
+
+    serializers.append(JsonSerializer())
+    serializers.append(MsgPackSerializer())
+
+    transport_factory = websocket.WampWebSocketClientFactory(
+        session_factory,
+        url=url,
+        serializers=serializers
+    )
     loop = asyncio.get_event_loop()
 
     subscriber = Subscriber(session_factory, loop)
