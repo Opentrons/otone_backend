@@ -89,20 +89,20 @@ class TheQueue:
         """Add a command to TheQueue's :obj:`qlist`
         """
         logging.debug('the_queue.add called')
-        logging.debug('\ncommands:\n',commands,'\n')
+        logging.debug('commands: {}'.format(commands))
         if commands and self.paused==False:
             # test to see if the queue is currently empty
 #            self.just_started = False   #is this needed?
             if len(self.qlist)==0:
                 self.just_started = True
-                logging.debug('the_queue.add:\n\tbefore self.qlist: ',self.qlist,'\n')
+                logging.debug('the_queue.add:\n\tbefore self.qlist: {}'.format(self.qlist))
             # add new commands to the end of the queue
-            logging.debug('type(commands): '+str(type(commands)))
+            logging.debug('type(commands): {}'.format(str(type(commands))))
             if isinstance(commands, list):
                 self.qlist.extend(commands)
             elif isinstance(commands, dict):
                 self.qlist.append(commands)
-            logging.debug('the_queue.add:\n\tafter self.qlist: ',self.qlist,'\n')
+            logging.debug('the_queue.add:\n\tafter self.qlist: {}'.format(self.qlist))
     
             self.step(self.just_started) # attempt to increment the queue
 
@@ -112,15 +112,15 @@ class TheQueue:
 
         """
         logging.debug('the_queue.step called')
-        logging.debug('\njust_started: ',just_started,'\n')
+        logging.debug('just_started: {}'.format(just_started))
         if self.is_busy==False:
-            logging.debug('\tthe_queue len(self.qlist): ',len(self.qlist))
+            logging.debug('the_queue len(self.qlist): {}'.format(len(self.qlist)))
             if len(self.qlist)>0:
                 # pull out the first in line from the queue
 #                self.current_command = self.qlist.splice(0,1)[0];
                 self.current_command = self.qlist.pop(0)
                 self.is_busy = True;
-                logging.debug('\n\n\tthe_queue.current_command:\n\n',self.current_command,'\n')
+                logging.debug('the_queue.current_command: {}'.format(self.current_command))
 
                 # 'wait' for someone to click a button on interface. Not there yet.
                 if 'wait' in self.current_command:

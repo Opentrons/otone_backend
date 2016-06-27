@@ -84,7 +84,7 @@ class Head:
                 self.theQueue.step(False)
     
         self.theState = state
-        logging.debug('\n\n\tHead state:\n\n',self.theState,'\n')
+        logging.debug('Head state: {}'.format(self.theState))
 
 
 #local functions---------------

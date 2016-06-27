@@ -64,7 +64,7 @@ class FileIO:
             prot_dict = json.load(in_file,object_pairs_hook=collections.OrderedDict)   #create dictionary from file
             logging.debug("FileIO: json file: '{0}' imported!".format(fname))
         except EnvironmentError as err:
-            logging.error('Error reading json file: ',err)
+            logging.error('Error reading json file: {}'.format(err))
             raise
 
         finally:
