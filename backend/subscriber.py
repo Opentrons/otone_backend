@@ -106,12 +106,12 @@ class Subscriber():
         """The first point of contact for incoming messages.
         """
         logging.debug('subscriber.dispatch_message called')
-        logging.debug('\nmessage: ',message,'\n')
+        logging.debug('\nmessage: {}'.format(message))
         try:
             dictum = collections.OrderedDict(json.loads(message.strip(), object_pairs_hook=collections.OrderedDict))
-            logging.debug('\tdictum[type]: ',dictum['type'])
+            logging.debug('\tdictum[type]: {}'.format(dictum['type']))
             if 'data' in dictum:
-                logging.debug('\tdictum[data]:\n\n',json.dumps(dictum['data'],sort_keys=True,indent=4,separators=(',',': ')),'\n')
+                logging.debug('\tdictum[data]: {}'.format(json.dumps(dictum['data'],sort_keys=True,indent=4,separators=(',',': '))))
                 self.dispatch(dictum['type'],dictum['data'])
             else:
                 self.dispatch(dictum['type'],None)
@@ -124,7 +124,7 @@ class Subscriber():
         """Dispatch commands according to :obj:`dispatcher` dictionary
         """
         logging.debug('subscriber.dispatch called')
-        logging.debug('\n\n\ttype_: ',type_,'\n\tdata:',data,'\n')
+        logging.debug('type_: {0},  data: {1}'.format(type_, data))
         if data is not None:
             self.dispatcher[type_](self,data)
         else:
@@ -135,7 +135,7 @@ class Subscriber():
         """Tell the :head:`head` to calibrate a :class:`pipette`
         """
         logging.debug('subscriber.calibrate_pipette called')
-        logging.debug('\nargs: ', data,'\n')
+        logging.debug('\nargs: {}'.format(data))
         if 'axis' in data and 'property' in data:
             axis = data['axis']
             property_ = data['property']
@@ -147,7 +147,7 @@ class Subscriber():
         """Tell the :class:`head` to calibrate a container
         """
         logging.debug('subscriber.calibrate_container called')
-        logging.debug('\nargs: ', data,'\n')
+        logging.debug('args: {}'.format(data))
         if 'axis' in data and 'name' in data:
             axis = data['axis']
             container_ = data['name']
@@ -184,7 +184,7 @@ class Subscriber():
         """Tell the :class:`head` to move a :class:`pipette` to given location(s)
         """
         logging.debug('subscriber.move_plunger called')
-        logging.debug('\ndata:\n\t',data,'\n')
+        logging.debug('data: {}'.format(data))
         self.head.move_plunger(data['axis'], data['locations'])
 
 
@@ -192,7 +192,7 @@ class Subscriber():
         """Tell the :class:`head` to change speed
         """
         logging.debug('subscriber.speed called')
-        logging.debug('\ndata:\n\t',data,'\n')
+        logging.debug('data: {}'.format(data))
         axis = data['axis']
         value = data['value']
         if axis=='ab':
@@ -209,18 +209,17 @@ class Subscriber():
         move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
         """
         logging.debug('subscriber.create_deck called')
-        logging.debug('\targs: ', data,'\n')
+        logging.debug('\targs: {}'.format(data))
         msg = {
             'type' : 'containerLocations',
             'data' : self.head.create_deck(data)
         }
-        logging.debug('pre-call self.caller._myAppSession.publish() ',json.dumps(msg,sort_keys=True,indent=4,separators=(',',': ')),'\n')
         self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg,sort_keys=True,indent=4,separators=(',',': ')))
 
 
     def configure_head(self, data):
         logging.debug('subscriber.configure_head called')
-        logging.debug('\targs: ', data,'\n')
+        logging.debug('\targs: {}'.format(data))
         self.head.configure_head(data)
 
 
@@ -228,7 +227,7 @@ class Subscriber():
         """Intermediate step to have :class:`prtocol_runner` and :class:`the_queue` start running a protocol
         """
         logging.debug('subscriber.instructions called')
-        logging.debug('\targs: ', data,'\n')
+        logging.debug('\targs: {}'.format(data))
         if data and len(data):
             self.runner.insQueue.start_job (data, True)
 
