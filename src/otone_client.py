@@ -235,14 +235,12 @@ try:
     url = "ws://127.0.0.1:8080/ws"
 
 
-    from autobahn.wamp.serializer import JsonSerializer
-
     serializers = []
-    # serializers.append(JsonSerializer(batched=True))
+
+    from autobahn.wamp.serializer import JsonSerializer
     serializers.append(JsonSerializer())
 
     from autobahn.wamp.serializer import MsgPackSerializer
-    # serializers.append(MsgPackSerializer(batched=True))
     serializers.append(MsgPackSerializer())
 
     transport_factory = websocket.WampWebSocketClientFactory(
