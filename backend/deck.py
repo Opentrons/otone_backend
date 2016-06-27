@@ -82,7 +82,7 @@ class Deck:
     def save_containers(self, containers_data):
         logging.debug('deck.save_containers called')
         containers_text = json.dumps(containers_data,sort_keys=True,indent=4,separators=(',',': '))
-        logging.debug('containers_text: ', containers_text)
+        logging.debug('containers_text: {}'.format(containers_text))
         filename = os.path.join(self.dir_path,'otone_data/containers.json')
         FileIO.writeFile(filename,container_text,lambda: FileIO.onError('\t\tError saving the file:\r\r'))              
 
