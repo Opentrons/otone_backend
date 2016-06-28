@@ -8,6 +8,7 @@ elif os.name == 'posix':
 else:
     raise ImportError("Sorry: no implementation for your platform ('{}') available".format(os.name))
 
+import logging
 
 class SmoothieUSBUtil(object):
     def __init__(self):

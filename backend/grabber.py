@@ -1,4 +1,4 @@
-
+import logging
 
 
 class Grabber(Tool):
@@ -29,10 +29,9 @@ class Grabber(Tool):
     def grab(self):
         """Placeholder
         """
-        print('the grabber grabbed something')
-        
+        pass
         
     def release(self):
         """Placeholder
         """
-        print('the grabber released something')
+        pass
