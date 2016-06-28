@@ -37,18 +37,6 @@ class FileIO:
                 onError()
     
     @staticmethod
-    def log(*msg):
-        tstamp = datetime.datetime.now()
-        try:
-            logfile = None
-            logfile = open('otone_data/logfile.txt',"a")
-        except EnvironmentError as err:
-            logging.error('Error appending log file: {0}'.format(err))
-        finally:
-            if logfile is not None:
-                logfile.close()
-    
-    @staticmethod
     def onError(msg,data=None):
         pass
     
