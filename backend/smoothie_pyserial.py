@@ -447,8 +447,8 @@ class Smoothie(object):
         """
         logging.debug('smoothie_pyserial.try_step called')
         logging.debug('self.already_trying: {}'.format(self.already_trying))
-        logging.debug('self.theState[{0}]: {1}'.format(stat, self.theState['stat']))
-        logging.debug('self.theState[{0}]: {1}'.format(delaying,self.theState['delaying']))
+        logging.debug('self.theState[{0}]: {1}'.format('stat', self.theState['stat']))
+        logging.debug('self.theState[{0}]: {1}'.format('delaying',self.theState['delaying']))
         if self.theState['stat'] == 0 and self.theState['delaying'] == 0 and self.already_trying == False:
             self.already_trying = True
             cmd = self.smoothieQueue.pop(0)

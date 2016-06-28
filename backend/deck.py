@@ -4,6 +4,8 @@ from deck_module import DeckModule
 
 import logging
 
+from file_io import FileIO
+
 class Deck:
     """The Deck class is a representation of the robot deck
 
