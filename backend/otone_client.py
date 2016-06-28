@@ -31,15 +31,39 @@ import json, asyncio, sys, time, collections, os, sys, shutil
 
 import logging
 
+print(os.path.abspath('.'))
+
+def resource_path(relative):
+    return os.path.join(
+        os.environ.get(
+            "_MEIPASS",
+            os.path.abspath(".")
+        ),
+        relative
+    )
+
+
 #for testing purposes, read in a protocol.json file
-path = os.path.abspath(__file__)
-dir_path = os.path.dirname(path)
+if getattr(sys, 'frozen', None):
+    print('using frozen path...')
+    path = sys._MEIPASS
+else:
+    print('using non frozen path...')
+    path = os.path.abspath(__file__)
+
+path = resource_path(path)
+print('resource path is', path)
+
+dir_path = path  # os.path.dirname(path)
 dir_par_path = os.path.dirname(dir_path)
 dir_par_par_path = os.path.dirname(dir_par_path)
+
 fname_default_protocol = os.path.join(dir_path,'data/sample_user_protocol.json')
 fname_default_containers = os.path.join(dir_path, 'data/containers.json')
 fname_default_calibrations = os.path.join(dir_path, 'data/pipette_calibrations.json')
+
 fname_data = os.path.join(dir_path,'otone_data')
+
 fname_data_logfile = os.path.join(dir_path,'otone_data/logfile.txt')
 fname_data_containers = os.path.join(dir_path,'otone_data/containers.json')
 fname_data_calibrations = os.path.join(dir_path, 'otone_data/pipette_calibrations.json')
