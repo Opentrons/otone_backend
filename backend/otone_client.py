@@ -53,8 +53,8 @@ if not os.path.exists(fname_data_calibrations):
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
 
 FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-logging.basicConfig(filename=fname_data_logfile, level=logging.DEBUG, format=FORMAT)
-logging.info('OT.One 1.1 Started')
+logging.basicConfig(filename='logfile.txt', level=logging.DEBUG, format=FORMAT)
+logging.info('\n\nOT.One Started')
 
 from head import Head
 from deck import Deck
