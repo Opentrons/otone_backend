@@ -90,7 +90,11 @@ class Smoothie(object):
                     try:
                         data = self.serial_port.readline().decode('UTF-8')
                         if data and self.callbacker:
+                            #try:
                             self.callbacker.data_received(data)
+                            #except:
+                                # should handle bad data here
+                                #pass
                     except:
                         self.callbacker.connection_lost()
                 else:
