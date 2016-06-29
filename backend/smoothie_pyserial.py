@@ -571,7 +571,7 @@ class Smoothie(object):
         """Reset robot
         """
         logging.debug('smoothie_pyserial.reset called')
-        resetString = _dict['reset']
+        resetString = self._dict['reset']
         self.send(self, resetString)
 
 
