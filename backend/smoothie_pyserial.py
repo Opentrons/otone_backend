@@ -9,7 +9,7 @@ import time
 import logging
 
 class Smoothie(object):
-    """Smoothie class 
+    """Smoothie class
 
     """
 
@@ -55,7 +55,7 @@ class Smoothie(object):
     }
 
     old_msg = ""
-    
+
     def __init__(self, outer):
         self.outer = outer
         self.raw_callback = None
@@ -106,7 +106,7 @@ class Smoothie(object):
         def __init__(self, outer):
             logging.info('smoothie_pyserial:\n\tCB_Factory.__init__ called')
             self.outer = outer
-        
+
         def connection_made(self):
             """Callback when a connection is made
             """
@@ -123,7 +123,7 @@ class Smoothie(object):
             logging.debug('smoothie_pyserial:\n\tCBFactory.data_received: ')
             logging.debug(data)
             self.old_data = data
-            
+
             self.proc_data = self.proc_data + data
             deli = "\n"
             sub_data = self.proc_data[:self.proc_data.rfind("\n")]
@@ -131,7 +131,7 @@ class Smoothie(object):
             list_data = [e+deli for e in sub_data.split(deli)]
             for ds in list_data:
                 self.outer.smoothie_handler(ds,data)  #self.outer
-            
+
 
         def connection_lost(self):
             """Callback when connection is lost
@@ -144,7 +144,7 @@ class Smoothie(object):
 
                 self.outer.theState['stat'] = 0
                 self.outer.theState['delaying'] = 0
-                
+
                 self.outer.already_trying = False
                 proc_data = ""
                 self.outer.on_disconnect()
@@ -231,7 +231,7 @@ class Smoothie(object):
     def on_success_connecting(self):
         """Smoothie callback for when a connection is made
 
-        Sends startup commands to engage automatic feedback from Smoothieboard, :meth:`home`, 
+        Sends startup commands to engage automatic feedback from Smoothieboard, :meth:`home`,
         and call :meth:`on_connect` callback
         """
         logging.debug('smoothie_pyserial.on_success_connecting called')
@@ -394,7 +394,7 @@ class Smoothie(object):
         """
         logging.debug('smoothie_pyserial.move called')
         logging.debug('coords_list: {}'.format(coords_list))
-        
+
         absolMov = True
         if isinstance(coords_list, dict):
             header = self._dict['absoluteMove']
@@ -402,7 +402,7 @@ class Smoothie(object):
                 if coords_list['relative']==True:
                     absolMov = False
                     header = self._dict['relativeMove']
-        
+
             cmd = header
 
             for n, value in coords_list.items():
@@ -453,7 +453,7 @@ class Smoothie(object):
             self.already_trying = True
             cmd = self.smoothieQueue.pop(0)
             self.send(cmd)
-        
+
 
 
     def delay(self, seconds):
@@ -504,11 +504,11 @@ class Smoothie(object):
             axis_dict = {'a':True, 'b':True, 'x':True, 'y':True, 'z':True}
 
         self.halt() #self
-        
+
         homeCommand = ''
         homingX = False
         homingABZ = False
-        
+
         if 'a' in axis_dict or 'A' in axis_dict:
             homeCommand += self._dict['home']
             homeCommand += 'A'
@@ -571,7 +571,7 @@ class Smoothie(object):
         """Reset robot
         """
         logging.debug('smoothie_pyserial.reset called')
-        resetString = _dict['reset']
+        resetString = self._dict['reset']
         self.send(self, resetString)
 
 
@@ -628,7 +628,7 @@ class Smoothie(object):
         """Callback when disconnected
         """
         logging.debug('smoothie_pyserial.on_disconnect called')
-        
+
         if hasattr(self.on_disconnect_callback, '__call__'):
             self.on_disconnect_callback()
 
@@ -650,7 +650,7 @@ class Smoothie(object):
         logging.debug('smoothie_pyserial.on_position_data called')
         if self.position_callback != None:
             self.position_callback(msg)
-        
+
 
     def on_state_change(self, state):
         """Calls an external callback for when theState changes
