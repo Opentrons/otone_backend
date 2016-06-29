@@ -90,11 +90,16 @@ class Smoothie(object):
                     try:
                         data = self.serial_port.readline().decode('UTF-8')
                         if data and self.callbacker:
-                            #try:
-                            self.callbacker.data_received(data)
-                            #except:
-                                # should handle bad data here
-                                #pass
+                            try:
+                                self.callbacker.data_received(data)
+                            except:
+                                # if no X/Y/Z coordinates are calibrated for labware,
+                                # then this branch will get triggered. previously,
+                                # this was causing the red/green/red/green
+                                # repeated disconnect reconnect issue.
+                                # now that should be fixed, though protocils
+                                # will still fail if all labware isn't properly calibrated
+                                pass
                     except:
                         self.callbacker.connection_lost()
                 else:
