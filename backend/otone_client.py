@@ -42,19 +42,20 @@ def resource_path(relative):
         relative
     )
 
-
 #for testing purposes, read in a protocol.json file
 if getattr(sys, 'frozen', None):
     print('using frozen path...')
     path = sys._MEIPASS
+    path = resource_path(path)
+    dir_path = path
 else:
     print('using non frozen path...')
     path = os.path.abspath(__file__)
+    dir_path = os.path.dirname(path)
 
-path = resource_path(path)
 print('resource path is', path)
+print('dir path is', dir_path)
 
-dir_path = path  # os.path.dirname(path)
 dir_par_path = os.path.dirname(dir_path)
 dir_par_par_path = os.path.dirname(dir_par_path)
 
