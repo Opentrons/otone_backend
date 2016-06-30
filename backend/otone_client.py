@@ -31,19 +31,14 @@ import json, asyncio, sys, time, collections, os, sys, shutil
 
 import logging
 
-def resource_path(relative):
-    return os.path.join(
-        os.environ.get(
-            "_MEIPASS",
-            os.path.abspath(".")
-        ),
-        relative
-    )
 
-path = dir_path = resource_path(os.path.abspath(__file__))
-
-#for testing purposes, read in a protocol.json file
-if not getattr(sys, 'frozen', None):
+# If code is frozen (i.e. pyinstaller executable) then
+# get file path from sys._MEIPASS attribute
+if getattr(sys, 'frozen', None):
+    print('using frozen path...')
+    path = dir_path = sys._MEIPASS
+else:
+    print('using non frozen path...')
     path = os.path.abspath(__file__)
     dir_path = os.path.dirname(path)
 
