@@ -31,8 +31,6 @@ import json, asyncio, sys, time, collections, os, sys, shutil
 
 import logging
 
-print(os.path.abspath('.'))
-
 def resource_path(relative):
     return os.path.join(
         os.environ.get(
@@ -42,14 +40,10 @@ def resource_path(relative):
         relative
     )
 
+path = dir_path = resource_path(os.path.abspath(__file__))
+
 #for testing purposes, read in a protocol.json file
-if getattr(sys, 'frozen', None):
-    print('using frozen path...')
-    path = sys._MEIPASS
-    path = resource_path(path)
-    dir_path = path
-else:
-    print('using non frozen path...')
+if not getattr(sys, 'frozen', None):
     path = os.path.abspath(__file__)
     dir_path = os.path.dirname(path)
 
