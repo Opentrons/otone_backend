@@ -5,15 +5,15 @@ Created on Fri Apr 24 15:11:09 2015
 
 @author: Randy
 
-This is the main module of the OTOne Python backend code. When started, it creates 
+This is the main module of the OTOne Python backend code. When started, it creates
 a publisher (:class:`publisher.Publisher`) and a subscriber (:class:`subscriber.Subscriber`)
-for handling all communication with a WAMP router and then tries to make a connection 
-(:meth:`otone_client.make_a_connection`) with the Crossbar.io WAMP router. Once that 
-connection is established, it instantiates and configures various objects with 
+for handling all communication with a WAMP router and then tries to make a connection
+(:meth:`otone_client.make_a_connection`) with the Crossbar.io WAMP router. Once that
+connection is established, it instantiates and configures various objects with
 :meth:`otone_client.instantiate_objects`:
- 
+
  head: :class:`head.Head` - Represents the robot head and creates a connection with Smoothieboard
- 
+
  deck: :class:`deck.Deck` - Represents the robot deck
 
  runner: :class:`protocol_runner.ProtocolRunner` - Runs protocol jobs
@@ -81,7 +81,7 @@ if not os.path.exists(fname_data_calibrations):
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
 
 FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-logging.basicConfig(filename='logfile.txt', level=logging.DEBUG, format=FORMAT)
+logging.basicConfig(filename=fname_data_logfile, level=logging.DEBUG, format=FORMAT)
 logging.info('\n\nOT.One Started')
 
 from head import Head
@@ -134,17 +134,17 @@ class WampComponent(wamp.ApplicationSession):
         logging.debug('WampComponent.onJoin called')
         if not self.factory._myAppSession:
             self.factory._myAppSession = self
-        
-        crossbar_status = True    
+
+        crossbar_status = True
         instantiate_objects()
-        
-        
+
+
         def set_client_status(status):
             logging.debug('WampComponent.set_client_status called')
             global client_status
             client_status = status
             self.publish('com.opentrons.robot_ready',True)
-        
+
         logging.debug('about to publish com.opentrons.robot_ready TRUE')
         self.publish('com.opentrons.robot_ready',True)
         yield from self.subscribe(set_client_status, 'com.opentrons.browser_ready')
@@ -153,7 +153,7 @@ class WampComponent(wamp.ApplicationSession):
 
     def onLeave(self, details):
         """Callback fired when WAMP session has been closed.
-        
+
         :param details: Close information.
         """
         if self.factory._myAppSession == self:
@@ -162,7 +162,7 @@ class WampComponent(wamp.ApplicationSession):
             self.disconnect()
         except:
             pass
-        
+
     def onDisconnect(self):
         """Callback fired when underlying transport has been closed.
         """
@@ -177,7 +177,7 @@ def make_a_connection():
 
     transporter, protocoler = loop.run_until_complete(coro)
     #instantiate the subscriber and publisher for communication
-    
+
     loop.run_forever()
 
 
@@ -190,7 +190,7 @@ def instantiate_objects():
     #FileIO.get_dict_from_json('/home/pi/PythonProject/default_startup_protocol.json')
 
 
-    #instantiate the head 
+    #instantiate the head
     head = Head(def_start_protocol['head'], publisher)
     logging.debug('head string: ')
     logging.debug(str(head))
@@ -216,7 +216,7 @@ def instantiate_objects():
 
     runner = ProtocolRunner(head, publisher)
 
-    
+
     #use the deck data to configure the deck
     deck_data = {}
     deck_data = prot_dict['deck']   #extract the deck section from prot_dict
@@ -228,8 +228,8 @@ def instantiate_objects():
     #do something with the Ingredient data
     ingr_data = {}
     ingr_data = prot_dict['ingredients'] #extract the ingredient section from prot_dict
-    ingr = Ingredients({}) 
-    
+    ingr = Ingredients({})
+
     ingr.configure_ingredients(ingr_data) #configure the ingredienets from prot_dict data
     logging.debug('Ingredients imported!')
 
@@ -277,7 +277,7 @@ try:
 
     subscriber = Subscriber(session_factory, loop)
     publisher = Publisher(session_factory)
-    
+
 
     while (crossbar_status == False):
         try:
@@ -295,7 +295,3 @@ except KeyboardInterrupt:
     pass
 finally:
     loop.close()
-
-
-
-
