@@ -26,8 +26,11 @@ connection is established, it instantiates and configures various objects with
 
 from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
-#import RobotLib
-import json, asyncio, sys, time, collections, os, sys, shutil
+import asyncio
+import sys
+import time
+import os
+import shutil
 
 import logging
 
