@@ -235,18 +235,6 @@ def instantiate_objects():
     subscriber.set_runner(runner)
 
 
-    @asyncio.coroutine
-    def periodically_send_ip_addresses():
-        """Coroutine that periodically sends information to browser
-        """
-        logging.debug('periodically_send_ip_addresses called')
-        while True:
-            logging.debug('periodically_send_ip_addresses again...')
-            yield from asyncio.sleep(2)
-
-    asyncio.Task(periodically_send_ip_addresses())
-
-
 try:
     session_factory = wamp.ApplicationSessionFactory()
     session_factory.session = WampComponent
