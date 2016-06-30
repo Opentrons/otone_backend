@@ -17,26 +17,21 @@ connection is established, it instantiates and configures various objects with
  deck: :class:`deck.Deck` - Represents the robot deck
 
  runner: :class:`protocol_runner.ProtocolRunner` - Runs protocol jobs
-
- the_sk: :class:`script_keeper.ScriptKeeper` - Handles shell scripts
-
-
 """
 
 
-from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
-
 import asyncio
-import sys
-import time
+import logging
 import os
 import shutil
+import sys
+import time
 
-import logging
+from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
 
 # If code is frozen (i.e. pyinstaller executable) then
-# get file path from sys._MEIPASS attribute
+# file path is the sys._MEIPASS attribute
 if getattr(sys, 'frozen', None):
     print('using frozen path...')
     path = dir_path = sys._MEIPASS
@@ -64,12 +59,12 @@ fname_data_calibrations = os.path.join(dir_path, 'otone_data/pipette_calibration
 
 if not os.path.isdir(fname_data):
     os.makedirs(fname_data)
-#if not os.path.exists(fname_data_containers):
-open(fname_data_containers,"w+")
+
+open(fname_data_containers, "w+")
 shutil.copy(fname_default_containers, fname_data_containers)
 
 if not os.path.exists(fname_data_calibrations):
-    open(fname_data_calibrations,"w+")
+    open(fname_data_calibrations, "w+")
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
 
 FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
