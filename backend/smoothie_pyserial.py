@@ -58,6 +58,7 @@ class Smoothie(object):
     old_msg = ""
 
     def __init__(self, outer):
+        self.ot_logger = logging.getLogger('ot_logger.smoothie_pyserial')
         self.outer = outer
         self.raw_callback = None
         self.position_callback = None
@@ -113,14 +114,14 @@ class Smoothie(object):
         old_data = None
 
         def __init__(self, outer):
-            logging.info('smoothie_pyserial:\n\tCB_Factory.__init__ called')
             self.outer = outer
+            self.outer.ot_logger.info('smoothie_pyserial:\n\tCB_Factory.__init__ called')
 
         def connection_made(self):
             """Callback when a connection is made
             """
             self.outer.connected = True
-            logging.info("smoothie_pyserial:\n\tCB_Factory.connection_made called")
+            self.outer.ot_logger.info("smoothie_pyserial:\n\tCB_Factory.connection_made called")
 
             loop = asyncio.get_event_loop()
             loop.call_later(1, self.outer.on_success_connecting)#, self.outer)
@@ -129,8 +130,8 @@ class Smoothie(object):
         def data_received(self, data):
             """Callback when data is received from Smoothieboard
             """
-            logging.debug('smoothie_pyserial:\n\tCBFactory.data_received: ')
-            logging.debug(data)
+            self.outer.ot_logger.debug('smoothie_pyserial:\n\tCBFactory.data_received: ')
+            self.outer.ot_logger.debug(data)
             self.old_data = data
 
             self.proc_data = self.proc_data + data
@@ -149,7 +150,7 @@ class Smoothie(object):
                 self.outer.connected = False
                 self.outer.smoothieQueue = list()
                 self.outer.already_trying = False
-                logging.info("smoothie_pyserial:\n\tCBFactory.connection_lost called")
+                self.outer.ot_logger.info("smoothie_pyserial:\n\tCBFactory.connection_lost called")
 
                 self.outer.theState['stat'] = 0
                 self.outer.theState['delaying'] = 0
@@ -161,27 +162,27 @@ class Smoothie(object):
     def set_raw_callback(self, callback):
         """connects the external callback for raw data
         """
-        logging.debug('smoothie_pyserial.set_raw_callback called')
+        self.ot_logger.debug('smoothie_pyserial.set_raw_callback called')
         self.raw_callback = callback
 
 
     def set_position_callback(self, callback):
         """connects the external callback for position data
         """
-        logging.debug('smoothie_pyserial.set_position_callback called')
+        self.ot_logger.debug('smoothie_pyserial.set_position_callback called')
         self.position_callback = callback
 
 
     def set_limit_hit_callback(self, callback):
         """Connect the external callback for limit hit data
         """
-        logging.debug('smoothie_pyserial.set_limit_hit_callback called')
+        self.ot_logger.debug('smoothie_pyserial.set_limit_hit_callback called')
         self.limit_hit_callback = callback
 
     def set_move_callback(self, callback):
         """Connect the external callback for move call
         """
-        logging.debug('smoothie_pyserial.set_move_callback called')
+        self.ot_logger.debug('smoothie_pyserial.set_move_callback called')
         self.move_callback = callback
 
     def set_delay_callback(self, callback):
@@ -225,7 +226,7 @@ class Smoothie(object):
         Sends startup commands to engage automatic feedback from Smoothieboard, :meth:`home`,
         and call :meth:`on_connect` callback
         """
-        logging.debug('smoothie_pyserial.on_success_connecting called')
+        self.ot_logger.debug('smoothie_pyserial.on_success_connecting called')
         thestring = self._dict['setupFeedback']
         self.send(thestring)#self  self._dict['setupFeedback'])
         self.try_add('G91 G0Z-2 G0Z2 G0Z-2 G0Z2 G0Z-2 G0Z2')
@@ -235,10 +236,10 @@ class Smoothie(object):
     def send(self, string):
         """sends data to the smoothieboard using a transport
         """
-        logging.debug('smoothie_pyserial.send called')
+        self.ot_logger.debug('smoothie_pyserial.send called')
         self.on_raw_data('--> '+string)  #self
         if self.serial_port and self.serial_port.is_open:
-            logging.debug('\n\tstring: {}'.format(string))
+            self.ot_logger.debug('\n\tstring: {}'.format(string))
             string = (string+'\r\n').encode('UTF-8')
             try:
                 self.serial_port.write(string)
@@ -254,31 +255,31 @@ class Smoothie(object):
         ok_print = False
         if self.old_msg != msg:
             ok_print = True
-            logging.debug('smoothie_pyserial.smoothie_handler called')
-            logging.debug('\n\tmsg: {}'.format(msg))
+            self.ot_logger.debug('smoothie_pyserial.smoothie_handler called')
+            self.ot_logger.debug('\n\tmsg: {}'.format(msg))
         self.on_raw_data(msg)   #self
 
         if self.ack_msg_rcvd in msg:
             self.already_trying = False
-            logging.debug('ok... self.already_trying: {}'.format(self.already_trying))
+            self.ot_logger.debug('ok... self.already_trying: {}'.format(self.already_trying))
         if msg.find('{')>=0:
             msg = msg[msg.index('{'):]
             try:
                 data = json.loads(msg)
             except:
-                logging.debug('json.loads(msg) error: {}'.format(msg))
-                logging.debug('original messag ewas: {}'.format(data_))
+                self.ot_logger.debug('json.loads(msg) error: {}'.format(msg))
+                self.ot_logger.debug('original messag ewas: {}'.format(data_))
             didStateChange = False
             stillHoming = False
             if ok_print:
-                logging.debug('smoothie_pyserial(1):\n\ttheState: {}'.format(self.theState))
+                self.ot_logger.debug('smoothie_pyserial(1):\n\ttheState: {}'.format(self.theState))
             for key, value in data.items():
                 if key == "!!":
                     self.already_trying = False
                     self.try_step()
                 if ok_print:
                     if key in self.theState:
-                        logging.debug('smoothie_pyserial:\n\ttheState[{0}] = {1}'.format(key,self.theState[key]))
+                        self.ot_logger.debug('smoothie_pyserial:\n\ttheState[{0}] = {1}'.format(key,self.theState[key]))
                 if key == 'stat' and self.theState[key] != value:
                     didStateChange = True
                     self.already_trying = False
@@ -289,11 +290,11 @@ class Smoothie(object):
                     else:
                         self.theState[key] = value
                 if ok_print:
-                    logging.debug('smoothie_pyserial:\n\tkey: {}'.format(key))
-                    logging.debug('smoothie_pyserial:\n\tvalue: {}'.format(value))
+                    self.ot_logger.debug('smoothie_pyserial:\n\tkey: {}'.format(key))
+                    self.ot_logger.debug('smoothie_pyserial:\n\tvalue: {}'.format(value))
                 if key!='stat' and key!='homing' and key!='delaying':
                     if key.isalnum() and value == 0 and self.theState['homing'][key]==True:
-                        logging.debug('smoothie_pyserial:\n\tchanging key [{}] homing to False'.format(key))
+                        self.ot_logger.debug('smoothie_pyserial:\n\tchanging key [{}] homing to False'.format(key))
                         self.theState['homing'][key] = False
                         self.theState['direction'][key] = 0
                         for h_key, h_value in self.theState['homing'].items():
@@ -327,7 +328,7 @@ class Smoothie(object):
 
             self.prevMsg = msg
             if ok_print:
-                logging.debug('smoothie_pyserial:\n\tdidStateChange?: {}'.format(didStateChange))
+                self.ot_logger.debug('smoothie_pyserial:\n\tdidStateChange?: {}'.format(didStateChange))
 
 
     def get_state(self):
@@ -363,7 +364,7 @@ class Smoothie(object):
         }
 
         """
-        logging.debug('smoothie_pyserial.get_state called')
+        self.ot_logger.debug('smoothie_pyserial.get_state called')
         temp_state = dict(self.theState)
         return temp_state
 
@@ -371,7 +372,7 @@ class Smoothie(object):
     def try_add(self, cmd):
         """Add a command to the smoothieQueue
         """
-        logging.debug('smoothie_pyserial.try_add called')
+        self.ot_logger.debug('smoothie_pyserial.try_add called')
         self.smoothieQueue.append(cmd)
         #if len(self.smoothieQueue) == 1:
         self.try_step()
@@ -383,8 +384,8 @@ class Smoothie(object):
         :todo:
         1. Show an example coords_list in documentation
         """
-        logging.debug('smoothie_pyserial.move called')
-        logging.debug('coords_list: {}'.format(coords_list))
+        self.ot_logger.debug('smoothie_pyserial.move called')
+        self.ot_logger.debug('coords_list: {}'.format(coords_list))
 
         absolMov = True
         if isinstance(coords_list, dict):
@@ -397,9 +398,9 @@ class Smoothie(object):
             cmd = header
 
             for n, value in coords_list.items():
-                logging.debug('smoothie_pyserial:\n\tn: {}'.format(n))
-                logging.debug('smoothie_pyserial:\n\tvalue: {}'.format(value))
-                logging.debug('smoothie_pyserial:\n\tvalue type: {}'.format(type(value)))
+                self.ot_logger.debug('smoothie_pyserial:\n\tn: {}'.format(n))
+                self.ot_logger.debug('smoothie_pyserial:\n\tvalue: {}'.format(value))
+                self.ot_logger.debug('smoothie_pyserial:\n\tvalue type: {}'.format(type(value)))
                 if n.upper()=='X' or n.upper()=='Y' or n.upper()=='Z' or n.upper()=='A' or n.upper()=='B':
                     axis = n.upper()
                     cmd = cmd + axis
@@ -427,7 +428,7 @@ class Smoothie(object):
                                 value = value + self.theState['direction'][n]
                                 self.theState['direction'][n] = 0
                     cmd = cmd + str(value)
-                    logging.debug('smoothie_pyserial:\n\tcmd: {}'.format(cmd))
+                    self.ot_logger.debug('smoothie_pyserial:\n\tcmd: {}'.format(cmd))
 
 
             self.try_add(cmd)
@@ -436,10 +437,10 @@ class Smoothie(object):
     def try_step(self):
         """Try to step the smoothieQueue
         """
-        logging.debug('smoothie_pyserial.try_step called')
-        logging.debug('self.already_trying: {}'.format(self.already_trying))
-        logging.debug('self.theState[{0}]: {1}'.format('stat', self.theState['stat']))
-        logging.debug('self.theState[{0}]: {1}'.format('delaying',self.theState['delaying']))
+        self.ot_logger.debug('smoothie_pyserial.try_step called')
+        self.ot_logger.debug('self.already_trying: {}'.format(self.already_trying))
+        self.ot_logger.debug('self.theState[{0}]: {1}'.format('stat', self.theState['stat']))
+        self.ot_logger.debug('self.theState[{0}]: {1}'.format('delaying',self.theState['delaying']))
         if self.theState['stat'] == 0 and self.theState['delaying'] == 0 and self.already_trying == False:
             self.already_trying = True
             cmd = self.smoothieQueue.pop(0)
@@ -450,7 +451,7 @@ class Smoothie(object):
     def delay(self, seconds):
         """Delay for given number of milli_seconds
         """
-        logging.debug('smoothie_pyserial.delay called')
+        self.ot_logger.debug('smoothie_pyserial.delay called')
         try:
             float_seconds = float(seconds)
         except:
@@ -478,7 +479,7 @@ class Smoothie(object):
         """Sets theState object's delaying value to 0, and then calls :meth:`on_state_change`.
         Used by :meth:`delay` for timing end of a delay
         """
-        logging.debug('smoothie_pyserial.delay_state called')
+        self.ot_logger.debug('smoothie_pyserial.delay_state called')
         self.theState['delaying'] = 0
         self.on_state_change(self.theState)
 
@@ -489,8 +490,8 @@ class Smoothie(object):
         If axis_dict is empty, homes all in the order ABZ, XY, to clear the deck before moving in XY plane
         """
         #axis_dict = json.loads(axisJSON)
-        logging.debug('smoothie_pyserial.home called')
-        logging.debug('\n\taxis_dict: {}'.format(axis_dict))
+        self.ot_logger.debug('smoothie_pyserial.home called')
+        self.ot_logger.debug('\n\taxis_dict: {}'.format(axis_dict))
         if axis_dict is None or len(axis_dict)==0:
             axis_dict = {'a':True, 'b':True, 'x':True, 'y':True, 'z':True}
 
@@ -545,7 +546,7 @@ class Smoothie(object):
     def halt(self):
         """Halt robot
         """
-        logging.debug('smoothie_pyserial.halt called')
+        self.ot_logger.debug('smoothie_pyserial.halt called')
         if self.delay_handler is not None:
             self.delay_handler.cancel()
             self.delay_handler = None
@@ -561,7 +562,7 @@ class Smoothie(object):
     def reset(self):
         """Reset robot
         """
-        logging.debug('smoothie_pyserial.reset called')
+        self.ot_logger.debug('smoothie_pyserial.reset called')
         resetString = self._dict['reset']
         self.send(self, resetString)
 
@@ -569,8 +570,8 @@ class Smoothie(object):
     def set_speed(self, axis, value):
         """Set the speed for a given axis
         """
-        logging.debug('smoothie_pyserial.set_speed called')
-        logging.debug('axis: {0}, value: {1}'.format(axis,value))
+        self.ot_logger.debug('smoothie_pyserial.set_speed called')
+        self.ot_logger.debug('axis: {0}, value: {1}'.format(axis,value))
 
         if isinstance(value,(int, float, complex)) or isinstance(value, str):
             if axis=='xyz' or axis=='a' or axis == 'b' or axis == 'c':
@@ -578,9 +579,9 @@ class Smoothie(object):
                 self.try_add(string)
                 #self.send(string)
             else:
-                logging.debug('smoothie_pyserial.set_speed: axis {}'.format(axis))
+                self.ot_logger.debug('smoothie_pyserial.set_speed: axis {}'.format(axis))
         else:
-            logging.error('smoothie_pyserial: value is not a number???')
+            self.ot_logger.error('smoothie_pyserial: value is not a number???')
 
 
     def raw(self, string):
@@ -638,7 +639,7 @@ class Smoothie(object):
         """Callback when connection made
 
         """
-        logging.debug('smoothie_pyserial.on_connect called')
+        self.ot_logger.debug('smoothie_pyserial.on_connect called')
         if hasattr(self.on_connect_callback, '__call__'):
             self.on_connect_callback()
 
@@ -646,7 +647,7 @@ class Smoothie(object):
     def on_disconnect(self):
         """Callback when disconnected
         """
-        logging.debug('smoothie_pyserial.on_disconnect called')
+        self.ot_logger.debug('smoothie_pyserial.on_disconnect called')
 
         if hasattr(self.on_disconnect_callback, '__call__'):
             self.on_disconnect_callback()
@@ -655,7 +656,7 @@ class Smoothie(object):
         """Calls an external callback to show raw data lines received
         """
         if self.old_msg != msg:
-            logging.debug('smoothie_pyserial.on_raw_data called')
+            self.ot_logger.debug('smoothie_pyserial.on_raw_data called')
         self.old_msg = msg
         if self.raw_callback != None:
             self.raw_callback(msg)
@@ -664,7 +665,7 @@ class Smoothie(object):
     def on_position_data(self, msg):
         """Calls an external callback to show raw data lines received
         """
-        logging.debug('smoothie_pyserial.on_position_data called')
+        self.ot_logger.debug('smoothie_pyserial.on_position_data called')
         if self.position_callback != None:
             self.position_callback(msg)
 
@@ -672,19 +673,19 @@ class Smoothie(object):
     def on_state_change(self, state):
         """Calls an external callback for when theState changes
         """
-        logging.debug('smoothie_pyserial.on_state_change called')
-        logging.debug('state: {}'.format(state))
+        self.ot_logger.debug('smoothie_pyserial.on_state_change called')
+        self.ot_logger.debug('state: {}'.format(state))
         if hasattr(self.outer,'on_state_change'):
             try:
                 self.outer.on_state_change(state)
             except:
-                logging.error('smoothie_pyserial.on_state_change: problem calling self.outer.on_state_change')
+                self.ot_logger.error('smoothie_pyserial.on_state_change: problem calling self.outer.on_state_change')
                 raise
 
     def on_limit_hit(self, axis):
         """Calls an external callback for when a limitswitch is hit
         """
-        logging.debug('smoothie_pyserial.on_limit_hit called on axis {}'.format(axis))
+        self.ot_logger.debug('smoothie_pyserial.on_limit_hit called on axis {}'.format(axis))
         if self.limit_hit_callback != None:
             self.limit_hit_callback(axis)
 

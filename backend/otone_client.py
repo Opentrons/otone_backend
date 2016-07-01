@@ -22,6 +22,7 @@ connection is established, it instantiates and configures various objects with
 
 import asyncio
 import logging
+import logging.handlers
 import os
 import shutil
 import sys
@@ -69,9 +70,20 @@ if not os.path.exists(fname_data_calibrations):
     open(fname_data_calibrations, "w+")
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
 
-FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-logging.basicConfig(filename=fname_data_logfile, level=logging.DEBUG, format=FORMAT)
-logging.info('\n\nOT.One Started')
+
+print('logging to {}'.format(fname_data_logfile))
+
+ot_logger = logging.getLogger('ot_logger')
+
+handler = logging.handlers.RotatingFileHandler(
+              fname_data_logfile, maxBytes=200000, backupCount=3)
+
+handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+ot_logger.setLevel(logging.DEBUG)
+
+ot_logger.addHandler(handler)
+
+ot_logger.info('OT.One Started')
 
 from head import Head
 from deck import Deck
@@ -120,7 +132,7 @@ class WampComponent(wamp.ApplicationSession):
 
         Starts instatiation of robot objects by calling :meth:`otone_client.instantiate_objects`.
         """
-        logging.debug('WampComponent.onJoin called')
+        ot_logger.debug('WampComponent.onJoin called')
         if not self.factory._myAppSession:
             self.factory._myAppSession = self
 
@@ -129,12 +141,12 @@ class WampComponent(wamp.ApplicationSession):
 
 
         def set_client_status(status):
-            logging.debug('WampComponent.set_client_status called')
+            ot_logger.debug('WampComponent.set_client_status called')
             global client_status
             client_status = status
             self.publish('com.opentrons.robot_ready',True)
 
-        logging.debug('about to publish com.opentrons.robot_ready TRUE')
+        ot_logger.debug('about to publish com.opentrons.robot_ready TRUE')
         self.publish('com.opentrons.robot_ready',True)
         yield from self.subscribe(set_client_status, 'com.opentrons.browser_ready')
         yield from self.subscribe(subscriber.dispatch_message, 'com.opentrons.browser_to_robot')
@@ -176,7 +188,7 @@ def instantiate_objects():
 
     global dir_path
 
-    logging.debug('instantiate_objects called')
+    ot_logger.debug('instantiate_objects called')
     #get default json file
     def_start_protocol = FileIO.get_dict_from_json(os.path.join(dir_path,'data/default_startup_protocol.json'))
     #FileIO.get_dict_from_json('/home/pi/PythonProject/default_startup_protocol.json')
@@ -184,15 +196,15 @@ def instantiate_objects():
 
     #instantiate the head
     head = Head(def_start_protocol['head'], publisher, dir_path)
-    logging.debug('head string: ')
-    logging.debug(str(head))
-    logging.debug('head representation: ')
-    logging.debug(repr(head))
+    ot_logger.debug('head string: ')
+    ot_logger.debug(str(head))
+    ot_logger.debug('head representation: ')
+    ot_logger.debug(repr(head))
     #use the head data to configure the head
     head_data = {}
     head_data = prot_dict['head']   #extract the head section from prot_dict
 
-    logging.debug("Head configured!")
+    ot_logger.debug("Head configured!")
 
 
     #instantiate the script keeper (sk)
@@ -200,10 +212,10 @@ def instantiate_objects():
 
     #instantiate the deck
     deck = Deck(def_start_protocol['deck'], publisher, dir_path)
-    logging.debug('deck string: ')
-    logging.debug(str(deck))
-    logging.debug('deck representation: ')
-    logging.debug(repr(deck))
+    ot_logger.debug('deck string: ')
+    ot_logger.debug(str(deck))
+    ot_logger.debug('deck representation: ')
+    ot_logger.debug(repr(deck))
 
 
     runner = ProtocolRunner(head, publisher)
@@ -214,7 +226,7 @@ def instantiate_objects():
     deck_data = prot_dict['deck']   #extract the deck section from prot_dict
     #    deck = RobotLib.Deck({})        #instantiate an empty deck
     deck.configure_deck(deck_data)  #configure the deck from prot_dict data
-    logging.debug("Deck configured!")
+    ot_logger.debug("Deck configured!")
 
 
     #do something with the Ingredient data
@@ -223,7 +235,7 @@ def instantiate_objects():
     ingr = Ingredients({})
 
     ingr.configure_ingredients(ingr_data) #configure the ingredienets from prot_dict data
-    logging.debug('Ingredients imported!')
+    ot_logger.debug('Ingredients imported!')
 
 
     publisher.set_head(head)
@@ -261,7 +273,7 @@ try:
 
     while (crossbar_status == False):
         try:
-            logging.info('trying to make a connection...')
+            ot_logger.info('trying to make a connection...')
             make_a_connection()
         except KeyboardInterrupt:
             crossbar_status = True
@@ -269,7 +281,7 @@ try:
             #raise
             pass
         finally:
-            logging.info('error while trying to make a connection, sleeping for 5 seconds')
+            ot_logger.info('error while trying to make a connection, sleeping for 5 seconds')
             time.sleep(5)
 except KeyboardInterrupt:
     pass

@@ -12,7 +12,8 @@ class ProtocolRunner:
     def __init__(self, head, publisher):
         """Initialize ProtocolRunner object
         """
-        logging.info('protocol_runner.__init__ called')
+        self.ot_logger = logging.getLogger('ot_logger.protocol_runner')
+        self.ot_logger.info('protocol_runner.__init__ called')
         #intantiate the two queue objects
         self.insQueue = InstructionQueue(head, publisher)
 
