@@ -20,7 +20,7 @@ class Head:
     
 #Special Methods-----------------------
     #def __init__(self, tools, global_handlers, theQueue):
-    def __init__(self, tools, publisher):
+    def __init__(self, tools, publisher, dir_path):
         """Initialize Head object
         
         tools = dictionary of the tools on the head
@@ -41,7 +41,7 @@ class Head:
         self.theQueue = TheQueue(self, publisher)
         
         self.path = os.path.abspath(__file__)
-        self.dir_path = os.path.dirname(self.path)  
+        self.dir_path = dir_path  
         self.dir_par_path = os.path.dirname(self.dir_path)
         self.dir_par_par_path = os.path.dirname(self.dir_par_path)      
 
@@ -459,8 +459,10 @@ class Head:
         
         filename = os.path.join(self.dir_path,'otone_data/pipette_calibrations.json')
 
+        print('saving to {}'.format(filename))
+
         # save the pipette's values to a local file, to be loaded when the server restarts
-        FileIO.writeFile(filename,filetext,lambda: FileIO.onError('\t\tError saving the file:\r\r'))      
+        FileIO.writeFile(filename,filetext,lambda: print('\t\tError saving the file:\r\r'))      
 
 
     #from planner.js
@@ -471,8 +473,8 @@ class Head:
         """
         logging.debug('head.load_pipette_values called')
         old_values = FileIO.get_dict_from_json(os.path.join(self.dir_path,'otone_data/pipette_calibrations.json'))
-        logging.debug('old_values:\n')
-        logging.debug(old_values)
+        print('old_values:\n')
+        print(old_values)
         
         if self.PIPETTES is not None and len(self.PIPETTES) > 0:
             for axis in old_values:

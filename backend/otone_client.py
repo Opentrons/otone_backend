@@ -178,7 +178,7 @@ def instantiate_objects():
 
 
     #instantiate the head
-    head = Head(def_start_protocol['head'], publisher)
+    head = Head(def_start_protocol['head'], publisher, dir_path)
     logging.debug('head string: ')
     logging.debug(str(head))
     logging.debug('head representation: ')
