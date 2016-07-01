@@ -36,7 +36,7 @@ class FileIO(object):
     
     @staticmethod
     def get_dict_from_json(input_file):
-        if os.path.isfile(input_file):
+        if not os.path.isfile(input_file):
             raise Exception('Error, file does not exist: {}'.format(input_file))
 
         with open(input_file, 'r') as in_file:

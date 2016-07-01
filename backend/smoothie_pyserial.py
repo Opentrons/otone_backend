@@ -103,11 +103,8 @@ class Smoothie(object):
                                 logger.exception(
                                     'Failed parsing data from smoothie board'
                                 )
-                    except Exception as e:
-                        logger.exception(
-                            'Failed to read from serial port. Port may have '
-                            'closed'
-                        )
+                    except OSError:
+                        logger.info('Device disconnected/port closed')
                         self.callbacker.connection_lost()
                 else:
                     self.callbacker.connection_lost()
