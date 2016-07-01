@@ -14,10 +14,6 @@ class FileIO(object):
     by other classes in the application.
     """
 
-    def __init__(self):
-        # ToDo: read in a config file containing paths to folders for
-        # protocol files, log files, labware files, calibration files, etc.
-        
     def __str__(self):
         return "FileIO"
 
