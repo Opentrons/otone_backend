@@ -40,8 +40,6 @@ class Head:
         self.smoothieAPI.set_on_disconnect_callback(self.pubber.on_smoothie_disconnect)
         self.theQueue = TheQueue(self, publisher)
         
-        #connect with the smoothie board
-        self.smoothieAPI.connect()
         self.path = os.path.abspath(__file__)
         self.dir_path = os.path.dirname(self.path)  
         self.dir_par_path = os.path.dirname(self.dir_path)

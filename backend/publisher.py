@@ -43,13 +43,13 @@ class Publisher:
         """Publish that Smoothieboard is connected
         """
         logging.debug('publisher.on_smoothie_connect called')
-        self.send_message('status',{'string':'Connected to the Smoothieboard','color':'rgb(27,225,100)'})
+        self.send_message('status',True)
 
     def on_smoothie_disconnect(self):
         """Publish that Smoothieboard is disconnected and try to reconnect
         """
         logging.debug('publisher.on_smoothie_disconnect called')
-        self.send_message('status',{'string':'Smoothieboard Disconnected','color':'red'})
+        self.send_message('status',False)
         self.head.theQueue.is_busy = False
         
     

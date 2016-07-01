@@ -76,6 +76,16 @@ class Subscriber():
         self.head.home(data)
 
 
+    def list_ports(self):
+        if self.head:
+            temp_ports = self.head.smoothieAPI.list_serial_ports()
+            self.head.pubber.send_message('portsList',temp_ports)
+
+    def connect_port(self, portname):
+        if self.head:
+            self.head.smoothieAPI.connect(portname)
+
+
     def reset(self):
         """Intermediate step to reset Smoothieboard
         """
@@ -272,6 +282,8 @@ class Subscriber():
               'reboot' : lambda self: self.reboot(),
               'shareinet': lambda self: self.loop.create_task(self.share_inet()),
               'restart' : lambda self: self.restart(),
-              'containerDepthOverride': lambda self, data: self.container_depth_override(data)
+              'containerDepthOverride': lambda self, data: self.container_depth_override(data),
+              'listPorts' : lambda self: self.list_ports(),
+              'connectPort' : lambda self, data: self.connect_port(data)
               }
     

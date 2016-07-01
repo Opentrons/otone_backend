@@ -2,14 +2,15 @@
 
 import asyncio, json, math
 
+import sys
+import glob
 import serial
-import smoothie_usb_util
 import time
 
 import logging
 
 class Smoothie(object):
-    """Smoothie class 
+    """Smoothie class
 
     """
 
@@ -55,7 +56,7 @@ class Smoothie(object):
     }
 
     old_msg = ""
-    
+
     def __init__(self, outer):
         self.outer = outer
         self.raw_callback = None
@@ -77,7 +78,6 @@ class Smoothie(object):
         self.attempting_connection = False
         self.callbacker = self.CB_Factory(self)
         self.connected = False
-        self.smoothie_usb_finder = smoothie_usb_util.SmoothieUSBUtil()
 
 
         # the below coroutine loops forever
@@ -90,7 +90,16 @@ class Smoothie(object):
                     try:
                         data = self.serial_port.readline().decode('UTF-8')
                         if data and self.callbacker:
-                            self.callbacker.data_received(data)
+                            try:
+                                self.callbacker.data_received(data)
+                            except:
+                                # if no X/Y/Z coordinates are calibrated for labware,
+                                # then this branch will get triggered. previously,
+                                # this was causing the red/green/red/green
+                                # repeated disconnect reconnect issue.
+                                # now that should be fixed, though protocils
+                                # will still fail if all labware isn't properly calibrated
+                                pass
                     except:
                         self.callbacker.connection_lost()
                 else:
@@ -106,7 +115,7 @@ class Smoothie(object):
         def __init__(self, outer):
             logging.info('smoothie_pyserial:\n\tCB_Factory.__init__ called')
             self.outer = outer
-        
+
         def connection_made(self):
             """Callback when a connection is made
             """
@@ -123,7 +132,7 @@ class Smoothie(object):
             logging.debug('smoothie_pyserial:\n\tCBFactory.data_received: ')
             logging.debug(data)
             self.old_data = data
-            
+
             self.proc_data = self.proc_data + data
             deli = "\n"
             sub_data = self.proc_data[:self.proc_data.rfind("\n")]
@@ -131,7 +140,7 @@ class Smoothie(object):
             list_data = [e+deli for e in sub_data.split(deli)]
             for ds in list_data:
                 self.outer.smoothie_handler(ds,data)  #self.outer
-            
+
 
         def connection_lost(self):
             """Callback when connection is lost
@@ -144,7 +153,7 @@ class Smoothie(object):
 
                 self.outer.theState['stat'] = 0
                 self.outer.theState['delaying'] = 0
-                
+
                 self.outer.already_trying = False
                 proc_data = ""
                 self.outer.on_disconnect()
@@ -190,54 +199,36 @@ class Smoothie(object):
         """
         self.on_disconnect_callback = callback
 
-    def connect(self):
+    def connect(self, portname):
         """Make a connection to Smoothieboard
             This method is called whenever the port is found to either not exist or throw an error
         """
 
-        # only enter the method is we are currently not attempting a Smoothieboard discovery
-        if not self.attempting_connection:
-            self.attempting_connection = True
-            logging.debug('smoothie_pyserial.connect')
+        if self.serial_port and self.serial_port.is_open:
+            try:
+                self.serial_port.close()
+            except serial.SerialException:
+                pass
 
-            @asyncio.coroutine
-            def search_serial_ports():
-                port_desc = self.smoothie_usb_finder.find_smoothie()
-
-                while not port_desc:
-                    logging.debug('smoothie_pyserial.connect FAILED')
-                    self.on_disconnect_callback()
-                    yield from asyncio.sleep(1)
-                    port_desc = self.smoothie_usb_finder.find_smoothie()
-
-                logging.debug('smoothie_pyserial.connect found a smoothie on a serial port')
-
-                self.my_loop = asyncio.get_event_loop()
-
-                try:
-                    # pause for a couple seconds, because the port has a tendancy to
-                    # disappear then reappear after first being plugged in
-                    yield from asyncio.sleep(2)
-                    self.serial_port = serial.Serial(port_desc['portname'], 115200, timeout=0.05)
-                    self.attempting_connection = False
-                    self.callbacker.connection_made()
-                except serial.SerialException or OSError:
-                    self.callbacker.connection_lost()
-
-            tasks = [search_serial_ports()]
-            asyncio.async(asyncio.wait(tasks))
+        try:
+            # pause for a couple seconds, because the port has a tendancy to
+            # disappear then reappear after first being plugged in
+            self.serial_port = serial.Serial(portname, 115200, timeout=0.02)
+            self.callbacker.connection_made()
+        except serial.SerialException or OSError:
+            self.callbacker.connection_lost()
 
     #@asyncio.coroutine
     def on_success_connecting(self):
         """Smoothie callback for when a connection is made
 
-        Sends startup commands to engage automatic feedback from Smoothieboard, :meth:`home`, 
+        Sends startup commands to engage automatic feedback from Smoothieboard, :meth:`home`,
         and call :meth:`on_connect` callback
         """
         logging.debug('smoothie_pyserial.on_success_connecting called')
         thestring = self._dict['setupFeedback']
         self.send(thestring)#self  self._dict['setupFeedback'])
-        self.home(dict())
+        self.try_add('G91 G0Z-2 G0Z2 G0Z-2 G0Z2 G0Z-2 G0Z2')
         self.on_connect(self.theState)
 
 
@@ -394,7 +385,7 @@ class Smoothie(object):
         """
         logging.debug('smoothie_pyserial.move called')
         logging.debug('coords_list: {}'.format(coords_list))
-        
+
         absolMov = True
         if isinstance(coords_list, dict):
             header = self._dict['absoluteMove']
@@ -402,7 +393,7 @@ class Smoothie(object):
                 if coords_list['relative']==True:
                     absolMov = False
                     header = self._dict['relativeMove']
-        
+
             cmd = header
 
             for n, value in coords_list.items():
@@ -453,7 +444,7 @@ class Smoothie(object):
             self.already_trying = True
             cmd = self.smoothieQueue.pop(0)
             self.send(cmd)
-        
+
 
 
     def delay(self, seconds):
@@ -504,11 +495,11 @@ class Smoothie(object):
             axis_dict = {'a':True, 'b':True, 'x':True, 'y':True, 'z':True}
 
         self.halt() #self
-        
+
         homeCommand = ''
         homingX = False
         homingABZ = False
-        
+
         if 'a' in axis_dict or 'A' in axis_dict:
             homeCommand += self._dict['home']
             homeCommand += 'A'
@@ -571,7 +562,7 @@ class Smoothie(object):
         """Reset robot
         """
         logging.debug('smoothie_pyserial.reset called')
-        resetString = _dict['reset']
+        resetString = self._dict['reset']
         self.send(self, resetString)
 
 
@@ -597,6 +588,34 @@ class Smoothie(object):
         """
         #self.try_add(string)
         self.send(string)
+
+    def list_serial_ports(self):
+        """ Lists serial port names
+
+            :raises EnvironmentError:
+                On unsupported or unknown platforms
+            :returns:
+                A list of the serial ports available on the system
+        """
+        if sys.platform.startswith('win'):
+            ports = ['COM%s' % (i + 1) for i in range(256)]
+        elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+            # this excludes your current terminal "/dev/tty"
+            ports = glob.glob('/dev/tty[A-Za-z]*')
+        elif sys.platform.startswith('darwin'):
+            ports = glob.glob('/dev/tty.*')
+        else:
+            raise EnvironmentError('Unsupported platform')
+
+        result = []
+        for port in ports:
+            try:
+                s = serial.Serial(port)
+                s.close()
+                result.append(port)
+            except (OSError, serial.SerialException):
+                pass
+        return result
 
 
     #############################################
@@ -628,11 +647,9 @@ class Smoothie(object):
         """Callback when disconnected
         """
         logging.debug('smoothie_pyserial.on_disconnect called')
-        
+
         if hasattr(self.on_disconnect_callback, '__call__'):
             self.on_disconnect_callback()
-
-        self.connect()
 
     def on_raw_data(self, msg):
         """Calls an external callback to show raw data lines received
@@ -650,7 +667,7 @@ class Smoothie(object):
         logging.debug('smoothie_pyserial.on_position_data called')
         if self.position_callback != None:
             self.position_callback(msg)
-        
+
 
     def on_state_change(self, state):
         """Calls an external callback for when theState changes
@@ -671,12 +688,3 @@ class Smoothie(object):
         if self.limit_hit_callback != None:
             self.limit_hit_callback(axis)
 
-
-if __name__ == '__main__':
-    smooth = Smoothie()
-    smooth.connect()
-    loop = asyncio.get_event_loop()
-    try:
-        loop.run_forever()
-    finally:
-        loop.close()
