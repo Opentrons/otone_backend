@@ -84,7 +84,7 @@ formatter = logging.Formatter(FORMAT)
 console.setFormatter(formatter)
 logging.getLogger('').addHandler(console)
 
-logger = logging.getLogger('app.otone_client')
+logger = logging.getLogger('otone_client.otone_client')
 logger.addHandler(console)
 
 
