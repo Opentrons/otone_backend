@@ -1,6 +1,9 @@
 import logging
 
-#converted from js dict in Planner.js into a python class
+
+logger = logging.getLogger('app.the_queue')
+
+
 class TheQueue:
     """TheQueue class-converted from js dict in Planner.js into a python class
     
@@ -41,8 +44,7 @@ class TheQueue:
     def __init__(self, head, publisher):
         """Initialize TheQueue object 
         """
-        self.ot_logger = logging.getLogger('ot_logger.the_queue')
-        self.ot_logger.info('the_queue.__init__ called')
+        logger.info('the_queue.__init__ called')
         self.head = head
         self.paused = False
         self.is_busy = False
@@ -64,7 +66,7 @@ class TheQueue:
         
         .. note:: NOT ACTUALLY IMPLEMENTED YET
         """
-        self.ot_logger.debug('the_queue.sent_successfully called')
+        logger.debug('the_queue.sent_successfully called')
         if self.just_started and self.pubber.on_start and type(self.pubber.on_start) == 'function':
             self.pubber.on_start()
 
@@ -75,35 +77,35 @@ class TheQueue:
     def pause(self):
         """Pauses TheQueue by setting paused True
         """
-        self.ot_logger.debug('the_queue.pause called')
+        logger.debug('the_queue.pause called')
         if len(self.qlist):
             self.paused = True
             
     def resume(self):
         """Resumes TheQueue by setting paused False and calling :meth:`step`
         """
-        self.ot_logger.debug('the_queue.resume called')
+        logger.debug('the_queue.resume called')
         self.paused = False
         self.step(False)
         
     def add(self,commands):
         """Add a command to TheQueue's :obj:`qlist`
         """
-        self.ot_logger.debug('the_queue.add called')
-        self.ot_logger.debug('commands: {}'.format(commands))
+        logger.debug('the_queue.add called')
+        logger.debug('commands: {}'.format(commands))
         if commands and self.paused==False:
             # test to see if the queue is currently empty
 #            self.just_started = False   #is this needed?
             if len(self.qlist)==0:
                 self.just_started = True
-                self.ot_logger.debug('the_queue.add:\n\tbefore self.qlist: {}'.format(self.qlist))
+                logger.debug('the_queue.add:\n\tbefore self.qlist: {}'.format(self.qlist))
             # add new commands to the end of the queue
-            self.ot_logger.debug('type(commands): {}'.format(str(type(commands))))
+            logger.debug('type(commands): {}'.format(str(type(commands))))
             if isinstance(commands, list):
                 self.qlist.extend(commands)
             elif isinstance(commands, dict):
                 self.qlist.append(commands)
-            self.ot_logger.debug('the_queue.add:\n\tafter self.qlist: {}'.format(self.qlist))
+            logger.debug('the_queue.add:\n\tafter self.qlist: {}'.format(self.qlist))
     
             self.step(self.just_started) # attempt to increment the queue
 
@@ -112,16 +114,16 @@ class TheQueue:
         """Pop a command from :obj:`qlist` and process it via smoothieAPI (:class:`smoothie_ser2net`) object in :class:`head`
 
         """
-        self.ot_logger.debug('the_queue.step called')
-        self.ot_logger.debug('just_started: {}'.format(just_started))
+        logger.debug('the_queue.step called')
+        logger.debug('just_started: {}'.format(just_started))
         if self.is_busy==False:
-            self.ot_logger.debug('the_queue len(self.qlist): {}'.format(len(self.qlist)))
+            logger.debug('the_queue len(self.qlist): {}'.format(len(self.qlist)))
             if len(self.qlist)>0:
                 # pull out the first in line from the queue
 #                self.current_command = self.qlist.splice(0,1)[0];
                 self.current_command = self.qlist.pop(0)
                 self.is_busy = True;
-                self.ot_logger.debug('the_queue.current_command: {}'.format(self.current_command))
+                logger.debug('the_queue.current_command: {}'.format(self.current_command))
 
                 # 'wait' for someone to click a button on interface. Not there yet.
                 if 'wait' in self.current_command:
@@ -147,7 +149,7 @@ class TheQueue:
     def clear(self):
         """Clear :obj:`qlist`, :obj:`is_busy`, :obj:`paused`, and :obj:`current_command`
         """
-        self.ot_logger.debug('the_queue.clear called')
+        logger.debug('the_queue.clear called')
         self.qlist = list()
         self.is_busy = False
         self.paused = False
@@ -158,7 +160,7 @@ class TheQueue:
     def pause_job(self):
         """Call :meth:`pause`... redundant, consider removing
         """
-        self.ot_logger.debug('the_queue.pause_job called')
+        logger.debug('the_queue.pause_job called')
         #doesn't map to smoothieAPI
         #function pauseJob()
         self.pause()
@@ -167,7 +169,7 @@ class TheQueue:
     def resume_job(self):
         """Call :meth:`resume`... redundant, consider removing
         """
-        self.ot_logger.debug('the_queue.resume_job called')
+        logger.debug('the_queue.resume_job called')
         #doesn't map to smoothieAPI
         #function resumeJob()
         self.resume()
@@ -176,7 +178,7 @@ class TheQueue:
     def erase_job(self, data):
         """Call :meth:`clear`... redundant, consider removing, and why does it have unused data parameter???
         """
-        self.ot_logger.debug('the_queue.erase_job called')
+        logger.debug('the_queue.erase_job called')
         #doesn't map to smoothieAPI
         #function eraseJob(){
         self.clear() 
@@ -186,7 +188,7 @@ class TheQueue:
     def kill(self):
         """Kill :class:`head` operation and clear :obj:`qlist`
         """
-        self.ot_logger.debug('the_queue.kill called')
+        logger.debug('the_queue.kill called')
         self.head.kill()
         self.clear()
 
@@ -194,7 +196,7 @@ class TheQueue:
     def reset(self):
         """Tell :class:`head` to reset and clear :obj:`qlist`
         """
-        self.ot_logger.debug('the_queue.reset called')
+        logger.debug('the_queue.reset called')
         self.head.reset()
         self.clear()  
         

@@ -6,6 +6,10 @@ import logging
 
 from file_io import FileIO
 
+
+logger = logging.getLogger('app.deck')
+
+
 class Deck:
     """The Deck class is a representation of the robot deck
 
@@ -38,8 +42,6 @@ class Deck:
             "plate-2": {"labware": "96-flat", "slot" : 8},
             "trash": {"labware": "point", "slot" : 12}
         """
-        self.ot_logger = logging.getLogger('ot_logger.deck')
-        self.ot_logger.debug('deck.__init__ called')
         self.modules = modules
         self.pubber = publisher
         self.path = os.path.abspath(__file__)
@@ -64,7 +66,7 @@ class Deck:
         :returns: A list of instantiated deck modules
         :rtype: List
         """
-        self.ot_logger.debug('deck.configure_deck called')
+        logger.debug('deck.configure_deck called')
         #delete any previous deck configuration
         del self.modules
         self.modules = []
@@ -83,26 +85,26 @@ class Deck:
 
 
     def save_containers(self, containers_data):
-        self.ot_logger.debug('deck.save_containers called')
+        logger.debug('deck.save_containers called')
         containers_text = json.dumps(containers_data,sort_keys=True,indent=4,separators=(',',': '))
-        self.ot_logger.debug('containers_text: {}'.format(containers_text))
+        logger.debug('containers_text: {}'.format(containers_text))
         filename = os.path.join(self.dir_path,'otone_data/containers.json')
         FileIO.writeFile(filename,container_text,lambda: FileIO.onError('\t\tError saving the file:\r\r'))              
 
 
     def get_containers(self):
-        self.ot_logger.debug('deck.get_containers called')
+        logger.debug('deck.get_containers called')
         containers = FileIO.get_dict_from_json(os.path.join(self.dir_path,'otone_data/containers.json'))
         return containers
 
 
     def publish_containers(self):
-        self.ot_logger.debug('deck.publish_containers called')
+        logger.debug('deck.publish_containers called')
         self.pubber.send_message('containers',self.get_containers())
 
 
     def container_depth_override(self, container_name, new_depth):
-        self.ot_logger.debug('deck.container_depth_override called')
+        logger.debug('deck.container_depth_override called')
         containers = FileIO.get_dict_from_json(os.path.join(self.dir_path,'otone_data/containers.json'))
         if container_name in containers and new_depth is not None:
             if 'locations' in containers[container_name]:
@@ -110,5 +112,5 @@ class Deck:
                 self.save_containers(containers)
                 self.publish_containers()
             else:
-                self.ot_logger.error('error in deck.container_depth_override, locations not in containers--> {}'.format(container_name))
+                logger.error('error in deck.container_depth_override, locations not in containers--> {}'.format(container_name))
 

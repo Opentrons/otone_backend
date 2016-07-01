@@ -1,5 +1,9 @@
 import logging
 
+
+logger = logging.getLogger('app.ingredients')
+
+
 class Ingredients:
     """Hold information about the liquid sources
     
@@ -13,8 +17,7 @@ class Ingredients:
         """Initialize Ingredients object
         """
 
-        self.ot_logger = logging.getLogger('ot_logger.ingredients')
-        self.ot_logger.debug('ingredients.__init__ called')
+        logger.debug('ingredients.__init__ called')
         self.ingredientDict = ingredients
         
         
@@ -35,7 +38,7 @@ class Ingredients:
          "wine": [{"container": "source-bucket","location": "A2","volume": 25000}]
         }
         """
-        self.ot_logger.debug('ingredients.configure_ingredients called')
+        logger.debug('ingredients.configure_ingredients called')
         #delete any previous ingredients
         if self.ingredientDict:
             del self.ingredientDict
