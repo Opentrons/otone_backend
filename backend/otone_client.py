@@ -29,6 +29,11 @@ import time
 
 from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
+if sys.platform == 'win32':
+    loop = asyncio.ProactorEventLoop()
+    asyncio.set_event_loop(loop)
+    print('Setup ProactorEventLoop')
+
 
 # If code is frozen (i.e. pyinstaller executable) then
 # file path is the sys._MEIPASS attribute
@@ -72,7 +77,16 @@ FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 logging.basicConfig(filename=fname_data_logfile, level=logging.DEBUG, format=FORMAT)
 logging.info('\n\nOT.One Started')
 
+
+console = logging.StreamHandler()
+console.setLevel(logging.DEBUG)
+formatter = logging.Formatter(FORMAT)
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
+
 logger = logging.getLogger('app.otone_client')
+logger.addHandler(console)
+
 
 from head import Head
 from deck import Deck

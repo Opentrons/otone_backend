@@ -2,6 +2,9 @@ import json
 
 import logging
 
+logger = logging.getLogger('app.publisher')
+
+
 class Publisher:
     """Publisher to centralize publishing data and callbacks
     
@@ -89,7 +92,7 @@ class Publisher:
         try:
             self.runner.insQueue.ins_step() #changed name 
         except AttributeError as ae:
-            debug.error(ae)
+            logger.exception('On finish failed')
 
 
     def show_delay(self, time_left):
@@ -118,8 +121,8 @@ class Publisher:
             }
         try:
             self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        except:
-            logging.error("error trying to send_message")
+        except Exception as e:
+            logging.exception("error trying to send_message")
 
 
     def send_ctrl_message(self,type_,damsg):
