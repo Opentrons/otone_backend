@@ -1,9 +1,9 @@
-import json, collections, subprocess, asyncio
-from autobahn.asyncio.wamp import ApplicationSessionFactory
-
+import collections
+import json
 import logging
 
-class Subscriber():
+
+class Subscriber(object):
     """Subscribes to messages from WAMP Router on 'com.opentrons.browser_to_robot' and dispatches commands according to the :obj:`dispatcher` dictionary.
 
     
@@ -47,16 +47,9 @@ class Subscriber():
     :todo:
     - clean up inclusion of head and runner objects -> referenced by dispatch
     - move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
-    
-
-
     """
     
-#Special Methods
     def __init__(self, session,loop):
-        """Initialize Subscriber object
-        """
-        logging.info('subscriber.__init__ called')
         self.head = None
         self.deck = None
         self.runner = None
@@ -109,28 +102,29 @@ class Subscriber():
         logging.debug('\nmessage: {}'.format(message))
         try:
             dictum = collections.OrderedDict(json.loads(message.strip(), object_pairs_hook=collections.OrderedDict))
+
             logging.debug('\tdictum[type]: {}'.format(dictum['type']))
+
             if 'data' in dictum:
                 logging.debug('\tdictum[data]: {}'.format(json.dumps(dictum['data'],sort_keys=True,indent=4,separators=(',',': '))))
                 self.dispatch(dictum['type'],dictum['data'])
             else:
                 self.dispatch(dictum['type'],None)
-        except:
-            logging.error('*** error in subscriber.dispatch_message ***')
-            raise
-
+        except Exception as e:
+            logging.exception('*** error in subscriber.dispatch_message ***')
+            raise e
 
     def dispatch(self, type_, data):
         """Dispatch commands according to :obj:`dispatcher` dictionary
         """
         logging.debug('subscriber.dispatch called')
         logging.debug('type_: {0},  data: {1}'.format(type_, data))
+
         if data is not None:
             self.dispatcher[type_](self,data)
         else:
             self.dispatcher[type_](self)
 
-          
     def calibrate_pipette(self, data):
         """Tell the :head:`head` to calibrate a :class:`pipette`
         """
@@ -141,7 +135,6 @@ class Subscriber():
             property_ = data['property']
             self.head.calibrate_pipette(axis, property_)
         self.get_calibrations()
-
 
     def calibrate_container(self, data):
         """Tell the :class:`head` to calibrate a container
@@ -154,13 +147,11 @@ class Subscriber():
             self.head.calibrate_container(axis, container_)
         self.get_calibrations()
 
-
     def container_depth_override(self, data):
         logging.debug('subscriber.container_depth_override called')
         container_name = data['name']
         new_depth = data['depth']
         self.deck.container_depth_override(container_name,new_depth)
-
 
     def get_calibrations(self):
         """Tell the :class:`head` to publish calibrations
