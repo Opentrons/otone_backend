@@ -686,9 +686,9 @@ class Smoothie(object):
         if hasattr(self.outer,'on_state_change'):
             try:
                 self.outer.on_state_change(state)
-            except:
-                logging.error('smoothie_pyserial.on_state_change: problem calling self.outer.on_state_change')
-                raise
+            except Exception as e:
+                logging.exception('smoothie_pyserial.on_state_change: problem calling self.outer.on_state_change')
+                raise e
 
     def on_limit_hit(self, axis):
         """Calls an external callback for when a limitswitch is hit
