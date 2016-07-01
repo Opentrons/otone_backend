@@ -459,10 +459,8 @@ class Head:
         
         filename = os.path.join(self.dir_path,'otone_data/pipette_calibrations.json')
 
-        print('saving to {}'.format(filename))
-
         # save the pipette's values to a local file, to be loaded when the server restarts
-        FileIO.writeFile(filename,filetext,lambda: print('\t\tError saving the file:\r\r'))      
+        FileIO.writeFile(filename,filetext,lambda: logging.debug('\t\tError saving the file:\r\r'))      
 
 
     #from planner.js
@@ -473,8 +471,8 @@ class Head:
         """
         logging.debug('head.load_pipette_values called')
         old_values = FileIO.get_dict_from_json(os.path.join(self.dir_path,'otone_data/pipette_calibrations.json'))
-        print('old_values:\n')
-        print(old_values)
+        logging.debug('old_values:\n')
+        logging.debug(old_values)
         
         if self.PIPETTES is not None and len(self.PIPETTES) > 0:
             for axis in old_values:
