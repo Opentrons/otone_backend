@@ -29,6 +29,8 @@ import time
 
 from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
+dir_path = None
+
 
 # If code is frozen (i.e. pyinstaller executable) then
 # file path is the sys._MEIPASS attribute
@@ -171,6 +173,9 @@ def make_a_connection():
 def instantiate_objects():
     """After connection has been made, instatiate the various robot objects
     """
+
+    global dir_path
+
     logging.debug('instantiate_objects called')
     #get default json file
     def_start_protocol = FileIO.get_dict_from_json(os.path.join(dir_path,'data/default_startup_protocol.json'))
@@ -194,7 +199,7 @@ def instantiate_objects():
 
 
     #instantiate the deck
-    deck = Deck(def_start_protocol['deck'], publisher)
+    deck = Deck(def_start_protocol['deck'], publisher, dir_path)
     logging.debug('deck string: ')
     logging.debug(str(deck))
     logging.debug('deck representation: ')

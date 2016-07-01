@@ -26,7 +26,7 @@ class Deck:
     +--+--+--+--+--+
     """
 #Special Methods
-    def __init__(self, modules, publisher):
+    def __init__(self, modules, publisher, dir_path):
         """Initialize the Deck
         
         modules = a dictionary of the modules needed on the deck of the form:
@@ -42,7 +42,7 @@ class Deck:
         self.modules = modules
         self.pubber = publisher
         self.path = os.path.abspath(__file__)
-        self.dir_path = os.path.dirname(self.path)  
+        self.dir_path = dir_path
         self.dir_par_path = os.path.dirname(self.dir_path)
         self.dir_par_par_path = os.path.dirname(self.dir_par_path)  
         
