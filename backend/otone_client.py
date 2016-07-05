@@ -36,26 +36,29 @@ from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 if getattr(sys, 'frozen', None):
     print('using frozen path...')
     path = dir_path = sys._MEIPASS
+    perm_dir_path = '~/Opentrons-Config'
 else:
     print('using non frozen path...')
     path = os.path.abspath(__file__)
     dir_path = os.path.dirname(path)
+    perm_dir_path = dir_path
 
 print('resource path is', path)
 print('dir path is', dir_path)
+print('perm path is', perm_dir_path)
 
-dir_par_path = os.path.dirname(dir_path)
-dir_par_par_path = os.path.dirname(dir_par_path)
+if not os.path.exists(perm_dir_path):
+    os.makedirs(perm_dir_path)
 
 fname_default_protocol = os.path.join(dir_path,'data/sample_user_protocol.json')
 fname_default_containers = os.path.join(dir_path, 'data/containers.json')
 fname_default_calibrations = os.path.join(dir_path, 'data/pipette_calibrations.json')
 
-fname_data = os.path.join(dir_path,'otone_data')
+fname_data = os.path.join(perm_dir_path,'otone_data')
 
-fname_data_logfile = os.path.join(dir_path,'otone_data/logfile.txt')
-fname_data_containers = os.path.join(dir_path,'otone_data/containers.json')
-fname_data_calibrations = os.path.join(dir_path, 'otone_data/pipette_calibrations.json')
+fname_data_logfile = os.path.join(perm_dir_path,'otone_data/logfile.txt')
+fname_data_containers = os.path.join(perm_dir_path,'otone_data/containers.json')
+fname_data_calibrations = os.path.join(perm_dir_path, 'otone_data/pipette_calibrations.json')
 
 
 if not os.path.isdir(fname_data):
@@ -184,6 +187,7 @@ def instantiate_objects():
     """After connection has been made, instatiate the various robot objects
     """
 
+    global perm_dir_path
     global dir_path
 
     logger.debug('instantiate_objects called')
@@ -193,7 +197,7 @@ def instantiate_objects():
 
 
     #instantiate the head
-    head = Head(def_start_protocol['head'], publisher, dir_path)
+    head = Head(def_start_protocol['head'], publisher, perm_dir_path)
     logger.debug('head string: ')
     logger.debug(str(head))
     logger.debug('head representation: ')
@@ -209,7 +213,7 @@ def instantiate_objects():
 
 
     #instantiate the deck
-    deck = Deck(def_start_protocol['deck'], publisher, dir_path)
+    deck = Deck(def_start_protocol['deck'], publisher, perm_dir_path)
     logger.debug('deck string: ')
     logger.debug(str(deck))
     logger.debug('deck representation: ')
