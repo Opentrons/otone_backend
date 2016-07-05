@@ -90,7 +90,7 @@ class Smoothie(object):
         @asyncio.coroutine
         def read_loop():
             while True:
-                if self.serial_port:
+                if self.serial_port and self.serial_port.is_open:
                     try:
                         data = self.serial_port.readline().decode('UTF-8')
                         if data and self.callbacker:
