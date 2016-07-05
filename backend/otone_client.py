@@ -30,8 +30,6 @@ import time
 
 from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
-dir_path = None
-
 
 # If code is frozen (i.e. pyinstaller executable) then
 # file path is the sys._MEIPASS attribute
