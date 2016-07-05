@@ -30,7 +30,6 @@ import time
 
 from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
-
 # If code is frozen (i.e. pyinstaller executable) then
 # file path is the sys._MEIPASS attribute
 if getattr(sys, 'frozen', None):
@@ -42,6 +41,9 @@ else:
     path = os.path.abspath(__file__)
     dir_path = os.path.dirname(path)
     perm_dir_path = dir_path
+
+if len(sys.argv) > 1:
+    perm_dir_path = sys.argv[1]
 
 print('resource path is', path)
 print('dir path is', dir_path)
