@@ -2,6 +2,7 @@
 
 import asyncio, json, math
 
+import atexit
 import sys
 import glob
 import serial
@@ -82,6 +83,16 @@ class Smoothie(object):
         self.attempting_connection = False
         self.callbacker = self.CB_Factory(self)
         self.connected = False
+
+        def close_port():
+            if self.serial_port and self.serial_port.is_open:
+                try:
+                    self.serial_port.close()
+                    self.callbacker.connection_lost()
+                except serial.SerialException:
+                    pass
+
+        atexit.register(close_port)
 
 
         # the below coroutine loops forever
