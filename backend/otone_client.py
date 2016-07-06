@@ -45,6 +45,13 @@ else:
 if len(sys.argv) > 1:
     perm_dir_path = sys.argv[1]
 
+disconnect_counter = 0
+disconnect_count_threshold = 12
+keep_backend_running = False
+
+if len(sys.argv) > 2:
+    keep_backend_running = True
+
 print('resource path is', path)
 print('dir path is', dir_path)
 print('perm path is', perm_dir_path)
@@ -179,6 +186,8 @@ def make_a_connection():
 
     coro = loop.create_connection(transport_factory, '127.0.0.1', 8080)
 
+    disconnect_counter = 0
+
     transporter, protocoler = loop.run_until_complete(coro)
     #instantiate the subscriber and publisher for communication
 
@@ -285,8 +294,13 @@ try:
             #raise
             pass
         finally:
-            logger.info('error while trying to make a connection, sleeping for 5 seconds')
-            time.sleep(5)
+            if not keep_backend_running and disconnect_counter>disconnect_count_threshold:
+                # kill here
+                sys.exit()
+            else:
+                disconnect_counter += 1
+                logger.info('error while trying to make a connection, sleeping for 5 seconds (attempt {})'.format(disconnect_counter))
+                time.sleep(5)
 except KeyboardInterrupt:
     pass
 finally:
