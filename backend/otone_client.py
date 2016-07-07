@@ -19,7 +19,6 @@ connection is established, it instantiates and configures various objects with
  runner: :class:`protocol_runner.ProtocolRunner` - Runs protocol jobs
 """
 
-
 import asyncio
 import logging
 import logging.handlers
@@ -42,6 +41,7 @@ else:
     dir_path = os.path.dirname(path)
     perm_dir_path = dir_path
 
+
 if len(sys.argv) > 1:
     perm_dir_path = sys.argv[1]
 
@@ -58,6 +58,7 @@ print('perm path is', perm_dir_path)
 
 if not os.path.exists(perm_dir_path):
     os.makedirs(perm_dir_path)
+
 
 fname_default_protocol = os.path.join(dir_path,'data/sample_user_protocol.json')
 fname_default_containers = os.path.join(dir_path, 'data/containers.json')

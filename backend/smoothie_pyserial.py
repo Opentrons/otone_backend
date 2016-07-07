@@ -129,7 +129,6 @@ class Smoothie(object):
 
         def __init__(self, outer):
             self.outer = outer
-            logger.info('smoothie_pyserial:\n\tCB_Factory.__init__ called')
 
         def connection_made(self):
             """Callback when a connection is made
@@ -577,6 +576,7 @@ class Smoothie(object):
         """Reset robot
         """
         logger.debug('smoothie_pyserial.reset called')
+
         resetString = self._dict['reset']
         self.send(self, resetString)
 
