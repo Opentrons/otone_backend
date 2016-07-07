@@ -1,5 +1,9 @@
 import logging
 
+
+logger = logging.getLogger('app.deck_module')
+
+
 class DeckModule:
     """Base class for specific module types
     
@@ -21,7 +25,7 @@ class DeckModule:
         modetype = the type of module e.g. plate, spinner, etc. (string)
         
         """
-        logging.debug('deck_module.__init__ called')
+        logger.debug('deck_module.__init__ called')
     
         self.modname = modname
         self.modtype = modtype
@@ -44,7 +48,7 @@ class DeckModule:
         location = a tuple containing the location in mm of the reference 
                 position of the module for plates ref_location = A1
         """
-        logging.debug('deck_module.set_location called')
+        logger.debug('deck_module.set_location called')
         self.ref_location = location
         return self.ref_location
         
@@ -55,5 +59,5 @@ class DeckModule:
         slot = an integer between 1 and 15 to indicate the position
         of this deckModule
         """
-        logging.debug('deck_module.set_slot called')
+        logger.debug('deck_module.set_slot called')
         self.slot = slot

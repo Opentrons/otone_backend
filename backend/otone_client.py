@@ -19,9 +19,9 @@ connection is established, it instantiates and configures various objects with
  runner: :class:`protocol_runner.ProtocolRunner` - Runs protocol jobs
 """
 
-
 import asyncio
 import logging
+import logging.handlers
 import os
 import shutil
 import sys
@@ -29,32 +29,46 @@ import time
 
 from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
-
 # If code is frozen (i.e. pyinstaller executable) then
 # file path is the sys._MEIPASS attribute
 if getattr(sys, 'frozen', None):
     print('using frozen path...')
     path = dir_path = sys._MEIPASS
+    perm_dir_path = '~/Opentrons-Config'
 else:
     print('using non frozen path...')
     path = os.path.abspath(__file__)
     dir_path = os.path.dirname(path)
+    perm_dir_path = dir_path
+
+
+if len(sys.argv) > 1:
+    perm_dir_path = sys.argv[1]
+
+disconnect_counter = 0
+disconnect_count_threshold = 12
+keep_backend_running = False
+
+if len(sys.argv) > 2:
+    keep_backend_running = True
 
 print('resource path is', path)
 print('dir path is', dir_path)
+print('perm path is', perm_dir_path)
 
-dir_par_path = os.path.dirname(dir_path)
-dir_par_par_path = os.path.dirname(dir_par_path)
+if not os.path.exists(perm_dir_path):
+    os.makedirs(perm_dir_path)
+
 
 fname_default_protocol = os.path.join(dir_path,'data/sample_user_protocol.json')
 fname_default_containers = os.path.join(dir_path, 'data/containers.json')
 fname_default_calibrations = os.path.join(dir_path, 'data/pipette_calibrations.json')
 
-fname_data = os.path.join(dir_path,'otone_data')
+fname_data = os.path.join(perm_dir_path,'otone_data')
 
-fname_data_logfile = os.path.join(dir_path,'otone_data/logfile.txt')
-fname_data_containers = os.path.join(dir_path,'otone_data/containers.json')
-fname_data_calibrations = os.path.join(dir_path, 'otone_data/pipette_calibrations.json')
+fname_data_logfile = os.path.join(perm_dir_path,'otone_data/logfile.txt')
+fname_data_containers = os.path.join(perm_dir_path,'otone_data/containers.json')
+fname_data_calibrations = os.path.join(perm_dir_path, 'otone_data/pipette_calibrations.json')
 
 
 if not os.path.isdir(fname_data):
@@ -67,9 +81,20 @@ if not os.path.exists(fname_data_calibrations):
     open(fname_data_calibrations, "w+")
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
 
-FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-logging.basicConfig(filename=fname_data_logfile, level=logging.DEBUG, format=FORMAT)
-logging.info('\n\nOT.One Started')
+
+print('logging to {}'.format(fname_data_logfile))
+
+logger = logging.getLogger('app')
+
+handler = logging.handlers.RotatingFileHandler(
+              fname_data_logfile, maxBytes=200000, backupCount=3)
+
+handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+logger.setLevel(logging.WARNING)
+
+logger.addHandler(handler)
+
+logger.info('OT.One Started')
 
 from head import Head
 from deck import Deck
@@ -118,7 +143,7 @@ class WampComponent(wamp.ApplicationSession):
 
         Starts instatiation of robot objects by calling :meth:`otone_client.instantiate_objects`.
         """
-        logging.debug('WampComponent.onJoin called')
+        logger.debug('WampComponent.onJoin called')
         if not self.factory._myAppSession:
             self.factory._myAppSession = self
 
@@ -127,12 +152,12 @@ class WampComponent(wamp.ApplicationSession):
 
 
         def set_client_status(status):
-            logging.debug('WampComponent.set_client_status called')
+            logger.debug('WampComponent.set_client_status called')
             global client_status
             client_status = status
             self.publish('com.opentrons.robot_ready',True)
 
-        logging.debug('about to publish com.opentrons.robot_ready TRUE')
+        logger.debug('about to publish com.opentrons.robot_ready TRUE')
         self.publish('com.opentrons.robot_ready',True)
         yield from self.subscribe(set_client_status, 'com.opentrons.browser_ready')
         yield from self.subscribe(subscriber.dispatch_message, 'com.opentrons.browser_to_robot')
@@ -162,6 +187,8 @@ def make_a_connection():
 
     coro = loop.create_connection(transport_factory, '127.0.0.1', 8080)
 
+    disconnect_counter = 0
+
     transporter, protocoler = loop.run_until_complete(coro)
     #instantiate the subscriber and publisher for communication
 
@@ -171,34 +198,38 @@ def make_a_connection():
 def instantiate_objects():
     """After connection has been made, instatiate the various robot objects
     """
-    logging.debug('instantiate_objects called')
+
+    global perm_dir_path
+    global dir_path
+
+    logger.debug('instantiate_objects called')
     #get default json file
     def_start_protocol = FileIO.get_dict_from_json(os.path.join(dir_path,'data/default_startup_protocol.json'))
     #FileIO.get_dict_from_json('/home/pi/PythonProject/default_startup_protocol.json')
 
 
     #instantiate the head
-    head = Head(def_start_protocol['head'], publisher)
-    logging.debug('head string: ')
-    logging.debug(str(head))
-    logging.debug('head representation: ')
-    logging.debug(repr(head))
+    head = Head(def_start_protocol['head'], publisher, perm_dir_path)
+    logger.debug('head string: ')
+    logger.debug(str(head))
+    logger.debug('head representation: ')
+    logger.debug(repr(head))
     #use the head data to configure the head
     head_data = {}
     head_data = prot_dict['head']   #extract the head section from prot_dict
 
-    logging.debug("Head configured!")
+    logger.debug("Head configured!")
 
 
     #instantiate the script keeper (sk)
 
 
     #instantiate the deck
-    deck = Deck(def_start_protocol['deck'], publisher)
-    logging.debug('deck string: ')
-    logging.debug(str(deck))
-    logging.debug('deck representation: ')
-    logging.debug(repr(deck))
+    deck = Deck(def_start_protocol['deck'], publisher, perm_dir_path)
+    logger.debug('deck string: ')
+    logger.debug(str(deck))
+    logger.debug('deck representation: ')
+    logger.debug(repr(deck))
 
 
     runner = ProtocolRunner(head, publisher)
@@ -209,7 +240,7 @@ def instantiate_objects():
     deck_data = prot_dict['deck']   #extract the deck section from prot_dict
     #    deck = RobotLib.Deck({})        #instantiate an empty deck
     deck.configure_deck(deck_data)  #configure the deck from prot_dict data
-    logging.debug("Deck configured!")
+    logger.debug("Deck configured!")
 
 
     #do something with the Ingredient data
@@ -218,7 +249,7 @@ def instantiate_objects():
     ingr = Ingredients({})
 
     ingr.configure_ingredients(ingr_data) #configure the ingredienets from prot_dict data
-    logging.debug('Ingredients imported!')
+    logger.debug('Ingredients imported!')
 
 
     publisher.set_head(head)
@@ -256,7 +287,7 @@ try:
 
     while (crossbar_status == False):
         try:
-            logging.info('trying to make a connection...')
+            logger.info('trying to make a connection...')
             make_a_connection()
         except KeyboardInterrupt:
             crossbar_status = True
@@ -264,8 +295,16 @@ try:
             #raise
             pass
         finally:
-            logging.info('error while trying to make a connection, sleeping for 5 seconds')
-            time.sleep(5)
+            if (
+                not keep_backend_running and
+                disconnect_counter>disconnect_count_threshold
+            ):
+                sys.exit()
+            else:
+                disconnect_counter += 1
+                logger.info('error while trying to make a connection, sleeping for 5 '
+                    'seconds (attempt # {})'.format(disconnect_counter))
+                time.sleep(5)
 except KeyboardInterrupt:
     pass
 finally:

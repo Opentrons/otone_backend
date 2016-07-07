@@ -1,5 +1,9 @@
 import logging
 
+
+logger = logging.getLogger('app.tool')
+
+
 class Tool:
     """Tool class which could be a 1 channel pipette, 8ch pipette, grabber, etc
     
@@ -22,7 +26,7 @@ class Tool:
         offset = the offset in space from the A tool which is defined to
             have offset = (0,0,0)
         """
-        logging.info('tool.__init__ called')
+        logger.info('tool.__init__ called')
         self.toolname = toolname
         self.tooltype = tooltype
         self.axis = axis
@@ -43,6 +47,6 @@ class Tool:
         location = a tuple containing the offset in mm
                 of the tool relative to the A tool
         """
-        logging.debug('tool.set_offset called')
+        logger.debug('tool.set_offset called')
         self.offset = offset
         return self.offset

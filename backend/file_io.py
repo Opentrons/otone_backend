@@ -1,10 +1,14 @@
+import collections
+import datetime
 import json
-import datetime, collections
-
 import logging
 
+
+logger = logging.getLogger('app.file_io')
+
+
 class FileIO:
-    """Provides static methods for file i/o and logging
+    """
     
     The FileIO class is intended to provide standard static methods for use
     by other classes in the application.
@@ -18,6 +22,7 @@ class FileIO:
         """
         #ToDo: read in a config file containing paths to folders for
         #protocol files, log files, labware files, calibration files, etc.
+        pass
         
     def __str__(self):
         return "FileIO"
@@ -26,7 +31,7 @@ class FileIO:
 #static methods
     @staticmethod
     def writeFile(filename,filetext,onError):
-        logging.debug('file_io.writeFile called, filetext: {}'.format(filetext))
+        logger.debug('file_io.writeFile called, filetext: {}'.format(filetext))
         try:
             out_file = None
             out_file = open(filename, "w")
@@ -46,13 +51,14 @@ class FileIO:
     
     @staticmethod
     def get_dict_from_json(fname):
+        logger = logging.getLogger('logger.file_io')
         try:
             in_file = None
             in_file = open(fname,"r")   # Open the file
             prot_dict = json.load(in_file,object_pairs_hook=collections.OrderedDict)   #create dictionary from file
-            logging.debug("FileIO: json file: '{0}' imported!".format(fname))
+            logger.debug("FileIO: json file: '{0}' imported!".format(fname))
         except EnvironmentError as err:
-            logging.error('Error reading json file: {}'.format(err))
+            logger.error('Error reading json file: {}'.format(err))
             raise
 
         finally:
