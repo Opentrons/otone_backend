@@ -89,7 +89,7 @@ handler = logging.handlers.RotatingFileHandler(
               fname_data_logfile, maxBytes=200000, backupCount=3)
 
 handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 
 logger.addHandler(handler)
 
