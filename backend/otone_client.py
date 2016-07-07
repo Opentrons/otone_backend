@@ -294,7 +294,10 @@ try:
             #raise
             pass
         finally:
-            if not keep_backend_running and disconnect_counter>disconnect_count_threshold:
+            if (
+                not keep_backend_running and
+                disconnect_counter>disconnect_count_threshold
+            ):
                 sys.exit()
             else:
                 disconnect_counter += 1
