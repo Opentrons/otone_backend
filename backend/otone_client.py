@@ -298,7 +298,8 @@ try:
                 sys.exit()
             else:
                 disconnect_counter += 1
-                logger.info('error while trying to make a connection, sleeping for 5 seconds (attempt {})'.format(disconnect_counter))
+                logger.info('error while trying to make a connection, sleeping for 5 '
+                    'seconds (attempt # {})'.format(disconnect_counter))
                 time.sleep(5)
 except KeyboardInterrupt:
     pass
