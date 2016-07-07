@@ -295,7 +295,6 @@ try:
             pass
         finally:
             if not keep_backend_running and disconnect_counter>disconnect_count_threshold:
-                # kill here
                 sys.exit()
             else:
                 disconnect_counter += 1
