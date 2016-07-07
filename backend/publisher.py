@@ -47,7 +47,7 @@ class Publisher:
         """Publish that Smoothieboard is connected
         """
         logger.debug('publisher.on_smoothie_connect called')
-        self.send_message('status',True)
+        self.send_message('status', True)
 
     def on_smoothie_disconnect(self):
         """Publish that Smoothieboard is disconnected and try to reconnect
