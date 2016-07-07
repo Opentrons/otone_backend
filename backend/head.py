@@ -1,12 +1,11 @@
-import json, os
+import json
+import logging
+import os
 
-import smoothie_pyserial as openSmoothie
-
-from the_queue import TheQueue
 from file_io import FileIO
 from pipette import Pipette
-
-import logging
+import smoothie_pyserial as openSmoothie
+from the_queue import TheQueue
 
 
 logger = logging.getLogger('app.head')

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
-import asyncio, json, math
-
+import asyncio
 import atexit
-import sys
 import glob
-import serial
-import time
-
+import json
 import logging
+import math
+import serial
+import sys
+import time
 
 
 logger = logging.getLogger('app.smoothie_pyserial')

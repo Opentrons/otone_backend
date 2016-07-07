@@ -1,6 +1,6 @@
-from instruction_queue import InstructionQueue
-
 import logging
+
+from instruction_queue import InstructionQueue
 
 
 logger = logging.getLogger('app.protocol_runner')

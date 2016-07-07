@@ -1,9 +1,8 @@
-import json, os
+import json
+import logging
+import os
 
 from deck_module import DeckModule
-
-import logging
-
 from file_io import FileIO
 
 

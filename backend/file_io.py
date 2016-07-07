@@ -1,6 +1,6 @@
+import datetime
+import collections
 import json
-import datetime, collections
-
 import logging
 
 

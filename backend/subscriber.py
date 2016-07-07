@@ -1,7 +1,10 @@
-import json, collections, subprocess, asyncio
-from autobahn.asyncio.wamp import ApplicationSessionFactory
-
+import asyncio
+import collections
+import json
 import logging
+import subprocess
+
+from autobahn.asyncio.wamp import ApplicationSessionFactory
 
 
 logger = logging.getLogger('app.subscriber')

@@ -1,8 +1,8 @@
-import math, collections
+import collections
+import logging
+import math
 
 from tool import Tool
-
-import logging
 
 
 logger = logging.getLogger('app.pipette')
