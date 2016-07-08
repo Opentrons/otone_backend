@@ -2,6 +2,7 @@
 
 import asyncio
 import atexit
+from concurrent.futures import ThreadPoolExecutor
 import glob
 import json
 import logging
@@ -98,13 +99,12 @@ class Smoothie(object):
         # the below coroutine loops forever
         # reading from an available serial port until it gets a terminating '\r\n'
         # if it fails, it calls .connect()
-        @asyncio.coroutine
         def read_loop():
             while True:
                 if self.serial_port and self.serial_port.is_open:
                     try:
                         data = self.serial_port.readline().decode('UTF-8')
-                        if data and self.callbacker:
+                        if data:
                             try:
                                 self.callbacker.data_received(data)
                             except:
@@ -119,9 +119,10 @@ class Smoothie(object):
                         self.callbacker.connection_lost()
                 else:
                     self.callbacker.connection_lost()
-                yield from asyncio.sleep(0.2)
 
-        asyncio.async(read_loop())
+        pool = ThreadPoolExecutor(max_workers=1)
+
+        pool.submit(read_loop)
 
     class CB_Factory(asyncio.Protocol):
         proc_data = ""
