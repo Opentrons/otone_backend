@@ -101,6 +101,7 @@ class Smoothie(object):
         # if it fails, it calls .connect()
         def read_loop():
             while True:
+                time.sleep(0.01)
                 if self.serial_port and self.serial_port.is_open:
                     try:
                         data = self.serial_port.readline().decode('UTF-8')
