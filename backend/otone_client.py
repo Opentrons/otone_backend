@@ -34,7 +34,7 @@ from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 if getattr(sys, 'frozen', None):
     print('using frozen path...')
     path = dir_path = sys._MEIPASS
-    perm_dir_path = '~/Opentrons-Config'
+    perm_dir_path = dir_path
 else:
     print('using non frozen path...')
     path = os.path.abspath(__file__)
