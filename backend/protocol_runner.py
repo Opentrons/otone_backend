@@ -1,6 +1,10 @@
+import logging
+
 from instruction_queue import InstructionQueue
 
-import logging
+
+logger = logging.getLogger('app.protocol_runner')
+
 
 class ProtocolRunner:
     """Run and manage the running protocol job
@@ -12,7 +16,6 @@ class ProtocolRunner:
     def __init__(self, head, publisher):
         """Initialize ProtocolRunner object
         """
-        logging.info('protocol_runner.__init__ called')
         #intantiate the two queue objects
         self.insQueue = InstructionQueue(head, publisher)
 

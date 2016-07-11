@@ -3,6 +3,9 @@ import json
 import logging
 
 
+logger = logging.getLogger('app.subscriber')
+
+
 class Subscriber(object):
     """Subscribes to messages from WAMP Router on 'com.opentrons.browser_to_robot' and dispatches commands according to the :obj:`dispatcher` dictionary.
 
@@ -63,16 +66,26 @@ class Subscriber(object):
     def home(self, data):
         """Intermediate step to start a homing sequence
         """
-        logging.debug('subscriber.home called')
+        logger.debug('subscriber.home called')
         self.runner.insQueue.infinity_data = None
         self.runner.insQueue.erase_job()
         self.head.home(data)
 
 
+    def list_ports(self):
+        if self.head:
+            temp_ports = self.head.smoothieAPI.list_serial_ports()
+            self.head.pubber.send_message('portsList',temp_ports)
+
+    def connect_port(self, portname):
+        if self.head:
+            self.head.smoothieAPI.connect(portname)
+
+
     def reset(self):
         """Intermediate step to reset Smoothieboard
         """
-        logging.debug('subscriber.reset called')
+        logger.debug('subscriber.reset called')
         self.runner.insQueue.infinity_data = None
         self.head.theQueue.reset()
 
@@ -80,7 +93,7 @@ class Subscriber(object):
     def set_head(self, head):
         """Set reference to :class:`head` object
         """
-        logging.debug('subscriber.set_head called')
+        logger.debug('subscriber.set_head called')
         self.head = head
 
 
@@ -91,35 +104,32 @@ class Subscriber(object):
     def set_runner(self, runner):
         """Set reference to :class:`protocol_runner` object
         """
-        logging.debug('subscriber.set_runner called')
+        logger.debug('subscriber.set_runner called')
         self.runner = runner
 
 
     def dispatch_message(self, message):
         """The first point of contact for incoming messages.
         """
-        logging.debug('subscriber.dispatch_message called')
-        logging.debug('\nmessage: {}'.format(message))
+        logger.debug('subscriber.dispatch_message called')
+        logger.debug('\nmessage: {}'.format(message))
         try:
             dictum = collections.OrderedDict(json.loads(message.strip(), object_pairs_hook=collections.OrderedDict))
-
-            logging.debug('\tdictum[type]: {}'.format(dictum['type']))
-
+            logger.debug('\tdictum[type]: {}'.format(dictum['type']))
             if 'data' in dictum:
-                logging.debug('\tdictum[data]: {}'.format(json.dumps(dictum['data'],sort_keys=True,indent=4,separators=(',',': '))))
+                logger.debug('\tdictum[data]: {}'.format(json.dumps(dictum['data'],sort_keys=True,indent=4,separators=(',',': '))))
                 self.dispatch(dictum['type'],dictum['data'])
             else:
                 self.dispatch(dictum['type'],None)
         except Exception as e:
-            logging.exception('*** error in subscriber.dispatch_message ***')
+            logger.exception('*** error in subscriber.dispatch_message ***')
             raise e
 
     def dispatch(self, type_, data):
         """Dispatch commands according to :obj:`dispatcher` dictionary
         """
-        logging.debug('subscriber.dispatch called')
-        logging.debug('type_: {0},  data: {1}'.format(type_, data))
-
+        logger.debug('subscriber.dispatch called')
+        logger.debug('type_: {0},  data: {1}'.format(type_, data))
         if data is not None:
             self.dispatcher[type_](self,data)
         else:
@@ -128,8 +138,8 @@ class Subscriber(object):
     def calibrate_pipette(self, data):
         """Tell the :head:`head` to calibrate a :class:`pipette`
         """
-        logging.debug('subscriber.calibrate_pipette called')
-        logging.debug('\nargs: {}'.format(data))
+        logger.debug('subscriber.calibrate_pipette called')
+        logger.debug('\nargs: {}'.format(data))
         if 'axis' in data and 'property' in data:
             axis = data['axis']
             property_ = data['property']
@@ -139,8 +149,8 @@ class Subscriber(object):
     def calibrate_container(self, data):
         """Tell the :class:`head` to calibrate a container
         """
-        logging.debug('subscriber.calibrate_container called')
-        logging.debug('args: {}'.format(data))
+        logger.debug('subscriber.calibrate_container called')
+        logger.debug('args: {}'.format(data))
         if 'axis' in data and 'name' in data:
             axis = data['axis']
             container_ = data['name']
@@ -148,7 +158,7 @@ class Subscriber(object):
         self.get_calibrations()
 
     def container_depth_override(self, data):
-        logging.debug('subscriber.container_depth_override called')
+        logger.debug('subscriber.container_depth_override called')
         container_name = data['name']
         new_depth = data['depth']
         self.deck.container_depth_override(container_name,new_depth)
@@ -156,7 +166,7 @@ class Subscriber(object):
     def get_calibrations(self):
         """Tell the :class:`head` to publish calibrations
         """
-        logging.debug('subscriber.get_calibrations called')
+        logger.debug('subscriber.get_calibrations called')
         self.head.publish_calibrations()
 
     def get_containers(self):
@@ -165,7 +175,7 @@ class Subscriber(object):
     def move_pipette(self, data):
         """Tell the :class:`head` to move a :class:`pipette` 
         """
-        logging.debug('subscriber.move_pipette called')
+        logger.debug('subscriber.move_pipette called')
         axis = data['axis']
         property_ = data['property']
         self.head.move_pipette(axis, property_)
@@ -174,16 +184,16 @@ class Subscriber(object):
     def move_plunger(self, data):
         """Tell the :class:`head` to move a :class:`pipette` to given location(s)
         """
-        logging.debug('subscriber.move_plunger called')
-        logging.debug('data: {}'.format(data))
+        logger.debug('subscriber.move_plunger called')
+        logger.debug('data: {}'.format(data))
         self.head.move_plunger(data['axis'], data['locations'])
 
 
     def speed(self, data):
         """Tell the :class:`head` to change speed
         """
-        logging.debug('subscriber.speed called')
-        logging.debug('data: {}'.format(data))
+        logger.debug('subscriber.speed called')
+        logger.debug('data: {}'.format(data))
         axis = data['axis']
         value = data['value']
         if axis=='ab':
@@ -199,8 +209,8 @@ class Subscriber(object):
         :todo:
         move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
         """
-        logging.debug('subscriber.create_deck called')
-        logging.debug('\targs: {}'.format(data))
+        logger.debug('subscriber.create_deck called')
+        logger.debug('\targs: {}'.format(data))
         msg = {
             'type' : 'containerLocations',
             'data' : self.head.create_deck(data)
@@ -209,23 +219,23 @@ class Subscriber(object):
 
 
     def configure_head(self, data):
-        logging.debug('subscriber.configure_head called')
-        logging.debug('\targs: {}'.format(data))
+        logger.debug('subscriber.configure_head called')
+        logger.debug('\targs: {}'.format(data))
         self.head.configure_head(data)
 
 
     def instructions(self, data):
         """Intermediate step to have :class:`prtocol_runner` and :class:`the_queue` start running a protocol
         """
-        logging.debug('subscriber.instructions called')
-        logging.debug('\targs: {}'.format(data))
+        logger.debug('subscriber.instructions called')
+        logger.debug('\targs: {}'.format(data))
         if data and len(data):
             self.runner.insQueue.start_job (data, True)
 
     def infinity(self, data):
         """Intermediate step to have :class:`protocol_runner` and :class:`the_queue` run a protocol to infinity and beyond
         """
-        logging.debug('subscriber.infinity called')
+        logger.debug('subscriber.infinity called')
         if data and len(data):
             self.runner.insQueue.start_infinity_job (data)
 
@@ -263,6 +273,8 @@ class Subscriber(object):
               'reboot' : lambda self: self.reboot(),
               'shareinet': lambda self: self.loop.create_task(self.share_inet()),
               'restart' : lambda self: self.restart(),
-              'containerDepthOverride': lambda self, data: self.container_depth_override(data)
+              'containerDepthOverride': lambda self, data: self.container_depth_override(data),
+              'listPorts' : lambda self: self.list_ports(),
+              'connectPort' : lambda self, data: self.connect_port(data)
               }
     

@@ -3,13 +3,11 @@ import json
 import logging
 import os
 
-
-logger = logging.getLogger('file_io')
+logger = logging.getLogger('app.file_io')
 
 
 class FileIO(object):
-    """Provides static methods for file i/o and logging
-    
+    """
     The FileIO class is intended to provide standard static methods for use
     by other classes in the application.
     """
@@ -19,7 +17,7 @@ class FileIO(object):
 
     @staticmethod
     def writeFile(filename,filetext,onError):
-        logging.debug('file_io.writeFile called, filetext: {}'.format(filetext))
+        logger.debug('file_io.writeFile called, filetext: {}'.format(filetext))
         try:
             out_file = open(filename, "w")
             out_file.write(filetext)
