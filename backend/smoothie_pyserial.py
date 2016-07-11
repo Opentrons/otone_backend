@@ -478,26 +478,29 @@ class Smoothie(object):
                 self.on_state_change(self.theState)
 
                 def sleep_delay(delay_time):
-                    time.sleep(delay_time)
-                    self.delay_state()
+
+                    while delay_time>0:
+                        self.delay_callback(delay_time)
+                        time.sleep(1)
+                        delay_time -= min(1,delay_time)
+
+                    self.delay_callback(0)
+
+                    self.delay_cancel()
+
+                    self.on_state_change(self.theState)
 
                 self.delay_future = self.pool.submit(sleep_delay, float_seconds)
 
+
     def delay_cancel(self):
+
         if self.delay_future != None:
             self.delay_future.cancel()
 
         self.delay_future = None
 
         self.theState['delaying'] = 0
-
-
-    def delay_state(self):
-        """Sets theState object's delaying value to 0, and then calls :meth:`on_state_change`.
-        Used by :meth:`delay` for timing end of a delay
-        """
-        self.delay_cancel()
-        self.on_state_change(self.theState)
 
 
     def home(self, axis_dict):
@@ -566,7 +569,7 @@ class Smoothie(object):
         if self.delay_handler is not None:
             self.delay_handler.cancel()
             self.delay_handler = None
-            self.delay_state()
+            self.delay_cancel()
             #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
 
         self.try_add(self._dict['off'] + '\r\n')
