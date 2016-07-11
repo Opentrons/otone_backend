@@ -169,7 +169,7 @@ class Smoothie(object):
                 self.outer.theState['stat'] = 0
                 self.outer.theState['delaying'] = 0
 
-                self.delay_cancel()
+                self.outer.delay_cancel()
 
                 self.outer.already_trying = False
                 self.proc_data = ""
