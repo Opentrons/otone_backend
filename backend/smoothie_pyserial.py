@@ -124,11 +124,11 @@ class Smoothie(object):
         self.pool.submit(read_loop)
 
     class CB_Factory(object):
-        proc_data = ""
-        old_data = None
 
         def __init__(self, outer):
             self.outer = outer
+            self.proc_data = ""
+            self.old_data = None
 
         def connection_made(self):
             """Callback when a connection is made
@@ -172,7 +172,7 @@ class Smoothie(object):
                 self.delay_cancel()
 
                 self.outer.already_trying = False
-                proc_data = ""
+                self.proc_data = ""
                 self.outer.on_disconnect()
 
     def set_raw_callback(self, callback):
