@@ -14,6 +14,10 @@ init:
 
 install:
   - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
+  # Prepend newly installed Python to the PATH of this build (this cannot be
+  # done from inside the powershell script as it would require to restart
+  # the parent CMD process).
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
 
 build_script:
   # Build the compiled extension
