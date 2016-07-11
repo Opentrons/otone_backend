@@ -30,13 +30,16 @@ install:
   - "ECHO Installed SDKs:"
   - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
 
+verbosity: detailed
+
+after_build:
   - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
 
-build_script:
+
   # Build the compiled extension
   - "%CMD_IN_ENV% pyinstaller otone_client_onefile.spec"
 
