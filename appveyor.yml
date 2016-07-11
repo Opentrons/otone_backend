@@ -15,5 +15,17 @@ init:
 install:
   - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
 
+build_script:
+  # Build the compiled extension
+  - "%CMD_IN_ENV% pyinstaller otone_client_onefile.spec"
+
 test_script:
   - "ECHO 'running non-existent tests...'"
+
+after_test:
+  # If tests are successful, create binary packages for the project.
+  - "ECHO 'after test...'"
+
+artifacts:
+  # Archive the generated packages in the ci.appveyor.com build report.
+  - path: dist\*
