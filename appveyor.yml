@@ -13,6 +13,12 @@ init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
 
 install:
+  - "ECHO Filesystem root:"
+  - ps: "ls \"C:/\""
+
+  - "ECHO Installed SDKs:"
+  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+
   - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
