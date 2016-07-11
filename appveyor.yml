@@ -13,12 +13,6 @@ init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
 
 install:
-  # Compile bootloader, use 32bit mingw-w64.
-  - "SET PATH=C:\\tools\\mingw32\\bin;%PATH%"
-  - "cd bootloader"
-  - "python waf --msvc_version=\"msvc 12.0\" distclean all %WAF_ARGS%"
-  - "cd .."
-
   - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
   # Prepend newly installed Python to the PATH of this build (this cannot be
   # done from inside the powershell script as it would require to restart
