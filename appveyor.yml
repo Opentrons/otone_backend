@@ -5,10 +5,13 @@ environment:
     - PYTHON: "C:\\Python34"
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "32"
+      DISTUTILS_USE_SDK: "1"
 
     - PYTHON: "C:\\Python34"
       PYTHON_VERSION: "3.4.3"
+      DISTUTILS_USE_SDK: "1"
       PYTHON_ARCH: "64"
+
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
 
