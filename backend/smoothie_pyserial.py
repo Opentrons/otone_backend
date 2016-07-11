@@ -468,29 +468,28 @@ class Smoothie(object):
         logger.debug('smoothie_pyserial.delay called')
         try:
             float_seconds = float(seconds)
-        except:
-            debug.error('*** error floating seconds ***')
-            float_seconds = 0
-        finally:
-            if float_seconds >= 0 and self.delay_future == None:
+        except ValueError:
+            pass
+            
+        if float_seconds >= 0 and self.delay_future == None:
 
-                self.theState['delaying'] = 1
+            self.theState['delaying'] = 1
+            self.on_state_change(self.theState)
+
+            def sleep_delay(delay_time):
+
+                while delay_time>0:
+                    self.delay_callback(delay_time)
+                    time.sleep(min(1,delay_time))
+                    delay_time -= min(1,delay_time)
+
+                self.delay_callback(0)
+
+                self.delay_cancel()
+
                 self.on_state_change(self.theState)
 
-                def sleep_delay(delay_time):
-
-                    while delay_time>0:
-                        self.delay_callback(delay_time)
-                        time.sleep(min(1,delay_time))
-                        delay_time -= min(1,delay_time)
-
-                    self.delay_callback(0)
-
-                    self.delay_cancel()
-
-                    self.on_state_change(self.theState)
-
-                self.delay_future = self.pool.submit(sleep_delay, float_seconds)
+            self.delay_future = self.pool.submit(sleep_delay, float_seconds)
 
 
     def delay_cancel(self):
