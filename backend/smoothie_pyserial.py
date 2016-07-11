@@ -481,7 +481,7 @@ class Smoothie(object):
 
                     while delay_time>0:
                         self.delay_callback(delay_time)
-                        time.sleep(1)
+                        time.sleep(min(1,delay_time))
                         delay_time -= min(1,delay_time)
 
                     self.delay_callback(0)
