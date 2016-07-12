@@ -8,17 +8,12 @@ import logging
 import math
 import serial
 import sys
-import time
 
 
 logger = logging.getLogger('app.smoothie_pyserial')
 
 
 class Smoothie(object):
-    """Smoothie class
-
-    """
-
     _dict = {
         'absoluteMove' : "G90\r\nG0",
         'relativeMove' : "G91\r\nG0",
@@ -108,15 +103,18 @@ class Smoothie(object):
                         if data:
                             try:
                                 self.callbacker.data_received(data)
-                            except:
+                            except Exception as e:
                                 # if no X/Y/Z coordinates are calibrated for labware,
                                 # then this branch will get triggered. previously,
                                 # this was causing the red/green/red/green
                                 # repeated disconnect reconnect issue.
                                 # now that should be fixed, though protocils
                                 # will still fail if all labware isn't properly calibrated
-                                pass
-                    except:
+                                logger.exception(
+                                    'Failed parsing data from smoothie board'
+                                )
+                    except OSError:
+                        logger.info('Device disconnected/port closed')
                         self.callbacker.connection_lost()
                 else:
                     self.callbacker.connection_lost()
@@ -279,13 +277,17 @@ class Smoothie(object):
             logger.debug('ok... self.already_trying: {}'.format(self.already_trying))
         if msg.find('{')>=0:
             msg = msg[msg.index('{'):]
+
             try:
                 data = json.loads(msg)
-            except:
-                logger.debug('json.loads(msg) error: {}'.format(msg))
-                logger.debug('original messag ewas: {}'.format(data_))
+            except Exception as e:
+                logging.debug('json.loads(msg) error: {}'.format(msg))
+                logging.debug('original messag ewas: {}'.format(data_))
+                logging.exception('Failed to load json in smoothie handler')
+
             didStateChange = False
             stillHoming = False
+
             if ok_print:
                 logger.debug('smoothie_pyserial(1):\n\ttheState: {}'.format(self.theState))
             for key, value in data.items():
@@ -304,6 +306,7 @@ class Smoothie(object):
                         self.theState[key] = value + self.theState['direction'][key]
                     else:
                         self.theState[key] = value
+
                 if ok_print:
                     logger.debug('smoothie_pyserial:\n\tkey: {}'.format(key))
                     logger.debug('smoothie_pyserial:\n\tvalue: {}'.format(value))
@@ -339,7 +342,6 @@ class Smoothie(object):
                 else:
                     if didStateChange == True:
                         self.on_state_change(self.theState)
-
 
             self.prevMsg = msg
             if ok_print:
@@ -432,8 +434,10 @@ class Smoothie(object):
                                 elif value > tvalue and self.theState['direction'][n]>0:
                                     self.theState['direction'][n] = 0
                                 value = value - self.theState['direction'][n]
-                        except:
-                            pass
+                        except Exception as e:
+                            # TODO(Ahmed): wtf is going on here...
+                            logging.exception('Failed do switch direction stuff....')
+
                     else:
                         if axis=='X' or axis=='Y':
                             if value < 0 and self.theState['direction'][n]==0:
@@ -465,6 +469,7 @@ class Smoothie(object):
     def delay(self, seconds):
         """Delay for given number of milli_seconds
         """
+        float_seconds = 0
         logger.debug('smoothie_pyserial.delay called')
         try:
             float_seconds = float(seconds)
@@ -696,9 +701,9 @@ class Smoothie(object):
         if hasattr(self.outer,'on_state_change'):
             try:
                 self.outer.on_state_change(state)
-            except:
-                logger.error('smoothie_pyserial.on_state_change: problem calling self.outer.on_state_change')
-                raise
+            except Exception as e:
+                logging.exception('smoothie_pyserial.on_state_change: problem calling self.outer.on_state_change')
+                raise e
 
     def on_limit_hit(self, axis):
         """Calls an external callback for when a limitswitch is hit
@@ -706,4 +711,3 @@ class Smoothie(object):
         logger.debug('smoothie_pyserial.on_limit_hit called on axis {}'.format(axis))
         if self.limit_hit_callback != None:
             self.limit_hit_callback(axis)
-

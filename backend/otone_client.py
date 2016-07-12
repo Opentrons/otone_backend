@@ -81,20 +81,31 @@ if not os.path.exists(fname_data_calibrations):
     open(fname_data_calibrations, "w+")
     shutil.copy(fname_default_calibrations, fname_data_calibrations)
 
-
 print('logging to {}'.format(fname_data_logfile))
 
 logger = logging.getLogger('app')
 
-handler = logging.handlers.RotatingFileHandler(
-              fname_data_logfile, maxBytes=200000, backupCount=3)
+LOG_FORMAT ="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+file_handler = logging.handlers.RotatingFileHandler(
+    fname_data_logfile, maxBytes=200000, backupCount=3
+)
+
+# Set up file logging
+file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
 logger.setLevel(logging.WARNING)
+logger.addHandler(file_handler)
 
-logger.addHandler(handler)
+
+# Set up console logging
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.DEBUG)
+console_handler.setFormatter(logging.Formatter(LOG_FORMAT))
+logger.addHandler(console_handler)
+
 
 logger.info('OT.One Started')
+
 
 from head import Head
 from deck import Deck
@@ -172,8 +183,8 @@ class WampComponent(wamp.ApplicationSession):
             self.factory._myAppSession = None
         try:
             self.disconnect()
-        except:
-            pass
+        except Exception as e:
+            logger.exception('Disconnect failed on WAMPComponent')
 
     def onDisconnect(self):
         """Callback fired when underlying transport has been closed.
@@ -259,6 +270,7 @@ def instantiate_objects():
     subscriber.set_runner(runner)
 
 
+loop = asyncio.get_event_loop()
 try:
     session_factory = wamp.ApplicationSessionFactory()
     session_factory.session = WampComponent
@@ -279,7 +291,6 @@ try:
         url=url,
         serializers=serializers
     )
-    loop = asyncio.get_event_loop()
 
     subscriber = Subscriber(session_factory, loop)
     publisher = Publisher(session_factory)
@@ -292,9 +303,9 @@ try:
             disconnect_counter = 0
         except KeyboardInterrupt:
             crossbar_status = True
-        except:
-            #raise
-            pass
+            logger.info("WAMP router connection cancelled due to user keyboard interrupt")
+        except Exception as e:
+            logger.exception('WAMP router connection failed')
         finally:
             if (
                 not keep_backend_running and

@@ -92,7 +92,7 @@ class Publisher:
         try:
             self.runner.insQueue.ins_step() #changed name 
         except AttributeError as ae:
-            debug.error(ae)
+            logger.exception('On finish failed')
 
 
     def show_delay(self, time_left):
@@ -121,9 +121,8 @@ class Publisher:
             }
         try:
             self.caller._myAppSession.publish('com.opentrons.robot_to_browser',json.dumps(msg))
-        except:
-            logger.error("error trying to send_message")
-
+        except Exception as e:
+            logger.exception("error trying to send_message")
 
     def send_ctrl_message(self,type_,damsg):
         """Send a Control Message (Similar to Control Transfer in USB), not implemented yet

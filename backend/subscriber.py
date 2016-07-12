@@ -1,16 +1,12 @@
-import asyncio
 import collections
 import json
 import logging
-import subprocess
-
-from autobahn.asyncio.wamp import ApplicationSessionFactory
 
 
 logger = logging.getLogger('app.subscriber')
 
 
-class Subscriber():
+class Subscriber(object):
     """Subscribes to messages from WAMP Router on 'com.opentrons.browser_to_robot' and dispatches commands according to the :obj:`dispatcher` dictionary.
 
     
@@ -54,16 +50,9 @@ class Subscriber():
     :todo:
     - clean up inclusion of head and runner objects -> referenced by dispatch
     - move publishing into respective objects and have those objects use :class:`publisher` a la :meth:`get_calibrations` (:meth:`create_deck`, :meth:`wifi_scan`)
-    
-
-
     """
     
-#Special Methods
     def __init__(self, session,loop):
-        """Initialize Subscriber object
-        """
-        logger.info('subscriber.__init__ called')
         self.head = None
         self.deck = None
         self.runner = None
@@ -132,10 +121,9 @@ class Subscriber():
                 self.dispatch(dictum['type'],dictum['data'])
             else:
                 self.dispatch(dictum['type'],None)
-        except:
-            logger.error('*** error in subscriber.dispatch_message ***')
-            raise
-
+        except Exception as e:
+            logger.exception('*** error in subscriber.dispatch_message ***')
+            raise e
 
     def dispatch(self, type_, data):
         """Dispatch commands according to :obj:`dispatcher` dictionary
@@ -147,7 +135,6 @@ class Subscriber():
         else:
             self.dispatcher[type_](self)
 
-          
     def calibrate_pipette(self, data):
         """Tell the :head:`head` to calibrate a :class:`pipette`
         """
@@ -158,7 +145,6 @@ class Subscriber():
             property_ = data['property']
             self.head.calibrate_pipette(axis, property_)
         self.get_calibrations()
-
 
     def calibrate_container(self, data):
         """Tell the :class:`head` to calibrate a container
@@ -171,13 +157,11 @@ class Subscriber():
             self.head.calibrate_container(axis, container_)
         self.get_calibrations()
 
-
     def container_depth_override(self, data):
         logger.debug('subscriber.container_depth_override called')
         container_name = data['name']
         new_depth = data['depth']
         self.deck.container_depth_override(container_name,new_depth)
-
 
     def get_calibrations(self):
         """Tell the :class:`head` to publish calibrations
