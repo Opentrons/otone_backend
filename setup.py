@@ -1,13 +1,15 @@
 # setup.py
-import glob
 from distutils.core import setup
-import py2exe
+import glob
 import os
-
-
 import sys
 
-sys.path.append(os.path.dirname(__file__) + "\\backend")
+import py2exe
+
+sys.path.append(
+	(os.path.dirname(__file__) or os.path.getcwd()) + "\\backend"
+)
+
 print(sys.path)
 includes = [
 	'head',
