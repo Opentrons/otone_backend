@@ -8,6 +8,7 @@ import logging
 import math
 import serial
 import sys
+import time
 
 
 logger = logging.getLogger('app.smoothie_pyserial')
