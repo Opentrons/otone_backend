@@ -7,7 +7,7 @@ import sys
 import py2exe
 
 sys.path.append(
-	(os.path.dirname(__file__) or os.path.getcwd()) + "\\backend"
+	(os.path.dirname(__file__) or os.getcwd()) + "\\backend"
 )
 
 print(sys.path)
