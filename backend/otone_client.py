@@ -314,8 +314,6 @@ try:
                 sys.exit()
             else:
                 disconnect_counter += 1
-                print('error while trying to make a connection, sleeping for 1 '
-                    'second (attempt # {})'.format(disconnect_counter))
                 logger.info('error while trying to make a connection, sleeping for 1 '
                     'second (attempt # {})'.format(disconnect_counter))
                 time.sleep(1)
