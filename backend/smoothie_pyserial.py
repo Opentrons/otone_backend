@@ -242,7 +242,7 @@ class Smoothie(object):
         """
         logger.debug('smoothie_pyserial.on_success_connecting called')
         thestring = self._dict['setupFeedback']
-        self.send(thestring)#self  self._dict['setupFeedback'])
+        self.try_add(thestring)#self  self._dict['setupFeedback'])
         self.try_add('G91 G0Z-2 G0Z2 G0Z-2 G0Z2 G0Z-2 G0Z2')
         self.on_connect(self.theState)
 
@@ -519,7 +519,7 @@ class Smoothie(object):
         if axis_dict is None or len(axis_dict)==0:
             axis_dict = {'a':True, 'b':True, 'x':True, 'y':True, 'z':True}
 
-        self.halt() #self
+        self.halt()
 
         homeCommand = ''
         homingX = False
@@ -577,19 +577,13 @@ class Smoothie(object):
             self.delay_cancel()
             #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
 
+        self.smoothieQueue = list()
+
         self.try_add(self._dict['off'] + '\r\n')
+        time.sleep(0.2)
         self.try_add(self._dict['on'] + '\r\n')
-        self.raw(self._dict['on'] + '\r\n') #just in case...
-        #self.send(onOffString)    #self
 
-
-    def reset(self):
-        """Reset robot
-        """
-        logger.debug('smoothie_pyserial.reset called')
-
-        resetString = self._dict['reset']
-        self.send(self, resetString)
+        time.sleep(1)
 
 
     def set_speed(self, axis, value):
@@ -602,7 +596,6 @@ class Smoothie(object):
             if axis=='xyz' or axis=='a' or axis == 'b' or axis == 'c':
                 string = self._dict['speed_'+axis] + str(value)
                 self.try_add(string)
-                #self.send(string)
             else:
                 logger.debug('smoothie_pyserial.set_speed: axis {}'.format(axis))
         else:
@@ -613,7 +606,7 @@ class Smoothie(object):
         """Send a raw command to the Smoothieboard
         """
         #self.try_add(string)
-        self.send(string)
+        self.try_add(string)
 
     def list_serial_ports(self):
         """ Lists serial port names
