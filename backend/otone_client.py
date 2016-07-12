@@ -46,7 +46,7 @@ if len(sys.argv) > 1:
     perm_dir_path = sys.argv[1]
 
 disconnect_counter = 0
-disconnect_count_threshold = 12
+disconnect_seconds_timeout = 30
 keep_backend_running = False
 
 if len(sys.argv) > 2:
@@ -300,6 +300,7 @@ try:
         try:
             logger.info('trying to make a connection...')
             make_a_connection()
+            disconnect_counter = 0
         except KeyboardInterrupt:
             crossbar_status = True
             logger.info("WAMP router connection cancelled due to user keyboard interrupt")
@@ -308,14 +309,16 @@ try:
         finally:
             if (
                 not keep_backend_running and
-                disconnect_counter>disconnect_count_threshold
+                disconnect_counter>=disconnect_seconds_timeout
             ):
                 sys.exit()
             else:
                 disconnect_counter += 1
-                logger.info('error while trying to make a connection, sleeping for 5 '
-                    'seconds (attempt # {})'.format(disconnect_counter))
-                time.sleep(5)
+                print('error while trying to make a connection, sleeping for 1 '
+                    'second (attempt # {})'.format(disconnect_counter))
+                logger.info('error while trying to make a connection, sleeping for 1 '
+                    'second (attempt # {})'.format(disconnect_counter))
+                time.sleep(1)
 except KeyboardInterrupt:
     pass
 finally:

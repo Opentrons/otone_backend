@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import asyncio
 import atexit
+from concurrent.futures import ThreadPoolExecutor
 import glob
 import json
 import logging
@@ -66,7 +66,6 @@ class Smoothie(object):
         self.delay_callback = None
         self.on_connect_callback = None
         self.on_disconnect_callback = None
-        self.my_loop = asyncio.get_event_loop()
         self.smoothieQueue = list()
         self.already_trying = False
         self.ack_msg_rcvd = "ok"
@@ -78,6 +77,8 @@ class Smoothie(object):
         self.attempting_connection = False
         self.callbacker = self.CB_Factory(self)
         self.connected = False
+        self.pool = ThreadPoolExecutor(max_workers=5)
+        self.delay_future = None
 
         def close_port():
             if self.serial_port and self.serial_port.is_open:
@@ -93,13 +94,13 @@ class Smoothie(object):
         # the below coroutine loops forever
         # reading from an available serial port until it gets a terminating '\r\n'
         # if it fails, it calls .connect()
-        @asyncio.coroutine
         def read_loop():
             while True:
+                time.sleep(0.01)
                 if self.serial_port and self.serial_port.is_open:
                     try:
                         data = self.serial_port.readline().decode('UTF-8')
-                        if data and self.callbacker:
+                        if data:
                             try:
                                 self.callbacker.data_received(data)
                             except Exception as e:
@@ -117,16 +118,15 @@ class Smoothie(object):
                         self.callbacker.connection_lost()
                 else:
                     self.callbacker.connection_lost()
-                yield from asyncio.sleep(0.2)
 
-        asyncio.async(read_loop())
+        self.pool.submit(read_loop)
 
-    class CB_Factory(asyncio.Protocol):
-        proc_data = ""
-        old_data = None
+    class CB_Factory(object):
 
         def __init__(self, outer):
             self.outer = outer
+            self.proc_data = ""
+            self.old_data = None
 
         def connection_made(self):
             """Callback when a connection is made
@@ -134,8 +134,9 @@ class Smoothie(object):
             self.outer.connected = True
             logger.info("smoothie_pyserial:\n\tCB_Factory.connection_made called")
 
-            loop = asyncio.get_event_loop()
-            loop.call_later(1, self.outer.on_success_connecting)#, self.outer)
+            self.smoothieQueue = list()
+
+            self.outer.on_success_connecting()
 
 
         def data_received(self, data):
@@ -166,8 +167,10 @@ class Smoothie(object):
                 self.outer.theState['stat'] = 0
                 self.outer.theState['delaying'] = 0
 
+                self.outer.delay_cancel()
+
                 self.outer.already_trying = False
-                proc_data = ""
+                self.proc_data = ""
                 self.outer.on_disconnect()
 
     def set_raw_callback(self, callback):
@@ -230,7 +233,6 @@ class Smoothie(object):
         except serial.SerialException or OSError:
             self.callbacker.connection_lost()
 
-    #@asyncio.coroutine
     def on_success_connecting(self):
         """Smoothie callback for when a connection is made
 
@@ -464,7 +466,6 @@ class Smoothie(object):
             self.send(cmd)
 
 
-
     def delay(self, seconds):
         """Delay for given number of milli_seconds
         """
@@ -474,31 +475,36 @@ class Smoothie(object):
             float_seconds = float(seconds)
         except ValueError:
             pass
+            
+        if float_seconds >= 0 and self.delay_future == None:
 
-        if float_seconds >= 0:
-            self.start = self.my_loop.time()
-            self.end = self.start + float_seconds
             self.theState['delaying'] = 1
             self.on_state_change(self.theState)
-            self.delay_handler = self.my_loop.call_at(self.end, self.delay_state)
-            self.delay_message()
+
+            def sleep_delay(delay_time):
+
+                while delay_time>0:
+                    self.delay_callback(delay_time)
+                    time.sleep(min(1,delay_time))
+                    delay_time -= min(1,delay_time)
+
+                self.delay_callback(0)
+
+                self.delay_cancel()
+
+                self.on_state_change(self.theState)
+
+            self.delay_future = self.pool.submit(sleep_delay, float_seconds)
 
 
-    def delay_message(self):
-        time_left = math.floor(self.end - self.my_loop.time())
-        if time_left >= 0:
-            if self.delay_callback is not None:
-                self.delay_callback(time_left)
-                self.my_loop.call_later(1,self.delay_message)
+    def delay_cancel(self):
 
+        if self.delay_future != None:
+            self.delay_future.cancel()
 
-    def delay_state(self):
-        """Sets theState object's delaying value to 0, and then calls :meth:`on_state_change`.
-        Used by :meth:`delay` for timing end of a delay
-        """
-        logger.debug('smoothie_pyserial.delay_state called')
+        self.delay_future = None
+
         self.theState['delaying'] = 0
-        self.on_state_change(self.theState)
 
 
     def home(self, axis_dict):
@@ -567,7 +573,7 @@ class Smoothie(object):
         if self.delay_handler is not None:
             self.delay_handler.cancel()
             self.delay_handler = None
-            self.delay_state()
+            self.delay_cancel()
             #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
 
         self.try_add(self._dict['off'] + '\r\n')
@@ -661,7 +667,6 @@ class Smoothie(object):
         if hasattr(self.on_connect_callback, '__call__'):
             self.on_connect_callback()
 
-    #@asyncio.coroutine
     def on_disconnect(self):
         """Callback when disconnected
         """

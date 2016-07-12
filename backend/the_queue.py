@@ -80,6 +80,8 @@ class TheQueue:
         logger.debug('the_queue.pause called')
         if len(self.qlist):
             self.paused = True
+
+        self.head.smoothieAPI.delay_cancel()
             
     def resume(self):
         """Resumes TheQueue by setting paused False and calling :meth:`step`
@@ -123,7 +125,7 @@ class TheQueue:
 #                self.current_command = self.qlist.splice(0,1)[0];
                 self.current_command = self.qlist.pop(0)
                 self.is_busy = True;
-                logger.debug('the_queue.current_command: {}'.format(self.current_command))
+                #logger.debug('the_queue.current_command: {}'.format(self.current_command))
 
                 # 'wait' for someone to click a button on interface. Not there yet.
                 if 'wait' in self.current_command:
@@ -154,6 +156,8 @@ class TheQueue:
         self.is_busy = False
         self.paused = False
         self.current_command = None   #note: could be a function or string?
+
+        self.head.smoothieAPI.delay_cancel()
         
         
     #from planner.js
