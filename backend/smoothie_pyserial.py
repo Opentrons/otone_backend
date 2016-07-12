@@ -285,6 +285,7 @@ class Smoothie(object):
                 logging.debug('json.loads(msg) error: {}'.format(msg))
                 logging.debug('original messag ewas: {}'.format(data_))
                 logging.exception('Failed to load json in smoothie handler')
+                return
 
             didStateChange = False
             stillHoming = False
@@ -485,6 +486,12 @@ class Smoothie(object):
             def sleep_delay(delay_time):
 
                 while delay_time>0:
+
+                    if not self.connected:
+                        self.delay_callback(0)
+                        self.delay_cancel()
+                        return
+
                     self.delay_callback(delay_time)
                     time.sleep(min(1,delay_time))
                     delay_time -= min(1,delay_time)
