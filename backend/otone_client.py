@@ -29,12 +29,19 @@ import time
 
 from autobahn.wamp.serializer import JsonSerializer, MsgPackSerializer
 
+
+import os
+import sys
+
+
 # If code is frozen (i.e. pyinstaller executable) then
 # file path is the sys._MEIPASS attribute
 if getattr(sys, 'frozen', None):
     print('using frozen path...')
-    path = dir_path = sys._MEIPASS
+    path = dir_path = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
     perm_dir_path = '~/Opentrons-Config'
+
+
 else:
     print('using non frozen path...')
     path = os.path.abspath(__file__)
@@ -95,6 +102,7 @@ logger.setLevel(logging.WARNING)
 logger.addHandler(handler)
 
 logger.info('OT.One Started')
+
 
 from head import Head
 from deck import Deck

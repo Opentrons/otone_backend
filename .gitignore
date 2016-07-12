@@ -3,6 +3,7 @@
 .DS_Store
 
 backend_env
+backend-env
 
 # Ignore any Opentrons auto-generated files
 backend/otone_data
