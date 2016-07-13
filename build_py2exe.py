@@ -23,22 +23,25 @@ def get_py2exe_packages():
     return ['twisted','zope.interface']
 
 def build_exe(args=None):
-    setup(
-	console=["backend/otone_client.py"],
-	data_files=[
-	    ('data', glob.glob('backend\\data\\*')),
-	    ("Microsoft.VC90.CRT", glob.glob("msvcm90\*.*")),
-	    ("", ["C:\\Windows\\System32\\msvcr100.dll"])
-	],
-	options={
-	    'py2exe': {
-		'packages': get_py2exe_packages(),
-		'includes': [],
-		'excludes': ["six.moves.urllib.parse"]
-	    }
-	},
-        script_args=args
-    )
+    try:
+	setup(
+	    console=["backend/otone_client.py"],
+	    data_files=[
+		('data', glob.glob('backend\\data\\*')),
+		("Microsoft.VC90.CRT", glob.glob("msvcm90\*.*")),
+		("", ["C:\\Windows\\System32\\msvcr100.dll"])
+	    ],
+	    options={
+		'py2exe': {
+		    'packages': get_py2exe_packages(),
+		    'includes': [],
+		    'excludes': ["six.moves.urllib.parse"]
+		}
+	    },
+	    script_args=args
+	)
+    except:
+	print('failed but moving on..')
 
 def main():
     print(script_tag + "Building otone_backend using py2exe.")
