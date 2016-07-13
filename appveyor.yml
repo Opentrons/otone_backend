@@ -5,12 +5,15 @@ environment:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
     # See: http://stackoverflow.com/a/13751649/163740
-    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\tests\\scripts\\appveyor\\run_with_env.cmd"
+    PIP_ACCEL_LOG_FORMAT: "%(name)-18s %(levelname)s %(message)s"
+
 
   matrix:
     - PYTHON: "C:\\Python34"
       PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "32"
+      WAF_ARGS: ""
       DISTUTILS_USE_SDK: "1"
       VSVER: 14
 
@@ -52,6 +55,9 @@ init:
 install:
   - "ECHO Filesystem root:"
   - ps: "ls \"C:/\""
+  
+  - "ECHO Chocolatey tools:"
+  - ps: "ls \"C:/Tools\""
 
   - "ECHO Installed SDKs:"
   - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
@@ -60,12 +66,37 @@ install:
   # done from inside the powershell script as it would require to restart
   # the parent CMD process).
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  
+  - "python --version"
+  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
+  
+  - "SET PATH=C:\\tools\\mingw32\\bin;%PATH%"
+  - "cd bootloader"
+  - "python waf --msvc_version=\"msvc 12.0\" distclean all %WAF_ARGS%"
+  - "cd .."
 
-  - ps: $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
-  - echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
-  - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+  ### Install the PyInsaller dependencies.
 
-  - python -V
+  # Install pip-accel to cache pypi packages and avoid compiling some packages.
+  # (numpy or pycrypto take a lot of tome to compile).
+  - "%CMD_IN_ENV% pip install pip-accel>=0.33"
+
+  # Install lxml from anaconda.org channel since PyPI fails (or it takes too long).
+  # See: https://github.com/pyinstaller/pyinstaller/pull/1638
+  - "%CMD_IN_ENV% pip-accel install -i https://pypi.anaconda.org/giumas/simple lxml"
+
+  # Install the PyInstaller test dependencies.
+  - "%CMD_IN_ENV% pip-accel install --disable-pip-version-check --timeout 5 --retries 2 -r requirements-tools.txt"
+  - "%CMD_IN_ENV% pip-accel install --disable-pip-version-check --timeout 5 --retries 2 -r requirements-win.txt"
+
+  # Install PyInstaller into virtualenv.
+  - "%CMD_IN_ENV% pip install -e ."
+
+#  - ps: $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
+#  - echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
+#  - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+
+#  - python -V
   - bash -c "which python"
   - bash -c "python -V"
   - bash -c "which cl.exe"
