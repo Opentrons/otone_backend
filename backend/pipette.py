@@ -178,9 +178,6 @@ class Pipette(Tool):
         return_value = [temploc]
 
         if should_home_axis:
-            top_command = collections.OrderedDict()
-            top_command[self.axis] = self.resting
-            return_value.append(top_command)
 
             home_command = collections.OrderedDict()
             home_command[self.axis] = True
