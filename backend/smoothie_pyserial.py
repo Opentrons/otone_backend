@@ -448,7 +448,7 @@ class Smoothie(object):
                             elif value > 0 and self.theState['direction'][n]>0:
                                 value = value + self.theState['direction'][n]
                                 self.theState['direction'][n] = 0
-                    cmd = cmd + str(value)
+                    cmd = cmd + str(float(value))
                     logger.debug('smoothie_pyserial:\n\tcmd: {}'.format(cmd))
 
 
