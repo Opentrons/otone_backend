@@ -1,10 +1,4 @@
-image: Visual Studio 2015
-
-environment:
-  global:
-    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
-    # /E:ON and /V:ON options are not enabled in the batch script intepreter
-    # See: http://stackoverflow.com/a/13751649/163740
+image: Visual Studio 2015  environment: global: # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the # /E:ON and /V:ON options are not enabled in the batch script intepreter # See: http://stackoverflow.com/a/13751649/163740
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
 
   matrix:
@@ -47,15 +41,14 @@ install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
 
   # - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
-  - "%CMD_IN_ENV% pip install -r requirements.txt"
+  - "%CMD_IN_ENV% %PIP3% install -r requirements.txt"
 
 build_script:
   # Fix zope.interface package loading
-  - "%CMD_IN_ENV% python appveyor/zope_fix.py"
+  - "%CMD_IN_ENV% %PYTHON3% appveyor/zope_fix.py"
 
   # Build the compiled extension
-  - "%CMD_IN_ENV% python setup.py py2exe; python setup.py py2exe"
-  - "%CMD_IN_ENV% %PYTHON3% setup.py py2exe; %PYTHON3% setup.py py2exe"
+  - "%CMD_IN_ENV% %PYTHON3% build_py2exe.py"
 
 test_script:
   - "ECHO 'running non-existent tests...'"

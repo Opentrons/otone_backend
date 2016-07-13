@@ -22,7 +22,8 @@ sys.path.append(
 def get_py2exe_packages():
     return ['twisted','zope.interface']
 
-def build_exe(args):
+def build_exe(args=None):
+    import pdb; pdb.set_trace()
     setup(
 	console=["backend/otone_client.py"],
 	data_files=[
