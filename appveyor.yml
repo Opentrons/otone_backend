@@ -37,6 +37,9 @@ install:
   - "%CMD_IN_ENV% pip install -r requirements.txt"
 
 build_script:
+  # Fix zope.interface package loading
+  - "%CMD_IN_ENV% python appveyor/zope_fix.py"
+
   # Build the compiled extension
   - "%CMD_IN_ENV% python setup.py py2exe"
 
