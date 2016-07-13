@@ -16,23 +16,19 @@ if sys.argv[1] == "py2exe":
         (os.path.dirname(__file__) or os.getcwd()) + "\\backend"
     )
 
-    # Create __init__.py file in the top level zope dir so py2exe can import it
-    # http://stackoverflow.com/questions/7816799
-    import zope
-    open(
-        os.path.join(zope.__path__[0], '__init__.py'), 'a'
-    ).close()
-
 
 packages = [
 	'twisted',
 	'zope.interface',
 ]
 
+
 setup(
 	console=["backend/otone_client.py"],
 	data_files=[
-		('data', glob.glob('backend\\data\\*'))
+		('data', glob.glob('backend\\data\\*')),
+        ("Microsoft.VC90.CRT", glob.glob("msvcm90\*.*")),
+        ("", ["C:\\Windows\\System32\\msvcr100.dll"])
 	],
 	options={
 		'py2exe': {
