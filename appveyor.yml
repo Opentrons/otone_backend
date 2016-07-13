@@ -31,7 +31,15 @@ environment:
       PYTHON_ARCH: "64"
       DISTUTILS_USE_SDK: "1"
       VSVER: 14
-      
+
+matrix:
+  allow_failures:
+    # currently broken, see https://github.com/appveyor/ci/issues/414
+    - VSVER: 14
+    # not included in AppVeyor right now
+    - platform: x64
+      VSVER: 10
+
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
 
