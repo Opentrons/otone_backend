@@ -14,23 +14,23 @@ environment:
       DISTUTILS_USE_SDK: "1"
       VSVER: 14
 
-    - PYTHON: "C:\\Python34"
-      PYTHON_VERSION: "3.4.3"
-      PYTHON_ARCH: "64"
-      DISTUTILS_USE_SDK: "1"
-      VSVER: 14
+#    - PYTHON: "C:\\Python34"
+#      PYTHON_VERSION: "3.4.3"
+#      PYTHON_ARCH: "64"
+#      DISTUTILS_USE_SDK: "1"
+#      VSVER: 14
 
-    - PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5.1"
-      PYTHON_ARCH: "32"
-      DISTUTILS_USE_SDK: "1"
-      VSVER: 14
+#    - PYTHON: "C:\\Python35"
+#      PYTHON_VERSION: "3.5.1"
+#      PYTHON_ARCH: "32"
+#      DISTUTILS_USE_SDK: "1"
+#      VSVER: 14
 
-    - PYTHON: "C:\\Python35"
-      PYTHON_VERSION: "3.5.1"
-      PYTHON_ARCH: "64"
-      DISTUTILS_USE_SDK: "1"
-      VSVER: 14
+#    - PYTHON: "C:\\Python35"
+#      PYTHON_VERSION: "3.5.1"
+#      PYTHON_ARCH: "64"
+#      DISTUTILS_USE_SDK: "1"
+#      VSVER: 14
 
 matrix:
   allow_failures:
@@ -39,6 +39,12 @@ matrix:
     # not included in AppVeyor right now
     - platform: x64
       VSVER: 10
+
+cache:
+  # 'pip-accel' requires caching of downloaded pip packages.
+  - "C:\\Users\\appveyor\\AppData\\Local\\pip"
+  # Cache binary Python packages e.g. numpy, pycrypto
+  - "C:\\Users\\appveyor\\AppData\\Roaming\\.pip-accel"
 
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
