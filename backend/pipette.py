@@ -44,8 +44,8 @@ class Pipette(Tool):
         super().__init__(toolname, 'pipette', axis)
 
         #default parameters to start with
-        self.resting = 0  #rest position of plunger when not engaged
-        self.top = 0   #just touching the plunger (saved)
+        self.resting = 0.1  #rest position of plunger when not engaged
+        self.top = 0.1   #just touching the plunger (saved)
         self.bottom = 1  #calculated by pipette object (saved)
         self.blowout = 2  #value saved 2-5 mm before droptip (saved)
         self.droptip = 4  #complete max position of plunger (saved)
