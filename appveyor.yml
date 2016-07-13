@@ -28,7 +28,6 @@ init:
   - cmd: "%PYTHON%\\python --version"
   - cmd: "%PYTHON%\\python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - cmd: ECHO %PYTHON3% %PYTHON3_VERSION% %PYTHON3_ARCH%
-  - cmd: "%PYTHON3% --version"
   - cmd: "%PYTHON3% -c \"import struct; print(struct.calcsize('P') * 8)\""
 
   # Prepare pip and pip3, PATH iterated left to right first hit wins
