@@ -28,7 +28,6 @@ init:
   - cmd: "%PYTHON%\\python --version"
   - cmd: "%PYTHON%\\python -c \"import struct; print(struct.calcsize('P') * 8)\""
   - cmd: ECHO %PYTHON3% %PYTHON3_VERSION% %PYTHON3_ARCH%
-  - cmd: "%PYTHON3% -c \"import struct; print(struct.calcsize('P') * 8)\""
 
   # Prepare pip and pip3, PATH iterated left to right first hit wins
   - cmd: set PATH=%PYTHON%\scripts;%PYTHON3%\scripts;%PATH%
@@ -47,14 +46,15 @@ install:
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
 
   # - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
-  - "%CMD_IN_ENV% %PIP3% install -r requirements.txt"
+  - "%CMD_IN_ENV% pip install -r requirements.txt"
+  - "%CMD_IN_ENV% pip freeze"
 
 build_script:
   # Fix zope.interface package loading
-  - "%CMD_IN_ENV% %PYTHON3% appveyor/zope_fix.py"
+  - "%CMD_IN_ENV% python appveyor/zope_fix.py"
 
   # Build the compiled extension
-  - "%CMD_IN_ENV% %PYTHON3% build_py2exe.py"
+  - "%CMD_IN_ENV% python build_py2exe.py"
 
 test_script:
   - "ECHO 'running non-existent tests...'"
