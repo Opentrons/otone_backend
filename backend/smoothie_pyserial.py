@@ -250,17 +250,18 @@ class Smoothie(object):
     def send(self, string):
         """sends data to the smoothieboard using a transport
         """
-        logger.debug('smoothie_pyserial.send called')
-        self.on_raw_data('--> '+string)  #self
-        if self.serial_port and self.serial_port.is_open:
-            logger.debug('\n\tstring: {}'.format(string))
-            string = (string+'\r\n').encode('UTF-8')
-            try:
-                self.serial_port.write(string)
-            except serial.SerialException:
+        if self.connected:
+            logger.debug('smoothie_pyserial.send called')
+            self.on_raw_data('--> '+string)  #self
+            if self.serial_port and self.serial_port.is_open:
+                logger.debug('\n\tstring: {}'.format(string))
+                string = (string+'\r\n').encode('UTF-8')
+                try:
+                    self.serial_port.write(string)
+                except serial.SerialException:
+                    self.callbacker.connection_lost()
+            else:
                 self.callbacker.connection_lost()
-        else:
-            self.callbacker.connection_lost()
 
 
     def smoothie_handler(self, msg, data_):
@@ -391,10 +392,11 @@ class Smoothie(object):
     def try_add(self, cmd):
         """Add a command to the smoothieQueue
         """
-        logger.debug('smoothie_pyserial.try_add called')
-        self.smoothieQueue.append(cmd)
-        #if len(self.smoothieQueue) == 1:
-        self.try_step()
+        if self.connected:
+            logger.debug('smoothie_pyserial.try_add called')
+            self.smoothieQueue.append(cmd)
+            #if len(self.smoothieQueue) == 1:
+            self.try_step()
 
 
     def move(self, coords_list):
