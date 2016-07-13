@@ -1,22 +1,22 @@
+image: Visual Studio 2015
+
 environment:
-  nodejs_version: "0.12.7"
+  global:
+    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
+    # /E:ON and /V:ON options are not enabled in the batch script intepreter
+    # See: http://stackoverflow.com/a/13751649/163740
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
+
   matrix:
-    # First group is 32 bit python 2.7
-    - PYTHON: "C:\\Python27"
-      PYTHON_VERSION: "2.7.9"
+    - PYTHON: "C:\\Python34"
+      PYTHON_VERSION: "3.4.3"
       PYTHON_ARCH: "32"
-      PYTHON3: "C:\\Python34"
-      PYTHON3_VERSION: "3.4.3"
-      PYTHON3_ARCH: "32"
-  # Add custom environmental variables for pip
-  PIP: C:\\Python27\Scripts\pip
-  PIP3: C:\\Python34\Scripts\pip
-  # Add custom environmental variables to ensure 32 bit electron
-  npm_config_arch: ia32
+      DISTUTILS_USE_SDK: "1"
 
-platform: x86
-
-configuration: Release
+    - PYTHON: "C:\\Python34"
+      PYTHON_VERSION: "3.4.3"
+      PYTHON_ARCH: "64"
+      DISTUTILS_USE_SDK: "1"
 
 init:
   - cmd: ECHO Processor architecture - %PROCESSOR_ARCHITECTURE%
@@ -34,55 +34,36 @@ init:
   - cmd: set PATH=%PYTHON%\scripts;%PYTHON3%\scripts;%PATH%
   - cmd: ECHO Path - %PATH%
 
-  # Ensure node x86 (appveyor powershell script to switch installed versions)
-  - ps: Install-Product node 5.1.0 x86
-  - cmd: node --version
-  - cmd: npm --version
-
 install:
-  # Git clone happens between init and install 
-  - cmd: git submodule update --init --recursive
+  - "ECHO Filesystem root:"
+  - ps: "ls \"C:/\""
 
-  # Install Python packages
-  - cmd: "%PIP3% install https://dl.dropboxusercontent.com/u/74034/ardublockly-dep/win/py2exe-0.9.2.2-cp34-none-win32.whl"
-  - cmd: "%PIP3% install mkdocs"
-  - cmd: "%PIP% install mock"
-  - cmd: "%PIP% freeze"
-  - cmd: "%PIP3% freeze"
+  - "ECHO Installed SDKs:"
+  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
 
-  # Build and pack Ardublockly
-  - cmd: cd blockly && %PYTHON%\python build.py && cd ..\
-  - cmd: "%PYTHON3%\\python package\\build_docs.py"
-  - cmd: "%PYTHON3%\\python package\\build_py2exe.py"
-  - cmd: cd package\electron && npm install && cd ..\..\
-  - cmd: cd package\electron && npm run release && cd ..\..\
-  - cmd: "%PYTHON3%\\python package\\pack_ardublockly.py"
-  - cmd: dir
+  # Prepend newly installed Python to the PATH of this build (this cannot be
+  # done from inside the powershell script as it would require to restart
+  # the parent CMD process).
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
 
-# Not a project with an msbuild file, build done at install.
-build: off 
+  # - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
+  - "%CMD_IN_ENV% pip install -r requirements.txt"
 
-# CI testing on both Python 2 and 3
+build_script:
+  # Fix zope.interface package loading
+  - "%CMD_IN_ENV% python appveyor/zope_fix.py"
+
+  # Build the compiled extension
+  - "%CMD_IN_ENV% python setup.py py2exe; python setup.py py2exe"
+  - "%CMD_IN_ENV% %PYTHON3% setup.py py2exe; %PYTHON3% setup.py py2exe"
+
 test_script:
-  - cmd: chcp 65001
-  - cmd: set PYTHONIOENCODING=utf-8
-  - cmd: "%PYTHON%\\python  ardublocklyserver\\tests\\sketchcreator_test.py"
-  - cmd: "%PYTHON3%\\python ardublocklyserver\\tests\\sketchcreator_test.py"
-  - cmd: "%PYTHON%\\python  ardublocklyserver\\tests\\compilersettings_test.py"
-  - cmd: "%PYTHON3%\\python ardublocklyserver\\tests\\compilersettings_test.py"
+  - "ECHO 'running non-existent tests...'"
 
-# Push artefact to S3 bucket and list all
-before_deploy:
-  - ps: Get-ChildItem .\releases\*.zip | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name -DeploymentName ardublockly-s3-deployment }
-  - ps: foreach($artifactName in $artifacts.keys) { $artifacts[$artifactName] }
+after_test:
+  # If tests are successful, create binary packages for the project.
+  - "ECHO 'after test...'"
 
-# Deploy build to Amazon S3 bucket
-deploy:
-  name: ardublockly-s3-deployment
-  provider: S3
-  access_key_id: AKIAJYJV7NN6HVHCX5NQ
-  secret_access_key:
-    secure: PlLCQKTcf9IzBXpEnXUxbJifb0usS7qcghnM0VxBTX0IL3C975JPidrYjP39ge7P
-  bucket: ardublockly-builds
-  set_public: true
-  folder: windows
+artifacts:
+  # Archive the generated packages in the ci.appveyor.com build report.
+  - path: dist\*
