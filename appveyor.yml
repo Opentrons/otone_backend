@@ -50,6 +50,8 @@ build_script:
   # Build the compiled extension
   - "%CMD_IN_ENV% python build_py2exe.py"
   - "%CMD_IN_ENV% python build_py2exe.py"
+  - ps: "ls"
+  - ps: "ls dist/"
 
 test_script:
   - "ECHO 'running non-existent tests...'"
@@ -60,4 +62,4 @@ after_test:
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
-  - path: dist\**
+  - path: dist/**
