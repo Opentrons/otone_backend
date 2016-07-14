@@ -35,6 +35,7 @@ before_install:
 # Build and pack Ardublockly
 install:
   - pyinstaller otone_client_onefile.spec
+  - ls dist/
 
 notifications:
   email:
