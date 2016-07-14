@@ -160,6 +160,7 @@ class Smoothie(object):
             """Callback when connection is lost
             """
             if self.outer.serial_port and self.outer.connected:
+                
                 self.outer.connected = False
                 self.outer.smoothieQueue = list()
                 self.outer.already_trying = False
@@ -219,6 +220,8 @@ class Smoothie(object):
         """Make a connection to Smoothieboard
             This method is called whenever the port is found to either not exist or throw an error
         """
+
+        self.connected = False
 
         if self.serial_port and self.serial_port.is_open:
             try:
