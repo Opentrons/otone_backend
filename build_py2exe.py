@@ -12,10 +12,12 @@ except:
 
 script_tag = '[otone_backend build] '
 
+project_dir_path = (os.path.dirname(__file__) or os.getcwd())
+
 
 # Add the backend dir to the sys path so that py2exe can package it
 sys.path.append(
-    (os.path.dirname(__file__) or os.getcwd()) + "\\backend"
+    project_dir_path + "\\backend"
 )
 
 
@@ -33,6 +35,7 @@ def build_exe(args=None):
             ],
             options={
                 'py2exe': {
+                    'dist_dir': project_dir_path,
                     'packages': get_py2exe_packages(),
                     'includes': [],
                     'excludes': ["six.moves.urllib.parse"]
