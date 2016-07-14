@@ -35,9 +35,24 @@ before_install:
 # Build and pack Ardublockly
 install:
   - pyinstaller otone_client_onefile.spec
-  - ls dist/
+  - ls -la dist/
 
 notifications:
   email:
     on_success: change
     on_failure: change
+
+# Deploy the build version in an S3 bucket
+deploy:
+  provider: s3
+  access_key_id: ....
+  secret_access_key:
+    secure: ...
+  bucket: otone-app-builds
+  skip_cleanup: true
+  local-dir: releases
+  upload-dir: mac
+  acl: public_read
+  on:
+    repo: opentrons/otone_backend
+    all_branches: true
