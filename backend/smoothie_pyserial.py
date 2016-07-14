@@ -587,15 +587,19 @@ class Smoothie(object):
             self.delay_handler.cancel()
             self.delay_handler = None
             self.delay_cancel()
-            #onOffString = self._dict['off'] + '\r\n' + self._dict['on']
+
+        self.delay_cancel()
 
         self.smoothieQueue = list()
 
-        self.try_add(self._dict['off'] + '\r\n')
-        time.sleep(0.2)
-        self.try_add(self._dict['on'] + '\r\n')
+        # send directly to smoothie board (bypass smoothie queue)
+        self.send(self._dict['off'] + '\r\n')
 
-        time.sleep(1)
+        # the smoothie seems to require some time after resetting
+        time.sleep(0.5)
+        
+        self.send(self._dict['on'] + '\r\n')
+        time.sleep(0.5)
 
 
     def set_speed(self, axis, value):
