@@ -13,12 +13,6 @@ environment:
         DISTUTILS_USE_SDK: "1"
         PIP3: C:\\Python34\Scripts\pip
 
-      - PYTHON: "C:\\Python34"
-        PYTHON_VERSION: "3.4.3"
-        PYTHON_ARCH: "64"
-        DISTUTILS_USE_SDK: "1"
-        PIP3: C:\\Python34\Scripts\pip
-
 init:
   - cmd: ECHO Processor architecture - %PROCESSOR_ARCHITECTURE%
   - cmd: wmic OS get OSArchitecture
@@ -66,4 +60,4 @@ after_test:
 
 artifacts:
   # Archive the generated packages in the ci.appveyor.com build report.
-  - path: dist\*
+  - path: dist\**
