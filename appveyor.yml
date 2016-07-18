@@ -1,3 +1,4 @@
+#TEST
 os: Visual Studio 2015
 
 environment:
